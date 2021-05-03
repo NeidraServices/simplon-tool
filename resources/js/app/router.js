@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from './views/Home.vue';
 import { EvalRoutes } from './views/Evaluation360/router.js';
 import { DeliverRoutes } from './views/Deliver/router.js';
 import { MarkedownRoutes } from './views/Markedown/router.js';
