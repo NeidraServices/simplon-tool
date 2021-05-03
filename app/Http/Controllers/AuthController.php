@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -93,10 +94,10 @@ class AuthController extends Controller
                     $userExist->save();
                     $token = $userExist->createToken('AuthToken')->accessToken;
                     return response()->json([
-                        "success"  => true,
-                        "message"  => "Vous êtes connecté !",
-                        "token"    => $token,
-                        "identity" => $userExist->identity
+                        "success"      => true,
+                        "message"      => "Vous êtes connecté !",
+                        "token"        => $token,
+                        "informations" => new UserResource($userExist)
                     ]);
                 } else {
                     $tentative    = $userExist->tentatives + 1;
