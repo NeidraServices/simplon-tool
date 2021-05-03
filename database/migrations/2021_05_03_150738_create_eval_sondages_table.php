@@ -15,6 +15,11 @@ class CreateEvalSondagesTable extends Migration
     {
         Schema::create('eval_sondages', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('comments');
+            $table->string('global_note');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
