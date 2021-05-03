@@ -19,4 +19,15 @@ class EvalNotification extends Model
         'to',
         'object',
     ];
+
+    function to()
+    {
+        return $this->belongsTo(User::class, 'to');
+    }
+
+
+    function from()
+    {
+        return $this->belongsTo(User::class, 'from');
+    }
 }
