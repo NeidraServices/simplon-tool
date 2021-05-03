@@ -13,7 +13,7 @@ class CreateDeliverProjet extends Migration
      */
     public function up()
     {
-        Schema::create('deliver_projet', function (Blueprint $table) {
+        Schema::create('dp_projets', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
             $table->string('image');
