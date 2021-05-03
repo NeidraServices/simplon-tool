@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMdCommentaires extends Migration
+class CreateMdArchives extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMdCommentaires extends Migration
      */
     public function up()
     {
-        Schema::create('md_commentaires', function (Blueprint $table) {
+        Schema::create('md_archives', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->integer('markdowns');
-            $table->text('description');
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateMdCommentaires extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('md_commentaires');
+        Schema::dropIfExists('md_archives');
     }
 }
