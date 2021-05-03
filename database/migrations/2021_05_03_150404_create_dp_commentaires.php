@@ -17,8 +17,8 @@ class CreateDpCommentaires extends Migration
             $table->id();
             $table->text('text');
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('projet_id')->nullable()->constrained();
-            $table->foreignId('commentaire_id')->nullable()->constrained();
+            $table->bigInteger('projet_id')->unsigned();
+            $table->foreign('projet_id')->references('id')->on('dp_projets');
             $table->timestamps();
         });
     }
