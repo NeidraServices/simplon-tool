@@ -33,3 +33,4 @@ class CreateDpProjets extends Migration
         Schema::dropIfExists('dp_projets');
     }
 }
+
