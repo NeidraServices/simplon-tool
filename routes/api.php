@@ -21,4 +21,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::post('/connexion', [AuthController::class, 'connection'])->name('api.connexion');
+Route::post('/connexion', [AuthController::class, 'connexion'])->name('api.connexion');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('api.logout');
+Route::post('/email/verification', [AuthController::class, 'verifymail'])->name('api.verify.email');
+Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');

@@ -36,6 +36,23 @@ Dans le cas de l'exemple ci-dessous, on utilise mailtrap.
 - MAIL_ENCRYPTION=tls
 - MAIL_FROM_ADDRESS=contact@example.com
 
+## Identifiant de test
+
+Administrateur
+
+- email : admin@simplonapp.re
+- mot de passe : password
+
+Formateur
+
+- email : formateur@simplonapp.re
+- mot de passe : password
+
+Apprenant
+
+- email : apprenant@simplonapp.re
+- mot de passe : password
+
 ## En développement
 
 En développement, veuillez utiliser les commandes suivantes dans des consoles différentes : 
