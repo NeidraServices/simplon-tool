@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDpCommentaires extends Migration
+class CreateDpProjetCompetences extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateDpCommentaires extends Migration
      */
     public function up()
     {
-        Schema::create('dp_commentaires', function (Blueprint $table) {
+        Schema::create('dp_projet_competences', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
-            $table->foreignId('user_id')->nullable()->constrained();
             $table->bigInteger('projet_id')->unsigned();
             $table->foreign('projet_id')->references('id')->on('dp_projets');
-            $table->bigInteger('commentaire_id')->unsigned();
-            $table->foreign('commentaire_id')->references('id')->on('dp_commentaires');
+            $table->bigInteger('competence_id')->unsigned();
+            $table->foreign('competence_id')->references('id')->on('dp_competences');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateDpCommentaires extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dp_commentaires');
+        Schema::dropIfExists('dp_projet_competences');
     }
 }
