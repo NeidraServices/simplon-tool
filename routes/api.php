@@ -26,3 +26,65 @@ Route::post('/connexion', [AuthController::class, 'connexion'])->name('api.conne
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('api.logout');
 Route::post('/email/verification', [AuthController::class, 'verifymail'])->name('api.verify.email');
 Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
+
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Référentiel routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Promotions routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Coorte routes (formateur)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Langages routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Skill routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Sondage routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
