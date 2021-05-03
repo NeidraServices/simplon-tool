@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Markdown_User;
 use App\Models\Markdown_Markdown;
 
-class Markdown_Commentarie extends Model
+class Markdown_Commentary extends Model
 {
     use HasFactory;
 
-    protected $table = 'commentaire';
+    protected $table = 'md_commentaries';
     protected $fillable = ['description'];
 
     public function users()

@@ -16,7 +16,7 @@ class CreateMarkdowns extends Migration
         Schema::create('markdowns', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('md_categorie_id');
+            $table->integer('md_category_id');
             $table->string('url');
             $table->boolean('active');
             $table->timestamps();
