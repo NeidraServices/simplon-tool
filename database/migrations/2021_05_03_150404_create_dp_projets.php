@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeliverProjet extends Migration
+class CreateDpProjets extends Migration
 {
     /**
      * Run the migrations.
@@ -30,6 +30,6 @@ class CreateDeliverProjet extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deliver_projet');
+        Schema::dropIfExists('dp_projets');
     }
 }
