@@ -1,18 +1,16 @@
-import Vue            from 'vue';
-import VueRouter      from 'vue-router';
-import Home           from './views/Home.vue';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import { EvalRoutes } from './views/Evaluation360/router.js';
+import { DeliverRoutes } from './views/Deliver/router.js';
+import { MarkedownRoutes } from './views/Markedown/router.js';
 
 Vue.use(VueRouter);
+var routes = [];
+routes = routes.concat(EvalRoutes, DeliverRoutes, MarkedownRoutes);
 
 const router = new VueRouter({
     mode: 'history',
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: Home
-        },
-    ]
+    routes: routes
 });
 
 // router.beforeEach((to, from, next) => {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMarkdowns extends Migration
+class CreateEvalSondagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateMarkdowns extends Migration
      */
     public function up()
     {
-        Schema::create('markdowns', function (Blueprint $table) {
+        Schema::create('eval_sondages', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('md_category_id');
-            $table->string('url');
-            $table->boolean('active');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateMarkdowns extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('markdowns');
+        Schema::dropIfExists('eval_sondages');
     }
 }

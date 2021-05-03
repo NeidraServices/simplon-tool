@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMarkdowns extends Migration
+class AddAvatarToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateMarkdowns extends Migration
      */
     public function up()
     {
-        Schema::create('markdowns', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->integer('md_category_id');
-            $table->string('url');
-            $table->boolean('active');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('avatar')->default('default.png');
         });
     }
 
@@ -30,6 +25,8 @@ class CreateMarkdowns extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('markdowns');
+        Schema::table('users', function (Blueprint $table) {
+            $table->removeColumn('avatar');
+        });
     }
 }

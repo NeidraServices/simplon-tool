@@ -11,7 +11,7 @@ class Markdown_Archive extends Model
 {
     use HasFactory;
 
-    protected $table = 'archive';
+    protected $table = 'md_archives';
     protected $fillable = ['url'];
 
     public function markdown()

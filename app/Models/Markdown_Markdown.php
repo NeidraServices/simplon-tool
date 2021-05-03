@@ -21,6 +21,6 @@ class Markdown_Markdown extends Model
     }
     public function categories()
     {
-        return $this->belongsTo(Markdown_Categorie::class, 'categorie_id');
+        return $this->belongsTo(Markdown_Categorie::class, 'md_category_id');
     }
 }
