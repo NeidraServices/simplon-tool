@@ -46,7 +46,7 @@ Route::middleware(['auth:api'])->group(function(){
 Route::get('commentaires', [Md_CommentaryController::class, 'index']);
 
 Route::group(['prefix' => 'commentaire'], function(){
-    Route::post('ajouter', [Md_CommentaryController::class, 'create']);
+    Route::post('ajouter/{markdown_id}', [Md_CommentaryController::class, 'store']);
 });
 
 

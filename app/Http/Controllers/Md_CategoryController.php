@@ -14,7 +14,7 @@ class Md_CategoryController extends Controller
      */
     public function index()
     {
-
+        
         return Markdown_Category::orderBy('id', 'desc')->get();
     }
 
