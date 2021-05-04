@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_MediaModel extends Model
 {
     use HasFactory;
-
+    protected $table = 'dp_medias';
     public function users(){    
         return $this->belongsTo(Deliver_UsersModel::class);
     }
