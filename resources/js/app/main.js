@@ -8,8 +8,8 @@ import FlashMessage from '@smartweb/vue-flash-message';
 import fr from 'vuetify/src/locale/fr.ts';
 
 //Editor markdown
-// import 'v-markdown-editor/dist/v-markdown-editor.css';
-// import Editor from 'v-markdown-editor';
+import 'v-markdown-editor/dist/v-markdown-editor.css';
+import Editor from 'v-markdown-editor';
 
 Vue.use(FlashMessage);
 Vue.use(Vuetify);
