@@ -13,7 +13,13 @@ class Md_MarkdownController extends Controller
     //
     public function index($id){
         $markdown = Markdown_Markdown::find($id);
-        return $markdown;
+        $data = file_get_contents(public_path('markdowns/'.$markdown->url));
+        return response()->json([
+            'success' => true,
+            'id'=>$markdown->id,
+            'text'=>$data,
+            'category'=> $markdown->categories(),
+        ]);
     }
 
     public function show(){
