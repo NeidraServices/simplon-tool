@@ -17,6 +17,7 @@ class EvalReferentielResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
+            'competences' => EvalSkillResource::collection($this->skills)
         ];
     }
 }
