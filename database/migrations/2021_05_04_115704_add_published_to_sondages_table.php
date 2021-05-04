@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAcceptedToSondagesTable extends Migration
+class AddPublishedToSondagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddAcceptedToSondagesTable extends Migration
     public function up()
     {
         Schema::table('eval_sondages', function (Blueprint $table) {
-            $table->boolean('accepted')->default(0);
+            $table->boolean('published')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddAcceptedToSondagesTable extends Migration
     public function down()
     {
         Schema::table('eval_sondages', function (Blueprint $table) {
-            $table->dropColumn('accepted');
+            $table->dropColumn('published');
         });
     }
 }
