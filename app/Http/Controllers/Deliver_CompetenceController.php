@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Deliver_CompetencesModel;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Validator;
+
 class Deliver_CompetenceController extends Controller
 {
     //
+
+    public function liste(){
+        $data=Deliver_CompetencesModel::all();
+        return response()->json($data);
+    }
+
     public function addCompetence(Request $req){
         $competences=$req->all();
         Deliver_CompetencesModel::create($competences);
@@ -15,7 +23,8 @@ class Deliver_CompetenceController extends Controller
 
 
     public function relierProjet(Request $req){
-        $data=$req->all();
+       $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+
         $competences=Deliver_CompetencesModel::find($data["competence_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
@@ -23,7 +32,9 @@ class Deliver_CompetenceController extends Controller
     }
 
     public function delierProjet(Request $req){
-        $data=$req->all();
+
+        $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+
         $competences=Deliver_CompetencesModel::find($data["competence_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EvalReferentiel;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -20,12 +21,15 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
+            EvalLangageSeeder::class,
+            EvalReferentielSeeder::class,
+            EvalSkillSeeder::class
         ]);
 
 
         $mailArray = ["admin@simplonapp.re", "formateur@simplonapp.re", "apprenant@simplonapp.re"];
 
-        for ($i=1; $i < 4; $i++) { 
+        for ($i = 1; $i < 4; $i++) {
             $user = new User();
             $user->name         = $faker->firstName();
             $user->surname      = $faker->lastName();
@@ -33,7 +37,7 @@ class DatabaseSeeder extends Seeder
             $user->password     = Hash::make('password');
             $user->verified_at  = now();
             $user->role_id      = $i;
-            $user->save(); 
+            $user->save();
         }
     }
 }

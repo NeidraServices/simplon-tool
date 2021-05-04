@@ -1,18 +1,29 @@
 <template>
   <v-container>
     <v-row class="d-flex flex-wrap">
-      <v-col class="ma-auto d-flex" md="4" cols="10" xs="10" sm="6" lg="4">
+      <v-col
+        v-for="apprenant in apprenants"
+        :key="apprenant.id"
+        class="ma-auto d-flex"
+        md="6"
+        cols="12"
+        xs="12"
+        sm="6"
+        lg="4"
+      >
         <v-card
           shaped
+          max-width="300"
+          min-width="270"
           height="100px"
           class="ma-auto d-flex flex-wrap"
           elevation="5"
         >
           <div class="apprenants-avatar">
-            <img src="https://picsum.photos/id/11/500/300" />
+            <img :src="getImages(apprenant.avatar)" />
           </div>
           <div class="apprenants-infos">
-            <h3>Liam Neeson</h3>
+            <h3>{{ apprenant.name }} {{ apprenant.surname }}</h3>
             <span>CDA</span>
             <h4>8/10</h4>
             <v-btn class="see-more" icon to="details">

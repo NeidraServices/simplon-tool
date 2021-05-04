@@ -15,7 +15,7 @@ class CreateEvalSondagesLinesTable extends Migration
     {
         Schema::create('eval_sondages_lines', function (Blueprint $table) {
             $table->id();
-            $table->float('note')->default(0);
+            $table->float('note')->nullable();
             $table->bigInteger('sondage_id')->unsigned();
             $table->foreign('sondage_id')->references('id')->on('eval_sondages');
             $table->bigInteger('langage_id')->unsigned();
