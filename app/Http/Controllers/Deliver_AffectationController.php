@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Deliver_UsersModel;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Validator;
 
 class Deliver_AffectationController extends Controller
 {
     //
     public function affecter(Request $req){
 
-        $data=$req->all();
+        $data=Validator::make($req->all(),["user_id"=>"required","projet_id"=>"required"])->validate();
+
         $user=Deliver_UsersModel::find($data["user_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
@@ -31,7 +33,9 @@ class Deliver_AffectationController extends Controller
     }
 
     public function supprimerApprenant(Request $req){
-        $data=$req->all();
+        
+        $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+
         $user=Deliver_UsersModel::find($data["user_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
