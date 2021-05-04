@@ -84,8 +84,6 @@
               {id: 1, title:"Titre 1",author: "Auteur1", category: "catégorie1"},
               {id: 2, title:"Titre 2",author: "Auteur2", category: "catégorie2"},
               {id: 3, title:"Titre 3",author: "Auteur3", category: "catégorie3"},
-              {id: 4, title:"Titre 4",author: "Auteur4", category: "catégorie4"},
-              {id: 5, title:"Titre 5",author: "Auteur5", category: "catégorie5"}
             ],
           categories: [
             
