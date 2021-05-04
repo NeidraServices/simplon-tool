@@ -13,7 +13,7 @@ class AddAcceptedToSondagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sondages', function (Blueprint $table) {
+        Schema::table('eval_sondages', function (Blueprint $table) {
             $table->boolean('accepted')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddAcceptedToSondagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sondages', function (Blueprint $table) {
+        Schema::table('eval_sondages', function (Blueprint $table) {
             $table->dropColumn('accepted');
         });
     }
