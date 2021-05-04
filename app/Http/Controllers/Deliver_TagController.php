@@ -9,6 +9,11 @@ use App\Models\Deliver_TagModel;
 class Deliver_TagController extends Controller
 {
     //
+
+    public function liste(){
+        $data=Deliver_TagModel::all();
+        return response()->json($data);
+    }
     public function ajout(Request $req)
     {
         $data=Validator::make($req->all(),["nom"=>"required|String"])->validate();
