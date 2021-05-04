@@ -59,7 +59,7 @@ class EvalLangageController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $errors->first()
-            ]);
+            ], 400);
         }
 
         $name =  $validator->validated()['name'];
@@ -70,7 +70,7 @@ class EvalLangageController extends Controller
             $imageUploaded  = $validator->validated()['image'];
             $extension      = $imageUploaded->getClientOriginalExtension();
             $image          = time().rand().'.'.$extension;
-            $imageUploaded->move(public_path('images/referents'), $image);
+            $imageUploaded->move(public_path('images/langages'), $image);
             $langage->image =   $image ;
         }
 
@@ -89,14 +89,63 @@ class EvalLangageController extends Controller
     */
 
 
-
     /**
      * Update data
      * 
      * @return \Illuminate\Http\Response
      */
     public function updateData(Request $request, $id) {
-        
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'name'    => "required",
+                'image'   => "required|image|mimes:jpg,jpeg,png|max:2000",
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+                'image'    => 'Image non fournis',
+                'mimes'    => 'Extension invalide',
+                'max'      => '2Mb maximum'
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ], 400);
+        }
+
+        $name =  $validator->validated()['name'];
+        $langage = EvalLangage::where(['id' => $id])->first();
+
+        if(!$langage) {
+            return response()->json([
+                'success' => false,
+                'message' => "Langage introuvable"
+            ], 400);
+        }
+
+        $langage->name = $name;
+
+        if($request->hasFile('image')) {
+            $oldImage = $langage->image;
+            $oldFilePath = public_path('images') . '/' . $oldImage;
+            unlink($oldFilePath);
+
+            $imageUploaded  = $validator->validated()['image'];
+            $extension      = $imageUploaded->getClientOriginalExtension();
+            $image          = time().rand().'.'.$extension;
+            $imageUploaded->move(public_path('images/langages'), $image);
+            $langage->image =   $image ;
+        }
+
+        $langage->save();
+        return response()->json([
+            'success' => true,
+            'message' => "Langage mis à jour"
+        ]);
     }
 
 
@@ -112,6 +161,19 @@ class EvalLangageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
-        
+        $langage = EvalLangage::where(['id' => $id])->first();
+
+        if(!$langage) {
+            return response()->json([
+                'success' => false,
+                'message' => "Langage introuvable"
+            ], 400);
+        }
+
+        $langage->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Langage supprimé"
+        ]);
     }
 }
