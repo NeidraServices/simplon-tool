@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_CommentairesModel extends Model
 {
     use HasFactory;
-
+    protected $table = 'dp_commentaires';
     public function users(){
         return $this->belongsTo(Deliver_UsersModel::class,"user_id","id");
     }

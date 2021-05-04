@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_ProjetModel extends Model
 {
     use HasFactory;
-
+    protected $table = 'dp_projets';
     public function competences(){
-        return $this->belongsToMany(Deliver_CompetencesModel::class,"competence_projet","competence_id","projet_id");
+        return $this->belongsToMany(Deliver_CompetencesModel::class,"dp_projet_competences","competence_id","projet_id");
     }
 
     public function tags(){
-        return $this->belongsToMany(Deliver_TagModel::class,"tag_projet","tag_id","projet_id");
+        return $this->belongsToMany(Deliver_TagModel::class,"db_projet_tag","tag_id","projet_id");
     }
     
     public function users(){
