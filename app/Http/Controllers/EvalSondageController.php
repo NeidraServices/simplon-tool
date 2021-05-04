@@ -51,7 +51,29 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addData(Request $request) {
-        
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'name'         => "required",
+                'apprenants.*' => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $name       =  $validator->validated()['name'];
+        $apprenants =  $validator->validated()['apprenants'];
+
+
     }
 
 
@@ -78,6 +100,36 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateData(Request $request, $id) {
+        
+    }
+
+
+    /**
+     * Update data (Accept proposing)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function acceptProposing($id) {
+        
+    }
+
+    
+    /**
+     * Update data (set it to draft mode)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function setToDraft($id) {
+        
+    }
+
+    
+    /**
+     * Update data (set it to publish mode)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function setToPublish($id) {
         
     }
 
