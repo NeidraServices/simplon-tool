@@ -1,3 +1,6 @@
+import projet_ModalUpdate from "../components/projet-modal_update.vue"
+
+
 const projets = [
     {
         id: 1,
@@ -21,6 +24,10 @@ const user  = {
 }
 
 export default{
+    components:{
+        projet_ModalUpdate
+    },
+
     data(){
         return {
             projets: [],
