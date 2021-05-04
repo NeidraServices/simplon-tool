@@ -2070,9 +2070,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _layouts_MainLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../layouts/MainLayout */ "./resources/js/app/layouts/MainLayout.vue");
-/* harmony import */ var _component_ItemMdCommun__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component/ItemMdCommun */ "./resources/js/app/views/Markedown/component/ItemMdCommun.vue");
-/* harmony import */ var _Services_ServiceRecupCateg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Services/ServiceRecupCateg */ "./resources/js/app/views/Markedown/Services/ServiceRecupCateg.js");
+/* harmony import */ var _component_ItemMdCommun__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component/ItemMdCommun */ "./resources/js/app/views/Markedown/component/ItemMdCommun.vue");
+/* harmony import */ var _Services_ServiceRecupCateg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Services/ServiceRecupCateg */ "./resources/js/app/views/Markedown/Services/ServiceRecupCateg.js");
 //
 //
 //
@@ -2130,27 +2129,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListMarkdowns",
   components: {
-    MainLayout: _layouts_MainLayout__WEBPACK_IMPORTED_MODULE_0__.default,
-    ItemMdCommun: _component_ItemMdCommun__WEBPACK_IMPORTED_MODULE_1__.default
+    ItemMdCommun: _component_ItemMdCommun__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
@@ -2174,7 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var apiCall = new _Services_ServiceRecupCateg__WEBPACK_IMPORTED_MODULE_2__.APIService();
+    var apiCall = new _Services_ServiceRecupCateg__WEBPACK_IMPORTED_MODULE_1__.APIService();
     apiCall.getApiCategories().then(function (reponse) {
       console.log("Reponse :", reponse);
     });
@@ -24025,158 +24009,121 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("MainLayout", {
-    scopedSlots: _vm._u([
-      {
-        key: "content-slot",
-        fn: function() {
-          return [
-            _c(
-              "v-content",
-              [
-                _c(
-                  "v-container",
-                  { attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-row",
-                      { attrs: { justify: "space-between" } },
-                      [
-                        _c(
-                          "v-col",
-                          { attrs: { cols: "12" } },
-                          [
-                            _c(
-                              "v-card-title",
-                              { staticClass: "layout justify-center" },
-                              [
+  return _c(
+    "div",
+    [
+      _c(
+        "v-container",
+        { attrs: { fluid: "" } },
+        [
+          _c(
+            "v-row",
+            { attrs: { justify: "space-between" } },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c("v-card-title", { staticClass: "layout justify-center" }, [
+                    _vm._v("\n              LES MARKDOWS COMMUNS\n          ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    { staticClass: "layout justify-center" },
+                    [
+                      _c(
+                        "v-row",
+                        { attrs: { justify: "space-between" } },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "layout justify-flex-start",
+                              attrs: { cols: "3" }
+                            },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.categories,
+                                  outlined: "",
+                                  dense: "",
+                                  chips: "",
+                                  "small-chips": "",
+                                  label: "Catégories",
+                                  multiple: ""
+                                },
+                                model: {
+                                  value: _vm.recupCateg,
+                                  callback: function($$v) {
+                                    _vm.recupCateg = $$v
+                                  },
+                                  expression: "recupCateg"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "layout justify-center",
+                              attrs: { cols: "6" }
+                            },
+                            [_c("v-autocomplete")],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "layout justify-flex-end",
+                              attrs: { cols: "3" }
+                            },
+                            [
+                              _c("v-btn", { attrs: { type: "button" } }, [
                                 _vm._v(
-                                  "\n                  LES MARKDOWS COMMUNS\n              "
+                                  "\n                      Mes Markdown\n                  "
                                 )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-text",
-                              { staticClass: "layout justify-center" },
-                              [
-                                _c(
-                                  "v-row",
-                                  { attrs: { justify: "space-between" } },
-                                  [
-                                    _c(
-                                      "v-col",
-                                      {
-                                        staticClass:
-                                          "layout justify-flex-start",
-                                        attrs: { cols: "3" }
-                                      },
-                                      [
-                                        _c("v-autocomplete", {
-                                          attrs: {
-                                            items: _vm.categories,
-                                            outlined: "",
-                                            dense: "",
-                                            chips: "",
-                                            "small-chips": "",
-                                            label: "Catégories",
-                                            multiple: ""
-                                          },
-                                          model: {
-                                            value: _vm.recupCateg,
-                                            callback: function($$v) {
-                                              _vm.recupCateg = $$v
-                                            },
-                                            expression: "recupCateg"
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        staticClass: "layout justify-center",
-                                        attrs: { cols: "6" }
-                                      },
-                                      [_c("v-autocomplete")],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        staticClass: "layout justify-flex-end",
-                                        attrs: { cols: "3" }
-                                      },
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          { attrs: { type: "button" } },
-                                          [
-                                            _vm._v(
-                                              "\n                          Mes Markdown\n                      "
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider"),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "item-container" },
-                          _vm._l(_vm.markdown_list, function(item) {
-                            return _c(
-                              "v-col",
-                              { key: item.id },
-                              [_c("ItemMdCommun", { attrs: { item: item } })],
-                              1
-                            )
-                          }),
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ]
-        },
-        proxy: true
-      },
-      {
-        key: "lien1",
-        fn: function() {
-          return [_c("span", [_vm._v("Lien 1")])]
-        },
-        proxy: true
-      },
-      {
-        key: "lien2",
-        fn: function() {
-          return [_c("span", [_vm._v("Lien 2")])]
-        },
-        proxy: true
-      }
-    ])
-  })
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "item-container" },
+                _vm._l(_vm.markdown_list, function(item) {
+                  return _c(
+                    "v-col",
+                    { key: item.id },
+                    [_c("ItemMdCommun", { attrs: { item: item } })],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
