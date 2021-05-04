@@ -11,23 +11,6 @@ class EvalSondageLinesController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Get data functions
-    |--------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Retrieve all
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function getData() {
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
     | Create data functions
     |--------------------------------------------------------------------------
     */
@@ -68,12 +51,23 @@ class EvalSondageLinesController extends Controller
     |--------------------------------------------------------------------------
     */
 
+
     /**
-     * Delete data
+     * Delete data (one by one)
      * 
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
+        
+    }
+
+
+    /**
+     * Delete data (array selected)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteDataArray(Request $request) {
         
     }
 }

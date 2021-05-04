@@ -22,7 +22,8 @@ class EvalReferentielController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getData() {
-
+        $referentiels = EvalReferentiel::all();
+        return EvalReferentielResource::collection($referentiels);
     }
 
 
@@ -33,14 +34,39 @@ class EvalReferentielController extends Controller
     */
 
 
-
     /**
      * Add data
      * 
      * @return \Illuminate\Http\Response
      */
     public function addData(Request $request) {
-        
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'description'  => "required",
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ], 400);
+        }
+
+        $description =  $validator->validated()['description'];
+        $referentiel = new EvalReferentiel();
+        $referentiel->description = $description;
+        $referentiel->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Référentiel ajouté"
+        ]);
     }
 
 
@@ -58,7 +84,41 @@ class EvalReferentielController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateData(Request $request, $id) {
-        
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'description'  => "required",
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ], 400);
+        }
+
+        $description =  $validator->validated()['description'];
+        $referentiel = EvalReferentiel::where(['id' => $id])->first();
+
+        if(!$referentiel) {
+            return response()->json([
+                'success' => false,
+                'message' => "Référentiel introuvable"
+            ], 400);
+        }
+
+        $referentiel->description = $description;
+        $referentiel->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Référentiel mis à jour"
+        ]);
     }
 
 
@@ -74,6 +134,19 @@ class EvalReferentielController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
-        
+        $referentiel = EvalReferentiel::where(['id' => $id])->first();
+
+        if(!$referentiel) {
+            return response()->json([
+                'success' => false,
+                'message' => "Référentiel introuvable"
+            ], 400);
+        }
+
+        $referentiel->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Référentiel supprimée"
+        ]);
     }
 }
