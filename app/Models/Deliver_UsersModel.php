@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_UsersModel extends Model
 {
     use HasFactory;
-    
+    protected $table = 'users';
     public function projets(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"affectation_projet","projet_id","user_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","projet_id","user_id");
     }
 
     public function medias(){

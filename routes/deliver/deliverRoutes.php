@@ -7,6 +7,7 @@ use App\Http\Controllers\Deliver_CommentairesController;
 use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
+use App\Http\Controllers\Deliver_AffectationController;
 /*
 |--------------------------------------------------------------------------
 | Deliver commentaires routes
@@ -29,7 +30,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post("/competences/lier",[Deliver_CompetenceController::class,"relierProjet"]);
     Route::delete("/competences/delier",[Deliver_CompetenceController::class,"delierProjet"]);
 
-
+    Route::post("/projet/affecter",[Deliver_AffectationController::class,"affecter"]);
+    Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class,"supprimerApprenant"]);
 /*
 |--------------------------------------------------------------------------
 | Deliver media routes
