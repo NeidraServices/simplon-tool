@@ -17,4 +17,9 @@ class EvalReferentiel extends Model
     protected $fillable = [
         'description',
     ];
+
+    function skills()
+    {
+        return $this->hasMany(EvalSkill::class, 'referentiel_id');
+    }
 }

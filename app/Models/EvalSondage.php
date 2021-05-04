@@ -18,5 +18,16 @@ class EvalSondage extends Model
         'name',
         'comments',
         'global_note',
+        'user_id'
     ];
+
+    function sondage()
+    {
+        return $this->hasMany(EvalSondageLines::class, 'sondage_id');
+    }
+
+    function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

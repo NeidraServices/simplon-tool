@@ -3,9 +3,13 @@ import VueRouter from 'vue-router';
 import { EvalRoutes } from './views/Evaluation360/router.js';
 import { DeliverRoutes } from './views/Deliver/router.js';
 import { MarkedownRoutes } from './views/Markedown/router.js';
-
+import HomePage from './views/Home.vue'
 Vue.use(VueRouter);
-var routes = [];
+var routes = [  {
+    path: '/',
+    name: 'home',
+    component: HomePage
+},];
 routes = routes.concat(EvalRoutes, DeliverRoutes, MarkedownRoutes);
 
 const router = new VueRouter({

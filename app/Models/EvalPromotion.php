@@ -17,4 +17,9 @@ class EvalPromotion extends Model
     protected $fillable = [
         'name',
     ];
+    
+    function promotion()
+    {
+        return $this->hasMany(User::class, 'promotion_id');
+    }
 }

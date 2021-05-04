@@ -19,4 +19,8 @@ class EvalLangage extends Model
         'name',
     ];
 
+    function langage()
+    {
+        return $this->hasMany(EvalSondageLines::class, 'langage_id');
+    }
 }
