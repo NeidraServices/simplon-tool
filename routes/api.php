@@ -4,7 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvalLangageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Deliver_ProjetController;
+use App\Http\Controllers\Deliver_CommentairesController;
+use App\Http\Controllers\Deliver_CompetenceController;
+use App\Http\Controllers\Deliver_MediaController;
+use App\Http\Controllers\Deliver_TagController;
 /*
 |--------------------------------------------------------------------------
 | API Routes

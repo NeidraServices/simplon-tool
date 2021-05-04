@@ -1,11 +1,11 @@
 <template>
     <div>
-        Mes markdowns
+        Editeur MarkedDown
     </div>
 </template>
 <script>
 export default {
-    name: "MyMarkedDowns",
+    name: "MdEditor",
     components: {
 
     },
