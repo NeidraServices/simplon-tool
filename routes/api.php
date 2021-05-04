@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Deliver_ProjetController;
+use App\Http\Controllers\Deliver_CommentairesController;
+use App\Http\Controllers\Deliver_CompetenceController;
+use App\Http\Controllers\Deliver_MediaController;
+use App\Http\Controllers\Deliver_TagController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -107,8 +111,8 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
+Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
+    Route::apiResource("/commentaires",[Deliver_CommentairesController::class]);
 });
 
 
@@ -118,8 +122,8 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
+Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
+    Route::apiResource("/competences",[Deliver_CompetenceController::class]);
 });
 
 /*
@@ -128,8 +132,8 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
+Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
+    Route::apiResource("/medias",[Deliver_MediaController::class]);
 });
 
 
@@ -140,7 +144,7 @@ Route::middleware(['auth:api'])->group(function(){
 */
 
 Route::middleware(['auth:api'])->group(function(){
-
+    Route::apiResource("/projet",[Deliver_ProjetController::class]);
 });
 
 /*
@@ -149,8 +153,8 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
+Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
+    Route::apiResource("/tags",[Deliver_TagController::class]);
 });
 
 
