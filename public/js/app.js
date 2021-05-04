@@ -2719,9 +2719,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/apiService.js */ "./resources/js/app/services/apiService.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      apprenants: []
+    };
+  },
+  created: function created() {
+    this.initializeData();
+  },
+  methods: {
+    initializeData: function initializeData() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var req, reqData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.get("".concat(location.origin, "/api/users/list"));
+
+              case 3:
+                req = _context.sent;
+                reqData = req.data.data;
+                _this.apprenants = reqData;
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 8]]);
+      }))();
+    },
+    getImages: function getImages(image) {
+      return "".concat(location.origin, "/images/").concat(image);
+    }
   }
 });
 
@@ -22906,24 +22959,31 @@ var render = function() {
       _c(
         "v-row",
         { staticClass: "d-flex flex-wrap" },
-        [
-          _c(
+        _vm._l(_vm.apprenants, function(apprenant) {
+          return _c(
             "v-col",
             {
+              key: apprenant.id,
               staticClass: "ma-auto d-flex",
-              attrs: { md: "4", cols: "10", xs: "10", sm: "6", lg: "4" }
+              attrs: { md: "6", cols: "12", xs: "12", sm: "6", lg: "4" }
             },
             [
               _c(
                 "v-card",
                 {
                   staticClass: "ma-auto d-flex flex-wrap",
-                  attrs: { shaped: "", height: "100px", elevation: "5" }
+                  attrs: {
+                    shaped: "",
+                    "max-width": "300",
+                    "min-width": "270",
+                    height: "100px",
+                    elevation: "5"
+                  }
                 },
                 [
                   _c("div", { staticClass: "apprenants-avatar" }, [
                     _c("img", {
-                      attrs: { src: "https://picsum.photos/id/11/500/300" }
+                      attrs: { src: _vm.getImages(apprenant.avatar) }
                     })
                   ]),
                   _vm._v(" "),
@@ -22931,7 +22991,13 @@ var render = function() {
                     "div",
                     { staticClass: "apprenants-infos" },
                     [
-                      _c("h3", [_vm._v("Liam Neeson")]),
+                      _c("h3", [
+                        _vm._v(
+                          _vm._s(apprenant.name) +
+                            " " +
+                            _vm._s(apprenant.surname)
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("span", [_vm._v("CDA")]),
                       _vm._v(" "),
@@ -22954,7 +23020,7 @@ var render = function() {
             ],
             1
           )
-        ],
+        }),
         1
       )
     ],
