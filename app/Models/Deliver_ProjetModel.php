@@ -21,7 +21,7 @@ class Deliver_ProjetModel extends Model
         return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","user_id","projet_id");
     }
 
-    public function medias(){
-        return $this->hasMany(Deliver_MediaModel::class);
+    public function rendus(){
+        return $this->hasMany(Deliver_RendusModel::class);
     }
 }

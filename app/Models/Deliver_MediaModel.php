@@ -9,11 +9,8 @@ class Deliver_MediaModel extends Model
 {
     use HasFactory;
     protected $table = 'dp_medias';
-    public function users(){    
-        return $this->belongsTo(Deliver_UsersModel::class);
-    }
 
-    public function projets(){
-        return $this->belongsTo(Deliver_ProjetModel::class,"projet_id","id");
+    public function rendus(){
+        return $this->belongsTo(Deliver_RendusModel::class,"rendu_id","id");
     }
 }
