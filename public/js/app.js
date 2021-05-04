@@ -2127,7 +2127,10 @@ var projets = [{
   titre: "G-a-o",
   image: "/public/images/dp/default.png",
   deadline: "21-05-2021",
-  description: "Projet gao qui consiste ...."
+  description: "Projet gao qui consiste ....",
+  formateur: {
+    name: "Adrien"
+  }
 }];
 var user = {
   id: 1,
@@ -21190,7 +21193,7 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c("h2", [_vm._v("Tous les projets")]),
+      _c("h2", { staticClass: "my-10 mb-15" }, [_vm._v("Tous les projets")]),
       _vm._v(" "),
       _vm._l(_vm.projets, function(projet) {
         return _c(
@@ -21199,10 +21202,10 @@ var render = function() {
           [
             _c(
               "v-card",
+              { attrs: { "max-width": "344" } },
               [
                 _c(
                   "v-card-title",
-                  { attrs: { "primary-title": "" } },
                   [
                     _c("v-col", { attrs: { cols: "6" } }, [
                       _vm._v(
@@ -21264,7 +21267,17 @@ var render = function() {
                     })
                   ],
                   1
-                )
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "pb-5" }, [
+                  _c("p", { staticClass: "text-center my-0" }, [
+                    _vm._v(_vm._s(projet.formateur.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-center my-0" }, [
+                    _vm._v(_vm._s(projet.deadline))
+                  ])
+                ])
               ],
               1
             )

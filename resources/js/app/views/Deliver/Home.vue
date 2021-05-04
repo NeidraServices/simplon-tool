@@ -1,10 +1,10 @@
 <template>
     <v-container>
-       <h2>Tous les projets</h2>
+       <h2 class="my-10 mb-15">Tous les projets</h2>
 
        <div v-for="projet in projets" :key="projet.id">
-           <v-card>
-               <v-card-title primary-title>
+           <v-card max-width="344">
+               <v-card-title>
                    <v-col cols="6">
                        {{ projet.titre }}
                    </v-col>
@@ -22,15 +22,15 @@
                        </v-btn>
                    </v-col>
                </v-card-title>
-
+                
                 <v-col cols="12">
                     <v-img src="https://ma.ambafrance.org/IMG/arton11404.png?1565272504" width="100%" height="auto"></v-img>
                 </v-col>
 
-                
-               
-
-               
+                <div class="pb-5">
+                    <p class="text-center my-0">{{ projet.formateur.name }}</p>
+                    <p class="text-center my-0">{{ projet.deadline}}</p>
+                </div>
            </v-card>
        </div>
     </v-container>
