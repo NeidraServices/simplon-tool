@@ -32,6 +32,10 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::post("/projet/affecter",[Deliver_AffectationController::class,"affecter"]);
     Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class,"supprimerApprenant"]);
+
+    Route::post("/tags/ajout",[Deliver_TagController::class,"ajout"]);
+    Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
+    Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);
 /*
 |--------------------------------------------------------------------------
 | Deliver media routes
