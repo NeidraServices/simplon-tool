@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EvalReferentiel;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             EvalLangageSeeder::class,
+            EvalReferentielSeeder::class,
+            EvalSkillSeeder::class
         ]);
 
 
