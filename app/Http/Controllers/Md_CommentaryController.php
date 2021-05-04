@@ -25,18 +25,6 @@ class Md_CommentaryController extends Controller
 
         return response()->json('Commentaire bien ajouté');
 
-        /*request()->validate([
-            'description' => 'required'
-        ]);
-
-         $commentary = new Markdown_Commentary();
-        $commentary->description = request('description');
-        $commentary->user_id = 1;
-        
-        $markdown->save($commentary);
-
-        return response()->json('Commentaire bien ajouté'); */
-
     }
 
 }

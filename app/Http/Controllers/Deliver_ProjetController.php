@@ -3,8 +3,188 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\Deliver_ProjetResource;
 
 class Deliver_ProjetController extends Controller
 {
-    //
+    /*
+    |--------------------------------------------------------------------------
+    | Liste des projets
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Liste des projets
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function projets()
+    {
+        $projets = Deliver_ProjetModel::all();
+        return Deliver_ProjetResource::collection($projets);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Selectionner un projet
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Selectionner un projet
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getProjet($id)
+    {
+        $projet=Deliver_ProjetModel::find($id);
+
+        if($projet) {
+            return Deliver_ProjetResource::collection($projet);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => "Introuvable"
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ajouter un projet
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Ajouter un projet
+     * @return \Illuminate\Http\Response
+     */
+    public function addProjet(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'titre' => 'required',
+                'deadline' => 'required',
+                'description' => 'required',
+                'image' => 'required|file|mimes:jpg,jpeg,png|max:5000',
+            ],
+            [
+                'file'  => 'Image non fournis',
+                'mimes' => 'Extension invalide',
+                'max'   => '5Mb maximum'
+            ]
+        );
+
+        $errors = $validator->errors();
+
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $image       = $validator->validated()['image'];
+        $extension   = $image->getClientOriginalExtension();
+        $image_name  = time() . rand() . '.' . $extension;
+        $image->move(public_path('img/cover'), $image_name);
+
+        $projet               = new Deliver_ProjetModel;
+        $projet->image        = $image_name;
+        $projet->titre        = $validator->validated()['titre'];
+        $projet->deadline     = $validator->validated()['deadline'];
+        $projet->description  = $validator->validated()['description'];
+        $projet->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Projet créé"
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modifier un projet
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Edit cover
+     * @return \Illuminate\Http\Response
+     */
+    public function editProjet(Request $request, $id) {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'titre' => 'required',
+                'deadline' => 'required',
+                'description' => 'required',
+                'image' => 'required|file|mimes:jpg,jpeg,png|max:5000',
+            ],
+            [
+                'file'  => 'Image non fournis',
+                'mimes' => 'Extension invalide',
+                'max'   => '5Mb maximum'
+            ]
+        );
+
+        $errors = $validator->errors();
+
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $projet = Deliver_ProjetModel::where(['id' => $id])->first();
+
+        if ($request->hasFile('image')) {
+            $oldImage = $projet->image;
+
+            if ($oldImage != null) {
+                $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                unlink($oldFilePath);
+            }
+
+            $image          = $validator->validated()['cover'];
+            $extension      = $image->getClientOriginalExtension();
+            $image_name          = time() . rand() . '.' . $extension;
+            $image->move(public_path('img/cover'), $image_name);
+            $projet->image = $image_name;
+        }
+
+        $projet->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Mise à jour effectuée"
+        ]);
+    }
+
+    /**
+     * Supprimer un projet
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteProjet($id)
+    {
+        $projet=Deliver_ProjetModel::find($id);
+
+        if($projet) {
+            $projet->delete();
+            return response()->json([
+                'success' => true,
+                'message' => "Vous avez supprimé le projet"
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => "Introuvable"
+        ]);
+    }
 }
