@@ -1,27 +1,79 @@
-import Sidebar from '../navigations/Sidebar.vue'
+import Sidebar from "./Sidebar";
+
 export default {
     components: {
         Sidebar
     },
 
-    mounted() {
-
-    },
 
     data() {
         return {
+            prevName: '',
+            nextName: '',
         }
     },
 
-    watch: {
+    mounted() {
+        let routeName = this.$route.path;
 
-    },
+        switch (routeName) {
+            case "/markedowns":
+                this.prevName = 'eval'
+                this.nextName = 'deliver'
+                break
 
-    created() {
-       
+            case "/evaluation360":
+                this.prevName = 'm-down'
+                this.nextName = 'deliver'
+                break
+            case "/deliver":
+                this.prevName = 'm-down'
+                this.nextName = 'eval'
+                break
+        }
     },
 
     methods: {
+        prev() {
+
+            let routeName = this.$route.path;
+
+            switch (routeName) {
+                case "/markedowns":
+                    this.prevName = 'm-down'
+                    this.nextName = 'deliver'
+                    return this.$router.push('/evaluation360')
+                case "/evaluation360":
+                    this.prevName = 'eval'
+                    this.nextName = 'deliver'
+                    return this.$router.push('/markedowns')
+                case "/deliver":
+                    this.prevName = 'eval'
+                    this.nextName = 'deliver'
+                    return this.$router.push('/markedowns')
+            }
+        },
+
+        next() {
+
+            let routeName = this.$route.path;
+
+            switch (routeName) {
+                case "/markedowns":
+                    this.prevName = 'm-down'
+                    this.nextName = 'eval'
+                    return this.$router.push('/deliver')
+                case "/evaluation360":
+                    this.prevName = 'm-down'
+                    this.nextName = 'eval'
+                    return this.$router.push('/deliver')
+                case "/deliver":
+                    this.prevName = 'm-down'
+                    this.nextName = 'deliver'
+                    return this.$router.push('/evaluation360')
+            }
+        },
+
 
     }
 }

@@ -13,7 +13,7 @@ import fr from 'vuetify/src/locale/fr.ts';
 
 Vue.use(FlashMessage);
 Vue.use(Vuetify);
-Vue.use(Editor);
+// Vue.use(Editor);
 
 const main = new Vue({
     el: '#app',
