@@ -13,7 +13,7 @@ export const EvalRoutes = [
         component: Dashboard
     },
     {
-        path: '/evaluation360/See-More',
+        path: '/evaluation360/Details',
         name: 'SeeMore',
         component: SeeMore
     },

@@ -8,6 +8,9 @@
       <v-col cols="6">
         <Referentiel />
       </v-col>
+      <v-col cols="6">
+        <Langages />
+      </v-col>
     </v-row>
   </v-container>
 </template>

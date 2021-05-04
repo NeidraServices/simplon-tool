@@ -90,3 +90,25 @@ stdout_logfile=/var/log/simplonapp.log
 ### Si nous n'utilisons pas un VPS
 
 Si nous n'utilisons pas un VPS, il faut modifier les fichiers suivants en enlevant "implement ShouldQueue" au niveau des classes qui permet l'envoi de mail.
+
+## Si nous utilisons docker 
+
+Construire les containers 
+- docker-compose build
+
+Lancer les images des containers 
+- docker-compose up 
+
+Installer le vendor laravel 
+- docker-compose exec app composer install
+
+Lancer la migration 
+- docker-compose exec app php artisan migrate 
+
+Même demarche que si dessus pour tout les commandes php artisan
+
+Installer le node_module 
+- docker-compose run node npm install
+
+Lancer la compilation js / sass
+- docker-compose run node npm run watch

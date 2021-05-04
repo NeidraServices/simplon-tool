@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvalReferentielsTable extends Migration
+class CreateEvalLangagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateEvalReferentielsTable extends Migration
      */
     public function up()
     {
-        Schema::create('eval_referentiels', function (Blueprint $table) {
+        Schema::create('eval_langages', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateEvalReferentielsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eval_referentiels');
+        Schema::dropIfExists('eval_langages');
     }
 }

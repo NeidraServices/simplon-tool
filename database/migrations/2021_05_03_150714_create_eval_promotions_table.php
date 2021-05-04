@@ -15,6 +15,7 @@ class CreateEvalPromotionsTable extends Migration
     {
         Schema::create('eval_promotions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
