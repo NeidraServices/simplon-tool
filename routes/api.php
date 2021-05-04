@@ -55,4 +55,4 @@ Route::prefix('/deliver')->group(__DIR__.'/deliver/deliverRoutes.php');
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/markedown')->group(__DIR__.'/markedown/markdownRoutes.php');
+Route::prefix('/markedown')->group(__DIR__.'/markedown/markedownRoutes.php');
