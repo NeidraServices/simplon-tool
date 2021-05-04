@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 class Md_MarkdownController extends Controller
 {
     //
+    public function index($id){
+        $markdown = Markdown_Markdown::find($id);
+        return $markdown;
+    }
+
     public function show(){
         $markdowns=Markdown_Markdown::get();
         return $markdowns;

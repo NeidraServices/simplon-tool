@@ -6,6 +6,7 @@ use App\Http\Controllers\EvalPromotionController;
 use App\Http\Controllers\EvalReferentielController;
 use App\Http\Controllers\EvalSkillController;
 use App\Http\Controllers\EvalSondageController;
+use App\Http\Controllers\EvalSondageLinesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,13 @@ Route::middleware(['auth:api'])->group(function(){
 | Evaluation360 Sondage / SondageLines routes
 |--------------------------------------------------------------------------
 */
+
+Route::middleware(['auth:api'])->group(function(){
+    Route::post("/sondageLine/create", [EvalSondageLinesController::class, "addData"])->name('api.sondageLine.create');
+    Route::put("/sondageLine/{id}/update", [EvalSondageLinesController::class, "updateData"])->name('api.sondageLine.updateData');
+    Route::delete("/sondageLine/{id}/delete", [EvalSondageLinesController::class, "deleteData"])->name('api.sondageLine.deleteData');
+    Route::post("/sondageLine/delete/all", [EvalSondageLinesController::class, "deleteDataArray"])->name('api.sondageLine.deleteDataArray');
+});
 
 Route::middleware(['auth:api'])->group(function(){
     Route::prefix('/formateur')->group(function(){
