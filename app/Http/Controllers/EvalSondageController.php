@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EvalSondageFormateurResource;
 use Illuminate\Http\Request;
 use App\Models\EvalSondage;
 use App\Http\Resources\EvalSondageResource;
+use App\Models\EvalSondageLines;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +26,7 @@ class EvalSondageController extends Controller
      */
     public function getDataAll() {
         $sondages = EvalSondage::all();
-        return EvalSondageResource::collection($sondages);
+        return EvalSondageFormateurResource::collection($sondages);
     }
 
 
@@ -34,7 +36,7 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getDataSpecific() {
-        $sondages = EvalSondage::where(['user_id' => Auth::id()])->get();
+        $sondages = EvalSondage::where(['user_id' => Auth::id(), 'published' => 1, 'accepted' => 1])->get();
         return EvalSondageResource::collection($sondages);
     }
 
@@ -56,6 +58,8 @@ class EvalSondageController extends Controller
             [   
                 'name'         => "required",
                 'apprenants.*' => 'required',
+                'lines.*'      => 'required',
+                'published'    => 'required',
             ],
             [
                 'required' => 'Le champ :attribute est requis',
@@ -71,9 +75,31 @@ class EvalSondageController extends Controller
         }
 
         $name       =  $validator->validated()['name'];
+        $published  =  $validator->validated()['published'];
         $apprenants =  $validator->validated()['apprenants'];
+        $lines      =  $validator->validated()['lines'];
 
+        foreach ($apprenants as $apprenant) {
+            $sondage            = new EvalSondage();
+            $sondage->name      = $name;
+            $sondage->user_id   = $apprenant['id'];
+            $sondage->accepted  = 1;
+            $sondage->published = $published;
+            $sondage->save();
 
+            foreach ($lines as $lineInfo) {
+                $sondageLine = new EvalSondageLines();
+                $sondageLine->sondage_id = $sondage->id;
+                $sondageLine->langage_id = $lineInfo['langage_id'] ?? null;
+                $sondageLine->skill_id   = $lineInfo['skill_id'];
+                $sondageLine->save();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage ajouté"
+        ]);
     }
 
 
@@ -83,7 +109,45 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function proposingData(Request $request) {
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'name'         => "required",
+                'lines.*'      => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $name       =  $validator->validated()['name'];
+        $lines      =  $validator->validated()['lines'];
+
+        $sondage            = new EvalSondage();
+        $sondage->name      = $name;
+        $sondage->user_id   = Auth::id();
+        $sondage->save();
+
+        foreach ($lines as $lineInfo) {
+            $sondageLine = new EvalSondageLines();
+            $sondageLine->sondage_id = $sondage->id;
+            $sondageLine->langage_id = $lineInfo['langage_id'] ?? null;
+            $sondageLine->skill_id   = $lineInfo['skill_id'];
+            $sondageLine->save();
+        }
         
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage ajouté"
+        ]);
     }
 
     /*
@@ -93,14 +157,61 @@ class EvalSondageController extends Controller
     */
 
 
-
     /**
      * Update data
      * 
      * @return \Illuminate\Http\Response
      */
     public function updateData(Request $request, $id) {
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'name'         => "required",
+                'lines.*'      => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $name       =  $validator->validated()['name'];
+        $lines      =  $validator->validated()['lines'];
+
+        $sondage    = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+
+        $sondage->name = $name;
+        $sondage->save();
+
+        $sondageLine = EvalSondageLines::where(['sondage_id' => $id])->get();
+        foreach ($sondageLine as $line) {
+            foreach ($lines as $lineInfo) { 
+                if($line->id == $lineInfo['id']){
+                    $line->langage_id = $lineInfo['langage_id'];
+                    $line->skill_id   = $lineInfo['skill_id'];
+                    $line->save();
+                }
+            }
+        }
         
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
+
     }
 
 
@@ -110,7 +221,20 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function acceptProposing($id) {
-        
+        $sondage = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+        $sondage->accepted = 1;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage accepté"
+        ]);
     }
 
     
@@ -120,7 +244,20 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function setToDraft($id) {
-        
+        $sondage = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+        $sondage->published = 0;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
     }
 
     
@@ -130,7 +267,20 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function setToPublish($id) {
-        
+        $sondage = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+        $sondage->published = 1;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
     }
 
 
@@ -146,6 +296,23 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
-        
+        $sondage = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+
+        $sondageLine = EvalSondageLines::where(['sondage_id' => $id])->get();
+        foreach ($sondageLine as $line) {
+           $line->delete();
+        }
+
+        $sondage->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage supprimer"
+        ]);
     }
 }

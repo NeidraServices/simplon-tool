@@ -15,11 +15,7 @@
                         </v-icon>                           
                        </v-btn>
 
-                       <v-btn color="orange" icon>
-                        <v-icon>
-                            mdi-pencil-circle
-                        </v-icon>                           
-                       </v-btn>
+                       <projet_ModalUpdate />
                    </v-col>
                </v-card-title>
                 
@@ -27,9 +23,9 @@
                     <v-img src="https://ma.ambafrance.org/IMG/arton11404.png?1565272504" width="100%" height="auto"></v-img>
                 </v-col>
 
-                <div class="pb-5">
-                    <p class="text-center my-0">{{ projet.formateur.name }}</p>
-                    <p class="text-center my-0">{{ projet.deadline}}</p>
+                <div class="d-flex justify-space-around mt-5">
+                    <p class="text-center">{{ projet.formateur.name }} {{ projet.deadline}}</p>
+                    <v-btn x-small color="success" class="mt-1" outlined>ouvrir</v-btn>
                 </div>
            </v-card>
        </div>
