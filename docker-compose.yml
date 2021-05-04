@@ -1,0 +1,53 @@
+version: "3.5"
+services:
+  app:
+    build:
+      args:
+        user: benj
+        uid: 1000
+      context: .docker/php
+    container_name: simplon-app
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:simplon.localhost"
+
+  db:
+    image: mysql:5.7
+    container_name: simplon-db
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=mysql
+    ports: 
+      - 8307:3306
+
+  nginx:
+    image: nginx:alpine
+    container_name: simplon-nginx
+    ports:
+      - 8001:80
+    volumes:
+      - ./:/var/www
+      - .docker/nginx:/etc/nginx/conf.d/
+
+  node:
+    build:
+      context: .docker/node
+    container_name: simplon-node
+    volumes: 
+      - .:/home/node/app/frontend
+
+  traefik: 
+    image: traefik:1.7
+    container_name: simplon-traefik
+    command: --docker --docker.exposedbydefault=false
+    ports: 
+      - "81:80"
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
