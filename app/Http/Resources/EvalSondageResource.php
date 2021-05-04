@@ -18,13 +18,15 @@ class EvalSondageResource extends JsonResource
     {
         $createdAt = new DateTime($this->created_at);
         $createAtFormated = $createdAt->format('Y-m-d H:i:s');
-        
+        $user = new UserResource($this->user);
+
+
         return [
             'id'            => $this->id,
             'name'          => $this->name,
             'comments'      => $this->comments,
             'global_note'   => $this->global_note,
-            'sondage_lines' => EvalSondageLines::collection(''),
+            'user'          => $user,
             'created_at'    => $createAtFormated,
         ];
     }

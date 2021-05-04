@@ -15,6 +15,12 @@ class CreateEvalNotificationsTable extends Migration
     {
         Schema::create('eval_notifications', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('from')->unsigned();
+            $table->foreign('from')->references('id')->on('users');
+            $table->bigInteger('to')->unsigned();
+            $table->foreign('to')->references('id')->on('users');
+            $table->string('object');
+            $table->string('isRead');
             $table->timestamps();
         });
     }

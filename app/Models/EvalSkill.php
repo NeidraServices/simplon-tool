@@ -15,6 +15,17 @@ class EvalSkill extends Model
      * @var array
      */
     protected $fillable = [
-        'description'
+        'description', 'referentiel_id'
     ];
+
+    function referentiel()
+    {
+        return $this->belongsTo(EvalReferentiel::class, 'referentiel_id');
+    }
+
+    function skill()
+    {
+        return $this->hasMany(EvalSondageLines::class, 'skill_id');
+    }
+
 }
