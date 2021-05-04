@@ -6,6 +6,7 @@ import 'vuetify/dist/vuetify.min.css';
 import _ from 'lodash';
 import FlashMessage from '@smartweb/vue-flash-message';
 import fr from 'vuetify/src/locale/fr.ts';
+import store from './store'
 
 //Editor markdown
 // import 'v-markdown-editor/dist/v-markdown-editor.css';
@@ -24,6 +25,7 @@ const main = new Vue({
         },
     }),
     router: Router,
+    store,
     components: { Layout }
 })
 

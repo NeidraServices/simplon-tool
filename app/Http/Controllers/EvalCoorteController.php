@@ -22,7 +22,7 @@ class EvalCoorteController extends Controller
      */
     public function getData()
     {
-        $coorte = User::all();
+        $coorte = User::where(['role_id' => 3])->get();
         return UserResource::collection($coorte);
     }
 
