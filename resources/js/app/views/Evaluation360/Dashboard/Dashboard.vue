@@ -1,4 +1,6 @@
 <template>
-  <div>Salut</div>
+  <div>
+    <ApprenantsCards />
+  </div>
 </template>
 <script src='./dashboard.js' />

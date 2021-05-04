@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDpCommentaires extends Migration
+class CreateEvalReferentielsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateDpCommentaires extends Migration
      */
     public function up()
     {
-        Schema::create('dp_commentaires', function (Blueprint $table) {
+        Schema::create('eval_referentiels', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
-            $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('projet_id')->nullable()->constrained();
-            $table->foreignId('commentaire_id')->nullable()->constrained();
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateDpCommentaires extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dp_commentaires');
+        Schema::dropIfExists('eval_referentiels');
     }
 }

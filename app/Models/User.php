@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $directoryImage =  "avatars/";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,7 @@ class User extends Authenticatable
         'surname',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -49,4 +52,28 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo('App\Models\Role', 'role_id', 'id');
     }
+
+    /**
+     * Accessor to show avatar image
+     */
+    public function getAvatarAttribute($value) {
+        return $this->directoryImage . $value;
+    }
+
+    function to()
+    {
+        return $this->hasMany(EvalNotification::class, 'to');
+    }
+
+    function from()
+    {
+        return $this->hasMany(EvalNotification::class, 'from');
+    }
+
+    function promotion()
+    {
+        return $this->belongsTo(EvalPromotion::class, 'promotion_id');
+    }
+
+    
 }
