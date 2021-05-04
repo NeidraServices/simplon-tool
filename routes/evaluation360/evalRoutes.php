@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvalLangageController;
-use App\Models\EvalPromotion;
+use App\Http\Controllers\EvalPromotionController;
+use App\Http\Controllers\EvalReferentielController;
+use App\Http\Controllers\EvalSkillController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:api'])->group(function(){
-
+    Route::get("/referentiel/list", [EvalReferentielController::class, "getData"])->name('api.promotion.retrive');
+    Route::post("/referentiel/create", [EvalReferentielController::class, "addData"])->name('api.promotion.create');
+    Route::put("/referentiel/{id}/update", [EvalReferentielController::class, "updateData"])->name('api.promotion.update');
+    Route::delete("/referentiel/{id}/delete", [EvalReferentielController::class, "deleteData"])->name('api.promotion.delete');
 });
 
 
@@ -24,10 +29,10 @@ Route::middleware(['auth:api'])->group(function(){
 */
 
 Route::middleware(['auth:api'])->group(function(){
-    Route::get("/promotion/list", [EvalPromotion::class, "getData"])->name('api.promotion.retrive');
-    Route::post("/promotion/create", [EvalPromotion::class, "addData"])->name('api.promotion.create');
-    Route::put("/promotion/{id}/update", [EvalPromotion::class, "updateData"])->name('api.promotion.update');
-    Route::delete("/promotion/{id}/delete", [EvalPromotion::class, "deleteData"])->name('api.promotion.delete');
+    Route::get("/promotion/list", [EvalPromotionController::class, "getData"])->name('api.promotion.retrive');
+    Route::post("/promotion/create", [EvalPromotionController::class, "addData"])->name('api.promotion.create');
+    Route::put("/promotion/{id}/update", [EvalPromotionController::class, "updateData"])->name('api.promotion.update');
+    Route::delete("/promotion/{id}/delete", [EvalPromotionController::class, "deleteData"])->name('api.promotion.delete');
 });
 
 /*
@@ -60,7 +65,10 @@ Route::middleware(['auth:api'])->group(function(){
 */
 
 Route::middleware(['auth:api'])->group(function(){
-
+    Route::get("/skill/list", [EvalSkillController::class, "getData"])->name('api.skill.retrive');
+    Route::post("/skill/create", [EvalSkillController::class, "addData"])->name('api.skill.create');
+    Route::put("/skill/{id}/update", [EvalSkillController::class, "updateData"])->name('api.skill.update');
+    Route::delete("/skill/{id}/delete", [EvalSkillController::class, "deleteData"])->name('api.skill.delete');
 });
 
 
