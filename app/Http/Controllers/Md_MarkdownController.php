@@ -57,7 +57,7 @@ class Md_MarkdownController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'file'     => 'required',
+                'text'     => 'required',
                 'category' => 'required',
                 'active'   => 'required',
                 
@@ -66,17 +66,16 @@ class Md_MarkdownController extends Controller
                 'required' => 'Le champ :attribute est requis',
             ]
         );
-        if ($validator->fails()) {          
-            return response()->json(['error'=>$validator->errors()], 401);                        
-        }
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }  
         
-             
-            //store file into document folder
-            if($request->hasFile('file')) {
-                $fileUploaded  = $validator->validated()['file'];
-                $extension     = $fileUploaded->getClientOriginalExtension();
-                $file          = time().rand().'.'.$extension;
-                $fileUploaded->move(public_path('markdowns'), $file);
+                $file          = time().rand().'.md';
+                Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
+                    
 
                 //store your file into database
                 $markdown = new Markdown_Markdown();
@@ -85,7 +84,7 @@ class Md_MarkdownController extends Controller
                 $markdown->md_category_id= $validator->validated()['category'];
                 $markdown->active=$validator->validated()['active'];;
                 $markdown->save();  
-            }
+            
             
             
               

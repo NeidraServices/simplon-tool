@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 class Deliver_CompetenceController extends Controller
 {
     //
+
+    public function liste(){
+        $data=Deliver_CompetencesModel::all();
+        return response()->json($data);
+    }
+
     public function addCompetence(Request $req){
         $competences=$req->all();
         Deliver_CompetencesModel::create($competences);
