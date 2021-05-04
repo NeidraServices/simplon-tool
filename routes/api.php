@@ -9,6 +9,8 @@ use App\Http\Controllers\Deliver_CommentairesController;
 use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
+use App\Http\Controllers\EvalCoorteController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,7 +41,7 @@ Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['aut
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/evaluation360')->group(__DIR__.'/evaluation360/evalRoutes.php');
+Route::prefix('/evaluation360')->group(__DIR__ . '/evaluation360/evalRoutes.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,7 @@ Route::prefix('/evaluation360')->group(__DIR__.'/evaluation360/evalRoutes.php');
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/deliver')->group(__DIR__.'/deliver/deliverRoutes.php');
+Route::prefix('/deliver')->group(__DIR__ . '/deliver/deliverRoutes.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +57,14 @@ Route::prefix('/deliver')->group(__DIR__.'/deliver/deliverRoutes.php');
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/markedown')->group(__DIR__.'/markedown/markedownRoutes.php');
+Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
+
+/*
+|--------------------------------------------------------------------------
+| Users routes
+|--------------------------------------------------------------------------
+*/
+
+// Route::middleware(['auth:api'])->group(function () {
+    Route::get('/users/list', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+// });

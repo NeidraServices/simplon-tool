@@ -25,13 +25,18 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-
+    Route::get("/competences",[Deliver_CompetenceController::class,"liste"]);
     Route::post("/competences/ajout",[Deliver_CompetenceController::class,"addCompetence"]);
     Route::post("/competences/lier",[Deliver_CompetenceController::class,"relierProjet"]);
     Route::delete("/competences/delier",[Deliver_CompetenceController::class,"delierProjet"]);
 
     Route::post("/projet/affecter",[Deliver_AffectationController::class,"affecter"]);
     Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class,"supprimerApprenant"]);
+
+    Route::get("/tags",[Deliver_TagController::class,"liste"]);
+    Route::post("/tags/ajout",[Deliver_TagController::class,"ajout"]);
+    Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
+    Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);
 /*
 |--------------------------------------------------------------------------
 | Deliver media routes

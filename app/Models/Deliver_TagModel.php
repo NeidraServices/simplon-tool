@@ -9,8 +9,11 @@ class Deliver_TagModel extends Model
 {
     use HasFactory;
     protected $table = 'dp_tags';
+    protected $fillable = [
+        'nom'
+    ];
     public function projets(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"db_projet_tag","projet","tag_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_tags","projet_id","tag_id");
     }
 
     public function rendus(){
