@@ -14,12 +14,9 @@ class EvalSkillResource extends JsonResource
      */
     public function toArray($request)
     {
-        $referentiel = new EvalReferentielResource($this->referentiel);
-
         return [
             'id'          => $this->id,
             'description' => $this->description,
-            'referentiel' => $referentiel,
         ];
     }
 }

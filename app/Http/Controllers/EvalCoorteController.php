@@ -2,13 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
-use App\Models\EvalSondageLines;
-use App\Http\Resources\EvalSondageLinesResource;
-use Illuminate\Support\Facades\Validator;
 
-class EvalSondageLinesController extends Controller
+class EvalCoorteController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Get data functions
+    |--------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Retrieve all
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getData() {
+
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | Create data functions
@@ -34,7 +50,6 @@ class EvalSondageLinesController extends Controller
     */
 
 
-
     /**
      * Update data
      * 
@@ -50,7 +65,6 @@ class EvalSondageLinesController extends Controller
     | Delete data functions
     |--------------------------------------------------------------------------
     */
-
 
     /**
      * Delete data (one by one)

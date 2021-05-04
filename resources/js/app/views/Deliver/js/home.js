@@ -1,10 +1,16 @@
+import projet_ModalUpdate from "../components/projet-modal_update.vue"
+
+
 const projets = [
     {
         id: 1,
         titre: "G-a-o",
         image: "/public/images/dp/default.png",
         deadline: "21-05-2021",
-        description: "Projet gao qui consiste ...."
+        description: "Projet gao qui consiste ....",
+        formateur: {
+            name: "Adrien",
+        }
     }
 ]
 const user  = {
@@ -18,6 +24,10 @@ const user  = {
 }
 
 export default{
+    components:{
+        projet_ModalUpdate
+    },
+
     data(){
         return {
             projets: [],
