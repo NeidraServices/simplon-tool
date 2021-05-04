@@ -4,20 +4,19 @@
       ><span class="ma-auto">Référentiel</span></v-card-title
     >
     <v-expansion-panels focusable class="mb-6 pa-5">
-      <v-expansion-panel>
+      <v-expansion-panel v-for="item in referentiel" :key="item.id">
         <v-expansion-panel-header expand>
-          Concevoir et développer des composants d’interface utilisateur en
-          intégrant les recommandations de sécurité
+          {{ item.description }}
           <template v-slot:actions>
             <span>8/10</span>
             <v-icon> mdi-arrow-down </v-icon>
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content class="pt-5 pb-5">
-          <v-row>
+          <v-row v-for="competence in item.competences" :key="competence.id">
             <v-col cols="8"
               ><span class="competences-title">
-                Maquetter une application
+                {{ competence.description }}
               </span>
             </v-col>
             <v-col class="text-right text-xs-center" cols="4">

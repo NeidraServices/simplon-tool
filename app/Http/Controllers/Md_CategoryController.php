@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Markdown_Category;
+use Illuminate\Support\Facades\Validator;
 
 class Md_CategoryController extends Controller
 {
