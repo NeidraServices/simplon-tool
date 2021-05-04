@@ -3107,7 +3107,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.link:hover {\r\n\tbackground-color: gray;\r\n\tcolor: white;\r\n\tcursor: pointer;\n}\n.link:nth-child(1) {\r\n\tborder: 1px solid rgba(0, 0, 0, 0.12);\n}\n.link:nth-child(2) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, 0.12);\n}\n.listSidebar {\r\n\tdisplay: flex;\r\n  flex-direction: column;\r\n\talign-items: center;\r\n\ttext-align: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.link:hover {\n\tbackground-color: gray;\n\tcolor: white;\n\tcursor: pointer;\n}\n.link:nth-child(1) {\n\tborder: 1px solid rgba(0, 0, 0, 0.12);\n}\n.link:nth-child(2) {\n\tborder-top: 1px solid rgba(0, 0, 0, 0.12);\n}\n.listSidebar {\n\tdisplay: flex;\n  flex-direction: column;\n\talign-items: center;\n\ttext-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3131,7 +3131,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.apprenants-avatar {\r\n  width: 100px;\r\n  height: 100%;\r\n  position: relative;\r\n  left: -15%;\n}\n.apprenants-avatar img {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  border-radius: 50%;\n}\n.apprenants-infos {\r\n  padding: 10px;\n}\n.apprenants-infos .see-more {\r\n  position: absolute;\r\n  right: 0;\r\n  bottom: 0;\r\n  padding: 5px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.apprenants-avatar {\n  width: 100px;\n  height: 100%;\n  position: relative;\n  left: -15%;\n}\n.apprenants-avatar img {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  border-radius: 50%;\n}\n.apprenants-infos {\n  padding: 10px;\n}\n.apprenants-infos .see-more {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  padding: 5px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3155,7 +3155,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.langage-icon {\r\n  height: 50%;\r\n  width: 50%;\r\n  margin: auto;\r\n  -o-object-fit: contain;\r\n     object-fit: contain;\n}\n.langages-card .langages-note {\r\n  border-radius: 100% !important;\r\n  position: absolute;\r\n  padding: 10px;\r\n  right: -30px;\r\n  bottom: -2vh;\r\n  display: flex;\n}\n.langages-card .langages-note span {\r\n  margin: auto;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.langage-icon {\n  height: 50%;\n  width: 50%;\n  margin: auto;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n.langages-card .langages-note {\n  border-radius: 100% !important;\n  position: absolute;\n  padding: 10px;\n  right: -30px;\n  bottom: -2vh;\n  display: flex;\n}\n.langages-card .langages-note span {\n  margin: auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3179,7 +3179,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\r\n    display: inline-flex;\r\n    width: 100%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\n    display: inline-flex;\n    width: 100%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23626,7 +23626,7 @@ var render = function() {
                 xl: "6"
               }
             },
-            [_c("Langages")],
+            [_c("Langages", { staticClass: "pb-5 pr-2" })],
             1
           )
         ],
