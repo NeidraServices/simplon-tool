@@ -1,7 +1,7 @@
-import ApprenantsCards from './ApprenantsCards.vue';
+import Referentiel from './ReferentielCards.vue';
 export default {
     components: {
-        ApprenantsCards
+        Referentiel
     },
     data() {
         return {
