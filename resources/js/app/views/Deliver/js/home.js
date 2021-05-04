@@ -1,4 +1,7 @@
+import MainLayout from '../../../layouts/MainLayout.vue'
+
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
+import projet_ModalDelete from "../components/delete-projet.vue"
 
 
 const projets = [
@@ -6,7 +9,7 @@ const projets = [
         id: 1,
         titre: "G-a-o",
         image: "/public/images/dp/default.png",
-        deadline: "21-05-2021",
+        deadline: "2021-05-01",
         description: "Projet gao qui consiste ....",
         formateur: {
             name: "Adrien",
@@ -25,7 +28,7 @@ const user  = {
 
 export default{
     components:{
-        projet_ModalUpdate
+        projet_ModalUpdate, projet_ModalDelete, MainLayout
     },
 
     data(){
