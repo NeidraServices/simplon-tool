@@ -1,5 +1,5 @@
 <template>
-<MainLayout>
+<Sidebar>
     <template v-slot:content-slot>
         <div class="ml-5">
             <h2 class="my-10 mb-15">Tous les projets</h2>
@@ -27,7 +27,7 @@
             </div>
         </div>
     </template>
-</MainLayout>
+</Sidebar>
 </template>
 
 <script src="./js/home.js"></script>
