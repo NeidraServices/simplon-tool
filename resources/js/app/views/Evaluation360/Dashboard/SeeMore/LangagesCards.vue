@@ -4,7 +4,7 @@
       ><span class="ma-auto">Langages</span></v-card-title
     >
     <v-row class="pa-5">
-      <v-hover v-slot="{ hover }" open-delay="200">
+      <v-hover v-slot="{ hover }">
         <v-col class="pa-5" xs="12" sm="6" md="4" lg="3" xl="2" cols="12"
           ><v-card
             :elevation="hover ? 5 : 2"
@@ -12,10 +12,7 @@
             height="100"
             max-width="150"
           >
-            <img
-              class="langage-icon"
-              src="https://pics.freeicons.io/uploads/icons/png/18852341021548218200-512.png"
-            />
+            <img class="langage-icon" :src="getImages('flutter.png')" />
             <v-card
               width="50px"
               height="50px"
