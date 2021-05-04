@@ -2974,6 +2974,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getImages: function getImages(image) {
       return "".concat(location.origin, "/images/").concat(image);
+    },
+    goToDetails: function goToDetails(apprenant) {
+      this.$router.push("details");
     }
   }
 });
@@ -23609,7 +23612,12 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "see-more",
-                          attrs: { icon: "", to: "details" }
+                          attrs: { icon: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.goToDetails(apprenant)
+                            }
+                          }
                         },
                         [_c("v-icon", [_vm._v(" mdi-eye")])],
                         1

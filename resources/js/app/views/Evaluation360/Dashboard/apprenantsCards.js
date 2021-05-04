@@ -19,6 +19,9 @@ export default {
         },
         getImages(image) {
             return `${location.origin}/images/${image}`
+        },
+        goToDetails(apprenant) {
+            this.$router.push(`details`);
         }
     }
 
