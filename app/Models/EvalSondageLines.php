@@ -15,6 +15,7 @@ class EvalSondageLines extends Model
      * @var array
      */
     protected $fillable = [
+        'note',
         'sondage_id',
         'skill_id',
         'langage_id'
