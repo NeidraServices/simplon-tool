@@ -2,6 +2,7 @@ import Home from './Home.vue';
 import ListMarkedDowns from './ListMarkdowns';
 import MyMarkedDowns from './MyMarkdowns';
 import Archives from './Archives';
+import AddMarkdown from "./AddMarkdown";
 
 export const MarkedownRoutes = [
     {
@@ -23,5 +24,10 @@ export const MarkedownRoutes = [
         path: '/markedowns/archives',
         name: 'Archives',
         component: Archives
-    }
+    },
+    {
+        path: '/markedowns/add',
+        name: 'AddMarkdowns',
+        component: AddMarkdown
+    },
 ]

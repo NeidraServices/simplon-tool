@@ -163,7 +163,55 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateData(Request $request, $id) {
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'name'         => "required",
+                'lines.*'      => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }
+
+        $name       =  $validator->validated()['name'];
+        $lines      =  $validator->validated()['lines'];
+
+        $sondage    = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+
+        $sondage->name = $name;
+        $sondage->save();
+
+        $sondageLine = EvalSondageLines::where(['sondage_id' => $id])->get();
+        foreach ($sondageLine as $line) {
+            foreach ($lines as $lineInfo) { 
+                if($line->id == $lineInfo['id']){
+                    $line->langage_id = $lineInfo['langage_id'];
+                    $line->skill_id   = $lineInfo['skill_id'];
+                    $line->save();
+                }
+            }
+        }
         
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
+
     }
 
 
@@ -180,6 +228,13 @@ class EvalSondageController extends Controller
                 'message' => "Sondage introuvable"
             ], 400);
         }
+        $sondage->accepted = 1;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage accepté"
+        ]);
     }
 
     
@@ -196,6 +251,13 @@ class EvalSondageController extends Controller
                 'message' => "Sondage introuvable"
             ], 400);
         }
+        $sondage->published = 0;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
     }
 
     
@@ -212,6 +274,13 @@ class EvalSondageController extends Controller
                 'message' => "Sondage introuvable"
             ], 400);
         }
+        $sondage->published = 1;
+        $sondage->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage mis à jour"
+        ]);
     }
 
 
@@ -227,6 +296,23 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
-        
+        $sondage = EvalSondage::where(['id' => $id])->first(); 
+        if(!$sondage){
+            return response()->json([
+                'success' => false,
+                'message' => "Sondage introuvable"
+            ], 400);
+        }
+
+        $sondageLine = EvalSondageLines::where(['sondage_id' => $id])->get();
+        foreach ($sondageLine as $line) {
+           $line->delete();
+        }
+
+        $sondage->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage supprimer"
+        ]);
     }
 }

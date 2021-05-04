@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvalSondagesLinesTable extends Migration
+class CreateEvalUserSondagesCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateEvalSondagesLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('eval_sondages_lines', function (Blueprint $table) {
+        Schema::create('eval_user_sondages_comments', function (Blueprint $table) {
             $table->id();
-            $table->float('note')->nullable();
+            $table->text('comments')->nullable();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('sondage_id')->unsigned();
             $table->foreign('sondage_id')->references('id')->on('eval_sondages');
-            $table->bigInteger('langage_id')->unsigned();
-            $table->foreign('langage_id')->references('id')->on('eval_langages');
-            $table->bigInteger('skill_id')->unsigned();
-            $table->foreign('skill_id')->references('id')->on('eval_skills');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateEvalSondagesLinesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eval_sondages_lines');
+        Schema::dropIfExists('eval_user_sondages_comments');
     }
 }
