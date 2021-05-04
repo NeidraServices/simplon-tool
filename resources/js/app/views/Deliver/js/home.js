@@ -4,7 +4,10 @@ const projets = [
         titre: "G-a-o",
         image: "/public/images/dp/default.png",
         deadline: "21-05-2021",
-        description: "Projet gao qui consiste ...."
+        description: "Projet gao qui consiste ....",
+        formateur: {
+            name: "Adrien",
+        }
     }
 ]
 const user  = {
