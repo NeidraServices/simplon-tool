@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EvalLangageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Deliver_ProjetController;
@@ -34,140 +35,19 @@ Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['aut
 
 /*
 |--------------------------------------------------------------------------
-| Evaluation360 Référentiel routes
+| Evaluation360 Routes routes
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
+Route::prefix('/evaluation360')->group(__DIR__.'/evaluation360/evalRoutes.php');
 
 /*
 |--------------------------------------------------------------------------
-| Evaluation360 Promotions routes
+| Deliver routes
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 Coorte routes (formateur)
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 Langages routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 Skill routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 user routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 Sondage routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Deliver commentaires routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    // Route::apiResource("/commentaires",[Deliver_CommentairesController::class]);
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Deliver compétences routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    // Route::apiResource("/competences",[Deliver_CompetenceController::class]);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Deliver media routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    // Route::apiResource("/medias",[Deliver_MediaController::class]);
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Deliver projet routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-    // Route::apiResource("/projet",[Deliver_ProjetController::class]);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Deliver tag routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    // Route::apiResource("/tags",[Deliver_TagController::class]);
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Deliver users routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
+Route::prefix('/deliver')->group(__DIR__.'/deliver/deliverRoutes.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -175,58 +55,4 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Markdown Category routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Markdown Commentary routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Markdown Contribution routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Markdown markdown routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
-
-/*
-|--------------------------------------------------------------------------
-| Markdown user routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth:api'])->group(function(){
-
-});
+Route::prefix('/markedown')->group(__DIR__.'/markedown/markedownRoutes.php');

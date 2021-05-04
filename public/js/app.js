@@ -1896,6 +1896,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "MyMarkedDowns",
+  components: {},
+  data: function data() {
+    return {};
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -1962,9 +1988,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ //Editor markdown
+// import 'v-markdown-editor/dist/v-markdown-editor.css';
+// import Editor from 'v-markdown-editor';
 
 vue__WEBPACK_IMPORTED_MODULE_5__.default.use((_smartweb_vue_flash_message__WEBPACK_IMPORTED_MODULE_4___default()));
 vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vuetify__WEBPACK_IMPORTED_MODULE_6___default()));
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use(Editor);
 var main = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
   el: '#app',
   vuetify: new (vuetify__WEBPACK_IMPORTED_MODULE_6___default())({
@@ -2234,7 +2264,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue */ "./resources/js/app/views/Markedown/Home.vue");
 /* harmony import */ var _ListMarkdowns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListMarkdowns */ "./resources/js/app/views/Markedown/ListMarkdowns.vue");
-/* harmony import */ var _Archives__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Archives */ "./resources/js/app/views/Markedown/Archives.vue");
+/* harmony import */ var _MyMarkdowns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MyMarkdowns */ "./resources/js/app/views/Markedown/MyMarkdowns.vue");
+/* harmony import */ var _Archives__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Archives */ "./resources/js/app/views/Markedown/Archives.vue");
 
 
 
@@ -2250,11 +2281,11 @@ var MarkedownRoutes = [{
 }, {
   path: '/markedowns/mymarkedowns',
   name: 'MyMarkdowns',
-  component: _ListMarkdowns__WEBPACK_IMPORTED_MODULE_1__.default
+  component: _MyMarkdowns__WEBPACK_IMPORTED_MODULE_2__.default
 }, {
   path: '/markedowns/archives',
   name: 'Archives',
-  component: _Archives__WEBPACK_IMPORTED_MODULE_2__.default
+  component: _Archives__WEBPACK_IMPORTED_MODULE_3__.default
 }];
 
 /***/ }),
@@ -20344,6 +20375,45 @@ component.options.__file = "resources/js/app/views/Markedown/ListMarkdowns.vue"
 
 /***/ }),
 
+/***/ "./resources/js/app/views/Markedown/MyMarkdowns.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/app/views/Markedown/MyMarkdowns.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MyMarkdowns.vue?vue&type=template&id=15ca2c46& */ "./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46&");
+/* harmony import */ var _MyMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MyMarkdowns.vue?vue&type=script&lang=js& */ "./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _MyMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/app/views/Markedown/MyMarkdowns.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/app/layouts/layout.js?vue&type=script&lang=js&":
 /*!*********************************************************************!*\
   !*** ./resources/js/app/layouts/layout.js?vue&type=script&lang=js& ***!
@@ -20513,6 +20583,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListMarkdowns.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/ListMarkdowns.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MyMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MyMarkdowns.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MyMarkdowns_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -20716,6 +20802,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListMarkdowns_vue_vue_type_template_id_9e04d5d8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListMarkdowns_vue_vue_type_template_id_9e04d5d8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListMarkdowns.vue?vue&type=template&id=9e04d5d8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/ListMarkdowns.vue?vue&type=template&id=9e04d5d8&");
+
+
+/***/ }),
+
+/***/ "./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MyMarkdowns_vue_vue_type_template_id_15ca2c46___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MyMarkdowns.vue?vue&type=template&id=15ca2c46& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46&");
 
 
 /***/ }),
@@ -20972,7 +21075,32 @@ var render = function() {
     [
       _c("v-card-title", { staticClass: "text-center font-weight-light" }, [
         _vm._v("Langages")
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-img", {
+                    attrs: {
+                      src:
+                        "https://pics.freeicons.io/uploads/icons/png/18852341021548218200-512.png"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -21238,6 +21366,31 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [_vm._v("\n    Liste des markdowns\n")])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/views/Markedown/MyMarkdowns.vue?vue&type=template&id=15ca2c46& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_vm._v("\n    Mes markdowns\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
