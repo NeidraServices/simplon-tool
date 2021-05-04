@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class EvalLangage extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'image',
+        'name',
+    ];
+
+    function langage()
+    {
+        return $this->hasMany(EvalSondageLines::class, 'langage_id');
+    }
 }

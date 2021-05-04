@@ -59,4 +59,21 @@ class User extends Authenticatable
     public function getAvatarAttribute($value) {
         return $this->directoryImage . $value;
     }
+
+    function to()
+    {
+        return $this->hasMany(EvalNotification::class, 'to');
+    }
+
+    function from()
+    {
+        return $this->hasMany(EvalNotification::class, 'from');
+    }
+
+    function promotion()
+    {
+        return $this->belongsTo(EvalPromotion::class, 'promotion_id');
+    }
+
+    
 }

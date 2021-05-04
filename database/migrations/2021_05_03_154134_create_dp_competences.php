@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvalPromotionsTable extends Migration
+class CreateDpCompetences extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateEvalPromotionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('eval_promotions', function (Blueprint $table) {
+        Schema::create('dp_competences', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateEvalPromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eval_promotions');
+        Schema::dropIfExists('dp_competences');
     }
 }

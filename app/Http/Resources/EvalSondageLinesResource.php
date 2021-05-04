@@ -14,6 +14,16 @@ class EvalSondageLinesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $langage = new EvalLangageResource($this->langage);
+        $skill = new EvalSkillResource($this->skill);
+        $sondage = new EvalSkillResource($this->sondage);
+
+        return [
+            'id' => $this->id,
+            'note' => $this->note,
+            'langage' => $langage,
+            'skill' => $skill,
+            'sondage' => $sondage,
+        ];
     }
 }

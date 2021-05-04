@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvalLangagesTable extends Migration
+class CreateEvalSkillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateEvalLangagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('eval_langages', function (Blueprint $table) {
+        Schema::create('eval_skills', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
+            $table->bigInteger('referentiel_id')->unsigned();
+            $table->foreign('referentiel_id')->references('id')->on('eval_referentiels');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateEvalLangagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eval_langages');
+        Schema::dropIfExists('eval_skills');
     }
 }
