@@ -42,10 +42,10 @@ Route::middleware(['auth:api'])->group(function () {
 */
 
 // Route::middleware(['auth:api'])->group(function () {
-Route::get("/referentiel/list", [EvalReferentielController::class, "getData"])->name('api.promotion.retrieve');
-Route::post("/referentiel/create", [EvalReferentielController::class, "addData"])->name('api.promotion.create');
-Route::put("/referentiel/{id}/update", [EvalReferentielController::class, "updateData"])->name('api.promotion.update');
-Route::delete("/referentiel/{id}/delete", [EvalReferentielController::class, "deleteData"])->name('api.promotion.delete');
+Route::get("/referentiel/list", [EvalReferentielController::class, "getData"])->name('api.referentiel.retrieve');
+Route::post("/referentiel/create", [EvalReferentielController::class, "addData"])->name('api.referentiel.create');
+Route::put("/referentiel/{id}/update", [EvalReferentielController::class, "updateData"])->name('api.referentiel.update');
+Route::delete("/referentiel/{id}/delete", [EvalReferentielController::class, "deleteData"])->name('api.referentiel.delete');
 // });
 
 /*
