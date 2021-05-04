@@ -112,7 +112,7 @@ Route::middleware(['auth:api'])->group(function(){
 */
 
 Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    Route::apiResource("/commentaires",[Deliver_CommentairesController::class]);
+    // Route::apiResource("/commentaires",[Deliver_CommentairesController::class]);
 });
 
 
@@ -123,7 +123,7 @@ Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
 */
 
 Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    Route::apiResource("/competences",[Deliver_CompetenceController::class]);
+    // Route::apiResource("/competences",[Deliver_CompetenceController::class]);
 });
 
 /*
@@ -133,7 +133,7 @@ Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
 */
 
 Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    Route::apiResource("/medias",[Deliver_MediaController::class]);
+    // Route::apiResource("/medias",[Deliver_MediaController::class]);
 });
 
 
@@ -144,7 +144,7 @@ Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
 */
 
 Route::middleware(['auth:api'])->group(function(){
-    Route::apiResource("/projet",[Deliver_ProjetController::class]);
+    // Route::apiResource("/projet",[Deliver_ProjetController::class]);
 });
 
 /*
@@ -154,7 +154,7 @@ Route::middleware(['auth:api'])->group(function(){
 */
 
 Route::middleware(['auth:api'])->prefix("/deliver")->group(function(){
-    Route::apiResource("/tags",[Deliver_TagController::class]);
+    // Route::apiResource("/tags",[Deliver_TagController::class]);
 });
 
 
