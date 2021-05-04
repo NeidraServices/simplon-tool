@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EvalLangageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Deliver_ProjetController;
@@ -11,48 +9,65 @@ use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| Deliver commentaires routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
 
 
 /*
 |--------------------------------------------------------------------------
-| Authentication routes
+| Deliver compétences routes
 |--------------------------------------------------------------------------
 */
 
-Route::post('/connexion', [AuthController::class, 'connexion'])->name('api.connexion');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('api.logout');
-Route::post('/email/verification', [AuthController::class, 'verifymail'])->name('api.verify.email');
-Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
+
+    Route::post("/competences/ajout",[Deliver_CompetenceController::class,"addCompetence"]);
+    Route::post("/competences/lier",[Deliver_CompetenceController::class,"relierProjet"]);
+    Route::delete("/competences/delier",[Deliver_CompetenceController::class,"delierProjet"]);
 
 
 /*
 |--------------------------------------------------------------------------
-| Evaluation360 Routes routes
+| Deliver media routes
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/evaluation360')->group(__DIR__.'/evaluation360/evalRoutes.php');
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
 
 /*
 |--------------------------------------------------------------------------
-| Deliver routes
+| Deliver projet routes
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/deliver')->group(__DIR__.'/deliver/deliverRoutes.php');
+Route::middleware(['auth:api'])->group(function(){
+
+});
 
 /*
 |--------------------------------------------------------------------------
-| Markdown archive routes
+| Deliver tag routes
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('/markedown')->group(__DIR__.'/markedown/markedownRoutes.php');
+Route::middleware(['auth:api'])->group(function(){
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Deliver users routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function(){
+
+});
