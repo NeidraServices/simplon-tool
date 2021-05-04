@@ -13,6 +13,6 @@ class Deliver_CompetencesModel extends Model
         'nom'
     ];
     public function projets(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_competences","projet_id","competence_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_competences","competence_id","projet_id");
     }
 }
