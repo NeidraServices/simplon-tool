@@ -2891,7 +2891,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'name'
       }, {
         text: 'Prénoms',
-        value: 'surnam'
+        value: 'surname'
       }, {
         text: 'Email',
         value: 'email'
@@ -2905,35 +2905,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   watch: {},
-  created: function created() {},
+  created: function created() {
+    this.getData();
+  },
   methods: {
     getData: function getData() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var req;
+        var req, reqData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.get("".concat(location.origin, "/api/"));
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.get("".concat(location.origin, "/api/users/list"));
 
               case 3:
                 req = _context.sent;
-                _context.next = 9;
+                reqData = req.data.data;
+                _this.userList = reqData;
+                _this.isLoaded = true;
+                _context.next = 12;
                 break;
 
-              case 6:
-                _context.prev = 6;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 9:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 6]]);
+        }, _callee, null, [[0, 9]]);
       }))();
     }
   }
