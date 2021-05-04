@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Md_CategoryController;
+use App\Http\Controllers\Md_MarkdownController;
 use App\Http\Controllers\Md_CommentaryController;
 
 
@@ -69,7 +70,12 @@ Route::middleware(['auth:api'])->group(function(){
 Route::middleware(['auth:api'])->group(function(){
 
 });
-
+Route::prefix('/markdown')->group(function () {
+    Route::post('/create', [Md_MarkdownController::class, 'create'])->name('api.md_wiki.markdown.create');
+    Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
+    Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
+    Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');  
+});
 /*
 |--------------------------------------------------------------------------
 | Markdown user routes

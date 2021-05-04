@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', function () {
-    return view('welcome');
-})->where('any', '.*')->name('default');
+Route::get('/test', function () {
+    return view('test');
+});
+
+
+
