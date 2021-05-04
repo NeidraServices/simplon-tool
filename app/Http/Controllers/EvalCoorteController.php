@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
-use App\Models\EvalSondage;
-use App\Http\Resources\EvalSondageResource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
-class EvalSondageController extends Controller
+class EvalCoorteController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -18,31 +16,21 @@ class EvalSondageController extends Controller
 
 
     /**
-     * Retrieve all (formateur)
+     * Retrieve all
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getDataAll() {
-        $sondages = EvalSondage::all();
-        return EvalSondageResource::collection($sondages);
+    public function getData() {
+
     }
 
-
-    /**
-     * Retrieve all (connected learners)
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function getDataSpecific() {
-        $sondages = EvalSondage::where(['user_id' => Auth::id()])->get();
-        return EvalSondageResource::collection($sondages);
-    }
 
     /*
     |--------------------------------------------------------------------------
     | Create data functions
     |--------------------------------------------------------------------------
     */
+
 
 
     /**
@@ -55,21 +43,11 @@ class EvalSondageController extends Controller
     }
 
 
-    /**
-     * Proposing data
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function proposingData(Request $request) {
-        
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Update data functions
     |--------------------------------------------------------------------------
     */
-
 
 
     /**
@@ -89,11 +67,21 @@ class EvalSondageController extends Controller
     */
 
     /**
-     * Delete data
+     * Delete data (one by one)
      * 
      * @return \Illuminate\Http\Response
      */
     public function deleteData($id) {
+        
+    }
+
+
+    /**
+     * Delete data (array selected)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteDataArray(Request $request) {
         
     }
 }
