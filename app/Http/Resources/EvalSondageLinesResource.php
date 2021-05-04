@@ -20,6 +20,7 @@ class EvalSondageLinesResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'note' => $this->note,
             'langage' => $langage,
             'skill' => $skill,
             'sondage' => $sondage,
