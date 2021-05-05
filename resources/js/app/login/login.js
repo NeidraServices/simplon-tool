@@ -1,6 +1,10 @@
 import { authenticationService } from "../services/authenticationService";
-
+import Title from './components/CardTitle.vue'
 export default {
+
+    components: {
+        Title
+    },
 
     data() {
         return {
@@ -38,6 +42,9 @@ export default {
                         this.erreur = 'mot de passe ou email incorrect'
                     } else {
                         this.erreur = '';
+                        localStorage.setItem('token', user.token);
+                        this.$store.commit('connect', user);
+                        this.$router.push('/dashboard');
                         this.$router.push(this.returnUrl);
                     }
 

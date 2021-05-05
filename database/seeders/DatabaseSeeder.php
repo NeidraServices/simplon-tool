@@ -39,5 +39,9 @@ class DatabaseSeeder extends Seeder
             $user->role_id      = $i;
             $user->save();
         }
+
+        $this->call([
+            Deliver_ProjetSeeder::class
+        ]);
     }
 }

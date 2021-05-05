@@ -1,6 +1,8 @@
 <template>
-  <div id="render-app">
-    <div class="hero-background d-flex justify-center align-center" style="height: 100% !important">
+  <div
+    class="d-flex justify-center align-center"
+    style="height: 100% !important"
+  >
     <v-card class="mx-auto" width="500">
       <v-card-text>
         <h3
@@ -13,13 +15,16 @@
 
       <v-card-actions class="d-flex justify-center">
         <div class="mr-2">
-          <v-btn small to='/'  class="grey darken-1 mr-3 white--text font-weight-medium">
-            retour 
+          <v-btn
+            small
+            to="/"
+            class="grey darken-1 mr-3 white--text font-weight-medium"
+          >
+            retour
           </v-btn>
         </div>
       </v-card-actions>
     </v-card>
-    </div>
   </div>
 </template>
 
