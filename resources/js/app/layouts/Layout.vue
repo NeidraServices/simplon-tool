@@ -15,7 +15,7 @@
 				</v-list>
 			</template>
 			<template v-slot:lien>
-				<v-row>
+				<v-row class="py-4">
 					<v-col
 						class="link text-center"
 						cols="12"

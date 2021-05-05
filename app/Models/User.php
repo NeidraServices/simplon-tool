@@ -50,7 +50,7 @@ class User extends Authenticatable
      * 1 user belong to 1 role
      */
     public function role() {
-        return $this->belongsTo('App\Models\Role', 'role_id', 'id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**

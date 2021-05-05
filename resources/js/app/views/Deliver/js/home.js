@@ -1,4 +1,9 @@
+import Axios from "axios"
+
+import Sidebar from '../../../layouts/Sidebar.vue'
+
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
+import projet_ModalDelete from "../components/delete-projet.vue"
 
 
 const projets = [
@@ -6,7 +11,7 @@ const projets = [
         id: 1,
         titre: "G-a-o",
         image: "/public/images/dp/default.png",
-        deadline: "21-05-2021",
+        deadline: "2021-05-01",
         description: "Projet gao qui consiste ....",
         formateur: {
             name: "Adrien",
@@ -25,7 +30,7 @@ const user  = {
 
 export default{
     components:{
-        projet_ModalUpdate
+        projet_ModalUpdate, projet_ModalDelete, Sidebar
     },
 
     data(){
@@ -37,12 +42,16 @@ export default{
 
     mounted(){
         this.projets = projets
+        this.get_projets()
         this.user    = user
     },
 
-    method:{
+    methods:{
         get_projets: function(){
-
+            Axios.get("/api/deliver/projets")
+            .then((data) => {
+                console.log(data);
+            })
         }
     }
 }
