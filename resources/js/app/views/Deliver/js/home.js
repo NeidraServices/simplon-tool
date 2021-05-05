@@ -41,7 +41,6 @@ export default{
     },
 
     mounted(){
-        this.projets = projets
         this.get_projets()
         this.user    = user
     },
@@ -49,8 +48,17 @@ export default{
     methods:{
         get_projets: function(){
             Axios.get("/api/deliver/projets")
-            .then((data) => {
-                console.log(data);
+            .then(({data}) => {
+                this.projets = data.projets
+            })
+        },
+
+        delete_projet: function(project_id){
+            Axios.post("/api/deliver/projets/"+ project_id +"/supprimer")
+            .then(({data}) => {
+                if(data.success == true){
+                    this.projets = this.projets.filter(projet => projet.id != project_id)
+                }
             })
         }
     }
