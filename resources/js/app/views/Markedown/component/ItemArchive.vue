@@ -5,7 +5,13 @@
                 class="layout justify-center"
             >
                 {{item.title}}
-            </v-card-title>    
+            </v-card-title>
+            
+            <v-card-text 
+                class="layout justify-start"
+            >
+                {{item.description}}
+            </v-card-text>  
             <v-row>
                 <v-col cols="6">
                     <v-card-text 
@@ -37,7 +43,10 @@
                 },
                 category:{
                     type: String
-                }
+                },
+                description:{
+                    type: String
+                },
             }            
         }
     }
