@@ -1,4 +1,5 @@
 import { authenticationService } from "../services/authenticationService";
+import { EventBus } from "../eventBus.js"
 import Title from './components/CardTitle.vue'
 export default {
 
@@ -32,27 +33,23 @@ export default {
         this.returnUrl = this.$route.query.returnUrl || "/";
     },
     methods: {
-        connection() {
-
-            this.loading = true;
-            authenticationService.login(this.user).then(
-                user => {
-
-                    if (user == undefined) {
-                        this.erreur = 'mot de passe ou email incorrect'
-                    } else {
-                        this.erreur = '';
-                        localStorage.setItem('token', user.token);
-                        this.$store.commit('connect', user);
-                        this.$router.push('/dashboard');
-                        this.$router.push(this.returnUrl);
-                    }
-
-                },
-                error => {
-                    this.loading = false;
+        async connection() {
+            try {
+                this.loading = true;
+                const user = await authenticationService.login(this.user);
+                if (user == undefined) {
+                    this.erreur = 'mot de passe ou email incorrect'
+                } else {
+                    this.erreur = '';
+                    await EventBus.$emit('logged', true);
+                    await this.$store.commit('connect', user);
+                    await localStorage.setItem('token', user.token);
+                    await this.$router.push('/dashboard');
+                    // await this.$router.push(this.returnUrl);
                 }
-            );
+            } catch (error) {
+                this.loading = false;
+            }
         }
     }
 };
