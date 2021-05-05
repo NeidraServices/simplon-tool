@@ -5,12 +5,27 @@
             <v-row>
                 <v-col>
                     <v-select
+                        item-text="label"
+                        item-value="value"
                         :items="status"
+                        v-model="active"
                         label="Status"
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <AutocompleteCategorie />
+                    <v-autocomplete
+                        v-model="category"
+                        :loading="loading" 
+                        :items="categories"
+                        :search-input.sync="search"
+                        item-text="composed"
+                        item-value="id"
+                        return-object
+                        cache-items
+                        hide-no-data
+                        hide-details
+                        label="Catégorie">
+                    </v-autocomplete>
                 </v-col>
                 
                 <v-col>
@@ -23,12 +38,10 @@
                         <v-btn v-on="on">
                             Ajouter une catégorie
                         </v-btn>
-                        
                     </template>
 
                     <v-card>
                         <v-card-title> Ajouter une catégorie </v-card-title>
-
                         <v-card-text>
                             <v-container>
                                 <v-row>
@@ -54,10 +67,14 @@
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
             ></v-text-field>
-            <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
-        fullscreen | preview" :extend="custom"></markdown-editor>
+            <markdown-editor 
+            theme="primary" 
+            ref="md" 
+            v-model="text" 
+            toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote | fullscreen | preview" 
+            :extend="custom"></markdown-editor>
 
-            <v-btn onclick="">Valider</v-btn>
+            <v-btn @click="addMarkDown">Valider</v-btn>
         </v-container>
 
     </div>
@@ -81,12 +98,31 @@ export default {
     data() {
         return {
             title: '',
+            category: '',
             name: '',
-            title: '',
-            status: ['En brouillon', 'Public'],
-            dialog: false,
-            categorie: {},
             text: '',
+            description: '',
+
+            
+            active: '',
+
+            status:[
+                {
+                    label:'En brouillon',
+                    value: 0
+                },
+                {
+                    label:'Publié',
+                    value: 1
+                }
+            ],
+
+            dialog: false,
+            categorie: null,
+            categories: [],
+            search: null,
+            loading: false,
+
             custom: {
                 'preview': {
                     cmd: 'preview',
@@ -132,11 +168,38 @@ export default {
         };
     },
     
+    watch: {
+      search: function (val) {
+        if (val && val.length > 1) {
+          this.loading = true
+          axios.get('/api/markedown/categorie/search', { params: { query: val } })
+          .then(({ data }) => {
+              this.loading = false;
+              data.data.forEach(categorie => {
+                  this.categories.push(this.formattedCategorie(categorie))
+                  console.log(this.formattedCategorie(categorie));
+              });
+          });
+        }
+      },
+    },
+    
     methods: {
         init: function () {
             this.name = ''
             this.categorie = {}
-        },      
+        },
+
+      formattedCategorie: function (categorie) {
+        return {
+
+            id: categorie.id,
+            name: categorie.name,
+
+            composed: categorie.name
+        }
+      },
+      
         addCategoryModal(){
             if (this.isValid()) {
                 const data = {
@@ -159,14 +222,16 @@ export default {
         },
 
         async addMarkDown() {
-            let dataSend = {
-                name: this.name,
-                text: this.text,
-                status: this.status,
-                categoryId: this.categoryId
-            }
 
-            Axios.post('/markedowns/markdown/create', dataSend);
+            const data = {
+                title: this.title,
+                text: this.text,
+                active: this.active,
+                category: this.category.id
+            };
+        
+        Axios.post('/api/markedown/markdown/create', data);
+
         }
     },
 
