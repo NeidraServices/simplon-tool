@@ -9,17 +9,21 @@ use App\Models\Markdown_Archive;
 class Md_ArchiveController extends Controller
 {
     //
-    public function create($markdownId,$url){
+    public static function create($markdownId,$url){
         
         $archive = new Markdown_Archive;
-        $markdown->url = $url;
-        $markdown->markdown_id = $id;
-        $markdown->save();
+        $archive->url = $url;
+        $archive->markdown_id = $markdownId;
+        $archive->save();
 
         return response()->json([
             "success" => true,
             "message" => "Etat modifier",
         ]);
         
+    }
+    //
+    public function show($id){
+        return Markdown_Archive::where('markdown_id',$id)->get();
     }
 }
