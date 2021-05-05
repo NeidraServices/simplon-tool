@@ -26,40 +26,5 @@ class EvalSondageSeeder extends Seeder
         $data2->accepted = 0;
         $data2->name = "Sondage 2";
         $data2->save();
-
-        $data2 = new EvalSondage();
-        $data2->user_id  = 3;
-        $data2->published = 0;
-        $data2->accepted = 0;
-        $data2->name = "Sondage 2";
-        $data2->save();
-
-        $data2 = new EvalSondage();
-        $data2->user_id  = 3;
-        $data2->published = 0;
-        $data2->accepted = 0;
-        $data2->name = "Sondage 2";
-        $data2->save();
-
-        $data2 = new EvalSondage();
-        $data2->user_id  = 3;
-        $data2->published = 0;
-        $data2->accepted = 0;
-        $data2->name = "Sondage 2";
-        $data2->save();
-
-        $data2 = new EvalSondage();
-        $data2->user_id  = 3;
-        $data2->published = 0;
-        $data2->accepted = 0;
-        $data2->name = "Sondage 2";
-        $data2->save();
-
-        $data2 = new EvalSondage();
-        $data2->user_id  = 3;
-        $data2->published = 0;
-        $data2->accepted = 0;
-        $data2->name = "Sondage 2";
-        $data2->save();
     }
 }
