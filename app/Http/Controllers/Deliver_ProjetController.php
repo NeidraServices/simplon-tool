@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
+use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
 {
@@ -43,7 +44,7 @@ class Deliver_ProjetController extends Controller
         $projet=Deliver_ProjetModel::find($id);
 
         if($projet) {
-            return Deliver_ProjetResource::collection($projet);
+            return new Deliver_ProjetResource($projet);
         }
 
         return response()->json([
@@ -98,6 +99,7 @@ class Deliver_ProjetController extends Controller
             $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
         }
 
+<<<<<<< HEAD
         $projet = Deliver_ProjetModel::create(array_merge([
             "titre" => $request->titre,
             "deadline" => $request->deadline,
@@ -110,6 +112,25 @@ class Deliver_ProjetController extends Controller
         // $projet->deadline     = $validator->validated()['deadline'];
         // $projet->description  = $validator->validated()['description'];
         // $projet->save();
+=======
+        // Pour des raisons de test du backend seulement
+        if(array_key_exists("image", $validator->validated())) {
+            $image       = $validator->validated()['image'];
+            $extension   = $image->getClientOriginalExtension();
+            $image_name  = time() . rand() . '.' . $extension;
+            $image->move(public_path('img/cover'), $image_name);
+        } else {
+            $image_name = '';
+        }
+
+
+        $projet               = new Deliver_ProjetModel;
+        $projet->image        = $image_name;
+        $projet->titre        = $validator->validated()['titre'];
+        $projet->deadline     = $validator->validated()['deadline'];
+        $projet->description  = $validator->validated()['description'];
+        $projet->save();
+>>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
 
         return response()->json([
             'success' => true,
@@ -134,7 +155,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
-                'image' => 'required|file|mimes:jpg,jpeg,png|max:5000',
+                'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
                 'file'  => 'Image non fournis',
@@ -153,21 +174,28 @@ class Deliver_ProjetController extends Controller
         }
 
         $projet = Deliver_ProjetModel::where(['id' => $id])->first();
+        $projet->titre        = $validator->validated()['titre'];
+        $projet->deadline     = $validator->validated()['deadline'];
+        $projet->description  = $validator->validated()['description'];
 
-        if ($request->hasFile('image')) {
-            $oldImage = $projet->image;
+        // Pour des raisons de test du backend seulement
+        if(array_key_exists("image", $validator->validated())) {
+            if ($request->hasFile('image')) {
+                $oldImage = $projet->image;
 
-            if ($oldImage != null) {
-                $oldFilePath = public_path('img/cover') . '/' . $oldImage;
-                unlink($oldFilePath);
+                if ($oldImage != null) {
+                    $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                    unlink($oldFilePath);
+                }
+
+                $image          = $validator->validated()['cover'];
+                $extension      = $image->getClientOriginalExtension();
+                $image_name          = time() . rand() . '.' . $extension;
+                $image->move(public_path('img/cover'), $image_name);
+                $projet->image = $image_name;
             }
-
-            $image          = $validator->validated()['cover'];
-            $extension      = $image->getClientOriginalExtension();
-            $image_name          = time() . rand() . '.' . $extension;
-            $image->move(public_path('img/cover'), $image_name);
-            $projet->image = $image_name;
         }
+
 
         $projet->save();
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Markdown_User;
-use App\Models\Markdown_Categorie;
+use App\Models\Markdown_Category;
 
 class Markdown_Markdown extends Model
 {
@@ -21,6 +21,6 @@ class Markdown_Markdown extends Model
     }
     public function categories()
     {
-        return $this->belongsTo(Markdown_Categorie::class, 'md_category_id');
+        return $this->belongsTo(Markdown_Category::class, 'md_category_id');
     }
 }

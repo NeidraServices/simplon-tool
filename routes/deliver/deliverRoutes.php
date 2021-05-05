@@ -8,6 +8,7 @@ use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 use App\Http\Controllers\Deliver_AffectationController;
+use App\Http\Resources\Deliver_ProjetResource;
 /*
 |--------------------------------------------------------------------------
 | Deliver commentaires routes
@@ -53,14 +54,23 @@ Route::middleware(['auth:api'])->group(function(){
 | Deliver projet routes
 |--------------------------------------------------------------------------
 */
-
 Route::middleware(['auth:api'])->group(function(){
+<<<<<<< HEAD
     Route::get("/projets",[Deliver_ProjetController::class,"projets"])->name('api.projects.retrieveall');
     Route::post("/projets/ajouter",[Deliver_ProjetController::class,"addProjet"])->name('api.projects.create');
     Route::post("/projets/{id}/voir",[Deliver_ProjetController::class,"getProjet"])->name('api.projects.retrieveone');
     Route::post("/projets/{id}/modifier",[Deliver_ProjetController::class,"editProjet"])->name('api.projects.edit');
     Route::post("/projets/{id}/supprimer",[Deliver_ProjetController::class,"deleteProjet"])->name('api.projects.delete');
+=======
+>>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
 });
+
+Route::get("/projets",[Deliver_ProjetController::class,"projets"])->name('api.projects.retrieveall');
+Route::post("/projets/ajouter",[Deliver_ProjetController::class,"addProjet"])->name('api.projects.create');
+Route::get("/projets/{id}/voir",[Deliver_ProjetController::class,"getProjet"])->name('api.projects.retrieveone');
+Route::post("/projets/{id}/modifier",[Deliver_ProjetController::class,"editProjet"])->name('api.projects.edit');
+Route::post("/projets/{id}/supprimer",[Deliver_ProjetController::class,"deleteProjet"])->name('api.projects.delete');
+
 
 /*
 |--------------------------------------------------------------------------

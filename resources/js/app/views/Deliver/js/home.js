@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-import MainLayout from '../../../layouts/Sidebar.vue'
+import Sidebar from '../../../layouts/Sidebar.vue'
 
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
 import projet_ModalDelete from "../components/delete-projet.vue"
@@ -30,7 +30,7 @@ const user  = {
 
 export default{
     components:{
-        projet_ModalUpdate, projet_ModalDelete, MainLayout
+        projet_ModalUpdate, projet_ModalDelete, Sidebar
     },
 
     data(){
