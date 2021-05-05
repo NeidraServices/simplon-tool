@@ -7,20 +7,29 @@ import HomePage from './views/Home.vue'
 import { authenticationService } from "./services/authenticationService";
 import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
+import VerifyMail from './views/VerifyMail.vue';
 
 Vue.use(VueRouter);
-var routes = [{
-    path: '/',
-    name: 'home',
-    component: HomePage,
-    meta: { authorize: [Role.Admin] }
-},
-{
-    path: '/connexion',
-    name: 'login',
-    component: Login,
-},
+
+var routes = [
+    {
+        path: '/',
+        name: 'home',
+        component: HomePage,
+        meta: { authorize: [Role.Admin] }
+    },
+    {
+        path: '/connexion',
+        name: 'login',
+        component: Login,
+    },
+    {
+        path: '/email/verification/:token',
+        name: 'verification',
+        component: VerifyMail,
+    },
 ];
+
 routes = routes.concat(EvalRoutes, DeliverRoutes, MarkedownRoutes);
 
 const router = new VueRouter({
