@@ -28,6 +28,9 @@ Route::middleware(['auth:api'])->group(function(){
 });
 
 Route::get('categories', [Md_CategoryController::class, 'index']);
+Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
+Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
+Route::get('my-archives', [Md_MarkdownController::class, 'show']);
 Route::group(['prefix' => 'categorie'], function () {
     Route::get('/search', [Md_CategoryController::class, 'search']);
     Route::post('ajouter', [Md_CategoryController::class, 'create']);
