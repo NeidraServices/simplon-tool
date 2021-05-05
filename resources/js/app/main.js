@@ -14,7 +14,7 @@ import Editor from 'v-markdown-editor';
 
 Vue.use(FlashMessage);
 Vue.use(Vuetify);
-// Vue.use(Editor);
+Vue.use(Editor);
 
 const main = new Vue({
     el: '#app',

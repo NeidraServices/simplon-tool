@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-container fluid>
+		<v-container fluid v-if='isChecked'>
 			<v-navigation-drawer mobile-breakpoint="960" app width="260">
 				<v-list class="d-flex listSidebar">
 					<v-list-item>
@@ -32,6 +32,27 @@
 	</div>
 </template>
 
+<script>
+import { authenticationService } from "../services/authenticationService";
+
+export default {
+	data() {
+		return {
+			role: null,
+		};
+	},
+	computed: {
+		isChecked() {
+			return this.role;
+		},
+	},
+
+	created() {
+		authenticationService.role.subscribe((x) => (this.role = x));
+	},
+};
+</script>
+
 <style>
 .link:hover {
 	background-color: gray;
@@ -41,7 +62,7 @@
 
 .link:nth-child(1) {
 	border: 1px solid rgba(0, 0, 0, 0.12);
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .link:nth-child(2) {
@@ -50,7 +71,7 @@
 
 .listSidebar {
 	display: flex;
-  flex-direction: column;
+	flex-direction: column;
 	align-items: center;
 	text-align: center;
 }

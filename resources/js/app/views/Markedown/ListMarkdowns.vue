@@ -78,9 +78,10 @@
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.id,
-                    title: item.url,
-                    author: "user"+item.user_id
+                    category: item.md_category_id,
+                    description: item.description,
+                    title: item.title,
+                    author: "user - "+item.user_id
                 })
             })
         }        

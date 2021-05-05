@@ -1,7 +1,7 @@
 <template>
 	<v-container class="fill-height">
 		<v-row class="pa-15" align="center" justify="center">
-			<v-card>
+			<v-card elevation="1">
 				<v-toolbar flat>
 					<v-toolbar-title>Connexion</v-toolbar-title>
 					<v-spacer />

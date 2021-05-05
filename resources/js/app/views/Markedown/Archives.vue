@@ -76,8 +76,9 @@
                 formatedData.push({
                     id: item.id,
                     category: item.id,
-                    title: item.url,
-                    date: "date"+item.id
+                    title: item.title,
+                    description: item.description,
+                    date: (item.created_at) ? item.created_at : "date "+item.id
                 })
             })
         }        
@@ -91,9 +92,6 @@
           }
         )
         console.log("categ")
-      },
-      search(){
-        console.log("Valll")
       }
     }
   };
