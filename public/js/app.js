@@ -5074,7 +5074,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'actions'
       }],
       selectItem: null,
-      createdDialog: false
+      createdDialog: false,
+      deleteDialog: false
     };
   },
   watch: {
@@ -5098,6 +5099,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     closeAddModal: function closeAddModal() {
       this.sondageLines = [];
       this.createdDialog = false;
+    },
+    openDelete: function openDelete(item) {
+      this.selectItem = item;
+      this.deleteDialog = true;
+    },
+    closeDelete: function closeDelete() {
+      this.selectItem = null;
+      this.deleteDialog = false;
+    },
+    addLines: function addLines() {
+      this.sondageLines.push({
+        langage_id: '',
+        skill_id: ''
+      });
     },
     getSondages: function getSondages() {
       var _this = this;
@@ -5274,11 +5289,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4, null, [[0, 20]]);
       }))();
     },
-    addLines: function addLines() {
-      this.sondageLines.push({
-        langage_id: '',
-        skill_id: ''
-      });
+    deleteSondage: function deleteSondage() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var req, reqData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.delete("".concat(location.origin, "/api/evaluation360/formateur/sondage/").concat(_this5.selectItem.name, "/delete"));
+
+              case 3:
+                req = _context5.sent;
+                reqData = req.data;
+
+                if (!reqData.success) {
+                  _context5.next = 12;
+                  break;
+                }
+
+                _context5.next = 8;
+                return _this5.getSondages();
+
+              case 8:
+                _context5.next = 10;
+                return _this5.closeDelete();
+
+              case 10:
+                _context5.next = 13;
+                break;
+
+              case 12:
+                console.log(reqData.message);
+
+              case 13:
+                _context5.next = 18;
+                break;
+
+              case 15:
+                _context5.prev = 15;
+                _context5.t0 = _context5["catch"](0);
+                console.log(_context5.t0);
+
+              case 18:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 15]]);
+      }))();
     }
   }
 });
@@ -5626,7 +5688,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.link:hover {\n\tbackground-color: gray;\n\tcolor: white;\n\tcursor: pointer;\n}\n.link:nth-child(1) {\n\tborder: 1px solid rgba(0, 0, 0, 0.12);\n\tborder-bottom: 0;\n}\n.link:nth-child(2) {\n\tborder-top: 1px solid rgba(0, 0, 0, 0.12);\n}\n.listSidebar {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: center;\n\ttext-align: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.link:hover {\r\n\tbackground-color: gray;\r\n\tcolor: white;\r\n\tcursor: pointer;\n}\n.link:nth-child(1) {\r\n\tborder: 1px solid rgba(0, 0, 0, 0.12);\r\n\tborder-bottom: 0;\n}\n.link:nth-child(2) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, 0.12);\n}\n.listSidebar {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\talign-items: center;\r\n\ttext-align: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5650,7 +5712,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fondColor {\n\tbackground-color: #aeb4b7;\n\tposition: absolute;\n\theight: 100%;\n\twidth: 100%;\n\tdisplay: flex;\n\tjustify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fondColor {\r\n\tbackground-color: #aeb4b7;\r\n\tposition: absolute;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5674,7 +5736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.size {\n\tfont-size: 5rem;\n\ttext-align: center;\n  color: white;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.size {\r\n\tfont-size: 5rem;\r\n\ttext-align: center;\r\n  color: white;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5698,7 +5760,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.apprenants-avatar {\n  width: 100px;\n  height: 100%;\n  position: relative;\n  left: -15%;\n}\n.apprenants-avatar img {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  border-radius: 50%;\n}\n.apprenants-infos {\n  padding: 10px;\n}\n.apprenants-infos .see-more {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  padding: 5px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.apprenants-avatar {\r\n  width: 100px;\r\n  height: 100%;\r\n  position: relative;\r\n  left: -15%;\n}\n.apprenants-avatar img {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  border-radius: 50%;\n}\n.apprenants-infos {\r\n  padding: 10px;\n}\n.apprenants-infos .see-more {\r\n  position: absolute;\r\n  right: 0;\r\n  bottom: 0;\r\n  padding: 5px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5722,7 +5784,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.langage-icon {\n  height: 50%;\n  width: 50%;\n  margin: auto;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n.langages-card .langages-note {\n  border-radius: 100% !important;\n  position: absolute;\n  padding: 10px;\n  right: -30px;\n  bottom: -2vh;\n  display: flex;\n}\n.langages-card .langages-note span {\n  margin: auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.langage-icon {\r\n  height: 50%;\r\n  width: 50%;\r\n  margin: auto;\r\n  -o-object-fit: contain;\r\n     object-fit: contain;\n}\n.langages-card .langages-note {\r\n  border-radius: 100% !important;\r\n  position: absolute;\r\n  padding: 10px;\r\n  right: -30px;\r\n  bottom: -2vh;\r\n  display: flex;\n}\n.langages-card .langages-note span {\r\n  margin: auto;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5746,7 +5808,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\n    display: inline-flex;\n    width: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\r\n    display: inline-flex;\r\n    width: 100%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5842,7 +5904,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\n    display: inline-flex;\n    width: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\r\n    display: inline-flex;\r\n    width: 100%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30713,6 +30775,70 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "600" },
+          model: {
+            value: _vm.deleteDialog,
+            callback: function($$v) {
+              _vm.deleteDialog = $$v
+            },
+            expression: "deleteDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "py-5" },
+            [
+              _c(
+                "v-card-title",
+                { staticClass: "d-flex justify-center font-weight-bold" },
+                [
+                  _vm._v(
+                    "\n        Voulez-vous vraiment supprimer ce sondage ?\n      "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass:
+                        "grey darken-1 mr-3 white--text font-weight-medium",
+                      attrs: { small: "" },
+                      on: { click: _vm.closeDelete }
+                    },
+                    [_vm._v("Annuler")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "red white--text font-weight-medium",
+                      attrs: { small: "" },
+                      on: { click: _vm.deleteSondage }
+                    },
+                    [_vm._v("Supprimer")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer")
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "div",
         [
           _c(
@@ -30887,7 +31013,12 @@ var render = function() {
                                             {
                                               staticClass:
                                                 "transparent red--text",
-                                              attrs: { icon: "", small: "" }
+                                              attrs: { icon: "", small: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.openDelete(item)
+                                                }
+                                              }
                                             },
                                             "v-btn",
                                             attrs,
