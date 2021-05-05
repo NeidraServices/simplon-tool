@@ -1,6 +1,10 @@
 import { authenticationService } from "../services/authenticationService";
-
+import Title from './components/CardTitle.vue'
 export default {
+
+    components: {
+        Title
+    },
 
     data() {
         return {
