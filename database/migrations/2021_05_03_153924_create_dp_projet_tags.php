@@ -15,6 +15,8 @@ class CreateDpProjetTags extends Migration
     {
         Schema::create('dp_projet_tags', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('formateur_id')->unsigned();
+            $table->foreign('formateur_id')->references('id')->on('users');
             $table->bigInteger('projet_id')->unsigned();
             $table->foreign('projet_id')->references('id')->on('dp_projets');
             $table->bigInteger('tag_id')->unsigned();

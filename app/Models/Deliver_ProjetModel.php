@@ -12,6 +12,7 @@ class Deliver_ProjetModel extends Model
     ];
     use HasFactory;
     protected $table = 'dp_projets';
+
     public function competences(){
         return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_competences","competence_id","projet_id");
     }

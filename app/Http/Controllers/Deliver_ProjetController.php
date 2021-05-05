@@ -67,6 +67,7 @@ class Deliver_ProjetController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
@@ -87,7 +88,7 @@ class Deliver_ProjetController extends Controller
                 'message' => $errors->first()
             ]);
         }
-        
+
         $public_img_path = "/public/img/";
         if($request->image){
             $image       =  $request->image;
@@ -101,16 +102,12 @@ class Deliver_ProjetController extends Controller
 
         $projet = Deliver_ProjetModel::create(array_merge([
             "titre" => $request->titre,
+            "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
             "image" => $image_path
         ]));
-        // $projet               = new Deliver_ProjetModel;
-        // $projet->image        = $image_name;
-        // $projet->titre        = $validator->validated()['titre'];
-        // $projet->deadline     = $validator->validated()['deadline'];
-        // $projet->description  = $validator->validated()['description'];
-        // $projet->save();
+        $projet->save();
 
         return response()->json([
             'success' => true,
