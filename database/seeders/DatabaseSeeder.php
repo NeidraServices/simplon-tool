@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             EvalLangageSeeder::class,
             EvalReferentielSeeder::class,
-            EvalSkillSeeder::class
+            EvalSkillSeeder::class,
         ]);
 
 
@@ -40,7 +40,10 @@ class DatabaseSeeder extends Seeder
             $user->save();
         }
 
+        
         $this->call([
+            EvalSondageSeeder::class,
+            EvalSondageLinesSeeder::class,
             Deliver_ProjetSeeder::class
         ]);
     }
