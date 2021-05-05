@@ -13,6 +13,7 @@ export default new Vuex.Store({
     plugins: [vuexLocal.plugin],
     state: {
         isLogged: false,
+        userInfo: null,
         apprenants: [],
         apprenant: {},
         langages: [],
@@ -21,9 +22,11 @@ export default new Vuex.Store({
     mutations: {
         connect(state, payload) {
             state.isLogged = true;
+            state.userInfo = payload.informations
         },
         disconnect(state) {
             state.isLogged = false;
+            state.informations = null;
         },
         storeApprenants(state, payload) {
             state.apprenants = payload;

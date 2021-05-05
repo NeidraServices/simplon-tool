@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EvalSondage;
 use App\Http\Resources\EvalSondageResource;
 use App\Models\EvalSondageLines;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +26,7 @@ class EvalSondageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getDataAll() {
-        $sondages = EvalSondage::all();
+        $sondages = EvalSondage::distinct()->get(['name']);
         return EvalSondageFormateurResource::collection($sondages);
     }
 
@@ -57,7 +58,6 @@ class EvalSondageController extends Controller
             $request->all(),
             [   
                 'name'         => "required",
-                'apprenants.*' => 'required',
                 'lines.*'      => 'required',
                 'published'    => 'required',
             ],
@@ -76,13 +76,14 @@ class EvalSondageController extends Controller
 
         $name       =  $validator->validated()['name'];
         $published  =  $validator->validated()['published'];
-        $apprenants =  $validator->validated()['apprenants'];
         $lines      =  $validator->validated()['lines'];
+
+        $apprenants = User::where(["role_id" => 3])->get();
 
         foreach ($apprenants as $apprenant) {
             $sondage            = new EvalSondage();
             $sondage->name      = $name;
-            $sondage->user_id   = $apprenant['id'];
+            $sondage->user_id   = $apprenant->id;
             $sondage->accepted  = 1;
             $sondage->published = $published;
             $sondage->save();

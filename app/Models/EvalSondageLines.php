@@ -9,6 +9,8 @@ class EvalSondageLines extends Model
 {
     use HasFactory;
 
+    protected $table = "eval_sondages_lines";
+    
     /**
      * The attributes that are mass assignable.
      *
