@@ -18,6 +18,8 @@ class Md_MarkdownController extends Controller
             'success' => true,
             'id'=>$markdown->id,
             'text'=>$data,
+            'title'=>$markdown->title,
+            'status'=>$markdown->active,
             'category'=> $markdown->categories(),
         ]);
     }
@@ -109,7 +111,37 @@ class Md_MarkdownController extends Controller
   
         
     }
+    public function update(Request $request,$id){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title'      => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
 
+        $errors = $validator->errors();
+
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }      
+        
+        
+        $markdown = Markdown_Markdown::where('id',$id)->first();
+        $markdown->title = $validator->validated()['title'];
+        $markdown->save();
+
+        return response()->json([
+            "success" => true,
+            "message" => "Info Markdown mise a jour",
+        ]);
+        
+    }
     public function updateActive(Request $request,$id){
         $validator = Validator::make(
             $request->all(),
