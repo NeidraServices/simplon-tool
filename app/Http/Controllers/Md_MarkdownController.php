@@ -60,20 +60,22 @@ class Md_MarkdownController extends Controller
         ]);
     }
     public function create(Request $request){
+        
         $validator = Validator::make(
+
             $request->all(),
             [
                 'text'          => 'required',
                 'category'      => 'required',
                 'active'        => 'required',
                 'title'         =>  'required',
-                'description'   => 'required',
-                
             ],
+
             [
                 'required' => 'Le champ :attribute est requis',
             ]
         );
+        /* dd($request); */
         $errors = $validator->errors();
 
         if (count($errors) != 0) {
@@ -81,9 +83,7 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }      
-        
-        
+        }
                 $file          = time().rand().'.md';
                 Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
                     
@@ -95,7 +95,7 @@ class Md_MarkdownController extends Controller
                 $markdown->md_category_id= $validator->validated()['category'];
                 $markdown->active=$validator->validated()['active'];
                 $markdown->title=$validator->validated()['title'];
-                $markdown->description=$validator->validated()['description'];
+                /* $markdown->description=$validator->validated()['description']; */
                 $markdown->save();  
             
             
