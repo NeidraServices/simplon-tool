@@ -1,8 +1,9 @@
 import Sidebar from "./Sidebar";
-
+import Logout from './Logout'
 export default {
     components: {
-        Sidebar
+        Sidebar,
+        Logout
     },
 
 

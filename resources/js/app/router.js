@@ -10,7 +10,7 @@ import Login from './login/Login.vue';
 
 Vue.use(VueRouter);
 var routes = [{
-    path: '/',
+    path: '/dashboard',
     name: 'home',
     component: HomePage,
     meta: { authorize: [Role.Admin] }

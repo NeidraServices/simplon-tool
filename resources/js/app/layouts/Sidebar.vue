@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		isChecked() {
-			return this.role;
+			return this.$store.state.isLogged;
 		},
 	},
 
