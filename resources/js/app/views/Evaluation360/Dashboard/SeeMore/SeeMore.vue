@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <div class="pa-5 more-header">
-      <h1>Alexander Leslie</h1>
-      <span class="font-weight-thin">lesliealexander@gmail.com</span>
+      <h1>{{ apprenant.name }} {{ apprenant.surname }}</h1>
+      <span class="font-weight-thin">{{ apprenant.email }}</span>
     </div>
     <v-row class="ma-auto pa-5">
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
@@ -27,5 +27,3 @@
   </v-container>
 </template>
 <script src="./seeMore.js"/>
-<style >
-</style>

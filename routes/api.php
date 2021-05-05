@@ -66,5 +66,5 @@ Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 */
 
 // Route::middleware(['auth:api'])->group(function () {
-    Route::get('/users/list', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
 // });
