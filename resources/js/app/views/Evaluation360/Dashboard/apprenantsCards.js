@@ -1,4 +1,3 @@
-import { apiService } from '../../../services/apiService.js';
 export default {
     data() {
         return {
@@ -9,16 +8,16 @@ export default {
         this.initializeData()
     },
     methods: {
-        async initializeData() {
-            try {
-                const req = await apiService.get(`${location.origin}/api/users/list`)
-                const reqData = req.data.data
-                this.apprenants = reqData
-            }
-            catch (err) { console.log(err) }
+        initializeData() {
+            this.$store.dispatch('getApprenants')
+            this.apprenants = this.$store.state.apprenants
         },
         getImages(image) {
             return `${location.origin}/images/${image}`
+        },
+        async goToDetails(apprenant) {
+            await this.$store.commit('Apprenant', apprenant)
+            await this.$router.push(`details`);
         }
     }
 

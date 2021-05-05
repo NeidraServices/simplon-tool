@@ -66,8 +66,8 @@ Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 */
 
 // Route::middleware(['auth:api'])->group(function () {
-    Route::get('/users/list', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
-    Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
-    Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
-    Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
+Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
+Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
+Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
 // });
