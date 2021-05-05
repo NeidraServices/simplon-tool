@@ -117,9 +117,9 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "image" => $image_path
+            "image" => $image_path,
+            "formateur_id" => $request->formateur_id
         ]));
-
         return response()->json([
             'success' => true,
             'message' => "Projet créé"
