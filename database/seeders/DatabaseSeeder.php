@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             EvalLangageSeeder::class,
             EvalReferentielSeeder::class,
-            EvalSkillSeeder::class
+            EvalSkillSeeder::class,
+            Deliver_ProjetSeeder::class,
         ]);
 
 
