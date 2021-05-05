@@ -53,7 +53,14 @@
                 label="Titre"
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
-            ></v-text-field>
+            >
+            </v-text-field>
+            <v-textarea
+                outlined
+                name="description"
+                label="Description"
+                :value="description"
+            ></v-textarea>
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor>
 
@@ -83,6 +90,7 @@ export default {
             title: '',
             name: '',
             title: '',
+            description: '',
             status: ['En brouillon', 'Public'],
             dialog: false,
             categorie: {},
@@ -162,11 +170,12 @@ export default {
             let dataSend = {
                 name: this.name,
                 text: this.text,
+                description: this.description,
                 status: this.status,
                 categoryId: this.categoryId
             }
 
-            Axios.post('/markedowns/markdown/create', dataSend);
+            axios.post('/markedowns/markdown/create', dataSend);
         }
     },
 

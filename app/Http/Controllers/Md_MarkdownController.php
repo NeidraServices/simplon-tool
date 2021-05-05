@@ -18,6 +18,7 @@ class Md_MarkdownController extends Controller
             'success' => true,
             'id'=>$markdown->id,
             'text'=>$data,
+            'description'=>$markdown->description,
             'title'=>$markdown->title,
             'status'=>$markdown->active,
             'category'=> $markdown->categories(),
