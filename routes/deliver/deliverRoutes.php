@@ -37,6 +37,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post("/tags/ajout",[Deliver_TagController::class,"ajout"]);
     Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
     Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);
+
+    Route::get("/commentaires",[Deliver_CommentairesController::class,"liste"]);
 /*
 |--------------------------------------------------------------------------
 | Deliver media routes
