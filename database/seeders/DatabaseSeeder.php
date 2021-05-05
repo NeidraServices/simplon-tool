@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             EvalLangageSeeder::class,
             EvalReferentielSeeder::class,
             EvalSkillSeeder::class,
-            Deliver_ProjetSeeder::class,
         ]);
 
 
@@ -40,5 +39,12 @@ class DatabaseSeeder extends Seeder
             $user->role_id      = $i;
             $user->save();
         }
+
+        
+        $this->call([
+            EvalSondageSeeder::class,
+            EvalSondageLinesSeeder::class,
+            Deliver_ProjetSeeder::class
+        ]);
     }
 }

@@ -4,13 +4,9 @@ import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
 import VerifyMail from '../../views/VerifyMail.vue';
 import Sondage from './Sondages/Sondage.vue';
+import Sondage from "./Formateur/sondage/Sondage.vue";
 
 export const EvalRoutes = [
-    {
-        path: '/email/verification/:token',
-        name: 'verification',
-        component: VerifyMail,
-    },
     {
         path: '/evaluation360',
         name: 'eval',
@@ -35,5 +31,10 @@ export const EvalRoutes = [
         path: '/evaluation360/Sondage',
         name: 'Sondage',
         component: Sondage
-    }
+    },
+    {
+        path: '/evaluation360/gestion/sondages',
+        name: 'gestionSondage',
+        component: Sondage
+    },
 ]
