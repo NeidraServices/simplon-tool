@@ -1,21 +1,16 @@
-import { apiService } from '../../../../services/apiService.js';
 export default {
     data() {
         return {
             langages: []
         }
     },
-    created() {
+    mounted() {
         this.initializeData()
     },
     methods: {
-        async initializeData() {
-            try {
-                const req = await apiService.get(`${location.origin}/api/evaluation360/langage/list`)
-                const reqData = req.data.data
-                this.langages = reqData
-            }
-            catch (err) { console.log(err) }
+        initializeData() {
+            this.$store.dispatch('getLangages')
+            this.langages = this.$store.state.langages
         },
         getImages(image) {
             return `${location.origin}/images/${image}`
