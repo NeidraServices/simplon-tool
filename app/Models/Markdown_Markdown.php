@@ -13,7 +13,7 @@ class Markdown_Markdown extends Model
     use HasFactory;
 
     protected $table = 'markdowns';
-    protected $fillable = ['url', 'active'];
+    protected $fillable = ['url', 'active','title','description'];
 
     public function users()
     {
