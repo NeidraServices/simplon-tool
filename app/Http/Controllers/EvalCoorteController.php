@@ -20,8 +20,10 @@ class EvalCoorteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getData() {
-
+    public function getData()
+    {
+        $coorte = User::where(['role_id' => 3])->get();
+        return UserResource::collection($coorte);
     }
 
 
@@ -38,8 +40,8 @@ class EvalCoorteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function addData(Request $request) {
-        
+    public function addData(Request $request)
+    {
     }
 
 
@@ -55,8 +57,8 @@ class EvalCoorteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function updateData(Request $request, $id) {
-        
+    public function updateData(Request $request, $id)
+    {
     }
 
 
@@ -71,8 +73,8 @@ class EvalCoorteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function deleteData($id) {
-        
+    public function deleteData($id)
+    {
     }
 
 
@@ -81,7 +83,7 @@ class EvalCoorteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function deleteDataArray(Request $request) {
-        
+    public function deleteDataArray(Request $request)
+    {
     }
 }

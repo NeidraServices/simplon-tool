@@ -15,18 +15,18 @@ export default {
 
     mounted() {
         let routeName = this.$route.path;
-
-        switch (routeName) {
-            case "/markedowns":
+        var splits = routeName.split("/", 2);
+        switch (splits[1]) {
+            case "markedowns":
                 this.prevName = 'eval'
                 this.nextName = 'deliver'
                 break
 
-            case "/evaluation360":
+            case "evaluation360":
                 this.prevName = 'm-down'
                 this.nextName = 'deliver'
                 break
-            case "/deliver":
+            case "deliver":
                 this.prevName = 'm-down'
                 this.nextName = 'eval'
                 break
@@ -37,17 +37,17 @@ export default {
         prev() {
 
             let routeName = this.$route.path;
-
-            switch (routeName) {
-                case "/markedowns":
+            var splits = routeName.split("/", 2);
+            switch (splits[1]) {
+                case "markedowns":
                     this.prevName = 'm-down'
                     this.nextName = 'deliver'
                     return this.$router.push('/evaluation360')
-                case "/evaluation360":
+                case "evaluation360":
                     this.prevName = 'eval'
                     this.nextName = 'deliver'
                     return this.$router.push('/markedowns')
-                case "/deliver":
+                case "deliver":
                     this.prevName = 'eval'
                     this.nextName = 'deliver'
                     return this.$router.push('/markedowns')
@@ -57,17 +57,17 @@ export default {
         next() {
 
             let routeName = this.$route.path;
-
-            switch (routeName) {
-                case "/markedowns":
+            var splits = routeName.split("/", 2);
+            switch (splits[1]) {
+                case "markedowns":
                     this.prevName = 'm-down'
                     this.nextName = 'eval'
                     return this.$router.push('/deliver')
-                case "/evaluation360":
+                case "evaluation360":
                     this.prevName = 'm-down'
                     this.nextName = 'eval'
                     return this.$router.push('/deliver')
-                case "/deliver":
+                case "deliver":
                     this.prevName = 'm-down'
                     this.nextName = 'deliver'
                     return this.$router.push('/evaluation360')
