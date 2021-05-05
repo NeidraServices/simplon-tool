@@ -7,19 +7,29 @@ import HomePage from './views/Home.vue'
 import { authenticationService } from "./services/authenticationService";
 import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
+import VerifyMail from './views/VerifyMail.vue';
 
 Vue.use(VueRouter);
-var routes = [{
-    path: '/',
-    name: 'home',
-    component: HomePage
-},
-{
-    path: '/connexion',
-    name: 'login',
-    component: Login,
-},
+
+var routes = [
+    {
+        path: '/',
+        name: 'home',
+        component: HomePage,
+        meta: { authorize: [Role.Admin] }
+    },
+    {
+        path: '/connexion',
+        name: 'login',
+        component: Login,
+    },
+    {
+        path: '/email/verification/:token',
+        name: 'verification',
+        component: VerifyMail,
+    },
 ];
+
 routes = routes.concat(EvalRoutes, DeliverRoutes, MarkedownRoutes);
 
 const router = new VueRouter({
@@ -29,27 +39,22 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-
-    // redirect to login page if not logged in and trying to access a restricted page
     const { authorize } = to.meta;
 
     if (authorize && !_.isEmpty(authorize)) {
+        const role = authenticationService.currentRoleValue;
 
-        const currentUser = authenticationService.currentUserValue;
-
-        if (!currentUser) {
+        if (!role) {
             // not logged in so redirect to login page with the return url
-            return next({ path: "/login", query: { returnUrl: to.path } });
+            return next({ path: "/connexion", query: { returnUrl: to.path } });
         }
-        // check if route is restricted by role
-        if (authorize.length && !authorize.includes(currentUser.role.label)) {
+
+        if (authorize.length && !authorize.includes(role.name)) {
             // role not authorised so redirect to home page
             return next({ path: "/" });
         }
-
     }
-
-    return next();
+    next();
 });
 
 export default router;

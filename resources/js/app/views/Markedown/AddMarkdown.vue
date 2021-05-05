@@ -87,11 +87,13 @@
 </style>
 <script>
 import MdEditor from "./component/MdEditor";
-import Axios from "axios";
+import AutocompleteCategorie from "./component/AutocompleteCategorie";
+import {APIService} from './Services/ServiceRecupCateg';
 export default {
     name: "AddMarkedDown",
     components: {
-        MdEditor
+        MdEditor,
+        AutocompleteCategorie
     },
     data() {
         return {
