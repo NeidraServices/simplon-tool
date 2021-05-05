@@ -3,6 +3,7 @@ import ListMarkedDowns from './ListMarkdowns';
 import MyMarkedDowns from './MyMarkdowns';
 import Archives from './Archives';
 import AddMarkdown from "./AddMarkdown";
+import ShowEditMd from "./ShowEditMd";
 
 export const MarkedownRoutes = [
     {
@@ -29,5 +30,11 @@ export const MarkedownRoutes = [
         path: '/markedowns/add',
         name: 'AddMarkdowns',
         component: AddMarkdown
+    },
+    {
+        path: '/markedowns/show-edit-md/:id',
+        name: 'ShowEditMd',
+        component: ShowEditMd,
+        props:true
     },
 ]

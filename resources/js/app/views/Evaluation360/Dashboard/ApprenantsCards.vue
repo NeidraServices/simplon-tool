@@ -26,7 +26,7 @@
             <h3>{{ apprenant.name }} {{ apprenant.surname }}</h3>
             <span>CDA</span>
             <h4>8/10</h4>
-            <v-btn class="see-more" icon to="details">
+            <v-btn class="see-more" icon @click="goToDetails(apprenant)">
               <v-icon> mdi-eye</v-icon>
             </v-btn>
           </div>

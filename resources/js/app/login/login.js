@@ -38,6 +38,9 @@ export default {
                         this.erreur = 'mot de passe ou email incorrect'
                     } else {
                         this.erreur = '';
+                        localStorage.setItem('token', user.token);
+                        this.$store.commit('connect', user);
+                        this.$router.push('/dashboard');
                         this.$router.push(this.returnUrl);
                     }
 
