@@ -17,8 +17,13 @@ class Deliver_CompetenceController extends Controller
     }
 
     public function addCompetence(Request $req){
-        $competences=$req->all();
+        $validator = Validator::make($req->all(), ['nom' => "required"]);
+        if($validator->fails()){ 
+            return response()->json(["success" => false, "error" => $validator->errors()]);
+        }
+        $competences = $validator->validated();
         Deliver_CompetencesModel::create($competences);
+        return response()->json(['success' => true]);
     }
 
 

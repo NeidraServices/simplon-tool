@@ -114,11 +114,10 @@ class EvalCoorteController extends Controller
             [   
                 'name'    => "required",
                 'surname' => "required",
-                'email'   => "required|unique:users|regex:/^.+@.+$/i",
+                'email'   => "required|regex:/^.+@.+$/i",
             ],
             [
                 'required' => 'Le champ :attribute est requis',
-                'unique'   => "Adresse email existe déjà",
                 'regex'    => "Ce n'est pas une adresse email"
             ]
         );

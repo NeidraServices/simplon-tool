@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\EvalSondageLines;
 use DateTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +25,7 @@ class EvalSondageResource extends JsonResource
             'name'          => $this->name,
             'comments'      => $this->comments,
             'global_note'   => $this->global_note,
+            'lines'         => EvalSondageLinesResource::collection($this->sondage),
             'user'          => $user,
             'created_at'    => $createAtFormated,
         ];

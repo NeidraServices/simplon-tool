@@ -10,6 +10,14 @@ export default{
                 {title: 'Liste des rendus'},
             ],
             projet: [],
+            select: { state: 'Florida'},
+            items: [
+                { user: 'Florida'},
+                { user: 'Georgia'},
+                { user: 'Nebraska'},
+                { user: 'California'},
+                { user: 'New York'},
+            ],
         }
     },
     components: {
@@ -19,15 +27,22 @@ export default{
     watch: {
     },
     created() {
-        this.getData().then(r => console.log(r))
+        this.getData().then(
+            r => {
+                console.log("r");
+                console.log(r);
+            }
+        )
     },
     methods: {
         async getData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/deliver/projet`);
-                const reqData = req.data.data;
-                console.log(reqData);
-                this.projet = reqData;
+                const req = await apiService.get(`${location.origin}/api/deliver/projets/1/voir`);
+
+                console.log("req.data.data");
+                console.log(req.data.data);
+
+                this.projet = req.data.data;
                 console.log(this.projet);
                 this.isLoaded = true;
             } catch (error) {
