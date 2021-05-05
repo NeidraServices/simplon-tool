@@ -18,6 +18,7 @@ class Md_MarkdownController extends Controller
             'success' => true,
             'id'=>$markdown->id,
             'text'=>$data,
+            'description'=>$markdown->description,
             'title'=>$markdown->title,
             'status'=>$markdown->active,
             'category'=> $markdown->categories(),
@@ -69,6 +70,7 @@ class Md_MarkdownController extends Controller
             [
                 'text'          => 'required',
                 'category'      => 'required',
+                'description'          => 'required',
                 'active'        => 'required',
                 'title'         =>  'required',
             ],
@@ -97,7 +99,7 @@ class Md_MarkdownController extends Controller
                 $markdown->md_category_id= $validator->validated()['category'];
                 $markdown->active=$validator->validated()['active'];
                 $markdown->title=$validator->validated()['title'];
-                /* $markdown->description=$validator->validated()['description']; */
+                $markdown->description=$validator->validated()['description'];
                 $markdown->save();  
             
             

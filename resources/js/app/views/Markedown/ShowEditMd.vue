@@ -29,9 +29,14 @@
             ></v-text-field>
             <v-btn outlined @click="update">Enregistrer</v-btn><br><br>
             <v-divider></v-divider><br><br>
+            <v-textarea
+                outlined
+                name="description"
+                label="Description"
+                :value="description"
+            ></v-textarea>
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor><br>
-
             <v-btn outlined @click="editMD">Editer</v-btn>
         </v-container>
 
@@ -62,6 +67,7 @@ export default {
         return {
             name: '',
             active: '',
+            description: '',
             status: [{
                 label:'En brouillon',
                 value:0
@@ -171,6 +177,7 @@ export default {
                 const reqData = req.data
                 console.log(reqData)
                 this.name= reqData.title
+                this.description = reqData.description
                 this.text= reqData.text
                 this.active= reqData.status
                 
