@@ -11,14 +11,24 @@ class Deliver_TagController extends Controller
     //
 
     public function liste(){
-        $data=Deliver_TagModel::all();
-        return response()->json($data);
+        $tags = Deliver_TagModel::all();
+        return response()->json($tags);
     }
     public function ajout(Request $req)
     {
-        $data=Validator::make($req->all(),["nom"=>"required|String"])->validate();
+        $validator = Validator::make($req->all(),["nom"=>"required|String"]);
+        if($validator->fails()){
+            return response()->json([
+                "success" => false,
+                "error"   => $validator->errors()
+            ]);
+        }
 
-        Deliver_TagModel::create($data);
+        $tag_data = $validator->validated();
+        Deliver_TagModel::create($tag_data);
+        return response()->json([
+            "success" => true
+        ]);
 
     }
 
@@ -30,7 +40,7 @@ class Deliver_TagController extends Controller
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
         $tag->projets()->attach($tag["id"],["projet_id"=>$projet["id"] ]);
-
+        
     }
 
     public function delierProjet(Request $req){

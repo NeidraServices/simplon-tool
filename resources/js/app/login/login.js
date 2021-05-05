@@ -25,13 +25,6 @@ export default {
             erreur: ''
         };
     },
-    created() {
-        if (authenticationService.currentUserValue) {
-            return this.$router.push('/');
-        }
-
-        this.returnUrl = this.$route.query.returnUrl || "/";
-    },
     methods: {
         async connection() {
             try {

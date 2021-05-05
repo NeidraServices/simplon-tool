@@ -1,14 +1,14 @@
 <template>
-	<div>
-		Markdown HomePage
-	</div>
+ <div>
+   <ListMarkdowns/>
+ </div>
 </template>
 
 <script>
-import MainLayout from "../../layouts/Sidebar";
-export default {
-	components: {
-		MainLayout,
-	},
-};
+  import ListMarkdowns from "./ListMarkdowns";
+  export default {
+    components: {
+      ListMarkdowns,
+    },
+  }
 </script>
