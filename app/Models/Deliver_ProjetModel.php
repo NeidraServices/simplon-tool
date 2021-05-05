@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_ProjetModel extends Model
 {
     protected $fillable = [
-        "titre", "description", "deadline", "image"
+        "titre", "description", "deadline", "image", "formateur_id"
     ];
     use HasFactory;
     protected $table = 'dp_projets';
