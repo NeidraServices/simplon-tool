@@ -8,21 +8,25 @@ const currentUserSubject = new BehaviorSubject(
   JSON.parse(localStorage.getItem('currentUser'))
 );
 
+const roleSubject = new BehaviorSubject(
+  JSON.parse(localStorage.getItem('role'))
+);
+
 export const authenticationService = {
   connected,
   login,
   logout,
   isAdmin,
   passwordReset,
-  currentUser: currentUserSubject.asObservable(),
-  get currentUserValue() {
-    return currentUserSubject.value;
+  role: roleSubject.asObservable(),
+  get currentRoleValue() {
+    return roleSubject.value;
   }
 };
 
 function connected() {
-  const user = localStorage.getItem("currentUser");
-  return !_.isNull(user)
+  const role = localStorage.getItem("role");
+  return !_.isNull(role)
 }
 
 function login(user) {
@@ -33,8 +37,9 @@ function login(user) {
     .then(handleResponse)
     .then(data => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem("currentUser", JSON.stringify(data));
-      currentUserSubject.next(data);
+      localStorage.setItem("role", JSON.stringify(data.informations.role));
+      roleSubject.next(data.informations.role);
+
       return data;
 
     });
@@ -49,8 +54,8 @@ function passwordReset(user) {
     .then(handleResponse)
     .then(({ data }) => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem("currentUser", JSON.stringify(data));
-      currentUserSubject.next(data);
+      localStorage.setItem("role", JSON.stringify(data.informations.role));
+      roleSubject.next(data.informations.role);
 
       return data;
     });
@@ -59,8 +64,10 @@ function passwordReset(user) {
 
 function logout() {
   // remove user from local storage to log user out
-  localStorage.removeItem("currentUser");
-  currentUserSubject.next(null);
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  this.$store.commit('disconnect');
+  this.$router.push('/');
 }
 
 function isAdmin() {
@@ -68,10 +75,10 @@ function isAdmin() {
 }
 
 function role() {
-  let user = localStorage.getItem('currentUser');
-  if (!user) {
+  let role = localStorage.getItem('role');
+  if (!role) {
     return null;
   }
-  user = JSON.parse(user);
-  return user.role.name;
+  role = JSON.parse(role);
+  return role;
 }

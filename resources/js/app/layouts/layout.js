@@ -13,6 +13,8 @@ export default {
         }
     },
 
+
+
     mounted() {
         let routeName = this.$route.path;
         var splits = routeName.split("/", 2);
