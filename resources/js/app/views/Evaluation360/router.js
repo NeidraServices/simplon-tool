@@ -2,7 +2,7 @@ import Home from './Home.vue';
 import Dashboard from './Dashboard/Dashboard.vue';
 import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
-import GestionSondage from "./Formateur/sondage/Sondage.vue";
+import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
 
 export const EvalRoutes = [
     {
