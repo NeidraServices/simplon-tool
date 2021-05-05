@@ -17,7 +17,13 @@ export class APIService {
     getApiCategories() {
         const url = `${API_URL}/categories`;
         return axios.get(url);
+    } 
+
+    search(val) {
+        const url = `${API_URL}/categorie/search`;        
+        return axios.get(url,{ params: { query: val } });
     }
+
     getApiMdCommuns() {
         const url = `${API_URL}/markdowns-commun`;
         return axios.get(url);
