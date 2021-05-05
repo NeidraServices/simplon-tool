@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deliver_ProjetModel extends Model
 {
+    protected $fillable = [
+        "titre", "description", "deadline", "image"
+    ];
     use HasFactory;
     protected $table = 'dp_projets';
     public function competences(){

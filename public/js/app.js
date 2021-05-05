@@ -2663,14 +2663,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    project_id: {
+      required: true
+    }
+  },
   data: function data() {
     return {
       dialog: false
     };
   },
   method: {
-    delete_projet: function delete_projet() {}
+    delete_projet: function delete_projet() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/projets/" + this.project_id + "/supprimer").then(function (data) {
+        console.log(data);
+      });
+    }
   }
 });
 
@@ -2712,7 +2724,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update_projet: function update_projet() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/projets/{id}/modifier', {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/projets/' + this.projet.id + '/modifier', {
         titre: this.titre,
         deadline: this.deadline,
         description: this.description,
@@ -2735,9 +2747,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../../layouts/MainLayout.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var _components_projet_modal_update_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/projet-modal_update.vue */ "./resources/js/app/views/Deliver/components/projet-modal_update.vue");
-/* harmony import */ var _components_delete_projet_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/delete-projet.vue */ "./resources/js/app/views/Deliver/components/delete-projet.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _layouts_Sidebar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../layouts/Sidebar.vue */ "./resources/js/app/layouts/Sidebar.vue");
+/* harmony import */ var _components_projet_modal_update_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/projet-modal_update.vue */ "./resources/js/app/views/Deliver/components/projet-modal_update.vue");
+/* harmony import */ var _components_delete_projet_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/delete-projet.vue */ "./resources/js/app/views/Deliver/components/delete-projet.vue");
+
 
 
 
@@ -2761,9 +2776,9 @@ var user = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    projet_ModalUpdate: _components_projet_modal_update_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-    projet_ModalDelete: _components_delete_projet_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    MainLayout: Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../../layouts/MainLayout.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    projet_ModalUpdate: _components_projet_modal_update_vue__WEBPACK_IMPORTED_MODULE_2__.default,
+    projet_ModalDelete: _components_delete_projet_vue__WEBPACK_IMPORTED_MODULE_3__.default,
+    MainLayout: _layouts_Sidebar_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     return {
@@ -2773,10 +2788,15 @@ var user = {
   },
   mounted: function mounted() {
     this.projets = projets;
+    this.get_projets();
     this.user = user;
   },
-  method: {
-    get_projets: function get_projets() {}
+  methods: {
+    get_projets: function get_projets() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/deliver/projets").then(function (data) {
+        console.log(data);
+      });
+    }
   }
 });
 
@@ -23478,120 +23498,115 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("MainLayout", {
-    scopedSlots: _vm._u([
-      {
-        key: "content-slot",
-        fn: function() {
-          return [
+  return _c(
+    "div",
+    { staticClass: "ml-5" },
+    [
+      _c(
+        "div",
+        { staticClass: "d-flex justify-space-around my-10" },
+        [
+          _c("h2", [_vm._v("Tous les projets")]),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { color: "success", icon: "" } },
+            [_c("v-icon", [_vm._v("mdi-plus")])],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.projets, function(projet) {
+        return _c(
+          "div",
+          { key: projet.id },
+          [
             _c(
-              "div",
-              { staticClass: "ml-5" },
+              "v-card",
+              { attrs: { "max-width": "344" } },
               [
-                _c("h2", { staticClass: "my-10 mb-15" }, [
-                  _vm._v("Tous les projets")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.projets, function(projet) {
-                  return _c(
-                    "div",
-                    { key: projet.id },
-                    [
-                      _c(
-                        "v-card",
-                        { attrs: { "max-width": "344" } },
-                        [
-                          _c(
-                            "v-card-title",
-                            [
-                              _c("v-col", { attrs: { cols: "6" } }, [
-                                _vm._v(
-                                  "\r\n                            " +
-                                    _vm._s(projet.titre) +
-                                    "\r\n                        "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm.user.role != "apprenant"
-                                ? _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "text-end",
-                                      attrs: { cols: "6" }
-                                    },
-                                    [
-                                      _c("projet_ModalDelete"),
-                                      _vm._v(" "),
-                                      _c("projet_ModalUpdate", {
-                                        attrs: { projet: projet }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-img", {
-                                attrs: {
-                                  src:
-                                    "https://ma.ambafrance.org/IMG/arton11404.png?1565272504",
-                                  width: "100%",
-                                  height: "auto"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-space-around mt-5" },
-                            [
-                              _c("p", { staticClass: "text-center" }, [
-                                _vm._v(
-                                  _vm._s(projet.formateur.name) +
-                                    " " +
-                                    _vm._s(projet.deadline)
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "mt-1",
-                                  attrs: {
-                                    "x-small": "",
-                                    color: "success",
-                                    outlined: ""
-                                  }
-                                },
-                                [_vm._v("ouvrir")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
+                _c(
+                  "v-card-title",
+                  [
+                    _c("v-col", { attrs: { cols: "6" } }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(projet.titre) +
+                          "\n                "
                       )
-                    ],
-                    1
-                  )
-                })
+                    ]),
+                    _vm._v(" "),
+                    _vm.user.role != "apprenant"
+                      ? _c(
+                          "v-col",
+                          { staticClass: "text-end", attrs: { cols: "6" } },
+                          [
+                            _c("projet_ModalDelete", {
+                              attrs: { project_id: projet.id }
+                            }),
+                            _vm._v(" "),
+                            _c("projet_ModalUpdate", {
+                              attrs: { projet: projet }
+                            })
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-col",
+                  { attrs: { cols: "12" } },
+                  [
+                    _c("v-img", {
+                      attrs: {
+                        src:
+                          "https://ma.ambafrance.org/IMG/arton11404.png?1565272504",
+                        width: "100%",
+                        height: "auto"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "d-flex justify-space-around mt-5" },
+                  [
+                    _c("p", { staticClass: "text-center" }, [
+                      _vm._v(
+                        _vm._s(projet.formateur.name) +
+                          " " +
+                          _vm._s(projet.deadline)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "mt-1",
+                        attrs: { "x-small": "", color: "success", outlined: "" }
+                      },
+                      [_vm._v("ouvrir")]
+                    )
+                  ],
+                  1
+                )
               ],
-              2
+              1
             )
-          ]
-        },
-        proxy: true
-      }
-    ])
-  })
+          ],
+          1
+        )
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23916,7 +23931,10 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-textarea", {
-                    attrs: { label: "Description" },
+                    attrs: {
+                      "background-color": "grey lighten-2",
+                      label: "Description"
+                    },
                     model: {
                       value: _vm.description,
                       callback: function($$v) {

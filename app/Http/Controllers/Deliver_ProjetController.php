@@ -23,7 +23,7 @@ class Deliver_ProjetController extends Controller
     public function projets()
     {
         $projets = Deliver_ProjetModel::all();
-        return Deliver_ProjetResource::collection($projets);
+        return response()->json(['projets' =>  Deliver_ProjetResource::collection($projets)]);
     }
 
 
@@ -69,7 +69,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
-                'image' => 'required|file|mimes:jpg,jpeg,png|max:5000',
+                'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
                 'file'  => 'Image non fournis',
@@ -86,18 +86,30 @@ class Deliver_ProjetController extends Controller
                 'message' => $errors->first()
             ]);
         }
+        
+        $public_img_path = "/public/img/";
+        if($request->image){
+            $image       =  $request->image;
+            $extension   = $image->getClientOriginalExtension();
+            $image_name  = time() . rand() . '.' . $extension;
+            $image_path  = $public_img_path + "/cover/" + $image_name;
+            $image->move(public_path('img/cover'), $image_name);
+        }else{
+            $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
+        }
 
-        $image       = $validator->validated()['image'];
-        $extension   = $image->getClientOriginalExtension();
-        $image_name  = time() . rand() . '.' . $extension;
-        $image->move(public_path('img/cover'), $image_name);
-
-        $projet               = new Deliver_ProjetModel;
-        $projet->image        = $image_name;
-        $projet->titre        = $validator->validated()['titre'];
-        $projet->deadline     = $validator->validated()['deadline'];
-        $projet->description  = $validator->validated()['description'];
-        $projet->save();
+        $projet = Deliver_ProjetModel::create(array_merge([
+            "titre" => $request->titre,
+            "deadline" => $request->deadline,
+            "description" => $request->description,
+            "image" => $image_path
+        ]));
+        // $projet               = new Deliver_ProjetModel;
+        // $projet->image        = $image_name;
+        // $projet->titre        = $validator->validated()['titre'];
+        // $projet->deadline     = $validator->validated()['deadline'];
+        // $projet->description  = $validator->validated()['description'];
+        // $projet->save();
 
         return response()->json([
             'success' => true,
