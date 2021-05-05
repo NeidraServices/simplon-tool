@@ -99,7 +99,6 @@ class Deliver_ProjetController extends Controller
             $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
         }
 
-<<<<<<< HEAD
         $projet = Deliver_ProjetModel::create(array_merge([
             "titre" => $request->titre,
             "deadline" => $request->deadline,
@@ -112,25 +111,6 @@ class Deliver_ProjetController extends Controller
         // $projet->deadline     = $validator->validated()['deadline'];
         // $projet->description  = $validator->validated()['description'];
         // $projet->save();
-=======
-        // Pour des raisons de test du backend seulement
-        if(array_key_exists("image", $validator->validated())) {
-            $image       = $validator->validated()['image'];
-            $extension   = $image->getClientOriginalExtension();
-            $image_name  = time() . rand() . '.' . $extension;
-            $image->move(public_path('img/cover'), $image_name);
-        } else {
-            $image_name = '';
-        }
-
-
-        $projet               = new Deliver_ProjetModel;
-        $projet->image        = $image_name;
-        $projet->titre        = $validator->validated()['titre'];
-        $projet->deadline     = $validator->validated()['deadline'];
-        $projet->description  = $validator->validated()['description'];
-        $projet->save();
->>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
 
         return response()->json([
             'success' => true,

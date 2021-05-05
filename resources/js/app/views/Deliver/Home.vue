@@ -1,10 +1,5 @@
 <template>
-<<<<<<< HEAD
     
-=======
-<Sidebar>
-    <template v-slot:content-slot>
->>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
         <div class="ml-5">
             <div class="d-flex justify-space-around my-10">
                  <h2 >Tous les projets</h2>
@@ -36,11 +31,6 @@
                 </v-card>
             </div>
         </div>
-<<<<<<< HEAD
-=======
-    </template>
-</Sidebar>
->>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
 </template>
 
 <script src="./js/home.js"></script>
