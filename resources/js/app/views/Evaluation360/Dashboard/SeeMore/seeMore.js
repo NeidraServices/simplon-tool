@@ -8,7 +8,9 @@ export default {
     },
     data() {
         return {
-
+            apprenant: this.$store.state.apprenant
         }
-    }
+    },
+    mounted() {
+    },
 }
