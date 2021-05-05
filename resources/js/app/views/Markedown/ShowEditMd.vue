@@ -2,8 +2,7 @@
     <div>
         <v-container>
             <FlashMessage :position="'top'" ></FlashMessage>
-            <h2>Titre du Markdwon</h2>
-            <div>ID: {{id}}</div>
+            <h2 class="titre">{{name}}</h2>
             <v-row>
                 <v-col>
                     <v-select
@@ -16,10 +15,7 @@
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <v-select
-                        :items="categories"
-                        label="Catégorie"
-                    ></v-select>
+                    <AutocompleteCategorie/>
                 </v-col>
                 <v-col>
                     <v-btn outlined>Ajouter Catégorie</v-btn>
@@ -49,11 +45,13 @@
 </style>
 <script>
 import MdEditor from "./component/MdEditor";
+import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import Axios from "axios";
 export default {
     name: "ShowEditMd",
     components: {
-        MdEditor
+        MdEditor,
+        AutocompleteCategorie
     },
     props: {
         id: {
@@ -187,3 +185,11 @@ export default {
     },
 };
 </script>
+
+<style>
+    .titre{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>

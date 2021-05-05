@@ -28,5 +28,7 @@ class EvalSondageLinesSeeder extends Seeder
             $data2->skill_id    = $i;
             $data2->save();
         }
+
+
     }
 }
