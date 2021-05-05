@@ -23,8 +23,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             EvalLangageSeeder::class,
             EvalReferentielSeeder::class,
-            EvalSkillSeeder::class,
-            Deliver_ProjetSeeder::class,
+            EvalSkillSeeder::class
         ]);
 
 
@@ -40,5 +39,9 @@ class DatabaseSeeder extends Seeder
             $user->role_id      = $i;
             $user->save();
         }
+
+        $this->call([
+            Deliver_ProjetSeeder::class
+        ]);
     }
 }

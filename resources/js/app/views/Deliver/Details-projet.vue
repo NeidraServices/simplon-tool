@@ -30,9 +30,15 @@
                             color="basil"
                             flat
                         >
-                            <v-card-text><b>Techno utilisée.s</b> {{ projet.techno }}</v-card-text>
-                            <v-card-text><b>Référentiel</b> {{ projet.referentiel }}</v-card-text>
-                            <v-card-text><b>Description</b> {{ projet.description }}</v-card-text>
+                            <v-card-text>
+                                <b>Techno utilisée.s</b>
+                            </v-card-text>
+                            <v-card-text>
+                                <b>Référentiel</b>
+                            </v-card-text>
+                            <v-card-text>
+                                <b>Description</b>
+                            </v-card-text>
                         </v-card>
                     </div>
                     <div v-if="item.title === 'Liste des rendus'">
@@ -45,31 +51,31 @@
                                 max-width="344"
                                 outlined
                             >
-                                <v-list-item three-line>
+                                <v-list-item>
                                     <v-list-item-content>
                                         <div class="overline mb-4">
-                                            OVERLINE
+                                            [NOM APPRENANT]
                                         </div>
                                         <v-list-item-title class="headline mb-1">
-                                            Headline 5
+                                            Techno utilisé
                                         </v-list-item-title>
-                                        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                                     </v-list-item-content>
-
-                                    <v-list-item-avatar
-                                        tile
-                                        size="80"
-                                        color="grey"
-                                    ></v-list-item-avatar>
                                 </v-list-item>
 
-                                <v-card-actions>
+                                <v-card-actions class="d-flex align-center justify-center">
                                     <v-btn
                                         outlined
                                         rounded
                                         text
                                     >
-                                        Button
+                                        Lien site web
+                                    </v-btn>
+                                    <v-btn
+                                        outlined
+                                        rounded
+                                        text
+                                    >
+                                        Lien GitHub
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
