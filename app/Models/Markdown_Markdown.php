@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Markdown_User;
-use App\Models\Markdown_Categorie;
+use App\Models\Markdown_Category;
 
 class Markdown_Markdown extends Model
 {
     use HasFactory;
 
     protected $table = 'markdowns';
-    protected $fillable = ['url', 'active'];
+    protected $fillable = ['url', 'active','title','description'];
 
     public function users()
     {
@@ -21,6 +21,6 @@ class Markdown_Markdown extends Model
     }
     public function categories()
     {
-        return $this->belongsTo(Markdown_Categorie::class, 'md_category_id');
+        return $this->belongsTo(Markdown_Category::class, 'md_category_id');
     }
 }

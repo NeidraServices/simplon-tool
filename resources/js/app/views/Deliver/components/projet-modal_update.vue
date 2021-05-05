@@ -49,7 +49,7 @@
                         </v-date-picker>
                     </v-menu>
 
-                    <v-textarea label="Description" v-model="description"></v-textarea>
+                    <v-textarea background-color="grey lighten-2" label="Description"  v-model="description"></v-textarea>
                     <div class="d-flex justify-center">
                         <v-btn small block color="success" @click="update_projet">Modifier</v-btn>
                     </div>

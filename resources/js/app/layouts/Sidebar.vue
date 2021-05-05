@@ -41,6 +41,7 @@
 
 .link:nth-child(1) {
 	border: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 0;
 }
 
 .link:nth-child(2) {
