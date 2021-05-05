@@ -3,9 +3,7 @@
         <div class="ml-5">
             <div class="d-flex justify-space-around my-10">
                  <h2 >Tous les projets</h2>
-                 <v-btn color="success" icon>
-                     <v-icon>mdi-plus</v-icon>
-                 </v-btn>
+                 <projet_ModalAdd :user="user"/>
             </div>
            
            <div class="d-flex flex-wrap justify-space-around">
