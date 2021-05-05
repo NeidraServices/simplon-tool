@@ -10,17 +10,7 @@
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <v-autocomplete 
-                    :loading="loading" 
-                    :items="categories" 
-                    :search-input.sync="search"
-                    item-text="composed"
-                    return-object 
-                    cache-items 
-                    hide-no-data 
-                    hide-details
-                    label="Catégorie">
-                    </v-autocomplete>
+                    <AutocompleteCategorie />
                 </v-col>
                 
                 <v-col>
@@ -57,7 +47,7 @@
             <v-text-field
                 label="Titre"
                 placeholder="Entrez le titre de la fiche"
-                v-model="name"
+                v-model="title"
             ></v-text-field>
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor>
@@ -75,23 +65,21 @@
 </style>
 <script>
 import MdEditor from "./component/MdEditor";
-import Axios from "axios";
+import AutocompleteCategorie from "./component/AutocompleteCategorie";
+import {APIService} from './Services/ServiceRecupCateg';
 export default {
     name: "AddMarkedDown",
     components: {
-        MdEditor
+        MdEditor,
+        AutocompleteCategorie
     },
     data() {
         return {
             name: '',
+            title: '',
             status: ['En brouillon', 'Public'],
             dialog: false,
-
             categorie: {},
-            categories: [],
-            search: null,
-            loading: false,
-
             text: '',
             custom: {
                 'preview': {
@@ -138,38 +126,11 @@ export default {
         };
     },
     
-    watch: {
-      search: function (val) {
-        if (val && val.length > 1) {
-          this.loading = true
-          axios.get('/api/markedown/categorie/search', { params: { query: val } })
-          .then(({ data }) => {
-            this.loading = false;
-              data.data.forEach(categorie => {
-                this.categories.push(this.formattedCategorie(categorie))
-              });
-          });
-        }
-      },
-    },
-    
     methods: {
         init: function () {
             this.name = ''
             this.categorie = {}
-        },
-
-      formattedCategorie: function (categorie) {
-        return {
-            /* id: salarie.id,
-            nom: salarie.nom,
-            prenom: salarie.prenom,
-            tel: salarie.tel, */
-            
-            composed: categorie.name
-        }
-      },
-      
+        },      
         addCategoryModal(){
             if (this.isValid()) {
                 const data = {

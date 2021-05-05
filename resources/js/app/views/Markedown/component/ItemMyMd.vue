@@ -1,27 +1,22 @@
 <template>
     <v-col cols="12">
-        <v-card>
-            <v-card-title 
-                class="layout justify-center"
-            >
-                {{item.title}}
-            </v-card-title>    
-            <v-row>
-                <v-col cols="6">
-                    <v-card-text 
-                        class="layout justify-start"
-                    >
-                        {{item.category}}
-                    </v-card-text>
-                </v-col>                
-                <v-col cols="6"> 
-                    <v-card-text 
-                        class="layout justify-end"
-                    >
-                        {{item.author}}
-                    </v-card-text> 
+        <v-card>               
+            <v-row class="pa-5">
+                <v-col>
+                    <div class="my-badge">
+                        <v-badge
+                            color="green"
+                            content="6"
+                            class="mr-5"
+                            value='false'
+                        >                        
+                        </v-badge>
+                    </div>
+                    {{item.title}}
                 </v-col>
-            </v-row> 
+                <v-col>Test</v-col>
+                <v-col>Test</v-col>
+            </v-row>
         </v-card>     
     </v-col>
 </template>
@@ -42,3 +37,11 @@
         }
     }
 </script>
+<style lang="scss">
+    .my-badge{
+        position: absolute;
+        top: 0;
+        left: 10;
+        margin-top: 5px;
+    }
+</style>

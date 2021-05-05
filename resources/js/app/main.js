@@ -9,8 +9,8 @@ import fr from 'vuetify/src/locale/fr.ts';
 import store from './store'
 
 //Editor markdown
-// import 'v-markdown-editor/dist/v-markdown-editor.css';
-// import Editor from 'v-markdown-editor';
+import 'v-markdown-editor/dist/v-markdown-editor.css';
+import Editor from 'v-markdown-editor';
 
 Vue.use(FlashMessage);
 Vue.use(Vuetify);
