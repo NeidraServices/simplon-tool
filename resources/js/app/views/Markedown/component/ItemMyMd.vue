@@ -52,7 +52,7 @@
     export default {
         data(){
             return{
-                status: "Brouillon",
+                status: "En brouillon",
                 updateStatus: false
             }
         },
@@ -72,7 +72,7 @@
                 if(newValue) {
                     this.status = "Finalisé"
                 }else {
-                    this.status = "Brouillon"
+                    this.status = "En brouillon"
                 }
             }
         },

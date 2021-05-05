@@ -78,7 +78,7 @@
                     category: item.id,
                     title: item.title,
                     description: item.description,
-                    date: (item.created_at) ? item.created_at : "date "+item.id
+                    date: item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : "Date "+item.id)
                 })
             })
         }        
