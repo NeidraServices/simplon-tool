@@ -92,7 +92,7 @@ export default {
 
         async getData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/users/list`);
+                const req = await apiService.get(`${location.origin}/api/apprenants`);
                 const reqData = req.data.data;
                 this.userList = reqData;
                 this.isLoaded = true;
