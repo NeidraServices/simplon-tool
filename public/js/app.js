@@ -3934,8 +3934,8 @@ var apiService = {
 };
 
 function headers() {
-  var authHeader = localStorage.getItem('mayProjectToken') ? {
-    Authorization: "Bearer " + localStorage.getItem('mayProjectToken')
+  var authHeader = localStorage.getItem('token') ? {
+    Authorization: "Bearer " + localStorage.getItem('token')
   } : {};
   return _objectSpread(_objectSpread({}, authHeader), {}, {
     "Content-Type": "application/json"
