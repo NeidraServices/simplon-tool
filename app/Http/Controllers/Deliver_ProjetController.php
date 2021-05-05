@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Deliver_AffectationResource;
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
+use App\Models\User;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -41,10 +43,20 @@ class Deliver_ProjetController extends Controller
      */
     public function getProjet($id)
     {
-        $projet=Deliver_ProjetModel::find($id);
+
+        $projet = Deliver_ProjetModel::find($id);
+
+        $affectations = [];
+        foreach ($projet->users as $user) {
+            $apprenant = User::find($user->pivot->user_id);
+            array_push($affectations, $apprenant);
+        }
 
         if($projet) {
-            return new Deliver_ProjetResource($projet);
+            return response()->json([
+                'projet' => new Deliver_ProjetResource($projet),
+                'apprenants' => $affectations,
+            ]);
         }
 
         return response()->json([

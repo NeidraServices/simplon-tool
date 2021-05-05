@@ -75,14 +75,13 @@ Route::middleware(['auth:api'])->group(function(){
 
 });
 Route::prefix('/markdown')->group(function () {
-    /* GET ONLY ONE MARKDONW BY IS ID */
-    Route::get('/{id}', [Md_MarkdownController::class, 'index'])->name('api.md_wiki.markdown.index');
-    /* END */
     Route::post('/create', [Md_MarkdownController::class, 'create'])->name('api.md_wiki.markdown.create');
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
     Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');
-    Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');  
+    Route::post('/update/{id}', [Md_MarkdownController::class, 'update'])->name('api.md_wiki.markdown.update');
+    Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');
+    Route::get('/{id}', [Md_MarkdownController::class, 'index'])->name('api.md_wiki.markdown.index');  
 });
 /*
 |--------------------------------------------------------------------------

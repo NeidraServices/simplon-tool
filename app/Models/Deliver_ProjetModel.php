@@ -22,7 +22,7 @@ class Deliver_ProjetModel extends Model
     }
 
     public function users(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","user_id","projet_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","projet_id","user_id");
     }
 
     public function rendus(){
