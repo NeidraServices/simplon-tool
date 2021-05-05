@@ -1,27 +1,115 @@
 <template>
-<div>
-    <v-container>
-        <v-spacer></v-spacer>
-        <v-row>
-            <h2>Mes markdowns</h2>
+  <div>
+    <v-container fluid>
+      <v-row justify="space-between">
+        <v-col cols="12">
+            <v-card-title 
+                class="layout justify-center"
+            >
+                MES MARKDOWNS
+            </v-card-title>
+            <v-card-text 
+                class="layout justify-center"
+            >
+        <v-row >
+            <BtnWithIcon v-bind:title="'Archive'" v-bind:link="'archives'">
+                <v-icon
+                    left
+                    dark
+                >
+                    mdi-archive
+                </v-icon>
+            </BtnWithIcon>
             <v-spacer></v-spacer>
-            <router-link to="/markedowns/add" custom v-slot="{ navigate }">
-                <v-btn @click="navigate" @keypress.enter="navigate" role="link">Ajouter</v-btn>
-            </router-link>
+            <SimpleBtn v-bind:title="'Ajouter'" v-bind:link="'add'" />
         </v-row>
+            </v-card-text>
+        </v-col>
+        <v-divider></v-divider>
+        <div class="item-container">
+          <v-col
+              v-for="item in markdown_list"
+              :key="item.id"
+          >  
+            <router-link :to="{ name: 'ShowEditMd', params: {id: item.id.toString() } }">
+                <ItemMyMd 
+                    v-bind:item="item"
+                />
+            </router-link>
+          </v-col>
+        </div>
+        
+      </v-row>
     </v-container>
-</div>
+  </div>
 </template>
 <script>
+import ItemMyMd from "./component/ItemMyMd";
+import BtnWithIcon from "./component/BtnWithIcon";
+import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
+  import {APIService} from './Services/ServiceRecupCateg'
 export default {
     name: "MyMarkedDowns",
     components: {
-        MdEditor
+        MdEditor,
+        ItemMyMd,
+        BtnWithIcon,
+        SimpleBtn
     },
     data() {
         return {
+          markdown_list: [
+            ],
+          categories: [
+            
+          ]
         };
     },
-};
+    mounted() {
+      const apiCall = new APIService()
+      apiCall.getApiMyMds().then(
+        reponse => {
+          console.log("Reponse :", reponse)
+          this.markdown_list = this.formatDataMdCom(reponse.data)
+        }
+      )
+    },
+    methods: {
+      formatDataMdCom(data){
+        let formatedData = []
+        if(Array.isArray(data)){
+            data.map(item => {
+                formatedData.push({
+                    id: item.id,
+                    category: item.id,
+                    title: item.url,
+                    author: "user"+item.user_id
+                })
+            })
+        }        
+        return formatedData
+      },
+      recupCateg(){
+        const apiCall = new APIService()
+        apiCall.getApiCategories().then(
+          reponse => {
+            console.log("Reponse :", reponse)
+          }
+        )
+        console.log("categ")
+      },
+      search(){
+        console.log("Valll")
+      }
+    }
+  };
 </script>
+<style>
+  .item-container {
+    width: 100%;
+  }
+  .divider {
+    margin: 5px;
+  }
+</style>

@@ -27,7 +27,7 @@ export default{
 
     methods: {
         update_projet: function(){
-            Axios.post('/projets/{id}/modifier', {
+            Axios.post('/projets/'+ this.projet.id+'/modifier', {
                 titre: this.titre,
                 deadline: this.deadline,
                 description: this.description,

@@ -14,11 +14,24 @@ export class APIService {
     //     const url = `${API_URL}/register`;
     //     return axios.post(url, user);
     // }
-    test(){
-        console.log("test")
-    }
     getApiCategories() {
         const url = `${API_URL}/categories`;
+        return axios.get(url);
+    }
+    getApiMdCommuns() {
+        const url = `${API_URL}/markdowns-commun`;
+        return axios.get(url);
+    }
+    getApiMyMds() {
+        const url = `${API_URL}/my-markdowns`;
+        return axios.get(url);
+    }
+    getApiMyArchives() {
+        const url = `${API_URL}/my-archives`;
+        return axios.get(url);
+    }
+    getApiMdDetails(id) {
+        const url = `${API_URL}/my-markdowns?id=${id}`;
         return axios.get(url);
     }
 }

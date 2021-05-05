@@ -28,7 +28,11 @@ Route::middleware(['auth:api'])->group(function(){
 });
 
 Route::get('categories', [Md_CategoryController::class, 'index']);
+Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
+Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
+Route::get('my-archives', [Md_MarkdownController::class, 'show']);
 Route::group(['prefix' => 'categorie'], function () {
+    Route::get('/search', [Md_CategoryController::class, 'search']);
     Route::post('ajouter', [Md_CategoryController::class, 'create']);
     Route::put('modifier/{id}', [Md_CategoryController::class, 'edit']);
     Route::delete('supprimer/{id}', [Md_CategoryController::class, 'destroy']);
@@ -71,14 +75,12 @@ Route::middleware(['auth:api'])->group(function(){
 
 });
 Route::prefix('/markdown')->group(function () {
-    /* GET ONLY ONE MARKDONW BY IS ID */
-    Route::get('/{id}', [Md_MarkdownController::class, 'index'])->name('api.md_wiki.markdown.index');
-    /* END */
     Route::post('/create', [Md_MarkdownController::class, 'create'])->name('api.md_wiki.markdown.create');
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
     Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');
-    Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');  
+    Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');
+    Route::get('/{id}', [Md_MarkdownController::class, 'index'])->name('api.md_wiki.markdown.index');  
 });
 /*
 |--------------------------------------------------------------------------
