@@ -5132,20 +5132,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 reqData = req.data.data;
                 _this.sondagesList = reqData;
                 _this.isLoaded = true;
-                _context.next = 12;
+                console.log(reqData);
+                _context.next = 13;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 12:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 10]]);
       }))();
     },
     getLangages: function getLangages() {
