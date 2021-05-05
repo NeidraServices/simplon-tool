@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Deliver_AffectationResource;
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
@@ -117,9 +116,9 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "image" => $image_path
+            "image" => $image_path,
+            "formateur_id" => $request->formateur_id
         ]));
-
         return response()->json([
             'success' => true,
             'message' => "Projet créé"

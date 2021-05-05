@@ -230,7 +230,7 @@ export default {
                 category: this.category.id
             };
         
-        Axios.post('/api/markedown/markdown/create', data);
+        axios.post('/api/markedown/markdown/create', data);
 
         }
     },
