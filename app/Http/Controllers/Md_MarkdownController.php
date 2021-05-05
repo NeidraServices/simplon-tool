@@ -13,7 +13,13 @@ class Md_MarkdownController extends Controller
     //
     public function index($id){
         $markdown = Markdown_Markdown::find($id);
-        return $markdown;
+        $data = file_get_contents(public_path('markdowns/'.$markdown->url));
+        return response()->json([
+            'success' => true,
+            'id'=>$markdown->id,
+            'text'=>$data,
+            'category'=> $markdown->categories(),
+        ]);
     }
 
     public function show(){
@@ -57,21 +63,26 @@ class Md_MarkdownController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'text'     => 'required',
-                'category' => 'required',
-                'active'   => 'required',
+                'text'          => 'required',
+                'category'      => 'required',
+                'active'        => 'required',
+                'title'         =>  'required',
+                'description'   => 'required',
                 
             ],
             [
                 'required' => 'Le champ :attribute est requis',
             ]
         );
+        $errors = $validator->errors();
+
         if (count($errors) != 0) {
             return response()->json([
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }  
+        }      
+        
         
                 $file          = time().rand().'.md';
                 Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
@@ -80,9 +91,11 @@ class Md_MarkdownController extends Controller
                 //store your file into database
                 $markdown = new Markdown_Markdown();
                 $markdown->url = $file;
-                $markdown->user_id =Auth::id();
+                $markdown->user_id =1;
                 $markdown->md_category_id= $validator->validated()['category'];
-                $markdown->active=$validator->validated()['active'];;
+                $markdown->active=$validator->validated()['active'];
+                $markdown->title=$validator->validated()['title'];
+                $markdown->description=$validator->validated()['description'];
                 $markdown->save();  
             
             

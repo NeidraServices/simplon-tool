@@ -15,6 +15,8 @@ class CreateDpProjets extends Migration
     {
         Schema::create('dp_projets', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('formateur_id')->unsigned();
+            $table->foreign('formateur_id')->references('id')->on('users');
             $table->string('titre');
             $table->string('image');
             $table->datetime('deadline');

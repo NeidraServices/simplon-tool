@@ -12,7 +12,7 @@
                 class="layout justify-center"
             >
             <v-row justify="space-between">
-                <v-col cols="3" class="layout justify-flex-start">
+                <v-col cols="3" xs="6" class="layout justify-flex-start">
                     <v-autocomplete
                       v-model="recupCateg"
                       :items="categories"
@@ -26,15 +26,20 @@
 
                     </v-autocomplete>
                 </v-col>
-                <v-col cols="6" class="layout justify-center">
+                <v-col cols="6" xs="6" class="layout justify-center">
                     <v-autocomplete></v-autocomplete>
                 </v-col>
-                <v-col cols="3" class="layout justify-flex-end">
+                <v-col cols="3" xs="6" class="layout justify-flex-end">  
+                <v-spacer></v-spacer>    
+                <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
                     <v-btn 
-                        type="button"
+                        @click="navigate"
+                        @keypress.enter="navigate" 
+                        role="link"
                     >
                         Mes Markdown
                     </v-btn>
+                </router-link>
                 </v-col>
             </v-row>
             </v-card-text>
@@ -66,9 +71,6 @@
     data() {
         return {
           markdown_list: [
-              {id: 1, title:"Titre 1",author: "Auteur1", category: "catégorie1"},
-              {id: 2, title:"Titre 2",author: "Auteur2", category: "catégorie2"},
-              {id: 3, title:"Titre 3",author: "Auteur3", category: "catégorie3"},
             ],
           categories: [
             
@@ -77,14 +79,35 @@
     },
     mounted() {
       const apiCall = new APIService()
-      apiCall.getApiCategories().then(
+      apiCall.getApiMdCommuns().then(
         reponse => {
           console.log("Reponse :", reponse)
+          this.markdown_list = this.formatDataMdCom(reponse.data)
         }
       )
     },
     methods: {
+      formatDataMdCom(data){
+        let formatedData = []
+        if(Array.isArray(data)){
+            data.map(item => {
+                formatedData.push({
+                    id: item.id,
+                    category: item.id,
+                    title: item.url,
+                    author: "user"+item.user_id
+                })
+            })
+        }        
+        return formatedData
+      },
       recupCateg(){
+        const apiCall = new APIService()
+        apiCall.getApiCategories().then(
+          reponse => {
+            console.log("Reponse :", reponse)
+          }
+        )
         console.log("categ")
       },
       search(){
