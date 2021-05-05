@@ -96,7 +96,7 @@ Route::middleware(['auth:api'])->group(function(){
         Route::put("/sondage/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
         Route::put("/sondage/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
         Route::put("/sondage/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
-        Route::delete("/sondage/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
+        Route::delete("/sondage/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
     });
 // });
 

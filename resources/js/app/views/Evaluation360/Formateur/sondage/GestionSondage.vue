@@ -106,6 +106,30 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="deleteDialog" max-width="600">
+      <v-card class="py-5">
+        <v-card-title class="d-flex justify-center font-weight-bold">
+          Voulez-vous vraiment supprimer ce sondage ?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            small
+            class="grey darken-1 mr-3 white--text font-weight-medium"
+            @click="closeDelete"
+            >Annuler</v-btn
+          >
+          <v-btn
+            small
+            class="red white--text font-weight-medium"
+            @click="deleteSondage"
+            >Supprimer</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div>
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des sondages</h1>
@@ -172,6 +196,7 @@
                   class="transparent red--text"
                   v-bind="attrs"
                   v-on="on"
+                  @click="openDelete(item)"
                 >
                   <v-icon> mdi-delete </v-icon>
                 </v-btn>
