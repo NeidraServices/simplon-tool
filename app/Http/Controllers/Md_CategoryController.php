@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Markdown_Category;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\Md_CategoryResource;
+
 
 class Md_CategoryController extends Controller
 {
@@ -32,6 +35,21 @@ class Md_CategoryController extends Controller
         $category->save();
  
         return response()->json('Catégorie bien ajouté');
+    }
+
+    function search(Request $request)
+    {
+
+        $data = Validator::make(
+            $request->input(),
+            [
+                'query' => 'required|max:255',
+            ]
+        )->validate();
+        
+        $categories = Markdown_Category::where('name', 'like', '%' . $data['query'] . '%')->get();
+
+        return Md_CategoryResource::collection($categories);
     }
 
     /**

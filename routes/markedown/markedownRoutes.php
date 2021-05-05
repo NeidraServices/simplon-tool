@@ -29,6 +29,7 @@ Route::middleware(['auth:api'])->group(function(){
 
 Route::get('categories', [Md_CategoryController::class, 'index']);
 Route::group(['prefix' => 'categorie'], function () {
+    Route::get('/search', [Md_CategoryController::class, 'search']);
     Route::post('ajouter', [Md_CategoryController::class, 'create']);
     Route::put('modifier/{id}', [Md_CategoryController::class, 'edit']);
     Route::delete('supprimer/{id}', [Md_CategoryController::class, 'destroy']);

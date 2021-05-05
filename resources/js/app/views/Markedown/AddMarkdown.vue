@@ -10,13 +10,23 @@
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <v-select
-                        :items="categories"
-                        label="Catégorie"
-                    ></v-select>
+                    <v-autocomplete 
+                    :loading="loading" 
+                    :items="categories" 
+                    :search-input.sync="search"
+                    item-text="composed"
+                    return-object 
+                    cache-items 
+                    hide-no-data 
+                    hide-details
+                    label="Catégorie">
+                    </v-autocomplete>
                 </v-col>
+                
                 <v-col>
-                    <v-btn>Ajouter Catégorie</v-btn>
+                    <v-btn @click="openAddCategoryModal">
+                         Ajouter Catégorie
+                    </v-btn>
                 </v-col>
             </v-row>
 
@@ -51,7 +61,12 @@ export default {
         return {
             name: '',
             status: ['En brouillon', 'Public'],
+
+            categorie: {},
             categories: [],
+            search: null,
+            loading: false,
+
             text: '',
             custom: {
                 'preview': {
@@ -97,7 +112,43 @@ export default {
             },
         };
     },
+    
+    watch: {
+      search: function (val) {
+        if (val && val.length > 1) {
+          this.loading = true
+          axios.get('/api/markedown/categorie/search', { params: { query: val } })
+          .then(({ data }) => {
+            this.loading = false;
+              data.data.forEach(categorie => {
+                this.categories.push(this.formattedCategorie(categorie))
+              });
+          });
+        }
+      },
+    },
+    
     methods: {
+        init: function () {
+            this.name = ''
+            this.categorie = {}
+        },
+
+      formattedCategorie: function (categorie) {
+        return {
+            /* id: salarie.id,
+            nom: salarie.nom,
+            prenom: salarie.prenom,
+            tel: salarie.tel, */
+            
+            composed: categorie.name
+        }
+      },
+      
+        openAddCategoryModal(){
+            
+        },
+
         async addMarkDown() {
             let dataSend = {
                 name: this.name,
