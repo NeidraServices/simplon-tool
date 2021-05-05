@@ -1,3 +1,5 @@
+import Axios from "axios"
+
 import Sidebar from '../../../layouts/Sidebar.vue'
 
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
@@ -40,12 +42,16 @@ export default{
 
     mounted(){
         this.projets = projets
+        this.get_projets()
         this.user    = user
     },
 
-    method:{
+    methods:{
         get_projets: function(){
-
+            Axios.get("/api/deliver/projets")
+            .then((data) => {
+                console.log(data);
+            })
         }
     }
 }
