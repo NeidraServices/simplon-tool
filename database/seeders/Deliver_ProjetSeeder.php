@@ -15,6 +15,10 @@ class Deliver_ProjetSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            Deliver_AffectationSeeder::class
+        ]);
+
         for ($i = 1; $i < 4; $i++) {
             DB::table('dp_projets')->insert([
                 'formateur_id' => 1,
