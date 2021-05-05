@@ -185,4 +185,4 @@
   </v-container>
 </template>
 
-<script src="./js/sondage.js"></script>
+<script src="./js/gestionSondage.js"></script>

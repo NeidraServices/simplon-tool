@@ -2,7 +2,7 @@ import Home from './Home.vue';
 import Dashboard from './Dashboard/Dashboard.vue';
 import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
-import Sondage from "./Formateur/sondage/Sondage.vue";
+import GestionSondage from "./Formateur/sondage/Sondage.vue";
 
 export const EvalRoutes = [
     {
@@ -28,6 +28,6 @@ export const EvalRoutes = [
     {
         path: '/evaluation360/gestion/sondages',
         name: 'gestionSondage',
-        component: Sondage
+        component: GestionSondage
     },
 ]
