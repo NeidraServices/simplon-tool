@@ -9,7 +9,7 @@
         <v-card>
             <v-toolbar color="orange" dark>Supprimer le projet</v-toolbar>
             <div class="d-flex justify-space-around my-5">
-                <v-btn x-small color="error">Supprimer le projet</v-btn>
+                <v-btn x-small color="error" @click="delete_projet()">Supprimer le projet</v-btn>
                 <v-btn x-small color="success" @click="(dialog = false)">Ne pas supprimer le projet</v-btn>
             </div>
             <v-divider></v-divider>

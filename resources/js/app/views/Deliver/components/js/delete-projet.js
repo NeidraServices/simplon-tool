@@ -13,12 +13,9 @@ export default{
     },
 
 
-    method: {
+    methods: {
         delete_projet: function(){
-            Axios.post("/projets/"+ this.project_id +"/supprimer")
-            .then((data) => {
-                console.log(data);
-            })
+            this.$emit('delete_projet', this.project_id)
         }
     }
 }
