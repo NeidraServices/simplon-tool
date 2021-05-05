@@ -2,8 +2,14 @@ import Home from './Home.vue';
 import Dashboard from './Dashboard/Dashboard.vue';
 import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
+import VerifyMail from '../../views/VerifyMail.vue';
 
 export const EvalRoutes = [
+    {
+        path: '/email/verification/:token',
+        name: 'verification',
+        component: VerifyMail,
+    },
     {
         path: '/evaluation360',
         name: 'eval',
