@@ -24,10 +24,34 @@
                 </v-col>
                 
                 <v-col>
-                    <v-btn @click="openAddCategoryModal">
-                         Ajouter Catégorie
-                    </v-btn>
+                    <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on">
+                            <v-icon color="green" small>mdi-plus</v-icon>
+                        </v-btn>
+                        Ajouter une catégorie
+                    </template>
                 </v-col>
+
+                <v-card>
+                    <v-card-title> Ajouter une catégorie </v-card-title>
+
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12" md="6">
+                                    <v-text-field v-model="name" color="success" label="Nom catégorie : " required />
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn outlined color="red" text @click="dialog = false">Annuler</v-btn>
+                        <v-btn outlined color="success" @click="addCategoryModal" :disabled="!validate" class="mr-2">Ajouter</v-btn>
+                    </v-card-actions>
+                </v-card>
+
             </v-row>
 
             <v-text-field
@@ -61,6 +85,7 @@ export default {
         return {
             name: '',
             status: ['En brouillon', 'Public'],
+            dialog: false,
 
             categorie: {},
             categories: [],
@@ -145,8 +170,25 @@ export default {
         }
       },
       
-        openAddCategoryModal(){
-            
+        addCategoryModal(){
+            if (this.isValid()) {
+                const data = {
+                    name: this.name,
+                };
+                axios.post('/api/markedown/categorie/ajouter', data)
+                    .then(({ data }) => {
+                        this.$emit('create', data.data)
+                        this.dialog = false
+                    })
+                    .catch(error => {
+                        //TODO catch error
+                        console.log(error);
+                    });
+            }
+        },
+
+        isValid() {
+            return this.name != ''
         },
 
         async addMarkDown() {
@@ -158,6 +200,12 @@ export default {
             }
 
             Axios.post('/markedowns/markdown/create', dataSend);
+        }
+    },
+
+    computed: {
+        validate() {
+            return this.isValid()
         }
     }
 };

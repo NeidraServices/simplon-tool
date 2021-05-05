@@ -79,7 +79,7 @@ Route::prefix('/markdown')->group(function () {
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
     Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');
-
+    Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');  
 });
 /*
 |--------------------------------------------------------------------------
