@@ -1,6 +1,11 @@
 import { authenticationService } from "../services/authenticationService";
 import { EventBus } from "../eventBus.js"
+import Title from './components/CardTitle.vue'
 export default {
+
+    components: {
+        Title
+    },
 
     data() {
         return {
