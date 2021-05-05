@@ -3616,11 +3616,9 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false
     };
   },
-  method: {
+  methods: {
     delete_projet: function delete_projet() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/projets/" + this.project_id + "/supprimer").then(function (data) {
-        console.log(data);
-      });
+      this.$emit('delete_projet', this.project_id);
     }
   }
 });
@@ -3726,14 +3724,29 @@ var user = {
     };
   },
   mounted: function mounted() {
-    this.projets = projets;
     this.get_projets();
     this.user = user;
   },
   methods: {
     get_projets: function get_projets() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/deliver/projets").then(function (data) {
-        console.log(data);
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/deliver/projets").then(function (_ref) {
+        var data = _ref.data;
+        _this.projets = data.projets;
+      });
+    },
+    delete_projet: function delete_projet(project_id) {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/deliver/projets/" + project_id + "/supprimer").then(function (_ref2) {
+        var data = _ref2.data;
+
+        if (data.success == true) {
+          _this2.projets = _this2.projets.filter(function (projet) {
+            return projet.id != project_id;
+          });
+        }
       });
     }
   }
@@ -4532,7 +4545,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\n    display: inline-flex;\n    width: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-md-toolbar {\r\n    display: inline-flex;\r\n    width: 100%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -25513,26 +25526,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "ml-5" },
-    [
-      _c(
-        "div",
-        { staticClass: "d-flex justify-space-around my-10" },
-        [
-          _c("h2", [_vm._v("Tous les projets")]),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            { attrs: { color: "success", icon: "" } },
-            [_c("v-icon", [_vm._v("mdi-plus")])],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
+  return _c("div", { staticClass: "ml-5" }, [
+    _c(
+      "div",
+      { staticClass: "d-flex justify-space-around my-10" },
+      [
+        _c("h2", [_vm._v("Tous les projets")]),
+        _vm._v(" "),
+        _c(
+          "v-btn",
+          { attrs: { color: "success", icon: "" } },
+          [_c("v-icon", [_vm._v("mdi-plus")])],
+          1
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "d-flex flex-wrap justify-space-around" },
       _vm._l(_vm.projets, function(projet) {
         return _c(
           "div",
@@ -25547,9 +25560,9 @@ var render = function() {
                   [
                     _c("v-col", { attrs: { cols: "6" } }, [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(projet.titre) +
-                          "\n                "
+                          "\n                    "
                       )
                     ]),
                     _vm._v(" "),
@@ -25559,7 +25572,8 @@ var render = function() {
                           { staticClass: "text-end", attrs: { cols: "6" } },
                           [
                             _c("projet_ModalDelete", {
-                              attrs: { project_id: projet.id }
+                              attrs: { project_id: projet.id },
+                              on: { delete_projet: _vm.delete_projet }
                             }),
                             _vm._v(" "),
                             _c("projet_ModalUpdate", {
@@ -25594,102 +25608,7 @@ var render = function() {
                   { staticClass: "d-flex justify-space-around mt-5" },
                   [
                     _c("p", { staticClass: "text-center" }, [
-                      _vm._v(
-                        _vm._s(projet.formateur.name) +
-                          " " +
-                          _vm._s(projet.deadline)
-<<<<<<< HEAD
-=======
-=======
-                _vm._l(_vm.projets, function(projet) {
-                  return _c(
-                    "div",
-                    { key: projet.id },
-                    [
-                      _c(
-                        "v-card",
-                        { attrs: { "max-width": "344" } },
-                        [
-                          _c(
-                            "v-card-title",
-                            [
-                              _c("v-col", { attrs: { cols: "6" } }, [
-                                _vm._v(
-                                  "\r\n                            " +
-                                    _vm._s(projet.titre) +
-                                    "\r\n                        "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm.user.role != "apprenant"
-                                ? _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "text-end",
-                                      attrs: { cols: "6" }
-                                    },
-                                    [
-                                      _c("projet_ModalDelete"),
-                                      _vm._v(" "),
-                                      _c("projet_ModalUpdate", {
-                                        attrs: { projet: projet }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-img", {
-                                attrs: {
-                                  src:
-                                    "https://ma.ambafrance.org/IMG/arton11404.png?1565272504",
-                                  width: "100%",
-                                  height: "auto"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-space-around mt-5" },
-                            [
-                              _c("p", { staticClass: "text-center" }, [
-                                _vm._v(
-                                  _vm._s(projet.formateur.name) +
-                                    " " +
-                                    _vm._s(projet.deadline)
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "mt-1",
-                                  attrs: {
-                                    "x-small": "",
-                                    color: "success",
-                                    outlined: ""
-                                  }
-                                },
-                                [_vm._v("ouvrir")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
->>>>>>> f0b9bebc5d5332c32dd4eabbd7e1dc4bcd25f900
->>>>>>> da986fd855b272887b0d61059deceb7353d63192
-                      )
+                      _vm._v(" " + _vm._s(projet.deadline))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -25709,10 +25628,10 @@ var render = function() {
           ],
           1
         )
-      })
-    ],
-    2
-  )
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -25787,9 +25706,18 @@ var render = function() {
             "div",
             { staticClass: "d-flex justify-space-around my-5" },
             [
-              _c("v-btn", { attrs: { "x-small": "", color: "error" } }, [
-                _vm._v("Supprimer le projet")
-              ]),
+              _c(
+                "v-btn",
+                {
+                  attrs: { "x-small": "", color: "error" },
+                  on: {
+                    click: function($event) {
+                      return _vm.delete_projet()
+                    }
+                  }
+                },
+                [_vm._v("Supprimer le projet")]
+              ),
               _vm._v(" "),
               _c(
                 "v-btn",
@@ -26764,14 +26692,143 @@ var render = function() {
               _c(
                 "v-col",
                 [
-                  _c("v-select", {
-                    attrs: { items: _vm.categories, label: "Catégorie" }
+                  _c("v-autocomplete", {
+                    attrs: {
+                      loading: _vm.loading,
+                      items: _vm.categories,
+                      "search-input": _vm.search,
+                      "item-text": "composed",
+                      "return-object": "",
+                      "cache-items": "",
+                      "hide-no-data": "",
+                      "hide-details": "",
+                      label: "Catégorie"
+                    },
+                    on: {
+                      "update:searchInput": function($event) {
+                        _vm.search = $event
+                      },
+                      "update:search-input": function($event) {
+                        _vm.search = $event
+                      }
+                    }
                   })
                 ],
                 1
               ),
               _vm._v(" "),
-              _c("v-col", [_c("v-btn", [_vm._v("Ajouter Catégorie")])], 1)
+              _c("v-col", {
+                scopedSlots: _vm._u([
+                  {
+                    key: "activator",
+                    fn: function(ref) {
+                      var on = ref.on
+                      return [
+                        _c(
+                          "v-btn",
+                          _vm._g({ attrs: { icon: "" } }, on),
+                          [
+                            _c(
+                              "v-icon",
+                              { attrs: { color: "green", small: "" } },
+                              [_vm._v("mdi-plus")]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(
+                          "\n                    Ajouter une catégorie\n                "
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [_vm._v(" Ajouter une catégorie ")]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-container",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12", md: "6" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      color: "success",
+                                      label: "Nom catégorie : ",
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.name,
+                                      callback: function($$v) {
+                                        _vm.name = $$v
+                                      },
+                                      expression: "name"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { outlined: "", color: "red", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Annuler")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mr-2",
+                          attrs: {
+                            outlined: "",
+                            color: "success",
+                            disabled: !_vm.validate
+                          },
+                          on: { click: _vm.addCategoryModal }
+                        },
+                        [_vm._v("Ajouter")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -27318,143 +27375,14 @@ var render = function() {
               _c(
                 "v-col",
                 [
-                  _c("v-autocomplete", {
-                    attrs: {
-                      loading: _vm.loading,
-                      items: _vm.categories,
-                      "search-input": _vm.search,
-                      "item-text": "composed",
-                      "return-object": "",
-                      "cache-items": "",
-                      "hide-no-data": "",
-                      "hide-details": "",
-                      label: "Catégorie"
-                    },
-                    on: {
-                      "update:searchInput": function($event) {
-                        _vm.search = $event
-                      },
-                      "update:search-input": function($event) {
-                        _vm.search = $event
-                      }
-                    }
+                  _c("v-select", {
+                    attrs: { items: _vm.categories, label: "Catégorie" }
                   })
                 ],
                 1
               ),
               _vm._v(" "),
-              _c("v-col", {
-                scopedSlots: _vm._u([
-                  {
-                    key: "activator",
-                    fn: function(ref) {
-                      var on = ref.on
-                      return [
-                        _c(
-                          "v-btn",
-                          _vm._g({ attrs: { icon: "" } }, on),
-                          [
-                            _c(
-                              "v-icon",
-                              { attrs: { color: "green", small: "" } },
-                              [_vm._v("mdi-plus")]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(
-                          "\n                    Ajouter une catégorie\n                "
-                        )
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c(
-                "v-card",
-                [
-                  _c("v-card-title", [_vm._v(" Ajouter une catégorie ")]),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-text",
-                    [
-                      _c(
-                        "v-container",
-                        [
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "12", md: "6" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      color: "success",
-                                      label: "Nom catégorie : ",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.name,
-                                      callback: function($$v) {
-                                        _vm.name = $$v
-                                      },
-                                      expression: "name"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { outlined: "", color: "red", text: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.dialog = false
-                            }
-                          }
-                        },
-                        [_vm._v("Annuler")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "mr-2",
-                          attrs: {
-                            outlined: "",
-                            color: "success",
-                            disabled: !_vm.validate
-                          },
-                          on: { click: _vm.addCategoryModal }
-                        },
-                        [_vm._v("Ajouter")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("v-col", [_c("v-btn", [_vm._v("Ajouter Catégorie")])], 1)
             ],
             1
           ),
