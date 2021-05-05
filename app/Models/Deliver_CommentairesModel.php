@@ -9,6 +9,9 @@ class Deliver_CommentairesModel extends Model
 {
     use HasFactory;
     protected $table = 'dp_commentaires';
+    protected $fillable = [
+        'text',"projet_id","user_id","commentaire_id"
+    ];
     public function users(){
         return $this->belongsTo(Deliver_UsersModel::class,"user_id","id");
     }
