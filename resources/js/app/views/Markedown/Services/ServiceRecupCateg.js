@@ -10,10 +10,6 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 }
 
 export class APIService {
-    // register(user) {
-    //     const url = `${API_URL}/register`;
-    //     return axios.post(url, user);
-    // }
     getApiCategories() {
         const url = `${API_URL}/categories`;
         return axios.get(url);
@@ -39,5 +35,10 @@ export class APIService {
     getApiMdDetails(id) {
         const url = `${API_URL}/my-markdowns?id=${id}`;
         return axios.get(url);
+    }
+
+    async updateStatus(dataSend,id){
+        const url = `${API_URL}/markdown/active/${id}`;
+        return axios.post(url, dataSend);
     }
 }

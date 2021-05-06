@@ -47,7 +47,8 @@ import ItemMyMd from "./component/ItemMyMd";
 import BtnWithIcon from "./component/BtnWithIcon";
 import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
-  import {APIService} from './Services/ServiceRecupCateg'
+import {APIService} from './Services/ServiceRecupCateg'
+const apiCall = new APIService()
 export default {
     name: "MyMarkedDowns",
     components: {
@@ -66,7 +67,6 @@ export default {
         };
     },
     mounted() {
-      const apiCall = new APIService()
       apiCall.getApiMyMds().then(
         reponse => {
           console.log("Reponse :", reponse)
@@ -99,9 +99,6 @@ export default {
           }
         )
         console.log("categ")
-      },
-      search(){
-        console.log("Valll")
       },
     }
   };
