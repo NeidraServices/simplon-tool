@@ -25,10 +25,11 @@
 
       <div v-if="commentaries.length == 0">Aucun commentaires.</div>
       <div v-for="item in commentaries" :key="item.id">
-        <h3>Nom Utilisateur {{ item.user_id }} :</h3>
-        <small>{{ item.created_at }}</small>
+          <v-img :src="getAvatar(item.user.avatar)"></v-img>
+        <h3>{{ item.user.name }} {{ item.user.surname }}  :</h3>
+        <small>{{ item.createdAt | formatDate }}</small>
         <p>{{ item.description }}</p>
-        <divider></divider>
+        <v-divider></v-divider>
       </div>
       <v-textarea
         v-model="commentary"
@@ -91,25 +92,17 @@ export default {
         );
         const reqData = req.data;
         console.log(reqData);
-        this.name = reqData.title;
-        this.description = reqData.description;
-        this.text = reqData.text;
-        this.active = reqData.status;
+         this.name = reqData.markdown.title;
+         this.description = reqData.markdown.description;
+         this.text = reqData.text;
+         this.active = reqData.markdown.status;
+         this.commentaries = reqData.markdown.commentary
+
       } catch (error) {
         console.log(error);
       }
     },
-    async getCommentary() {
-      try {
-        const req = await Axios.get(
-          `${location.origin}/api/markedown/commentaires/${this.id}`
-        );
-        this.commentaries = req.data;
-        console.log(req.data);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+
     async postCommentary() {
       const data = {
         description: this.commentary,
@@ -123,13 +116,14 @@ export default {
         this.flashMessage.success({
           message: data.message,
         });
-        this.getCommentary();
+        this.getData();
       });
-    },
+    }, getAvatar(image) {
+          return `${location.origin}/images/${image}`;
+      },
   },
   created() {
     this.getData();
-    this.getCommentary();
   },
 };
 </script>
