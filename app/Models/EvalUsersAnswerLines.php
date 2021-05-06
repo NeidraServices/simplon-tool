@@ -16,13 +16,14 @@ class EvalUsersAnswerLines extends Model
      */
     protected $fillable = [
         'note',
+        'reponse',
     ];
 
-    public function users() {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function sondageLines() {
+    public function sondageLine() {
         return $this->belongsTo(EvalSondageLines::class, 'sondage_line_id', 'id');
     }
 }
