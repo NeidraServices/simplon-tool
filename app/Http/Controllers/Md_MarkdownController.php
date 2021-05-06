@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Md_ArchiveController;
 use Illuminate\Http\Request;
 use App\Models\Markdown_Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,7 @@ class Md_MarkdownController extends Controller
 
         
         $markdown = Markdown_Markdown::where('id',$id)->first();
+        Md_ArchiveController::create($markdown->id,$markdown->url);
         $markdown->url = $file;
         $markdown->save();
         return response()->json([
