@@ -103,7 +103,7 @@
 <script>
 import MdEditor from "./component/MdEditor";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
-import {APIService} from './Services/ServiceRecupCateg';
+import {APIService} from './Services/Services';
 export default {
     name: "AddMarkedDown",
     components: {

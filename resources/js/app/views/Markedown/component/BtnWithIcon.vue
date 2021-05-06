@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="'/markedowns/'+link" custom v-slot="{ navigate }">
+    <router-link :to="{name: routeName, params: !parameters ? {} : parameters }" custom v-slot="{ navigate }">
         <v-btn 
             class="ma-2" 
             @click="navigate" 
@@ -17,9 +17,12 @@
             title:{
                 type: String
             },
-            link:{
+            routeName:{
                 type: String
-            },    
+            }, 
+            parameters: {
+                type: Object
+            } 
         }
     }
 </script>

@@ -12,15 +12,7 @@
             <v-card-text 
                 class="layout justify-center"
             >
-        <v-row >
-            <BtnWithIcon v-bind:title="'Archive'" v-bind:link="'archives'">
-                <v-icon
-                    left
-                    dark
-                >
-                    mdi-archive
-                </v-icon>
-            </BtnWithIcon>
+        <v-row >            
             <v-spacer></v-spacer>
             <SimpleBtn v-bind:title="'Ajouter'" v-bind:link="'add'" />
         </v-row>
@@ -50,7 +42,7 @@ import ItemMyMd from "./component/ItemMyMd";
 import BtnWithIcon from "./component/BtnWithIcon";
 import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
-import {APIService} from './Services/ServiceRecupCateg'
+import {APIService} from './Services/Services'
 import CustomFlashMessage from "./component/CustomFlashMessage";
 const apiCall = new APIService()
 export default {

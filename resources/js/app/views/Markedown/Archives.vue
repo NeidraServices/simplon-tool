@@ -6,7 +6,7 @@
             <v-card-title 
                 class="layout justify-center"
             >
-                Archives
+                Archives ID:{{id}}
             </v-card-title>
             <v-card-text 
                 class="layout justify-center"
@@ -44,11 +44,17 @@
 </template>
 <script>
   import ItemArchive from "./component/ItemArchive";
-  import {APIService} from './Services/ServiceRecupCateg'
+  import {APIService} from './Services/Services'
+  const apiCall = new APIService()
   export default {
     name: "Archives",
     components: {
       ItemArchive
+    },
+    props: {
+      id: {
+          type: String
+      }
     },
     data() {
         return {
@@ -60,16 +66,16 @@
         };
     },
     mounted() {
-      const apiCall = new APIService()
-      apiCall.getApiMyArchives().then(
+      console.log("ID :", this.id)
+      apiCall.getApiMyArchives(this.id).then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
+          this.markdown_list = this.formatDataArchives(reponse.data)
         }
       )
     },
     methods: {
-      formatDataMdCom(data){
+      formatDataArchives(data){
         let formatedData = []
         if(Array.isArray(data)){
             data.map(item => {
@@ -84,15 +90,6 @@
         }        
         return formatedData
       },
-      recupCateg(){
-        const apiCall = new APIService()
-        apiCall.getApiCategories().then(
-          reponse => {
-            console.log("Reponse :", reponse)
-          }
-        )
-        console.log("categ")
-      }
     }
   };
 </script>

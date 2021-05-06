@@ -21,7 +21,17 @@
                 </v-col>
                 <v-col cols="3" align="end" justify="center">
                     <v-row>
-                        <v-spacer></v-spacer>
+                        <div  class="mt-6 mb-5">
+                            <BtnWithIcon v-bind:title="'Archive'" v-bind:routeName="'Archives'" v-bind:parameters="{id:item.id.toString()}">
+                                <v-icon
+                                    left
+                                    dark
+                                >
+                                    mdi-archive
+                                </v-icon>
+                            </BtnWithIcon>
+                        </div>
+                        <!-- <v-spacer></v-spacer> -->
                         <div  class="ma-5">
                             <v-switch
                                 v-model="modifStatus"
@@ -49,10 +59,13 @@
     </v-col>
 </template>
 <script>
-
-    import {APIService} from '../Services/ServiceRecupCateg'
+    import BtnWithIcon from "../component/BtnWithIcon";
+    import {APIService} from '../Services/Services'
     const apiCall = new APIService()
     export default {
+        components: {
+            BtnWithIcon
+        },
         data(){
             return{
                 status: "En brouillon",

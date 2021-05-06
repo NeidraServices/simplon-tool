@@ -51,7 +51,7 @@
 <script>
   import ItemMdCommun from "./component/ItemMdCommun";
   import AutocompleteCategorie from "./component/AutocompleteCategorie";
-  import {APIService} from './Services/ServiceRecupCateg';
+  import {APIService} from './Services/Services';
 import CustomFlashMessage from "./component/CustomFlashMessage";
   const apiCall = new APIService()
 
