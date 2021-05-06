@@ -67,7 +67,7 @@ export default {
       apiCall.getApiMyMds().then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
+          this.markdown_list = this.formatDataMdCom(reponse.data.data)
         }
       ).catch (error => {
           console.log(error)

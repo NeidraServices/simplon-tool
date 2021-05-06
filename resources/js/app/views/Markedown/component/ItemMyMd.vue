@@ -21,7 +21,7 @@
                 </v-col>
                 <v-col cols="3" align="end" justify="center">
                     <v-row>
-                        <div  class="mt-6 mb-5">
+                        <div  class="mt-6 mb-5 ml-4">
                             <BtnWithIcon v-bind:title="'Archive'" v-bind:routeName="'Archives'" v-bind:parameters="{id:item.id.toString()}">
                                 <v-icon
                                     left
@@ -32,7 +32,7 @@
                             </BtnWithIcon>
                         </div>
                         <!-- <v-spacer></v-spacer> -->
-                        <div  class="ma-5">
+                        <div  class="mt-5 mb-5 ml-5">
                             <v-switch
                                 v-model="modifStatus"
                                 @click.stop="updateStatus"
@@ -119,7 +119,7 @@
             },
             goTo(item){
                 this.$router.push({ name: 'ShowEditMd', params: {id: item.id.toString()}})
-            }
+            },
         }
     }
 </script>

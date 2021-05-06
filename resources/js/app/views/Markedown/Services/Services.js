@@ -10,10 +10,6 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 }
 
 export class APIService {
-    // register(user) {
-    //     const url = `${API_URL}/register`;
-    //     return axios.post(url, user);
-    // }
     getApiCategories() {
         const url = `${API_URL}/categories`;
         return axios.get(url);

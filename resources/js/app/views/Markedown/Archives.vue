@@ -6,7 +6,7 @@
             <v-card-title 
                 class="layout justify-center"
             >
-                Archives ID:{{id}}
+                Archives
             </v-card-title>
             <v-card-text 
                 class="layout justify-center"
@@ -70,7 +70,7 @@
       apiCall.getApiMyArchives(this.id).then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataArchives(reponse.data)
+          this.markdown_list = this.formatDataArchives(reponse.data.data)
         }
       )
     },
@@ -81,9 +81,9 @@
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.id,
-                    title: item.title,
-                    description: item.description,
+                    category: item.markdown.category.name,
+                    title: item.markdown.title,
+                    description: item.markdown.description,
                     date: item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : "Date "+item.id)
                 })
             })

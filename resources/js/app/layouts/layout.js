@@ -1,9 +1,15 @@
 import Sidebar from "./Sidebar";
 import Logout from './Logout'
+import MenuEval from '../navigations/evaluation360/MenuEval.vue'
+import MenuMd from '../navigations/markdown/MenuMd.vue'
+import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
 export default {
     components: {
         Sidebar,
-        Logout
+        Logout,
+        MenuEval,
+        MenuMd,
+        MenuDeliver
     },
 
 
@@ -14,6 +20,29 @@ export default {
         }
     },
 
+    computed: {
+        pathIsEval() {
+            let routeName = this.$route.path;
+            var splits = routeName.split("/", 2);
+            if (splits[1] == "evaluation360") {
+                return splits[1];
+            }
+        },
+        pathIsMd() {
+            let routeName = this.$route.path;
+            var splits = routeName.split("/", 2);
+            if (splits[1] == "markedowns") {
+                return splits[1];
+            }
+        },
+        pathIsDeliver() {
+            let routeName = this.$route.path;
+            var splits = routeName.split("/", 2);
+            if (splits[1] == "deliver") {
+                return splits[1];
+            }
+        },
+    },
 
 
     mounted() {

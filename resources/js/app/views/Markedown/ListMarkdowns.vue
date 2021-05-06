@@ -71,7 +71,7 @@ import CustomFlashMessage from "./component/CustomFlashMessage";
       apiCall.getApiMdCommuns().then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
+          this.markdown_list = this.formatDataMdCom(reponse.data.data)
         }
       ).catch (error => {
           console.log(error)
@@ -88,10 +88,10 @@ import CustomFlashMessage from "./component/CustomFlashMessage";
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.md_category_id,
+                    category: item.category.name,
                     description: item.description,
                     title: item.title,
-                    author: "user - "+item.user_id
+                    author: item.user.name
                 })
             })
         }

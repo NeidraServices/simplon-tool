@@ -12,8 +12,13 @@ class Deliver_AffectationController extends Controller
     //
     public function affecter(Request $req){
 
-        $data=Validator::make($req->all(),["user_id"=>"required","projet_id"=>"required"])->validate();
+        $validator=Validator::make($req->all(),["user_id"=>"required","projet_id"=>"required"]);
 
+        if($validator->fails()){ 
+            return response()->json(["success" => false, "error" => $validator->errors()]);
+        }
+        $data=$validator->validate();
+        
         $user=Deliver_UsersModel::find($data["user_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
@@ -25,7 +30,7 @@ class Deliver_AffectationController extends Controller
 
         if(sizeof($affectation)==0){
 
-        $user->projets()->attach($data["user_id"],["projet_id"=>$data["projet_id"]]);
+       return $user->projets()->attach($data["user_id"],["projet_id"=>$data["projet_id"]]);
 
         }else{
             return response()->json(["error"=>"cette apprenant est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]]);
@@ -34,12 +39,19 @@ class Deliver_AffectationController extends Controller
 
     public function supprimerApprenant(Request $req){
         
-        $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+        $validator=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"]);
+
+        if($validator->fails()){ 
+            return response()->json(["success" => false, "error" => $validator->errors()]);
+        }
+
+        $data=$validator->validate();
 
         $user=Deliver_UsersModel::find($data["user_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
         $user->projets()->detach($projet["id"]);
+        return response()->json(['success' => true]);
 
     }
 }

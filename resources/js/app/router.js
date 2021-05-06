@@ -7,7 +7,9 @@ import HomePage from './views/Home.vue'
 import { authenticationService } from "./services/authenticationService";
 import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
+import Compte from './views/compte/Compte.vue';
 import VerifyMail from './views/VerifyMail.vue';
+import Store from './store';
 
 Vue.use(VueRouter);
 
@@ -16,12 +18,17 @@ var routes = [
         path: '/',
         name: 'home',
         component: HomePage,
-        meta: { authorize: [Role.Admin] }
+        meta: { requiresAuth: true }
     },
     {
         path: '/connexion',
         name: 'login',
         component: Login,
+    },
+    {
+        path: '/compte/:id',
+        name: 'compte',
+        component: Compte,
     },
     {
         path: '/email/verification/:token',
@@ -39,9 +46,13 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const { authorize } = to.meta;
+    const { authorize, requiresAuth } = to.meta;
 
-    if (authorize && !_.isEmpty(authorize)) {
+    if(requiresAuth) {
+        if(!Store.state.isLogged) {
+            
+        }
+    } else if (authorize && !_.isEmpty(authorize) && requiresAuth) {
         const role = authenticationService.currentRoleValue;
 
         if (!role) {

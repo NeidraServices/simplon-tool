@@ -63,15 +63,17 @@ Route::middleware(['auth:api'])->group(function(){
 });
 
 Route::get("/projets",[Deliver_ProjetController::class,"projets"])->name('api.projects.retrieveall');
+Route::get("/projets/mesprojets",[Deliver_ProjetController::class,"mesProjets"])->name('api.projects.retrievemine');
 Route::post("/projets/ajouter",[Deliver_ProjetController::class,"addProjet"])->name('api.projects.create');
 Route::get("/projets/{id}/voir",[Deliver_ProjetController::class,"getProjet"])->name('api.projects.retrieveone');
 Route::post("/projets/{id}/modifier",[Deliver_ProjetController::class,"editProjet"])->name('api.projects.edit');
 Route::post("/projets/{id}/supprimer",[Deliver_ProjetController::class,"deleteProjet"])->name('api.projects.delete');
 
-// api/deliver/create/rendu/projects/1
 Route::post("/create/rendus/projects/{projet_id}",[Deliver_RenduController::class,"addRendu"])->name('api.rendu.create');
+Route::post("/edit/rendus/{rendu_id}",[Deliver_RenduController::class,"editRendu"])->name('api.rendu.edit');
 Route::get("/view/rendus/projects/{projet_id}",[Deliver_RenduController::class,"rendus"])->name('api.rendu.retrieveall');
 Route::get("/view/rendus/{rendu_id}",[Deliver_RenduController::class,"getRendu"])->name('api.rendu.retrieveone');
+Route::delete("/delete/rendus/{rendu_id}",[Deliver_RenduController::class,"deleteRendu"])->name('api.rendu.delete');
 
 /*
 |--------------------------------------------------------------------------

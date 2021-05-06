@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
 use App\Models\Deliver_TagModel;
+use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
 use Mockery\Undefined;
@@ -43,6 +44,12 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
+    public function mesProjets(){
+        $projets = Deliver_UsersModel::with("projets")->whereHas("projets",function($user){
+            $user->where("user_id",3);
+        })->get();
+       return response()->json(['projets' =>  $projets[0]["projets"]]);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +103,8 @@ class Deliver_ProjetController extends Controller
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
-                'description' => 'required'
+                'description' => 'required',
+                'date_presentation' => 'required'
             ]
         );
 
@@ -109,13 +117,13 @@ class Deliver_ProjetController extends Controller
             ]);
         }
 
-        $public_img_path = "/public/img/";
+        $public_img_path = "/public/images/";
         if($request->image){
             $image       =  $request->image;
             $extension   = $image->getClientOriginalExtension();
             $image_name  = time() . rand() . '.' . $extension;
-            $image_path  = $public_img_path + "/cover/" + $image_name;
-            $image->move(public_path('img/cover'), $image_name);
+            $image_path  = $public_img_path . "/projets". "/" . $image_name;
+            $image->move(public_path('images/projets'), $image_name);
         }else{
             $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
         }
@@ -125,6 +133,7 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
+            "date_presentation" => $request->date_presentation,
             "image" => $image_path,
             "formateur_id" => $request->formateur_id
         ]));
@@ -132,14 +141,14 @@ class Deliver_ProjetController extends Controller
         if($request->all()["competences"]){
         foreach($request->all()["competences"] as $comp){
             $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
- 
+
             $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
         }
     }
     if($request->all()["techno"]){
         foreach($request->all()["techno"] as $comp){
             $competences=Deliver_TagModel::where("nom",$comp)->get();
- 
+
             $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
         }
     }
@@ -166,6 +175,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
+                'date_presentation' => 'required',
                 'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
@@ -188,6 +198,7 @@ class Deliver_ProjetController extends Controller
         $projet->titre        = $validator->validated()['titre'];
         $projet->deadline     = $validator->validated()['deadline'];
         $projet->description  = $validator->validated()['description'];
+        $projet->date_presentation  = $validator->validated()['date_presentation'];
 
         // Pour des raisons de test du backend seulement
         if(array_key_exists("image", $validator->validated())) {
@@ -195,14 +206,14 @@ class Deliver_ProjetController extends Controller
                 $oldImage = $projet->image;
 
                 if ($oldImage != null) {
-                    $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                    $oldFilePath = public_path('images/projets') . '/' . $oldImage;
                     unlink($oldFilePath);
                 }
 
-                $image          = $validator->validated()['cover'];
+                $image          = $validator->validated()['image'];
                 $extension      = $image->getClientOriginalExtension();
                 $image_name          = time() . rand() . '.' . $extension;
-                $image->move(public_path('img/cover'), $image_name);
+                $image->move(public_path('images/projets'), $image_name);
                 $projet->image = $image_name;
             }
         }
