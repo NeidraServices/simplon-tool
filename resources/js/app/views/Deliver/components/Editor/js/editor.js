@@ -18,7 +18,7 @@ export default {
       extensions: defaultExtensions(),
       content: `
         <h2>
-          Hi there,
+          Entrez-votre description pour le projet
         </h2>`,
     })
   },
@@ -26,4 +26,11 @@ export default {
   beforeDestroy() {
     this.editor.destroy()
   },
+
+  methods:{
+    get_content: function(){
+      return this.editor.contentComponent.$el.innerText
+    }
+  }
+
 }

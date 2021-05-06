@@ -26,6 +26,7 @@ class EvalSondageFormateurResource extends JsonResource
             'global_note'   => $this->global_note,
             'user'          => $user,
             'lines'         => EvalSondageLinesResource::collection($this->sondage),
+            'userComments'  => EvalUserSondagesCommentsResource::collection($this->userComments),
             'accepted'      => $this->accepted == 0 ? 'En attente' : 'Accepter',
             'published'     => $this->published == 0 ? 'En attente' : 'Publier',
             'created_at'    => $createAtFormated,
