@@ -18,7 +18,7 @@ var routes = [
         path: '/',
         name: 'home',
         component: HomePage,
-        meta: { requiresAuth: true }
+        meta: { authorize: Role }
     },
     {
         path: '/connexion',
@@ -46,15 +46,8 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const { authorize, requiresAuth } = to.meta;
-
-    if(requiresAuth) {
-        if(!Store.state.isLogged) {
-            return next({ path: "/connexion", query: { returnUrl: to.path } });
-        } else {
-            return next()
-        }
-    } else if (authorize && !_.isEmpty(authorize) && requiresAuth) {
+    const { authorize } = to.meta;
+    if (authorize && !_.isEmpty(authorize)) {
         const role = authenticationService.currentRoleValue;
 
         if (!role) {
