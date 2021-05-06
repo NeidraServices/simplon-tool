@@ -6,25 +6,26 @@
             >
                 {{item.title}}
             </v-card-title>
-            
             <v-card-text 
-                class="layout justify-start"
-            >
-                {{item.description}}
+                    class="layout justify-start"
+                >
+                <div class="contenu">
+                        {{item.description}}
+                </div>
             </v-card-text>  
             <v-row>
                 <v-col cols="6">
                     <v-card-text 
                         class="layout justify-start"
                     >
-                        {{item.category}}
+                        <v-icon color="primary" class="mr-2">mdi-tag</v-icon>{{item.category}}
                     </v-card-text>
                 </v-col>                
                 <v-col cols="6"> 
                     <v-card-text 
                         class="layout justify-end"
                     >
-                        {{item.author}}
+                        <v-icon color="primary" class="mr-2">mdi-account</v-icon>{{item.author}}
                     </v-card-text> 
                 </v-col>
             </v-row> 
@@ -51,3 +52,11 @@
         }
     }
 </script>
+<style>
+    .contenu{
+        white-space: nowrap ;
+        word-break: normal;
+        overflow: hidden ;
+        text-overflow: ellipsis;
+    }
+</style>
