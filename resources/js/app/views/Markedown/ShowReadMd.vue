@@ -1,22 +1,32 @@
 <template>
     <div>
         <v-container>
-            <FlashMessage :position="'top'" ></FlashMessage>
-            <h2 class="titre">{{name}}</h2>
+            <FlashMessage :position="'top'"></FlashMessage>
+            <h2 class="titre">{{ name }}</h2>
             <v-row>
                 <v-col>
-                    {{title}}
-                    <p>klj{{ text }}</p>
+                    {{ title }}
+                    <p>{{ description }}</p>
+                    <p>{{ text }}</p>
                 </v-col>
             </v-row>
-            <v-btn outlined @click="editMD">Editer</v-btn>
+            <v-btn outlined @click="">Editer</v-btn>
             <br><br>
             <v-divider></v-divider>
             <br>
-            <v-textarea label="Commentaire"></v-textarea>
-            <v-btn outlined @click="update">Ajouter</v-btn><br><br>
             <h3 class="titre">Commentaires :</h3>
 
+
+            <div v-if="commentaries.length == 0 ">Aucun commentaires.</div>
+            <div v-for="item in commentaries" :key="item.id">
+                <h3> Nom Utilisateur {{item.user_id}}   :</h3>
+                <small>{{item.created_at}}</small>
+                <p>{{item.description}}</p>
+                <divider></divider>
+            </div>
+            <v-textarea v-model="commentary" label="Ajouter un commentaire"></v-textarea>
+            <v-btn outlined @click="postCommentary">Ajouter</v-btn>
+            <br><br>
         </v-container>
 
     </div>
@@ -28,14 +38,12 @@
 }
 </style>
 <script>
-import MdEditor from "./component/MdEditor";
-import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import Axios from "axios";
+
 export default {
     name: "ShowReadMd",
     components: {
-        MdEditor,
-        AutocompleteCategorie
+
     },
     props: {
         id: {
@@ -47,45 +55,70 @@ export default {
             name: '',
             active: '',
             category: '',
+            description: '',
+            commentary: '',
             title: '',
             status: [{
-                label:'En brouillon',
-                value:0
+                label: 'En brouillon',
+                value: 0
             },
                 {
-                    label:'Public',
-                    value:1
+                    label: 'Public',
+                    value: 1
                 }],
             categories: [],
+            commentaries: [],
             text: '',
         };
     },
 
-    methods : {
+    methods: {
         async getData() {
-
             try {
                 const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`)
                 const reqData = req.data
                 console.log(reqData)
-                this.name= reqData.title
-                this.text= reqData.text
-                this.active= reqData.status
-
+                this.name = reqData.title
+                this.description = reqData.description
+                this.text = reqData.text
+                this.active = reqData.status
 
             } catch (error) {
                 console.log(error)
             }
+        },
+        async getCommentary() {
+            try {
+                const req = await Axios.get(`/api/markedown/commentaires/${this.id}`)
+                this.commentaries = req.data;
+                console.log(req.data)
+            }catch (error) {
+                console.log(error)
+            }
+        },
+        async postCommentary() {
+            const data = {
+                description: this.commentary,
+                userId : 1 // a changer pour avoir l'id dynamiquement
+            }
+
+            await Axios.post(`/api/markedown/commentaire/ajouter/${this.id}`, data).then(({ data }) => {
+                this.flashMessage.success({
+                    message: data.message,
+                });
+                this.getCommentary();
+            })
         }
     },
     created() {
         this.getData();
+        this.getCommentary();
+
     },
 };
 </script>
-
 <style>
-.titre{
+.titre {
     width: 100%;
     text-align: center;
     margin-bottom: 30px;

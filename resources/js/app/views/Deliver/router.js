@@ -3,7 +3,7 @@ import Projet from './Details-projet.vue';
 
 export const DeliverRoutes = [
     {
-        path: '/deliver/projet',
+        path: '/deliver/projet/:id',
         name: 'testDeliver',
         component: Projet
     },
