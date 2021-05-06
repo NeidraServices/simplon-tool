@@ -83,7 +83,7 @@ export default {
                     id: item.id,
                     category: item.md_category_id,
                     title: item.title,
-                    active: item.active,
+                    status: item.status,
                     description: item.description,
                     author: "user"+item.user_id
                 })

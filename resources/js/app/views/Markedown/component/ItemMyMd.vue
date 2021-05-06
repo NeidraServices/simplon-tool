@@ -83,14 +83,14 @@
                 description:{
                     type: String
                 },
-                active: {
+                status: {
                     type: Number
                 }
             },          
         },
         mounted() {
-            this.status = (this.item.active == 0) ? "En brouillon" : "Finalisé"
-            this.modifStatus = (this.item.active == 0) ? false : true
+            this.status = (this.item.status == 0) ? "En brouillon" : "Finalisé"
+            this.modifStatus = (this.item.status == 0) ? false : true
         },
         watch: {            
             modifStatus(newValue){
@@ -104,12 +104,13 @@
                 }
                 apiCall.updateStatus(dataSend, this.item.id).then(
                      reponse => {
+                         console.log("resp :",reponse)
                         if(this.modifStatus) {
                             this.status = "Finalisé"
                         }else {
                             this.status = "En brouillon"
                         }
-                        this.$emit('show-success-msg', "Mise à jour du status effectué avec succès");
+                        this.$emit('show-success-msg', "Etat modifié avec succès");
                     }
                 ).catch(error => {
                     this.modifStatus = !this.modifStatus                

@@ -38,6 +38,7 @@ export class APIService {
     }
 
     updateStatus(dataSend, id) {
+        console.log("datatosend :"+id,dataSend)
         const url = `${API_URL}/markdown/active/${id}`;
         return axios.post(url, dataSend);
     }
