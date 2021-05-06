@@ -24,7 +24,7 @@ class Md_MarkdownController extends Controller
 
     public function show(){
         $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();
-        return $markdowns;
+        return MarkdownResource::collection($markdowns);
     }
     // encours:liasin_archive
     public function editMd(Request $request,$id){
