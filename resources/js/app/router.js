@@ -9,6 +9,7 @@ import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
 import Compte from './views/compte/Compte.vue';
 import VerifyMail from './views/VerifyMail.vue';
+import Store from './store';
 
 Vue.use(VueRouter);
 

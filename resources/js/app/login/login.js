@@ -27,10 +27,11 @@ export default {
     },
 
     created() {
-        if (authenticationService.currentRoleValue) {
-            return this.$router.push('/');
-        } 
+        if(localStorage.getItem('token')) {
+            this.$router.push('/')
+        }
     },
+
     methods: {
         async connection() {
             try {
