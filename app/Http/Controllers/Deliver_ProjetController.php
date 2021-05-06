@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
 use App\Models\Deliver_TagModel;
+use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
 use Mockery\Undefined;
@@ -43,6 +44,12 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
+    public function mesProjets(){
+        $projets = Deliver_UsersModel::with("projets")->whereHas("projets",function($user){
+            $user->where("user_id",3);
+        })->get();
+       return response()->json(['projets' =>  $projets[0]["projets"]]);
+    }
 
     /*
     |--------------------------------------------------------------------------
