@@ -2,13 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Deliver_ProjetController;
-use App\Http\Controllers\Deliver_CommentairesController;
-use App\Http\Controllers\Deliver_CompetenceController;
-use App\Http\Controllers\Deliver_MediaController;
-use App\Http\Controllers\Deliver_TagController;
-use App\Http\Controllers\Deliver_AffectationController;
 use App\Http\Resources\Deliver_ProjetResource;
+use App\Http\Controllers\Deliver_TagController;
+use App\Http\Controllers\Deliver_MediaController;
+use App\Http\Controllers\Deliver_RenduController;
+use App\Http\Controllers\Deliver_ProjetController;
+use App\Http\Controllers\Deliver_CompetenceController;
+use App\Http\Controllers\Deliver_AffectationController;
+use App\Http\Controllers\Deliver_CommentairesController;
 /*
 |--------------------------------------------------------------------------
 | Deliver commentaires routes
@@ -67,6 +68,10 @@ Route::get("/projets/{id}/voir",[Deliver_ProjetController::class,"getProjet"])->
 Route::post("/projets/{id}/modifier",[Deliver_ProjetController::class,"editProjet"])->name('api.projects.edit');
 Route::post("/projets/{id}/supprimer",[Deliver_ProjetController::class,"deleteProjet"])->name('api.projects.delete');
 
+// api/deliver/create/rendu/projects/1
+Route::post("/create/rendus/projects/{projet_id}",[Deliver_RenduController::class,"addRendu"])->name('api.rendu.create');
+Route::get("/view/rendus/projects/{projet_id}",[Deliver_RenduController::class,"rendus"])->name('api.rendu.retrieveall');
+Route::get("/view/rendus/{rendu_id}",[Deliver_RenduController::class,"getRendu"])->name('api.rendu.retrieveone');
 
 /*
 |--------------------------------------------------------------------------
