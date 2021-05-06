@@ -65,7 +65,7 @@
                     <editor />
                     
                     <div class="d-flex justify-center">
-                        <v-btn small block color="success" >Ajouter</v-btn>
+                        <v-btn small block color="success" @click="add_project">Ajouter</v-btn>
                     </div>
                 </v-container>
             </v-card-text>
