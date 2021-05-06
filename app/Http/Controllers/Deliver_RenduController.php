@@ -32,7 +32,6 @@ class Deliver_RenduController extends Controller
      */
     public function getRendu($id)
     {
-
         $rendu = Deliver_Rendu::find($id);
 
         // Si le rendu appartient à l'utilisateur
@@ -172,6 +171,14 @@ class Deliver_RenduController extends Controller
 
 
         $rendu = Deliver_Rendu::find($rendu_id);
+
+        if(empty($rendu)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Introuvable"
+            ]);
+        }
+
         // Vérifier si l'utilisateur fait bien partit du projet
         /*
         if($rendu == null || (Auth::user()->id != $rendu->user_id)) {
@@ -266,25 +273,42 @@ class Deliver_RenduController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Deliver_Rendu  $deliver_Rendu
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Deliver_Rendu $deliver_Rendu)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Deliver_Rendu  $deliver_Rendu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Deliver_Rendu $deliver_Rendu)
+    public function deleteRendu($rendu_id)
     {
-        //
+        $rendu = Deliver_Rendu::find($rendu_id);
+
+        // Si le rendu appartient à l'utilisateur
+        // Décommenter si la partie auth est totalement fonctionnel
+
+        /*
+        if($rendu && (Auth::user()->id === $rendu->user_id)) {
+            return  new Deliver_RenduResource($rendu);
+        }
+        */
+
+        // Supprimer si la partie auth est totalement fonctionnel
+        if($rendu) {
+            $medias = Deliver_MediaModel::where(['rendu_id' => $rendu_id])->get();
+            foreach ($medias as $key => $media) {
+                File::delete(public_path('images/rendus/'. $media->nom));
+                $media->delete();
+            }
+            $rendu->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => "Rendu supprimé"
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => "Introuvable"
+        ]);
     }
 }
