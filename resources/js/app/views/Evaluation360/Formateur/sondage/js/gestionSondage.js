@@ -33,6 +33,22 @@ export default {
                 }
             ],
 
+
+            sondageTypeList: [
+                {
+                    name: 'Langage',
+                    id: '0'
+                },
+                {
+                    name: 'Compétence',
+                    id: '1'
+                },
+                {
+                    name: 'Question',
+                    id: '2'
+                }
+            ],
+
             sondageNameRules: [
                 v => !!v || "Le nom est requis"
             ],
@@ -96,8 +112,8 @@ export default {
 
         addLines() {
             this.sondageLines.push({
-                langage_id: '',
-                skill_id: ''
+                type: '',
+                content: ''
             })
         },
 
@@ -107,7 +123,6 @@ export default {
                 const reqData = req.data.data;
                 this.sondagesList = reqData;
                 this.isLoaded = true;
-                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }

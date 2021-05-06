@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container>
-            <FlashMessage :position="'top'" ></FlashMessage>
+            <CustomFlashMessage ref="customFlash"/>
             <h2 class="titre">{{title}}</h2>
             <v-row>
                 <v-col>
@@ -105,12 +105,14 @@
 <script>
 import MdEditor from "./component/MdEditor";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
+import CustomFlashMessage from "./component/CustomFlashMessage";
 import Axios from "axios";
 export default {
     name: "ShowEditMd",
     components: {
         MdEditor,
-        AutocompleteCategorie
+        AutocompleteCategorie,
+        CustomFlashMessage
     },
     props: {
         id: {
@@ -240,49 +242,47 @@ export default {
         async setStatus(){
             let dataSend={
                 active:this.active
-            }
-            try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend)
-                const reqData = req.data
-                console.log(reqData)
-                this.flashMessage.success({
-                    message: reqData.message,
-                });
-            } catch (error) {
+            }            
+            await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    console.log(reqData)
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+            ).catch (error => {
                 console.log(error)
-            }
+                this. $refs.customFlash.showMessageError(error)
+            })            
         },
         async editMD(){
             let dataSend={
                 text:this.text
             }
-            try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend)
-                const reqData = req.data
-                
-                this.flashMessage.success({
-                    message: reqData.message,
-                });
-                console.log(reqData)
-            } catch (error) {
+            await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                    console.log(reqData)
+                }
+             ).catch (error => {
                 console.log(error)
-            }
+                this. $refs.customFlash.showMessageError(error)
+            })
         },
         async updateTitle(){
             let dataSend={
                 title:this.title
             }
-            try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/title/${this.id}`, dataSend)
-                const reqData = req.data
-                console.log(reqData)
-                
-                this.flashMessage.success({
-                    message: reqData.message,
-                });
-            } catch (error) {
+            await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend).then(
+                reponse => {
+                    const reqData = reponse.data
+                    console.log(reqData)                
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+             ).catch (error => {
                 console.log(error)
-            }
+                this. $refs.customFlash.showMessageError(error)
+            })
         },
          async updateDescription(){
             let dataSend={
@@ -326,14 +326,22 @@ export default {
                 const reqData = req.data
                 console.log(reqData)
                 this.title= reqData.markdown.title
-                this.category= reqData.markdown.category
+                let category ={
+                    composed:reqData.markdown.category.name,
+                    id:reqData.markdown.category.id
+                }
+                
+                this.categories.push( category)
+                this.category=this.categories[0]
+                console.log(this.category)
                 this.description = reqData.markdown.description
-                this.text= reqData.markdown.text
+                this.text= reqData.text
                 this.active= reqData.markdown.status
                 
                 
-            } catch (error) {
+            }catch (error){
                 console.log(error)
+                this. $refs.customFlash.showMessageError(error)
             }
          }
     },

@@ -44,11 +44,17 @@
 </template>
 <script>
   import ItemArchive from "./component/ItemArchive";
-  import {APIService} from './Services/ServiceRecupCateg'
+  import {APIService} from './Services/Services'
+  const apiCall = new APIService()
   export default {
     name: "Archives",
     components: {
       ItemArchive
+    },
+    props: {
+      id: {
+          type: String
+      }
     },
     data() {
         return {
@@ -60,39 +66,30 @@
         };
     },
     mounted() {
-      const apiCall = new APIService()
-      apiCall.getApiMyArchives().then(
+      console.log("ID :", this.id)
+      apiCall.getApiMyArchives(this.id).then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
+          this.markdown_list = this.formatDataArchives(reponse.data.data)
         }
       )
     },
     methods: {
-      formatDataMdCom(data){
+      formatDataArchives(data){
         let formatedData = []
         if(Array.isArray(data)){
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.id,
-                    title: item.title,
-                    description: item.description,
-                    date: item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : "Date "+item.id)
+                    category: item.markdown.category.name,
+                    title: item.markdown.title,
+                    description: item.markdown.description,
+                    date: item.markdown.updated_at ? item.markdown.updated_at : ((item.markdown.created_at) ? item.markdown.created_at : "Date "+item.id)
                 })
             })
         }        
         return formatedData
       },
-      recupCateg(){
-        const apiCall = new APIService()
-        apiCall.getApiCategories().then(
-          reponse => {
-            console.log("Reponse :", reponse)
-          }
-        )
-        console.log("categ")
-      }
     }
   };
 </script>

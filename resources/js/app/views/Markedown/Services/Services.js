@@ -28,8 +28,8 @@ export class APIService {
         const url = `${API_URL}/my-markdowns`;
         return axios.get(url);
     }
-    getApiMyArchives() {
-        const url = `${API_URL}/my-archives`;
+    getApiMyArchives(id) {
+        const url = `${API_URL}/markdown/archives/${id}`;
         return axios.get(url);
     }
     getApiMdDetails(id) {
@@ -37,7 +37,8 @@ export class APIService {
         return axios.get(url);
     }
 
-    async updateStatus(dataSend,id){
+    updateStatus(dataSend, id) {
+        console.log("datatosend :"+id,dataSend)
         const url = `${API_URL}/markdown/active/${id}`;
         return axios.post(url, dataSend);
     }

@@ -23,9 +23,10 @@ export const MarkedownRoutes = [
         component: MyMarkedDowns
     },
     {
-        path: '/markedowns/archives',
+        path: '/markedowns/archives/:id?',
         name: 'Archives',
-        component: Archives
+        component: Archives,
+        props:true
     },
     {
         path: '/markedowns/add',

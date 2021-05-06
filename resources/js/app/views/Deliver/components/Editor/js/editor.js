@@ -20,6 +20,9 @@ export default {
         <h2>
           Entrez-votre description pour le projet
         </h2>`,
+        onBlur: ({ event, state, view }) => {
+          this.$emit('set_description', this.editor.contentComponent.$el.innerHTML)
+      }
     })
   },
 
@@ -29,7 +32,7 @@ export default {
 
   methods:{
     get_content: function(){
-      return this.editor.contentComponent.$el.innerText
+      return this.editor.contentComponent.$el.innerHTML
     }
   }
 

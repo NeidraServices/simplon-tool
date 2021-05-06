@@ -25,13 +25,11 @@ export default {
             erreur: ''
         };
     },
-
     created() {
-        if(localStorage.getItem('token')) {
+        if (localStorage.getItem('token')) {
             this.$router.push('/')
         }
     },
-
     methods: {
         async connection() {
             try {
@@ -41,7 +39,7 @@ export default {
                     this.erreur = 'mot de passe ou email incorrect'
                 } else {
                     this.erreur = '';
-                    await EventBus.$emit('logged', true);
+                    await EventBus.$emit('loggedIn', true);
                     await this.$store.commit('connect', user);
                     await localStorage.setItem('token', user.token);
                     await this.$router.push('/');
