@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deliver_ProjetModel extends Model
 {
-    protected $fillable = [
-        "titre", "description", "deadline", "image", "formateur_id"
-    ];
     use HasFactory;
     protected $table = 'dp_projets';
+    protected $fillable = [
+        "titre", "description", "deadline", "image", "formateur_id", "extrait", "date_presentation"
+    ];
 
     public function competences(){
         return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_competences","competence_id","projet_id");
@@ -27,5 +27,9 @@ class Deliver_ProjetModel extends Model
 
     public function rendus(){
         return $this->hasMany(Deliver_Rendu::class);
+    }
+
+    public function commentaires(){
+        return $this->hasMany(Deliver_ProjetModel::class);
     }
 }

@@ -107,6 +107,7 @@ export default {
                 const reqData = req.data.data;
                 this.sondagesList = reqData;
                 this.isLoaded = true;
+                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }

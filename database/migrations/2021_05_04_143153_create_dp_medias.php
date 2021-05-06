@@ -15,12 +15,11 @@ class CreateDpMedias extends Migration
     {
         Schema::create('dp_medias', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('type');
             $table->string('nom');
             $table->string('lien');
-            $table->bigInteger('projet_id')->unsigned();
-            $table->foreign('projet_id')->references('id')->on('dp_projets');
+            $table->bigInteger('rendu_id')->unsigned();
+            $table->foreign('rendu_id')->references('id')->on('dp_rendus');
             $table->timestamps();
         });
     }

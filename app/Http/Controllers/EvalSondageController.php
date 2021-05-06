@@ -27,7 +27,7 @@ class EvalSondageController extends Controller
      */
     public function getDataAll()
     {
-        $sondages = EvalSondage::distinct()->get(['name']);
+        $sondages = EvalSondage::distinct()->get();
         return EvalSondageFormateurResource::collection($sondages);
     }
 

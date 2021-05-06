@@ -10,7 +10,14 @@ class Deliver_MediaModel extends Model
     use HasFactory;
     protected $table = 'dp_medias';
 
-    public function rendus(){
-        return $this->belongsTo(Deliver_RendusModel::class,"rendu_id","id");
+    protected $fillable = [
+        'type',
+        'lien',
+        'nom',
+    ];
+
+    function rendus()
+    {
+        return $this->belongsTo(Deliver_Rendu::class);
     }
 }
