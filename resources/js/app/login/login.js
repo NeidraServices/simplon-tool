@@ -25,6 +25,13 @@ export default {
             erreur: ''
         };
     },
+
+    created() {
+        if(localStorage.getItem('token')) {
+            this.$router.push('/dashboard')
+        }
+    },
+
     methods: {
         async connection() {
             try {

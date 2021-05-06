@@ -60,6 +60,7 @@ export default {
 	},
 	methods: {
 		async logout() {
+			this.dialog = false;
 			await localStorage.removeItem("token");
 			await localStorage.removeItem("role");
 			await localStorage.removeItem("vuex");
