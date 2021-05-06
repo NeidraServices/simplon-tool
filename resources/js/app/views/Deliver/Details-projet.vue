@@ -1,5 +1,5 @@
 <template>
-    <div @voir-projet="getData">
+    <div>
         <template>
             <v-card-title class="text-center justify-center py-6" >
                 <h1 class="font-weight-bold">
@@ -32,11 +32,11 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    color="primary"
-                                    dark
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="btn-style-1"
+                                    class="btn-style-1 border-radius-25"
+                                    color="green darken-1"
+                                    text
                                 >
                                     Ajout d'un apprenant
                                 </v-btn>
@@ -45,46 +45,61 @@
                                 <v-card-title>
                                     <span class="headline">Ajout d'un apprenant</span>
                                 </v-card-title>
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col
-                                                cols="12"
-                                            >
-                                                <v-text-field
-                                                    label="Ajout d'un apprenant par son E-mail"
-                                                    required
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                            >
-                                                <v-autocomplete
-                                                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                                                    label="Ajout d'un apprenant"
-                                                    multiple
-                                                ></v-autocomplete>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                        color="red darken-1"
-                                        text
-                                        @click="dialog = false"
-                                    >
-                                        Fermer
-                                    </v-btn>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="dialog = false"
-                                    >
-                                        Valider
-                                    </v-btn>
-                                </v-card-actions>
+                                <v-form>
+                                    <v-card-text>
+                                        <v-text-field
+                                            v-model="newEmailApprenant"
+                                            label="Ajout d'un apprenant par son E-mail"
+                                        ></v-text-field>
+                                        <v-autocomplete
+                                            v-model="apprenants"
+                                            :items="allApprenants"
+                                            chips
+                                            label="Ajout d'un apprenant"
+                                            item-value="name"
+                                            multiple
+                                            hide-no-data
+                                            return-object
+                                        >
+                                            <template v-slot:selection="data">
+                                                <v-chip
+                                                    v-bind="data.attrs"
+                                                    :input-value="data.selected"
+                                                    @click="data.select"
+                                                >
+                                                    {{ data.item.name }} {{ data.item.surname }}
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item="data">
+                                                <template v-if="typeof data.item !== 'object'">
+                                                    <v-list-item-content v-text="data.item"></v-list-item-content>
+                                                </template>
+                                                <template v-else>
+                                                    <v-list-item-content>
+                                                        <v-list-item-content v-html="data.item.name + ' ' + data.item.surname"></v-list-item-content>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </template>
+                                        </v-autocomplete>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="red darken-1"
+                                            text
+                                            @click="dialog = false"
+                                        >
+                                            Fermer
+                                        </v-btn>
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="submit(apprenants)"
+                                        >
+                                            Valider
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-form>
                             </v-card>
                         </v-dialog>
                         <v-dialog
@@ -94,11 +109,11 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    color="primary"
-                                    dark
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="btn-style-1"
+                                    class="btn-style-1 border-radius-25"
+                                    color="green darken-1"
+                                    text
                                 >
                                     Soumettre mon rendu
                                 </v-btn>
@@ -211,6 +226,10 @@
                                 <b>Deadline : </b>
                                 {{ projet.deadline }}
                             </v-card-text>
+                            <v-card-text>
+                                <b>Date de presentation : </b>
+                                {{ projet.date_presentation }}
+                            </v-card-text>
                         </v-card>
                     </div>
                     <div class="d-flex row pa-3" v-if="item.title === 'Liste des rendus'">
@@ -274,5 +293,9 @@
 .btn-style-2 {
     height: auto;
     margin-left: 25px;
+}
+
+.border-radius-25 {
+    border-radius: 25%;
 }
 </style>

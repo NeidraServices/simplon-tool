@@ -64,14 +64,15 @@ class Deliver_ProjetController extends Controller
      */
     public function getProjet($id)
     {
-
         $projet = Deliver_ProjetModel::find($id);
 
         $affectations = [];
+        return $projet->users;
         foreach ($projet->users as $user) {
             $apprenant = User::find($user->pivot->user_id);
             array_push($affectations, $apprenant);
         }
+
 
         if($projet) {
             return response()->json([

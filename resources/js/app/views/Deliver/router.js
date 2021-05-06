@@ -1,12 +1,13 @@
 import Home from './Home.vue';
-import Projet from './Details-projet.vue';
+import DetailProjet from './Details-projet.vue';
 import MesProjets from './mes-projets.vue';
 
 export const DeliverRoutes = [
     {
         path: '/deliver/projet/:id',
-        name: 'testDeliver',
-        component: Projet
+        name: 'showProjectDeliver',
+        component: DetailProjet,
+        props:true
     },
     {
         path: '/deliver',
