@@ -6,9 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Deliver_Rendu;
 use App\Models\Deliver_MediaModel;
+use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_RenduResource;
-use App\Models\Deliver_ProjetModel;
 
 class Deliver_RenduController extends Controller
 {
@@ -33,6 +34,16 @@ class Deliver_RenduController extends Controller
 
         $rendu = Deliver_Rendu::find($id);
 
+        // Si le rendu appartient à l'utilisateur
+        // Décommenter si la partie auth est totalement fonctionnel
+
+        /*
+        if($rendu && (Auth::user()->id === $rendu->user_id)) {
+            return  new Deliver_RenduResource($rendu);
+        }
+        */
+
+        // Supprimer si la partie auth est totalement fonctionnel
         if($rendu) {
             return  new Deliver_RenduResource($rendu);
         }
@@ -106,7 +117,6 @@ class Deliver_RenduController extends Controller
 
         if($request->hasfile('medias')) {
             foreach ($request->file('medias') as $file) {
-
                 $name = time() . rand() .'.'.$file->extension();
                 $file->move(public_path('images/rendus'), $name);
                 $media = new Deliver_MediaModel();
