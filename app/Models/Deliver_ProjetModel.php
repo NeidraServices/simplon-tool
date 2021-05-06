@@ -28,4 +28,8 @@ class Deliver_ProjetModel extends Model
     public function rendus(){
         return $this->hasMany(Deliver_Rendu::class);
     }
+
+    public function commentaires(){
+        return $this->hasMany(Deliver_ProjetModel::class);
+    }
 }

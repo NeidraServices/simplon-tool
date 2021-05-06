@@ -44,7 +44,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             EvalSondageSeeder::class,
             EvalSondageLinesSeeder::class,
-            Deliver_ProjetSeeder::class
+            Deliver_ProjetSeeder::class,
+            MdCategorySeeder::class,
+            MarkdownSeeder::class
         ]);
     }
 }

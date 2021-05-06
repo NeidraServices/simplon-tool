@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Deliver_AffectationResource;
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
