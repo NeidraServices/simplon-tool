@@ -1,5 +1,5 @@
 import Home from './Home.vue';
-import Dashboard from './Dashboard/Dashboard.vue';
+import Apprenants from './Dashboard/Dashboard.vue';
 import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
 import VerifyMail from '../../views/VerifyMail.vue';
@@ -13,9 +13,9 @@ export const EvalRoutes = [
         component: Home
     },
     {
-        path: '/evaluation360/Dashboard',
-        name: 'Dashboard',
-        component: Dashboard
+        path: '/evaluation360/apprenants',
+        name: 'Apprenants',
+        component: Apprenants
     },
     {
         path: '/evaluation360/Details',
