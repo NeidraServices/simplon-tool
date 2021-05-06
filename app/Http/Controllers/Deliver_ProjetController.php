@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
+use App\Models\Deliver_CompetencesModel;
+use App\Models\Deliver_TagModel;
 use App\Models\User;
 use DateTime;
 use Mockery\Undefined;
@@ -94,13 +96,7 @@ class Deliver_ProjetController extends Controller
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
-                'description' => 'required',
-                'image' => 'file|mimes:jpg,jpeg,png|max:5000',
-            ],
-            [
-                'file'  => 'Image non fournis',
-                'mimes' => 'Extension invalide',
-                'max'   => '5Mb maximum'
+                'description' => 'required'
             ]
         );
 
@@ -132,6 +128,21 @@ class Deliver_ProjetController extends Controller
             "image" => $image_path,
             "formateur_id" => $request->formateur_id
         ]));
+
+        if($request->all()["competences"]){
+        foreach($request->all()["competences"] as $comp){
+            $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
+ 
+            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        }
+    }
+    if($request->all()["techno"]){
+        foreach($request->all()["techno"] as $comp){
+            $competences=Deliver_TagModel::where("nom",$comp)->get();
+ 
+            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        }
+    }
         return response()->json([
             'success' => true,
             'message' => "Projet créé"
