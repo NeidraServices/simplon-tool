@@ -103,7 +103,8 @@ class Deliver_ProjetController extends Controller
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
-                'description' => 'required'
+                'description' => 'required',
+                'date_presentation' => 'required'
             ]
         );
 
@@ -132,6 +133,7 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
+            "date_presentation" => $request->date_presentation,
             "image" => $image_path,
             "formateur_id" => $request->formateur_id
         ]));
@@ -139,14 +141,14 @@ class Deliver_ProjetController extends Controller
         if($request->all()["competences"]){
         foreach($request->all()["competences"] as $comp){
             $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
- 
+
             $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
         }
     }
     if($request->all()["techno"]){
         foreach($request->all()["techno"] as $comp){
             $competences=Deliver_TagModel::where("nom",$comp)->get();
- 
+
             $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
         }
     }
@@ -173,6 +175,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
+                'date_presentation' => 'required',
                 'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
@@ -195,6 +198,7 @@ class Deliver_ProjetController extends Controller
         $projet->titre        = $validator->validated()['titre'];
         $projet->deadline     = $validator->validated()['deadline'];
         $projet->description  = $validator->validated()['description'];
+        $projet->date_presentation  = $validator->validated()['date_presentation'];
 
         // Pour des raisons de test du backend seulement
         if(array_key_exists("image", $validator->validated())) {
