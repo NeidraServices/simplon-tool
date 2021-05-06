@@ -24,7 +24,8 @@ export const DeliverRoutes = [
         path: '/deliver/formateur',
         name: 'formateur',
         component: Formateur
-    }
+    },
+    {
         path: '/deliver/mesprojets/rendu/:id',
         name: 'detailsRendu',
         component: DetailsRendu

@@ -16,6 +16,7 @@ class Md_ArchivesResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'created_at'            => $this->created_at,
             'markdown'      => new MarkdownResource($this->markdown),
         ];
     }
