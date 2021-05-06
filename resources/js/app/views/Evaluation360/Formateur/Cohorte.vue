@@ -3,10 +3,10 @@
     class="d-flex justify-center align-center"
     style="height: 70% !important"
   >
-    <v-dialog v-model="createdDialog" max-width="600">
+      <v-dialog v-model="generalDialog" max-width="600">
       <v-card class="py-5">
         <v-card-title class="d-flex justify-center font-weight-bold">
-          Ajouter un apprenant
+          {{ title }}
         </v-card-title>
         <div class="d-flex justify-center">
           <v-form
@@ -41,65 +41,13 @@
           <v-btn
             small
             class="grey darken-1 mr-3 white--text font-weight-medium"
-            @click="closeAddModal"
+            @click="closeGeneral"
             >Annuler</v-btn
           >
           <v-btn
             small
             class="blue white--text font-weight-medium"
-            @click="createApprenantAccount"
-            >valider</v-btn
-          >
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="editDialog" max-width="600">
-      <v-card class="py-5">
-        <v-card-title class="d-flex justify-center font-weight-bold">
-          Modifier un compte apprenant
-        </v-card-title>
-        <div class="d-flex justify-center" v-if="selectItem != null">
-          <v-form
-            ref="formUpdate"
-            v-model="valid"
-            lazy-validation
-            style="width: 75% !important"
-          >
-            <v-text-field
-              v-model="selectItem.name"
-              :rules="nameRules"
-              label="Nom"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="selectItem.surname"
-              :rules="surnameRules"
-              label="Prénom"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="selectItem.email"
-              :rules="emailRules"
-              label="Adresse e-mail"
-              required
-            ></v-text-field>
-          </v-form>
-        </div>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            small
-            class="grey darken-1 mr-3 white--text font-weight-medium"
-            @click="closeEditModal"
-            >Annuler</v-btn
-          >
-          <v-btn
-            small
-            class="blue white--text font-weight-medium"
-            @click="updateApprenantAccount"
+            @click="accountAction"
             >valider</v-btn
           >
           <v-spacer></v-spacer>
@@ -135,7 +83,7 @@
     <div>
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des apprenants</h1>
-        <v-btn icon class="py-5 ml-5" @click="openAddModal">
+        <v-btn icon class="py-5 ml-5" @click="openGeneral">
           <v-icon color="green"> mdi-plus-circle-outline </v-icon>
         </v-btn>
       </div>
@@ -167,7 +115,7 @@
                   v-bind="attrs"
                   v-on="on"
                   class="transparent blue-grey--text mr-2"
-                  @click="openEditModal(item)"
+                  @click="openGeneral(item, true)"
                 >
                   <v-icon> mdi-square-edit-outline </v-icon>
                 </v-btn>

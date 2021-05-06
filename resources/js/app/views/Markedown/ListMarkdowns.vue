@@ -3,24 +3,24 @@
     <v-container fluid>
       <v-row justify="space-between">
         <v-col cols="12">
-            <v-card-title 
+            <v-card-title
                 class="layout justify-center"
             >
                 LES MARKDOWS COMMUNS
             </v-card-title>
-            <v-card-text 
+            <v-card-text
                 class="layout justify-center"
             >
             <v-row justify="space-between">
-                <v-col cols="3" xs="6" class="layout justify-flex-start">  
-                  <AutocompleteCategorie/>      
+                <v-col cols="3" xs="6" class="layout justify-flex-start">
+                  <AutocompleteCategorie/>
                 </v-col>
-                <v-col cols="3" xs="6" class="layout justify-flex-end">  
-                <v-spacer></v-spacer>    
+                <v-col cols="3" xs="6" class="layout justify-flex-end">
+                <v-spacer></v-spacer>
                 <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
-                    <v-btn 
+                    <v-btn
                         @click="navigate"
-                        @keypress.enter="navigate" 
+                        @keypress.enter="navigate"
                         role="link"
                     >
                         Mes Markdown
@@ -35,13 +35,14 @@
           <v-col
               v-for="item in markdown_list"
               :key="item.id"
-          >  
-            <ItemMdCommun 
+              @click="goTo(item)"
+          >
+            <ItemMdCommun
                 v-bind:item="item"
             />
           </v-col>
         </div>
-        
+
       </v-row>
     </v-container>
   </div>
@@ -70,8 +71,11 @@
           this.markdown_list = this.formatDataMdCom(reponse.data)
         }
       )
-    }, 
+    },
     methods: {
+        goTo(item){
+            this.$router.push({ name: 'ShowReadMd', params: {id: item.id.toString()}})
+        },
       formatDataMdCom(data){
         let formatedData = []
         if(Array.isArray(data)){
@@ -84,9 +88,9 @@
                     author: "user - "+item.user_id
                 })
             })
-        }        
+        }
         return formatedData
-      },     
+      },
     }
   };
 </script>
