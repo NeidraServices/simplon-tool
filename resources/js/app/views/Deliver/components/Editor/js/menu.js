@@ -1,10 +1,4 @@
-import IconItem from '../icon.vue'
-
 export default {
-  components: {
-    IconItem,
-  },
-
   props: {
     editor: {
       type: Object,
