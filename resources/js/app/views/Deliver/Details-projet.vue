@@ -247,13 +247,18 @@
                                 >
                                     Lien GitHub
                                 </v-btn>
-                                <v-btn
-                                    outlined
-                                    rounded
-                                    text
+                                <!-- :to="{name: '/deliver/mesprojets/rendu/', params: { id: 1}}" -->
+                                <router-link
+                                    to="/deliver/mesprojets/rendu/1"
                                 >
+                                    <v-btn
+                                        outlined
+                                        rounded
+                                        text
+                                    >
                                     Détails
-                                </v-btn>
+                                    </v-btn>
+                                </router-link>
                             </v-card-actions>
                         </v-card>
                     </div>

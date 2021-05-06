@@ -1,6 +1,7 @@
 import Home from './Home.vue';
 import Projet from './Details-projet.vue';
 import MesProjets from './mes-projets.vue';
+import DetailsRendu from './Details-rendu.vue';
 
 export const DeliverRoutes = [
     {
@@ -17,5 +18,10 @@ export const DeliverRoutes = [
         path: '/deliver/mesprojets',
         name: 'mesprojets',
         component: MesProjets
+    },
+    {
+        path: '/deliver/mesprojets/rendu/:id',
+        name: 'detailsRendu',
+        component: DetailsRendu
     },
 ]
