@@ -18,9 +18,10 @@ class CreateDpProjets extends Migration
             $table->bigInteger('formateur_id')->unsigned();
             $table->foreign('formateur_id')->references('id')->on('users');
             $table->string('titre');
-            $table->string('image');
             $table->datetime('deadline');
+            $table->datetime('date_presentation')->nullable();
             $table->text('description');
+            $table->text('extrait');
             $table->timestamps();
         });
     }
