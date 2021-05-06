@@ -20,23 +20,32 @@
                         :search-input.sync="search"
                         item-text="composed"
                         item-value="id"
+                        append-icon=''
                         return-object
                         cache-items
+                        flat
                         hide-no-data
                         hide-details
                         label="Catégorie">
                     </v-autocomplete>
                 </v-col>
                 
-                <v-col>
+                <v-col class="mt-4" cols="2">
                 <v-dialog
                 v-model="dialog"
                 persistent
                 max-width="600px"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on">
+                        <!-- <v-btn v-on="on">
                             Ajouter une catégorie
+                        </v-btn> -->
+                        <v-btn icon color="green" v-if="disabledButton" disabled>
+                            <v-icon> mdi-plus-circle-outline</v-icon>
+                        </v-btn>
+
+                        <v-btn v-on="on" icon color="green" v-else @click="addCategoryModal">
+                            <v-icon> mdi-plus-circle-outline</v-icon>
                         </v-btn>
                     </template>
 
@@ -107,7 +116,10 @@ export default {
             category: '',
             name: '',
             text: '',
-            description: '',            
+            description: '',
+            disabledButton: true,
+            activeModalCategory: false,
+            
             active: '',
             status:[
                 {
@@ -174,15 +186,24 @@ export default {
     watch: {
       search: function (val) {
         if (val && val.length > 1) {
+          this.disabledButton = false;
           this.loading = true
           axios.get('/api/markedown/categorie/search', { params: { query: val } })
           .then(({ data }) => {
+
               this.loading = false;
+              
+              /* console.log(this.categorie)
+              if (val !==) {
+                  this.disabledButton = true;
+              } */
+              
               data.data.forEach(categorie => {
                   this.categories.push(this.formattedCategorie(categorie))
-                  console.log(this.formattedCategorie(categorie));
               });
           });
+        }else{
+            this.disabledButton = true;
         }
       },
     },
@@ -193,15 +214,20 @@ export default {
             this.categorie = {}
         },
 
-      formattedCategorie: function (categorie) {
-        return {
+        formattedCategorie: function (categorie) {
+            return {
 
-            id: categorie.id,
-            name: categorie.name,
+                id: categorie.id,
+                name: categorie.name,
 
-            composed: categorie.name
-        }
-      },
+                composed: categorie.name
+            }
+        },
+
+        openCategoryModal(){
+            this.isActiveModalCategory = true
+            this.$emit('addCategoryModalActive', false);
+        },
       
         addCategoryModal(){
             if (this.isValid()) {
