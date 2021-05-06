@@ -1,6 +1,7 @@
 import Home from './Home.vue';
 import Projet from './Details-projet.vue';
 import MesProjets from './mes-projets.vue';
+import Formateur from './Formateur.vue';
 
 export const DeliverRoutes = [
     {
@@ -18,4 +19,9 @@ export const DeliverRoutes = [
         name: 'mesprojets',
         component: MesProjets
     },
+    {
+        path: '/deliver/formateur',
+        name: 'formateur',
+        component: Formateur
+    }
 ]
