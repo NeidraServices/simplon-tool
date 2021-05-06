@@ -25,13 +25,11 @@ export default {
             erreur: ''
         };
     },
-
     created() {
-        if(localStorage.getItem('token')) {
+        if (localStorage.getItem('token')) {
             this.$router.push('/')
         }
     },
-
     methods: {
         async connection() {
             try {
@@ -45,6 +43,7 @@ export default {
                     await this.$store.commit('connect', user);
                     await localStorage.setItem('token', user.token);
                     await this.$router.push('/');
+                    // await this.$router.push(this.returnUrl);
                 }
             } catch (error) {
                 this.loading = false;
