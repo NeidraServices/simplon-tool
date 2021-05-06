@@ -14,7 +14,14 @@
             >
         <v-row >            
             <v-spacer></v-spacer>
-            <SimpleBtn v-bind:title="'Ajouter'" v-bind:link="'add'" />
+            <BtnWithIcon v-bind:title="'Ajouter'" v-bind:routeName="'AddMarkdowns'">
+                <v-icon
+                    left
+                    dark
+                >
+                  mdi-plus-thick
+                </v-icon>
+            </BtnWithIcon>
         </v-row>
             </v-card-text>
         </v-col>
@@ -40,7 +47,6 @@
 <script>
 import ItemMyMd from "./component/ItemMyMd";
 import BtnWithIcon from "./component/BtnWithIcon";
-import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
 import {APIService} from './Services/Services'
 import CustomFlashMessage from "./component/CustomFlashMessage";
@@ -51,7 +57,6 @@ export default {
         MdEditor,
         ItemMyMd,
         BtnWithIcon,
-        SimpleBtn,
         CustomFlashMessage
     },
     data() {

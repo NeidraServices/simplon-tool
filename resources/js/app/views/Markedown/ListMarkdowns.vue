@@ -33,7 +33,9 @@
         </v-col>
         <v-divider></v-divider>
         <div class="item-container">
-          <v-col
+          <v-row>
+          <v-col              
+              class="col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
               v-for="item in markdown_list"
               :key="item.id"
               @click="goTo(item)"
@@ -42,6 +44,7 @@
                 v-bind:item="item"
             />
           </v-col>
+          </v-row>
         </div>
 
       </v-row>
