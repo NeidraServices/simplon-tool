@@ -1,5 +1,5 @@
-import Sidebar from "./Sidebar";
-import Logout from './Logout'
+import Sidebar from "./Sidebar.vue";
+import Logout from './Logout.vue'
 import MenuEval from '../navigations/evaluation360/MenuEval.vue'
 import MenuMd from '../navigations/markdown/MenuMd.vue'
 import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
@@ -21,6 +21,14 @@ export default {
     },
 
     computed: {
+        isChecked() {
+			let routeName = this.$route.path;
+			var splits = routeName.split("/", 2);
+			if (splits[1] != "compte") {
+				return this.$store.state.isLogged;
+			}
+		},
+        
         pathIsEval() {
             let routeName = this.$route.path;
             var splits = routeName.split("/", 2);

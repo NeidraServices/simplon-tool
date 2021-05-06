@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<Sidebar>
+		<Sidebar v-if='isChecked'>
 			<template v-slot:menus>
 				<MenuEval v-if='pathIsEval'/>
 				<MenuMd v-if='pathIsMd'/>

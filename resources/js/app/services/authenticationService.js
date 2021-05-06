@@ -67,8 +67,10 @@ function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('token');
   localStorage.removeItem('role');
-  this.$store.commit('disconnect');
-  this.$router.push('/');
+  localStorage.removeItem('vuex');
+  currentUserSubject.next(null);
+  roleSubject.next(null);
+
 }
 
 function isAdmin() {
