@@ -22,7 +22,7 @@ class MarkdownResource extends JsonResource
             'title'         => $this->title,
             'status'        => $this->active,
             'category'      => new Md_CategoryResource($this->categories),
-            // 'created_at'      => new Md_CategoryResource($this->created_at),
+            'created_at'      => $this->created_at,
             'commentary'    => Md_CommantaryResource::collection($this->commentaries),
         ];
     }

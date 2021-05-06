@@ -34,6 +34,8 @@
 
 <script>
 import { authenticationService } from "../services/authenticationService";
+import { EventBus } from "../eventBus.js";
+
 export default {
 	data() {
 		return {
@@ -41,6 +43,7 @@ export default {
 			userLoggedIn: null,
 		};
 	},
+
 	computed: {
 		isChecked() {
 			let routeName = this.$route.path;
@@ -50,12 +53,23 @@ export default {
 			}
 		},
 	},
+
+	mounted() {
+		EventBus.$on('loggedIn', function() {
+			authenticationService.role.subscribe((x) => (this.role = x));
+			authenticationService.userLoggedIn.subscribe(
+				(x) => (this.userLoggedIn = x.userInfo)
+			);	
+		})
+	},
+
 	created() {
 		authenticationService.role.subscribe((x) => (this.role = x));
 		authenticationService.userLoggedIn.subscribe(
 			(x) => (this.userLoggedIn = x.userInfo)
 		);
 	},
+
 	methods: {
 		getAvatar(image) {
 			return `${location.origin}/images/${image}`;

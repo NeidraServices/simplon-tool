@@ -321,21 +321,28 @@ export default {
         },
         async getData() {
             
-            await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`).then(
-                reponse => {
-                    const reqData = reponse.data
-                    console.log(reqData)
-                    this.title= reqData.markdown.title
-                    this.category= reqData.markdown.category
-                    this.description = reqData.markdown.description
-                    this.text= reqData.markdown.text
-                    this.active= reqData.markdown.status
+            try {
+                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`)
+                const reqData = req.data
+                console.log(reqData)
+                this.title= reqData.markdown.title
+                let category ={
+                    composed:reqData.markdown.category.name,
+                    id:reqData.markdown.category.id
                 }
                 
-             ).catch (error => {
+                this.categories.push( category)
+                this.category=this.categories[0]
+                console.log(this.category)
+                this.description = reqData.markdown.description
+                this.text= reqData.text
+                this.active= reqData.markdown.status
+                
+                
+            }catch (error){
                 console.log(error)
                 this. $refs.customFlash.showMessageError(error)
-            })
+            }
          }
     },
     computed: {

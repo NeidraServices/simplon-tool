@@ -41,11 +41,10 @@ export default {
                     this.erreur = 'mot de passe ou email incorrect'
                 } else {
                     this.erreur = '';
-                    await EventBus.$emit('logged', true);
+                    await EventBus.$emit('loggedIn', true);
                     await this.$store.commit('connect', user);
                     await localStorage.setItem('token', user.token);
                     await this.$router.push('/');
-                    // await this.$router.push(this.returnUrl);
                 }
             } catch (error) {
                 this.loading = false;

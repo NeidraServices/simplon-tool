@@ -18,6 +18,7 @@ class Md_CommantaryResource extends JsonResource
             'id'            => $this->id,
             'user'          => new UserResource($this->users),
             'description'   => $this->description,
+            'createdAt'     => $this->created_at
          ];
     }
 }

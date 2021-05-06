@@ -3,9 +3,14 @@
     class="d-flex justify-center align-center"
     style="height: 70% !important"
   >
-    <v-dialog v-model="createdDialog" max-width="600">
+    <v-dialog
+      v-model="createdDialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <v-card class="py-5">
-        <v-card-title class="d-flex justify-center font-weight-bold">
+        <v-card-title class="d-flex justify-center font-weight-bold py-10">
           Créer un sondage
         </v-card-title>
         <div class="d-flex justify-center">
@@ -15,6 +20,29 @@
             lazy-validation
             style="width: 85% !important"
           >
+            <v-row>
+              <v-col>
+                <v-text-field
+                  label="Nom du sondage"
+                  v-model="sondageName"
+                  :rules="sondageNameRules"
+                />
+              </v-col>
+              <v-col>
+                <v-select
+                  v-model="published"
+                  :rules="publishedRules"
+                  :items="etatList"
+                  item-text="label"
+                  item-value="id"
+                  persistent-hint
+                  single-line
+                  label="Etat - Publié ou Brouillon"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
+
             <v-btn
               text
               outlined
@@ -29,24 +57,6 @@
               </div>
             </v-btn>
 
-            <v-text-field
-              label="Nom du sondage"
-              v-model="sondageName"
-              :rules="sondageNameRules"
-            />
-
-            <v-select
-              v-model="published"
-              :rules="publishedRules"
-              :items="etatList"
-              item-text="label"
-              item-value="id"
-              persistent-hint
-              single-line
-              label="Etat - Publié ou Brouillon"
-              required
-            ></v-select>
-
             <v-row
               no-gutters
               class="justify-center"
@@ -55,9 +65,9 @@
             >
               <v-col cols="12" lg="3" md="3" class="d-flex justify-center mr-2">
                 <v-select
-                  v-model="lines.langage_id"
+                  v-model="lines.type"
                   placeholder="Choisir un langage"
-                  :items="selectLangages"
+                  :items="sondageTypeList"
                   item-text="name"
                   item-value="id"
                   label="Langage"
@@ -70,7 +80,22 @@
 
               <v-col cols="12" lg="7" md="7" class="d-flex justify-center">
                 <v-select
-                  v-model="lines.skill_id"
+                  v-if="lines.type == 0"
+                  v-model="lines.content"
+                  placeholder="Choisir un langage"
+                  :items="selectLangages"
+                  item-text="name"
+                  item-value="id"
+                  label="Langage"
+                  persistent-hint
+                  single-line
+                  required
+                >
+                </v-select>
+
+                <v-select
+                  v-if="lines.type == 1"
+                  v-model="lines.content"
                   placeholder="Choisir une compétence"
                   :items="selectSkills"
                   item-text="description"
@@ -81,12 +106,20 @@
                   required
                 >
                 </v-select>
+
+                <v-text-field
+                  v-if="lines.type == 2"
+                  v-model="lines.content"
+                  :rules="pwdRules"
+                  label="Saisir votre question"
+                />
+
               </v-col>
             </v-row>
           </v-form>
         </div>
 
-        <v-card-actions>
+        <v-card-actions class="pb-10">
           <v-spacer></v-spacer>
           <v-btn
             small

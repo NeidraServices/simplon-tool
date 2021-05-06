@@ -84,7 +84,7 @@
                     category: item.markdown.category.name,
                     title: item.markdown.title,
                     description: item.markdown.description,
-                    date: item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : "Date "+item.id)
+                    date: item.markdown.updated_at ? item.markdown.updated_at : ((item.markdown.created_at) ? item.markdown.created_at : "Date "+item.id)
                 })
             })
         }        
