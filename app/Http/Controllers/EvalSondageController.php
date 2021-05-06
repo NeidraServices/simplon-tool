@@ -94,8 +94,21 @@ class EvalSondageController extends Controller
             foreach ($lines as $lineInfo) {
                 $sondageLine = new EvalSondageLines();
                 $sondageLine->sondage_id = $sondage->id;
-                $sondageLine->langage_id = $lineInfo['langage_id'] ?? null;
-                $sondageLine->skill_id   = $lineInfo['skill_id'];
+                $sondageLine->type       = $lineInfo['type'];
+
+                switch ($lineInfo['type']) {
+                    case 0:
+                        $sondageLine->langage_id  = $lineInfo['content'];
+                        break;
+                    case 1:
+                        $sondageLine->skill_id    = $lineInfo['content'];
+                        break;
+                    case 2:
+                        $sondageLine->question    = $lineInfo['content'];
+                        break;
+                    default:
+                        break;
+                }             
                 $sondageLine->save();
             }
         }
