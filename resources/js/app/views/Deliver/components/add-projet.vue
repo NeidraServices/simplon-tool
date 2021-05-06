@@ -5,7 +5,7 @@
               <v-icon> mdi-plus </v-icon>
             </v-btn>
         </template>
-
+        <FlashMessage />
          <v-card>
             <v-toolbar color="orange" dark>Ajouter un projet</v-toolbar>
             <v-card-text>
@@ -55,15 +55,8 @@
                         <v-select v-model="tags" :items="tags_items" attach chips label="Compétence" multiple></v-select>
                     </div>
 
-                    <v-file-input v-model="image" truncate-length="15" label="Image de couverture"></v-file-input>   
-
-                    <div class="d-flex flex-wrap justify-space-around">
-                        <v-textarea  background-color="grey lighten-2 col-12" label="Description" height="100%" v-model="description"></v-textarea>
-                        <v-img src="https://ma.ambafrance.org/IMG/arton11404.png?1565272504" class="col" max-width="100%" ></v-img>
-                    </div>
-
-                    <editor />
-                    
+                    <editor @set_description="set_description" />
+                    <v-text-field v-model="extrait" label="extrait" ></v-text-field>
                     <div class="d-flex justify-center">
                         <v-btn small block color="success" @click="add_project">Ajouter</v-btn>
                     </div>
