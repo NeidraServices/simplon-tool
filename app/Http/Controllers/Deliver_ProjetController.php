@@ -9,6 +9,7 @@ use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
 use App\Models\Deliver_TagModel;
 use App\Models\User;
+use DateTime;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -27,7 +28,19 @@ class Deliver_ProjetController extends Controller
     public function projets()
     {
         $projets = Deliver_ProjetModel::all();
-        return response()->json(['projets' =>  Deliver_ProjetResource::collection($projets)]);
+
+        foreach($projets as $projet){
+            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->get();
+
+            $deadline = new DateTime($projet->deadline);
+            $projet->deadline = $deadline->format('Y-m-d');
+
+            if($projet->date_presetation !== null){
+                $date_presentation = new DateTime($projet->date_presentation);
+                $projet->date_presentation = $date_presentation->format('Y-m-d');
+            }
+        }
+        return response()->json(['projets' =>  $projets]);
     }
 
 
