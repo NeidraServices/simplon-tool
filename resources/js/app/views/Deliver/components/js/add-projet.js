@@ -1,5 +1,6 @@
 import axios from "axios"
 import Editor from "../Editor/editor.vue"
+import { EventBus } from '../../../../eventBus.js';
 
 export default{
     components:{
@@ -21,7 +22,7 @@ export default{
             titre: "",
             deadline: new Date().toISOString().substr(0, 10),
             presentation: new Date().toISOString().substr(0, 10),
-            description: "",
+            description: "szs",
             image: [],
 
             techno: [],
@@ -39,24 +40,18 @@ export default{
 
     methods: {
         add_project: function(){
-console.log(this.tags);
-
-axios.post("/api/deliver/projets/ajouter",
-{
-    titre:this.titre,
-    description:this.description,
-    deadline:this.deadline,
-    image:this.image,
-    presentation:this.presentation,
-    competences:this.tags,
-    techno:this.techno,
-    formateur_id:2
-}
-)
-.then(({data}) => {
- this.dialog=false;
- this.$emit("recharge-vue");
-})
+            axios.post("/api/deliver/projets/ajouter", {
+                titre:this.titre,
+                description: this.description,
+                deadline:this.deadline,
+                image:this.image,
+                presentation:this.presentation,
+                competences:this.tags,
+                techno:this.techno,
+                formateur_id:2
+            }).then(({data}) => {
+                console.log(data);
+            })
         },
 
         get_referentiel: function(){
@@ -75,6 +70,10 @@ axios.post("/api/deliver/projets/ajouter",
                     this.techno_items.push(element.nom)
                 });
             })
+        },
+
+        set_description: function(description){
+            this.description = {description: description}
         }
     }
 }

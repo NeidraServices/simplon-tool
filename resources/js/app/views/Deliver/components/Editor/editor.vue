@@ -1,7 +1,7 @@
 <template>
   <div class="editor" v-if="editor">
       <Menu :editor="editor"/>
-      <editor-content :editor="editor" height="500px"/>
+      <editor-content :editor="editor" height="500px"  />
   </div>
 </template>
 
