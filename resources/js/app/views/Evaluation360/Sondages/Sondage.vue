@@ -1,42 +1,48 @@
 <template>
-  <v-container>
-    <h1>Sondage sur USER</h1>
-    <v-card>
-      <v-row>
-        <v-col cols="12" lg="6">
-          <h4 class="pa-5">Langues</h4>
-          <v-row class="pa-5">
-            <v-col cols="12" lg="2" class="font-weight-thin text-center">
-              Langue 1</v-col
-            >
-            <v-col cols="12" lg="10">
-              <v-row>
-                <v-col cols="2">
-                  <v-card class="sondage-langages-notes d-flex">
-                    <img :src="getImages('langages/flutter.png')" />
-                  </v-card>
-                </v-col>
-                <v-col cols="8">
-                  <v-progress-linear
-                    class="sondage-progress-bar"
-                    v-model="note"
-                    color="#bce9f7"
-                    height="25"
-                    @change="updateNote"
-                  >
-                    <strong>{{ displayNote }}/ 10</strong></v-progress-linear>
-                </v-col>
-              </v-row>
-            </v-col></v-row
-          >
-        </v-col>
-        <v-divider vertical></v-divider>
-        <v-col cols="12" lg="6">
-          <h4 class="pa-5">Commentaires</h4>
-          <v-textarea></v-textarea
-        ></v-col>
-      </v-row>
-    </v-card>
+  <v-container style="height: 100%">
+    <v-stepper style="height: 100%" v-model="e1">
+      <v-stepper-header>
+        <v-stepper-step :complete="e1 > 1" step="1"> Questions </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step :complete="e1 > 2" step="2">
+          Langues & Référentiel
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step step="3"> Commentaire</v-stepper-step>
+      </v-stepper-header>
+
+      <v-stepper-items style="height: 100%">
+        <v-stepper-content step="1">
+          <Questions />
+
+          <div class="stepper-actions">
+            <v-btn color="primary" @click="e1 = 2"> Continuer </v-btn>
+          </div>
+        </v-stepper-content>
+
+        <v-stepper-content step="2">
+          <Languages />
+          <div class="stepper-actions">
+            <v-btn color="primary" @click="e1 = 3"> Continuer </v-btn>
+
+            <v-btn text @click="e1 = 1"> retour </v-btn>
+          </div>
+        </v-stepper-content>
+
+        <v-stepper-content step="3">
+          <Commentaires />
+          <div class="stepper-actions">
+            <v-btn color="primary" @click="e1 = 1"> Continuer </v-btn>
+
+            <v-btn text @click="e1 = 2"> retour </v-btn>
+          </div>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
   </v-container>
 </template>
 <script src='./sondage.js'/>
@@ -58,5 +64,9 @@
 }
 .v-progress-linear__background {
   background-color: white !important;
+}
+.stepper-actions {
+  position: absolute;
+  bottom: 10vh;
 }
 </style>

@@ -4,7 +4,7 @@ import axios from 'axios';
 let API_URL
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    API_URL = 'http://localhost:8000/api/markedown'
+    API_URL = `${location.origin}/api/markedown`
 } else {
     API_URL = 'http://31.220.54.89/api/markedown'
 }
@@ -17,7 +17,13 @@ export class APIService {
     getApiCategories() {
         const url = `${API_URL}/categories`;
         return axios.get(url);
+    } 
+
+    search(val) {
+        const url = `${API_URL}/categorie/search`;        
+        return axios.get(url,{ params: { query: val } });
     }
+
     getApiMdCommuns() {
         const url = `${API_URL}/markdowns-commun`;
         return axios.get(url);

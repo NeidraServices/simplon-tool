@@ -38,8 +38,8 @@ export const apiService = {
 }
 
 function headers() {
-    const authHeader = localStorage.getItem('mayProjectToken')
-        ? { Authorization: "Bearer " + localStorage.getItem('mayProjectToken') }
+    const authHeader = localStorage.getItem('token')
+        ? { Authorization: "Bearer " + localStorage.getItem('token') }
         : {};
     return {
         ...authHeader,

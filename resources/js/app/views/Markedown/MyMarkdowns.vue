@@ -30,12 +30,11 @@
           <v-col
               v-for="item in markdown_list"
               :key="item.id"
+              class="item"
           >  
-            <router-link :to="{ name: 'ShowEditMd', params: {id: item.id.toString() } }">
-                <ItemMyMd 
-                    v-bind:item="item"
-                />
-            </router-link>
+            <ItemMyMd 
+                v-bind:item="item"
+            />
           </v-col>
         </div>
         
@@ -82,8 +81,10 @@ export default {
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.id,
-                    title: item.url,
+                    category: item.md_category_id,
+                    title: item.title,
+                    active: item.active,
+                    description: item.description,
                     author: "user"+item.user_id
                 })
             })
@@ -101,13 +102,16 @@ export default {
       },
       search(){
         console.log("Valll")
-      }
+      },
     }
   };
 </script>
 <style>
   .item-container {
     width: 100%;
+  }
+  .item:hover {
+    cursor: pointer;
   }
   .divider {
     margin: 5px;

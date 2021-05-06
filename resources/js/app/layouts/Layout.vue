@@ -38,6 +38,7 @@
 				</v-row>
 			</template>
 		</Sidebar>
+			<Logout />
 		<v-main>
 			<router-view></router-view>
 		</v-main>

@@ -5,40 +5,52 @@
             <v-row>
                 <v-col>
                     <v-select
+                        item-text="label"
+                        item-value="value"
                         :items="status"
+                        v-model="active"
                         label="Status"
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <v-autocomplete 
-                    :loading="loading" 
-                    :items="categories" 
-                    :search-input.sync="search"
-                    item-text="composed"
-                    return-object 
-                    cache-items 
-                    hide-no-data 
-                    hide-details
-                    label="Catégorie">
+                    <v-autocomplete
+                        v-model="category"
+                        :loading="loading" 
+                        :items="categories"
+                        :search-input.sync="search"
+                        item-text="composed"
+                        item-value="id"
+                        append-icon=''
+                        return-object
+                        cache-items
+                        flat
+                        hide-no-data
+                        hide-details
+                        label="Catégorie">
                     </v-autocomplete>
                 </v-col>
                 
-                <v-col>
+                <v-col class="mt-4" cols="2">
                 <v-dialog
                 v-model="dialog"
                 persistent
                 max-width="600px"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on">
+                        <!-- <v-btn v-on="on">
                             Ajouter une catégorie
+                        </v-btn> -->
+                        <v-btn icon color="green" v-if="disabledButton" disabled>
+                            <v-icon> mdi-plus-circle-outline</v-icon>
                         </v-btn>
-                        
+
+                        <v-btn v-on="on" icon color="green" v-else @click="addCategoryModal">
+                            <v-icon> mdi-plus-circle-outline</v-icon>
+                        </v-btn>
                     </template>
 
                     <v-card>
                         <v-card-title> Ajouter une catégorie </v-card-title>
-
                         <v-card-text>
                             <v-container>
                                 <v-row>
@@ -64,10 +76,20 @@
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
             ></v-text-field>
-            <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
-        fullscreen | preview" :extend="custom"></markdown-editor>
+            <v-textarea
+                outlined
+                name="description"
+                label="Description"
+                v-model="description"
+            ></v-textarea>
+            <markdown-editor 
+            theme="primary" 
+            ref="md" 
+            v-model="text" 
+            toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote | fullscreen | preview" 
+            :extend="custom"></markdown-editor>
 
-            <v-btn onclick="">Valider</v-btn>
+            <v-btn @click="addMarkDown">Valider</v-btn>
         </v-container>
 
     </div>
@@ -80,25 +102,42 @@
 </style>
 <script>
 import MdEditor from "./component/MdEditor";
-import Axios from "axios";
+import AutocompleteCategorie from "./component/AutocompleteCategorie";
+import {APIService} from './Services/ServiceRecupCateg';
 export default {
     name: "AddMarkedDown",
     components: {
-        MdEditor
+        MdEditor,
+        AutocompleteCategorie
     },
     data() {
         return {
             title: '',
+            category: '',
             name: '',
-            status: ['En brouillon', 'Public'],
-            dialog: false,
+            text: '',
+            description: '',
+            disabledButton: true,
+            activeModalCategory: false,
+            
+            active: '',
+            status:[
+                {
+                    label:'En brouillon',
+                    value: 0
+                },
+                {
+                    label:'Publié',
+                    value: 1
+                }
+            ],
 
-            categorie: {},
+            dialog: false,
+            categorie: null,
             categories: [],
             search: null,
             loading: false,
 
-            text: '',
             custom: {
                 'preview': {
                     cmd: 'preview',
@@ -147,14 +186,24 @@ export default {
     watch: {
       search: function (val) {
         if (val && val.length > 1) {
+          this.disabledButton = false;
           this.loading = true
           axios.get('/api/markedown/categorie/search', { params: { query: val } })
           .then(({ data }) => {
-            this.loading = false;
+
+              this.loading = false;
+              
+              /* console.log(this.categorie)
+              if (val !==) {
+                  this.disabledButton = true;
+              } */
+              
               data.data.forEach(categorie => {
-                this.categories.push(this.formattedCategorie(categorie))
+                  this.categories.push(this.formattedCategorie(categorie))
               });
           });
+        }else{
+            this.disabledButton = true;
         }
       },
     },
@@ -165,16 +214,20 @@ export default {
             this.categorie = {}
         },
 
-      formattedCategorie: function (categorie) {
-        return {
-            /* id: salarie.id,
-            nom: salarie.nom,
-            prenom: salarie.prenom,
-            tel: salarie.tel, */
-            
-            composed: categorie.name
-        }
-      },
+        formattedCategorie: function (categorie) {
+            return {
+
+                id: categorie.id,
+                name: categorie.name,
+
+                composed: categorie.name
+            }
+        },
+
+        openCategoryModal(){
+            this.isActiveModalCategory = true
+            this.$emit('addCategoryModalActive', false);
+        },
       
         addCategoryModal(){
             if (this.isValid()) {
@@ -198,14 +251,17 @@ export default {
         },
 
         async addMarkDown() {
-            let dataSend = {
-                name: this.name,
-                text: this.text,
-                status: this.status,
-                categoryId: this.categoryId
-            }
 
-            Axios.post('/markedowns/markdown/create', dataSend);
+            const data = {
+                title: this.title,
+                text: this.text,
+                description: this.description,
+                active: this.active,
+                category: this.category.id
+            };
+        
+        axios.post('/api/markedown/markdown/create', data);
+
         }
     },
 

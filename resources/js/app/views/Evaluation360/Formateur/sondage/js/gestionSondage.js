@@ -53,7 +53,8 @@ export default {
             ],
 
             selectItem: null,
-            createdDialog: false
+            createdDialog: false,
+            deleteDialog: false
         }
     },
 
@@ -77,20 +78,41 @@ export default {
         openAddModal() {
             this.createdDialog = true
         },
+
         closeAddModal() {
             this.sondageLines = []
             this.createdDialog = false
         },
+
+        openDelete(item) {
+            this.selectItem = item;
+            this.deleteDialog = true;
+        },
+
+        closeDelete() {
+            this.selectItem = null;
+            this.deleteDialog = false;
+        },
+
+        addLines() {
+            this.sondageLines.push({
+                langage_id: '',
+                skill_id: ''
+            })
+        },
+
         async getSondages() {
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/formateur/sondage/list`)
                 const reqData = req.data.data;
                 this.sondagesList = reqData;
                 this.isLoaded = true;
+                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }
         },
+
         async getLangages() {
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/langage/list`)
@@ -104,6 +126,7 @@ export default {
                 console.log(error)
             }
         },
+
         async getSkills() {
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/skill/list`)
@@ -113,6 +136,7 @@ export default {
                 console.log(error)
             }
         },
+
         async createSondage() {
             try {
                 if (this.sondageLines.length == 0) {
@@ -136,11 +160,21 @@ export default {
                 console.log(error)
             }
         },
-        addLines() {
-            this.sondageLines.push({
-                langage_id: '',
-                skill_id: ''
-            })
-        }
+
+
+        async deleteSondage() {
+            try {
+                const req = await apiService.delete(`${location.origin}/api/evaluation360/formateur/sondage/${this.selectItem.name}/delete`,);
+                const reqData = req.data;
+                if (reqData.success) {
+                    await this.getSondages()
+                    await this.closeDelete()
+                } else {
+                    console.log(reqData.message)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
     }
 }

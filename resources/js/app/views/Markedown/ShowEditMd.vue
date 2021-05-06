@@ -1,23 +1,24 @@
 <template>
     <div>
         <v-container>
-            <h2>Titre du Markdwon</h2>
-            <div>ID: {{id}}</div>
+            <FlashMessage :position="'top'" ></FlashMessage>
+            <h2 class="titre">{{name}}</h2>
             <v-row>
                 <v-col>
                     <v-select
+                        v-model="active"
                         :items="status"
+                        item-text="label"
+                        item-value="value"
                         label="Status"
+                        v-on:change="setStatus"
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <v-select
-                        :items="categories"
-                        label="Catégorie"
-                    ></v-select>
+                    <AutocompleteCategorie/>
                 </v-col>
                 <v-col>
-                    <v-btn>Ajouter Catégorie</v-btn>
+                    <v-btn outlined>Ajouter Catégorie</v-btn>
                 </v-col>
             </v-row>
 
@@ -26,10 +27,17 @@
                 placeholder="Entrez le titre de la fiche"
                 v-model="name"
             ></v-text-field>
+            <v-btn outlined @click="update">Enregistrer</v-btn><br><br>
+            <v-divider></v-divider><br><br>
+            <v-textarea
+                outlined
+                name="description"
+                label="Description"
+                :value="description"
+            ></v-textarea>
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
-        fullscreen | preview" :extend="custom"></markdown-editor>
-
-            <v-btn onclick="">Valider</v-btn>
+        fullscreen | preview" :extend="custom"></markdown-editor><br>
+            <v-btn outlined @click="editMD">Editer</v-btn>
         </v-container>
 
     </div>
@@ -42,11 +50,13 @@
 </style>
 <script>
 import MdEditor from "./component/MdEditor";
+import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import Axios from "axios";
 export default {
     name: "ShowEditMd",
     components: {
-        MdEditor
+        MdEditor,
+        AutocompleteCategorie
     },
     props: {
         id: {
@@ -56,7 +66,16 @@ export default {
     data() {
         return {
             name: '',
-            status: ['En brouillon', 'Public'],
+            active: '',
+            description: '',
+            status: [{
+                label:'En brouillon',
+                value:0
+            },
+            {
+                label:'Public',
+                value:1
+            }],
             categories: [],
             text: '',
             custom: {
@@ -104,16 +123,80 @@ export default {
         };
     },
     methods: {
-        // async addMarkDown() {
-        //     let dataSend = {
-        //         name: this.name,
-        //         text: this.text,
-        //         status: this.status,
-        //         categoryId: this.categoryId
-        //     }
-
-        //     Axios.post('/markedowns/markdown/create', dataSend);
-        // }
-    }
+        async setStatus(){
+            let dataSend={
+                active:this.active
+            }
+            try {
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend)
+                const reqData = req.data
+                console.log(reqData)
+                this.flashMessage.success({
+                    message: reqData.message,
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async editMD(){
+            let dataSend={
+                text:this.text
+            }
+            try {
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend)
+                const reqData = req.data
+                
+                this.flashMessage.success({
+                    message: reqData.message,
+                });
+                console.log(reqData)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async update(){
+            let dataSend={
+                title:this.name
+            }
+            try {
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend)
+                const reqData = req.data
+                console.log(reqData)
+                
+                this.flashMessage.success({
+                    message: reqData.message,
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getData() {
+            
+            try {
+                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`)
+                const reqData = req.data
+                console.log(reqData)
+                this.name= reqData.title
+                this.description = reqData.description
+                this.text= reqData.text
+                this.active= reqData.status
+                
+                
+            } catch (error) {
+                console.log(error)
+            }
+         }
+    },
+    created() {
+        this.getData();
+    },
 };
 </script>
+
+<style>
+    .titre{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>

@@ -1,23 +1,17 @@
+import Languages from './StepperContent/Languages.vue';
+import Questions from './StepperContent/Questions.vue';
+import Commentaires from './StepperContent/Commentaires.vue';
+
 export default {
+    components: {
+        Languages,
+        Questions,
+        Commentaires,
+    },
     data() {
         return {
-            note: 0,
-            displayNote: 0
+            e1: 1,
         }
     },
-    methods: {
-        updateNote() {
-            if (this.note < 0) {
-                this.note = 0
-            } else if (this.note > 100) {
-                this.note = 100
-            }
-            this.note = Math.floor(this.note)
-            this.displayNote = Math.floor(this.note / 10)
 
-        },
-        getImages(image) {
-            return `${location.origin}/images/${image}`
-        },
-    }
 }

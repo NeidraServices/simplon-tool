@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
+use App\Models\Deliver_CompetencesModel;
+use App\Models\Deliver_TagModel;
+use App\Models\User;
+use DateTime;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -24,7 +28,19 @@ class Deliver_ProjetController extends Controller
     public function projets()
     {
         $projets = Deliver_ProjetModel::all();
-        return response()->json(['projets' =>  Deliver_ProjetResource::collection($projets)]);
+
+        foreach($projets as $projet){
+            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->get();
+
+            $deadline = new DateTime($projet->deadline);
+            $projet->deadline = $deadline->format('Y-m-d');
+
+            if($projet->date_presetation !== null){
+                $date_presentation = new DateTime($projet->date_presentation);
+                $projet->date_presentation = $date_presentation->format('Y-m-d');
+            }
+        }
+        return response()->json(['projets' =>  $projets]);
     }
 
 
@@ -41,10 +57,20 @@ class Deliver_ProjetController extends Controller
      */
     public function getProjet($id)
     {
-        $projet=Deliver_ProjetModel::find($id);
+
+        $projet = Deliver_ProjetModel::find($id);
+
+        $affectations = [];
+        foreach ($projet->users as $user) {
+            $apprenant = User::find($user->pivot->user_id);
+            array_push($affectations, $apprenant);
+        }
 
         if($projet) {
-            return new Deliver_ProjetResource($projet);
+            return response()->json([
+                'projet' => new Deliver_ProjetResource($projet),
+                'apprenants' => $affectations,
+            ]);
         }
 
         return response()->json([
@@ -70,13 +96,7 @@ class Deliver_ProjetController extends Controller
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
-                'description' => 'required',
-                'image' => 'file|mimes:jpg,jpeg,png|max:5000',
-            ],
-            [
-                'file'  => 'Image non fournis',
-                'mimes' => 'Extension invalide',
-                'max'   => '5Mb maximum'
+                'description' => 'required'
             ]
         );
 
@@ -105,10 +125,24 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "image" => $image_path
+            "image" => $image_path,
+            "formateur_id" => $request->formateur_id
         ]));
-        $projet->save();
 
+        if($request->all()["competences"]){
+        foreach($request->all()["competences"] as $comp){
+            $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
+ 
+            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        }
+    }
+    if($request->all()["techno"]){
+        foreach($request->all()["techno"] as $comp){
+            $competences=Deliver_TagModel::where("nom",$comp)->get();
+ 
+            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        }
+    }
         return response()->json([
             'success' => true,
             'message' => "Projet créé"

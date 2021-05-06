@@ -3,14 +3,12 @@
         <div class="ml-5">
             <div class="d-flex justify-space-around my-10">
                  <h2 >Tous les projets</h2>
-                 <v-btn color="success" icon>
-                     <v-icon>mdi-plus</v-icon>
-                 </v-btn>
+                 <projet_ModalAdd :user="user"/>
             </div>
            
            <div class="d-flex flex-wrap justify-space-around">
                 <div v-for="projet in projets" :key="projet.id" >
-                    <v-card max-width="344">
+                    <v-card min-width="300" max-width="344">
                         <v-card-title>
                             <v-col cols="6">
                                 {{ projet.titre }}
@@ -22,7 +20,9 @@
                         </v-card-title>
                             
                             <v-col cols="12">
-                                <v-img src="https://ma.ambafrance.org/IMG/arton11404.png?1565272504" width="100%" height="auto"></v-img>
+                                <v-card-text>
+                                    {{ projet.extrait }}
+                                </v-card-text>
                             </v-col>
 
                             <div class="d-flex justify-space-around mt-5">
