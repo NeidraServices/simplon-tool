@@ -21,6 +21,14 @@ export default {
     },
 
     computed: {
+        isChecked() {
+			let routeName = this.$route.path;
+			var splits = routeName.split("/", 2);
+			if (splits[1] != "compte") {
+				return this.$store.state.isLogged;
+			}
+		},
+        
         pathIsEval() {
             let routeName = this.$route.path;
             var splits = routeName.split("/", 2);
