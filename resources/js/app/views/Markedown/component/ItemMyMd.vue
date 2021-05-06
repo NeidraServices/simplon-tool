@@ -64,7 +64,14 @@
                 description:{
                     type: String
                 },
+                active: {
+                    type: Number
+                }
             },          
+        },
+        mounted() {
+            this.status = (this.item.active == 0) ? "En brouillon" : "Finalisé"
+            this.updateStatus = (this.item.active == 0) ? false : true
         },
         watch: {            
             updateStatus(newValue){

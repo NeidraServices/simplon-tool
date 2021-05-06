@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deliver_ProjetModel extends Model
 {
     protected $fillable = [
-        "titre", "description", "deadline", "image"
+        "titre", "description", "deadline", "image", "formateur_id"
     ];
     use HasFactory;
     protected $table = 'dp_projets';
@@ -22,10 +22,14 @@ class Deliver_ProjetModel extends Model
     }
 
     public function users(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","user_id","projet_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","projet_id","user_id");
     }
 
     public function rendus(){
         return $this->hasMany(Deliver_Rendu::class);
+    }
+
+    public function commentaires(){
+        return $this->hasMany(Deliver_ProjetModel::class);
     }
 }

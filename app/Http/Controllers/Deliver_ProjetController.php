@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
+use App\Models\User;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -41,10 +42,20 @@ class Deliver_ProjetController extends Controller
      */
     public function getProjet($id)
     {
-        $projet=Deliver_ProjetModel::find($id);
+
+        $projet = Deliver_ProjetModel::find($id);
+
+        $affectations = [];
+        foreach ($projet->users as $user) {
+            $apprenant = User::find($user->pivot->user_id);
+            array_push($affectations, $apprenant);
+        }
 
         if($projet) {
-            return new Deliver_ProjetResource($projet);
+            return response()->json([
+                'projet' => new Deliver_ProjetResource($projet),
+                'apprenants' => $affectations,
+            ]);
         }
 
         return response()->json([
@@ -105,10 +116,9 @@ class Deliver_ProjetController extends Controller
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "image" => $image_path
+            "image" => $image_path,
+            "formateur_id" => $request->formateur_id
         ]));
-        $projet->save();
-
         return response()->json([
             'success' => true,
             'message' => "Projet créé"

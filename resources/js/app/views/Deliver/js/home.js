@@ -4,6 +4,7 @@ import Sidebar from '../../../layouts/Sidebar.vue'
 
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
 import projet_ModalDelete from "../components/delete-projet.vue"
+import projet_ModalAdd from "../components/add-projet.vue"
 
 
 const projets = [
@@ -30,7 +31,7 @@ const user  = {
 
 export default{
     components:{
-        projet_ModalUpdate, projet_ModalDelete, Sidebar
+        projet_ModalUpdate, projet_ModalDelete, projet_ModalAdd, Sidebar
     },
 
     data(){

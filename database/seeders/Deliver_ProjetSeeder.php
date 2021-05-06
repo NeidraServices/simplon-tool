@@ -23,6 +23,12 @@ class Deliver_ProjetSeeder extends Seeder
                 'image'          => "https://ma.ambafrance.org/IMG/arton11404.png?1565272504",
                 'description'        =>"Projet " . $i . " ayant pour but de travailler la coordination dans un projet d'équipe",
             ]);
+
+            DB::table('dp_affectations')->insert([
+                'user_id' => 3,
+                'projet_id' => $i,
+            ]);
+
         }
     }
 }

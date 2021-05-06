@@ -76,6 +76,12 @@
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
             ></v-text-field>
+            <v-textarea
+                outlined
+                name="description"
+                label="Description"
+                v-model="description"
+            ></v-textarea>
             <markdown-editor 
             theme="primary" 
             ref="md" 
@@ -115,7 +121,6 @@ export default {
             activeModalCategory: false,
             
             active: '',
-
             status:[
                 {
                     label:'En brouillon',
@@ -250,6 +255,7 @@ export default {
             const data = {
                 title: this.title,
                 text: this.text,
+                description: this.description,
                 active: this.active,
                 category: this.category.id
             };
