@@ -46,10 +46,10 @@ class Deliver_ProjetSeeder extends Seeder
                 'nom' => "laravel"
             ]);
 
-            DB::table('dp_competence')->insert([
+            DB::table('dp_competences')->insert([
                 'nom' => "backend"
             ]);
-            DB::table('dp_competence')->insert([
+            DB::table('dp_competences')->insert([
                 'nom' => "front"
             ]);
             DB::table('dp_medias')->insert([

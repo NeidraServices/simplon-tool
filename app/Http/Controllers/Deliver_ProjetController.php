@@ -155,6 +155,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
+                'date_presentation' => 'required',
                 'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
@@ -177,6 +178,7 @@ class Deliver_ProjetController extends Controller
         $projet->titre        = $validator->validated()['titre'];
         $projet->deadline     = $validator->validated()['deadline'];
         $projet->description  = $validator->validated()['description'];
+        $projet->date_presentation  = $validator->validated()['date_presentation'];
 
         // Pour des raisons de test du backend seulement
         if(array_key_exists("image", $validator->validated())) {
@@ -184,14 +186,14 @@ class Deliver_ProjetController extends Controller
                 $oldImage = $projet->image;
 
                 if ($oldImage != null) {
-                    $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                    $oldFilePath = public_path('images/projets') . '/' . $oldImage;
                     unlink($oldFilePath);
                 }
 
-                $image          = $validator->validated()['cover'];
+                $image          = $validator->validated()['image'];
                 $extension      = $image->getClientOriginalExtension();
                 $image_name          = time() . rand() . '.' . $extension;
-                $image->move(public_path('img/cover'), $image_name);
+                $image->move(public_path('images/projets'), $image_name);
                 $projet->image = $image_name;
             }
         }

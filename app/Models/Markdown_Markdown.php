@@ -23,4 +23,8 @@ class Markdown_Markdown extends Model
     {
         return $this->belongsTo(Markdown_Category::class, 'md_category_id');
     }
+    public function commentaries()
+    {
+        return $this->hasMany(Markdown_Commentary::class , 'markdown_id');
+    }
 }
