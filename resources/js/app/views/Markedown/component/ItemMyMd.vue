@@ -24,8 +24,8 @@
                         <v-spacer></v-spacer>
                         <div  class="ma-5">
                             <v-switch
-                                v-model="updateStatus"
-                                @click.stop="stopTheEvent"
+                                v-model="modifStatus"
+                                @click.stop="updateStatus"
                                 :label="`Status: ${status}`"
                                 color="success"
                             >
@@ -49,15 +49,21 @@
     </v-col>
 </template>
 <script>
+
+    import {APIService} from '../Services/ServiceRecupCateg'
+    const apiCall = new APIService()
     export default {
         data(){
             return{
                 status: "En brouillon",
-                updateStatus: false
+                modifStatus: false
             }
         },
         props:{
             item: {
+                id: {
+                    type: Number
+                },
                 title:{
                     type: String
                 },
@@ -71,20 +77,31 @@
         },
         mounted() {
             this.status = (this.item.active == 0) ? "En brouillon" : "Finalisé"
-            this.updateStatus = (this.item.active == 0) ? false : true
+            this.modifStatus = (this.item.active == 0) ? false : true
         },
         watch: {            
-            updateStatus(newValue){
-                console.log("test :", newValue)
-                if(newValue) {
-                    this.status = "Finalisé"
-                }else {
-                    this.status = "En brouillon"
-                }
+            modifStatus(newValue){
+                this.modifStatus = newValue               
             }
         },
         methods: {
-            stopTheEvent(event){
+            updateStatus(event){
+                let dataSend={
+                    active:this.modifStatus
+                }
+                apiCall.updateStatus(dataSend, this.item.id).then(
+                     reponse => {
+                        if(this.modifStatus) {
+                            this.status = "Finalisé"
+                        }else {
+                            this.status = "En brouillon"
+                        }
+                        this.$emit('show-success-msg', "Mise à jour du status effectué avec succès");
+                    }
+                ).catch(error => {
+                    this.modifStatus = !this.modifStatus                
+                    this.$emit('show-error-msg',error);
+                });
                 event.stopPropagation()
             },
             goTo(item){

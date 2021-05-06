@@ -40,4 +40,9 @@ export class APIService {
         const url = `${API_URL}/my-markdowns?id=${id}`;
         return axios.get(url);
     }
+
+    updateStatus(dataSend, id) {
+        const url = `${API_URL}/markdown/active/${id}`;
+        return axios.post(url, dataSend);
+    }
 }

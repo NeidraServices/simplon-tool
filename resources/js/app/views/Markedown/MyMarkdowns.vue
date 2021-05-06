@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container fluid>
+      <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
             <v-card-title 
@@ -34,6 +35,8 @@
           >  
             <ItemMyMd 
                 v-bind:item="item"
+                 @show-success-msg="showSuccessMsg" 
+                 @show-error-msg="showErrorsMsg"
             />
           </v-col>
         </div>
@@ -47,14 +50,17 @@ import ItemMyMd from "./component/ItemMyMd";
 import BtnWithIcon from "./component/BtnWithIcon";
 import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
-  import {APIService} from './Services/ServiceRecupCateg'
+import {APIService} from './Services/ServiceRecupCateg'
+import CustomFlashMessage from "./component/CustomFlashMessage";
+const apiCall = new APIService()
 export default {
     name: "MyMarkedDowns",
     components: {
         MdEditor,
         ItemMyMd,
         BtnWithIcon,
-        SimpleBtn
+        SimpleBtn,
+        CustomFlashMessage
     },
     data() {
         return {
@@ -66,13 +72,15 @@ export default {
         };
     },
     mounted() {
-      const apiCall = new APIService()
       apiCall.getApiMyMds().then(
         reponse => {
           console.log("Reponse :", reponse)
           this.markdown_list = this.formatDataMdCom(reponse.data)
         }
-      )
+      ).catch (error => {
+          console.log(error)
+          this. $refs.customFlash.showMessageError(error)
+      })
     },
     methods: {
       formatDataMdCom(data){
@@ -92,7 +100,6 @@ export default {
         return formatedData
       },
       recupCateg(){
-        const apiCall = new APIService()
         apiCall.getApiCategories().then(
           reponse => {
             console.log("Reponse :", reponse)
@@ -100,9 +107,12 @@ export default {
         )
         console.log("categ")
       },
-      search(){
-        console.log("Valll")
+      showSuccessMsg(msg){
+        this.$refs.customFlash.showMessageSuccess(msg)
       },
+      showErrorsMsg(msg){
+        this.$refs.customFlash.showMessageError(msg)
+      }
     }
   };
 </script>
