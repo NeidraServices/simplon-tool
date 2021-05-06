@@ -24,14 +24,17 @@
                     height="25"
                     @change="updateNote"
                   >
-                    <strong>{{ displayNote }}/ 10</strong></v-progress-linear
-                  >
+                    <strong>{{ displayNote }}/ 10</strong></v-progress-linear>
                 </v-col>
               </v-row>
             </v-col></v-row
           >
         </v-col>
-        <v-col cols="12" lg="6"> Commentaires </v-col>
+        <v-divider vertical></v-divider>
+        <v-col cols="12" lg="6">
+          <h4 class="pa-5">Commentaires</h4>
+          <v-textarea></v-textarea
+        ></v-col>
       </v-row>
     </v-card>
   </v-container>
