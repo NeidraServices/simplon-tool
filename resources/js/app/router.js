@@ -7,6 +7,7 @@ import HomePage from './views/Home.vue'
 import { authenticationService } from "./services/authenticationService";
 import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
+import Compte from './views/compte/Compte.vue';
 import VerifyMail from './views/VerifyMail.vue';
 
 Vue.use(VueRouter);
@@ -22,6 +23,11 @@ var routes = [
         path: '/connexion',
         name: 'login',
         component: Login,
+    },
+    {
+        path: '/compte/:id',
+        name: 'compte',
+        component: Compte,
     },
     {
         path: '/email/verification/:token',
