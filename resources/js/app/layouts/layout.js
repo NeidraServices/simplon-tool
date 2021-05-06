@@ -1,5 +1,5 @@
-import Sidebar from "./Sidebar";
-import Logout from './Logout'
+import Sidebar from "./Sidebar.vue";
+import Logout from './Logout.vue'
 import MenuEval from '../navigations/evaluation360/MenuEval.vue'
 import MenuMd from '../navigations/markdown/MenuMd.vue'
 import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
