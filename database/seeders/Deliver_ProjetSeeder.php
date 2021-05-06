@@ -27,14 +27,14 @@ class Deliver_ProjetSeeder extends Seeder
 
             DB::table('dp_affectations')->insert([
                 'user_id' => 3,
-                'projet_id' => $i,
+                'projet_id' => $i+1,
             ]);
 
             DB::table('dp_rendus')->insert([
                 'site_url' => "lien vers site web",
                 'github_url' => "lien vers github",
                 'user_id'          => 3,
-                'projet_id'          => $i,
+                'projet_id'          => $i+1,
 
             ]);
 

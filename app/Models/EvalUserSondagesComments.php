@@ -18,11 +18,11 @@ class EvalUserSondagesComments extends Model
         'comments',
     ];
 
-    public function users() {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function sondages() {
+    public function sondage() {
         return $this->belongsTo(EvalSondage::class, 'sondage_id', 'id');
     }
 }
