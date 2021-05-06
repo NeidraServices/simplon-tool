@@ -50,7 +50,9 @@ router.beforeEach((to, from, next) => {
 
     if(requiresAuth) {
         if(!Store.state.isLogged) {
-            
+            return next({ path: "/connexion", query: { returnUrl: to.path } });
+        } else {
+            return next()
         }
     } else if (authorize && !_.isEmpty(authorize) && requiresAuth) {
         const role = authenticationService.currentRoleValue;
