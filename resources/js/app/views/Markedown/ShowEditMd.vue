@@ -326,9 +326,16 @@ export default {
                 const reqData = req.data
                 console.log(reqData)
                 this.title= reqData.markdown.title
-                this.category= reqData.markdown.category
+                let category ={
+                    composed:reqData.markdown.category.name,
+                    id:reqData.markdown.category.id
+                }
+                
+                this.categories.push( category)
+                this.category=this.categories[0]
+                console.log(this.category)
                 this.description = reqData.markdown.description
-                this.text= reqData.markdown.text
+                this.text= reqData.text
                 this.active= reqData.markdown.status
                 
                 
