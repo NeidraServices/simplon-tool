@@ -1,4 +1,4 @@
-import ApprenantsCards from './ApprenantsCards.vue';
+import ApprenantsCards from './Apprenants/ApprenantsCards.vue';
 export default {
     components: {
         ApprenantsCards
