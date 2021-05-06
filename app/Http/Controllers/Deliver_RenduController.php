@@ -80,8 +80,6 @@ class Deliver_RenduController extends Controller
             ]
         );
 
-        // dd($validator->validated());
-
         $errors = $validator->errors();
 
         if (count($errors) != 0) {
@@ -172,14 +170,17 @@ class Deliver_RenduController extends Controller
             ]);
         }
 
-        // $rendu = Deliver_Rendu::find($id);
-        // // Supprimer si la partie auth est totalement fonctionnel
-        // if($rendu) {
-        //     return  new Deliver_RenduResource($rendu);
-        // }
 
-        // Vérifier si l'utilisateur fait bien partit du projet
         $rendu = Deliver_Rendu::find($rendu_id);
+        // Vérifier si l'utilisateur fait bien partit du projet
+        /*
+        if($rendu == null || (Auth::user()->id != $rendu->user_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Introuvable"
+            ]);
+        }
+        */
 
         $rendu->github_url = $validator->validated()['github_url'];
         $rendu->site_url = $validator->validated()['site_url'];
@@ -232,6 +233,8 @@ class Deliver_RenduController extends Controller
             foreach ($old_file_set as $key => $filename) {
                 if(!in_array($filename, $new_file_set)) {
                     File::delete(public_path('images/rendus/'. $filename));
+                    $media = Deliver_MediaModel::where(['nom' => $filename, 'rendu_id' => $rendu_id])->first();
+                    $media->delete();
                 }
             }
         }
