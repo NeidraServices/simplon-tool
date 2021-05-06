@@ -24,8 +24,12 @@ class Deliver_CommentairesController extends Controller
 
     public function  ajout(Request $req){
 
-        $data=Validator::make($req->all(),["projet_id"=>"required","text"=>"required|String"])->validate();
+        $validator=Validator::make($req->all(),["projet_id"=>"required","text"=>"required|String"]);
 
+        if($validator->fails()){ 
+            return response()->json(["success" => false, "error" => $validator->errors()]);
+        }
+        $data=$validator->validate();
         $user=User::find(1);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
@@ -38,12 +42,18 @@ class Deliver_CommentairesController extends Controller
             "projet_id"=>$data["projet_id"],
             "user_id"=>3
         ]);
-
+        return response()->json(['success' => true]);
     }
 
     public function repondre(Request  $req){
 
-        $data=Validator::make($req->all(),["projet_id"=>"required","text"=>"required|String","commentaire_id"=>"required"])->validate();
+        $validator=Validator::make($req->all(),["projet_id"=>"required","text"=>"required|String","commentaire_id"=>"required"]);
+
+        if($validator->fails()) {
+            return response()->json(["success"=>false,"error"=>$validator->errors()]);
+        }
+
+        $data=$validator->validate();
 
         $user=User::find(1);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
@@ -63,5 +73,7 @@ class Deliver_CommentairesController extends Controller
             "user_id"=>3,
             "commentaire_id"=>$data["commentaire_id"]
         ]);
+
+        return response()->json(['success' => true]);
     }
 }
