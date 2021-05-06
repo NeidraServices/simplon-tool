@@ -45,7 +45,6 @@ export default {
                     await this.$store.commit('connect', user);
                     await localStorage.setItem('token', user.token);
                     await this.$router.push('/');
-                    // await this.$router.push(this.returnUrl);
                 }
             } catch (error) {
                 this.loading = false;
