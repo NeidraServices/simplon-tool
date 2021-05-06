@@ -117,13 +117,13 @@ class Deliver_ProjetController extends Controller
             ]);
         }
 
-        $public_img_path = "/public/img/";
+        $public_img_path = "/public/images/";
         if($request->image){
             $image       =  $request->image;
             $extension   = $image->getClientOriginalExtension();
             $image_name  = time() . rand() . '.' . $extension;
-            $image_path  = $public_img_path + "/cover/" + $image_name;
-            $image->move(public_path('img/cover'), $image_name);
+            $image_path  = $public_img_path . "/projets". "/" . $image_name;
+            $image->move(public_path('images/projets'), $image_name);
         }else{
             $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
         }
@@ -206,14 +206,14 @@ class Deliver_ProjetController extends Controller
                 $oldImage = $projet->image;
 
                 if ($oldImage != null) {
-                    $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                    $oldFilePath = public_path('images/projets') . '/' . $oldImage;
                     unlink($oldFilePath);
                 }
 
-                $image          = $validator->validated()['cover'];
+                $image          = $validator->validated()['image'];
                 $extension      = $image->getClientOriginalExtension();
                 $image_name          = time() . rand() . '.' . $extension;
-                $image->move(public_path('img/cover'), $image_name);
+                $image->move(public_path('images/projets'), $image_name);
                 $projet->image = $image_name;
             }
         }
