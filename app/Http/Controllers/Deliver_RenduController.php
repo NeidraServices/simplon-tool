@@ -58,13 +58,17 @@ class Deliver_RenduController extends Controller
                 'user_id'   => 'required',
                 'github_url' => 'string',
                 'site_url' => 'string',
+                'medias' => 'nullable',
+                'medias.*' => 'file|mimes:jpg,jpeg,png|max:5000'
             ],
             [
                 'file'  => 'Image non fournis',
                 'mimes' => 'Extension invalide',
-                'max'   => '5Mb maximum'
+                'max'   => '5Mb maximum',
             ]
         );
+
+        // dd($validator->validated());
 
         $errors = $validator->errors();
 
@@ -99,12 +103,16 @@ class Deliver_RenduController extends Controller
         $rendu->save();
 
         // S'il y a minimum un média
-        if($request->media && count($request->media) > 0) {
-            foreach ($request->media as $key => $element) {
+
+        if($request->hasfile('medias')) {
+            foreach ($request->file('medias') as $file) {
+
+                $name = time() . rand() .'.'.$file->extension();
+                $file->move(public_path('images/rendus'), $name);
                 $media = new Deliver_MediaModel();
-                $media->type = $element["type"];
-                $media->lien = $element["lien"];
-                $media->nom = $element["nom"];
+                $media->type = "Type_media";
+                $media->lien = "/images/rendus/". $name;
+                $media->nom = $name;
                 $media->rendu_id = $rendu->id;
                 $media->save();
             }

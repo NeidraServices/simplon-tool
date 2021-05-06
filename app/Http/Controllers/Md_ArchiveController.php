@@ -24,6 +24,6 @@ class Md_ArchiveController extends Controller
     }
     //
     public function show($id){
-        return Markdown_Archive::where('markdown_id',$id)->get();
+        return Markdown_Archive::where('markdown_id',$id)->orderBy('created_at', 'desc')->get();
     }
 }
