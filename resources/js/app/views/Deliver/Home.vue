@@ -3,7 +3,7 @@
         <div class="ml-5">
             <div class="d-flex justify-space-around my-10">
                  <h2 >Tous les projets</h2>
-                 <projet_ModalAdd :user="user"/>
+                 <projet_ModalAdd :user="user" @recharge-vue="get_projets"/>
             </div>
            
            <div class="d-flex flex-wrap justify-space-around">
@@ -25,7 +25,7 @@
 
                             <div class="d-flex justify-space-around mt-5">
                                 <p class="text-center"> {{ projet.deadline}}</p>
-                                <v-btn x-small color="success" class="mt-1" outlined>ouvrir</v-btn>
+                                <v-btn x-small color="success" class="mt-1" @click="voir_projet(projet.id)" outlined>ouvrir</v-btn>
                             </div>
                     </v-card>
                 </div>

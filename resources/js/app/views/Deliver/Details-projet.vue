@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div @voir-projet="getData">
         <template>
-            <v-card-title class="text-center justify-center py-6">
+            <v-card-title class="text-center justify-center py-6" >
                 <h1 class="font-weight-bold">
                     {{ projet.titre }}
                 </h1>

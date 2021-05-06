@@ -7,6 +7,7 @@ export default{
             dialog: false,
             dialogRendu: false,
             tab: null,
+            idProjet:0,
             currentUser: [],
             menus: [
                 {title: 'Détail'},
@@ -45,8 +46,9 @@ export default{
     },
     methods: {
         async getData() {
+            this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
             try {
-                const req = await apiService.get(`${location.origin}/api/deliver/projets/1/voir`);
+                const req = await apiService.get(`${location.origin}/api/deliver/projets/${this.idProjet}}/voir`);
                 this.projet = req.data.projet;
                 this.apprenants = req.data.apprenants;
                 this.isLoaded = true;
