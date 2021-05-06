@@ -27,14 +27,15 @@
                 placeholder="Entrez le titre de la fiche"
                 v-model="name"
             ></v-text-field>
-            <v-btn outlined @click="update">Enregistrer</v-btn><br><br>
-            <v-divider></v-divider><br><br>
             <v-textarea
                 outlined
                 name="description"
                 label="Description"
                 :value="description"
             ></v-textarea>
+            <v-btn outlined @click="updateTitle">Enregistrer</v-btn><br><br>
+            <v-divider></v-divider><br><br>
+            
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor><br>
             <v-btn outlined @click="editMD">Editer</v-btn>
@@ -154,12 +155,28 @@ export default {
                 console.log(error)
             }
         },
-        async update(){
+        async updateTitle(){
             let dataSend={
                 title:this.name
             }
             try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend)
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/title/${this.id}`, dataSend)
+                const reqData = req.data
+                console.log(reqData)
+                
+                this.flashMessage.success({
+                    message: reqData.message,
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
+         async updateDescription(){
+            let dataSend={
+                title:this.name
+            }
+            try {
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
                 const reqData = req.data
                 console.log(reqData)
                 

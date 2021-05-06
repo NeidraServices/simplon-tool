@@ -27,7 +27,7 @@ class Md_MarkdownController extends Controller
     }
 
     public function show(){
-        $markdowns=Markdown_Markdown::get();
+        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();
         return $markdowns;
     }
     // encours:liasin_archive
@@ -115,7 +115,38 @@ class Md_MarkdownController extends Controller
   
         
     }
-    public function update(Request $request,$id){
+    public function updateDescription(Request $request,$id){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'description'      => 'required',
+            ],
+            [
+                'required' => 'Le champ :attribute est requis',
+            ]
+        );
+
+        $errors = $validator->errors();
+
+        if (count($errors) != 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $errors->first()
+            ]);
+        }      
+        
+        
+        $markdown = Markdown_Markdown::where('id',$id)->first();
+        $markdown->title = $validator->validated()['descrption'];
+        $markdown->save();
+
+        return response()->json([
+            "success" => true,
+            "message" => "Info Markdown mise a jour",
+        ]);
+        
+    }
+    public function updateTitle(Request $request,$id){
         $validator = Validator::make(
             $request->all(),
             [
