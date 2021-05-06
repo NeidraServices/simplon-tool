@@ -21,11 +21,21 @@
                 </v-col>
                 <v-col cols="3" align="end" justify="center">
                     <v-row>
-                        <v-spacer></v-spacer>
-                        <div  class="ma-5">
+                        <div  class="mt-6 mb-5 ml-4">
+                            <BtnWithIcon v-bind:title="'Archive'" v-bind:routeName="'Archives'" v-bind:parameters="{id:item.id.toString()}">
+                                <v-icon
+                                    left
+                                    dark
+                                >
+                                    mdi-archive
+                                </v-icon>
+                            </BtnWithIcon>
+                        </div>
+                        <!-- <v-spacer></v-spacer> -->
+                        <div  class="mt-5 mb-5 ml-5">
                             <v-switch
-                                v-model="updateStatus"
-                                @click.stop="stopTheEvent"
+                                v-model="modifStatus"
+                                @click.stop="updateStatus"
                                 :label="`Status: ${status}`"
                                 color="success"
                             >
@@ -49,13 +59,17 @@
     </v-col>
 </template>
 <script>
-import {APIService} from '../Services/ServiceRecupCateg'
-const apiCall = new APIService()
+    import BtnWithIcon from "../component/BtnWithIcon";
+    import {APIService} from '../Services/Services'
+    const apiCall = new APIService()
     export default {
+        components: {
+            BtnWithIcon
+        },
         data(){
             return{
                 status: "En brouillon",
-                updateStatus: false
+                modifStatus: false
             }
         },
         props:{
@@ -76,28 +90,31 @@ const apiCall = new APIService()
         },
         mounted() {
             this.status = (this.item.active == 0) ? "En brouillon" : "Finalisé"
-            this.updateStatus = (this.item.active == 0) ? false : true
+            this.modifStatus = (this.item.active == 0) ? false : true
         },
         watch: {            
-            updateStatus(newValue){
-                console.log("test :", newValue)
+            modifStatus(newValue){
+                this.modifStatus = newValue               
+            }
+        },
+        methods: {
+            updateStatus(event){
                 let dataSend={
-                    active:this.updateStatus
+                    active:this.modifStatus
                 }
-                apiCall.updateStatus(dataSend,this.item.id).then(
-                    reponse => {
-                        console.log("REP :",reponse)
-                        if(newValue) {
+                apiCall.updateStatus(dataSend, this.item.id).then(
+                     reponse => {
+                        if(this.modifStatus) {
                             this.status = "Finalisé"
                         }else {
                             this.status = "En brouillon"
                         }
+                        this.$emit('show-success-msg', "Mise à jour du status effectué avec succès");
                     }
-                ).catch(err => alert(err))             
-            }
-        },
-        methods: {
-            stopTheEvent(event){
+                ).catch(error => {
+                    this.modifStatus = !this.modifStatus                
+                    this.$emit('show-error-msg',error);
+                });
                 event.stopPropagation()
             },
             goTo(item){

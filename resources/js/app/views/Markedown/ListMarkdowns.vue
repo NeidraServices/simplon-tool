@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container fluid>
+      <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
             <v-card-title
@@ -50,14 +51,16 @@
 <script>
   import ItemMdCommun from "./component/ItemMdCommun";
   import AutocompleteCategorie from "./component/AutocompleteCategorie";
-  import {APIService} from './Services/ServiceRecupCateg';
+  import {APIService} from './Services/Services';
+import CustomFlashMessage from "./component/CustomFlashMessage";
   const apiCall = new APIService()
 
   export default {
     name: "ListMarkdowns",
     components: {
       ItemMdCommun,
-      AutocompleteCategorie
+      AutocompleteCategorie,
+      CustomFlashMessage
     },
     data() {
         return {
@@ -68,9 +71,12 @@
       apiCall.getApiMdCommuns().then(
         reponse => {
           console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
+          this.markdown_list = this.formatDataMdCom(reponse.data.data)
         }
-      )
+      ).catch (error => {
+          console.log(error)
+          this. $refs.customFlash.showMessageError(error)
+      })
     },
     methods: {
         goTo(item){
@@ -82,10 +88,10 @@
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.md_category_id,
+                    category: item.category.name,
                     description: item.description,
                     title: item.title,
-                    author: "user - "+item.user_id
+                    author: item.user.name
                 })
             })
         }
