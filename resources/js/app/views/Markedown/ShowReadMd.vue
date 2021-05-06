@@ -5,11 +5,18 @@
             <h2 class="titre">{{name}}</h2>
             <v-row>
                 <v-col>
-                    {{title}}
-                    <p>klj{{ text }}</p>
+                    <h1> {{title}} </h1>
+                    <Editor
+                        mode="viewer"
+                        ref="editor"
+                        hint="Test"
+                        :outline="false"
+                        :preview="true"
+                        v-model="text"
+                        />
                 </v-col>
             </v-row>
-            <v-btn outlined @click="editMD">Editer</v-btn>
+            <v-btn outlined @click="editMD">Faire une demande de modification</v-btn>
             <br><br>
             <v-divider></v-divider>
             <br>
@@ -28,12 +35,14 @@
 }
 </style>
 <script>
+import { Editor } from 'vuetify-markdown-editor';
 import MdEditor from "./component/MdEditor";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import Axios from "axios";
 export default {
     name: "ShowReadMd",
     components: {
+        Editor,
         MdEditor,
         AutocompleteCategorie
     },
@@ -84,7 +93,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped="true">
 .titre{
     width: 100%;
     text-align: center;
