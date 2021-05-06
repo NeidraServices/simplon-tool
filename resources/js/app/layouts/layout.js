@@ -1,7 +1,7 @@
 import Sidebar from "./Sidebar";
 import Logout from './Logout'
-import MenuEval from '../navigations/evaluation360/MenuEval'
-import MenuMd from '../navigations/markdown/MenuMd'
+import MenuEval from '../navigations/evaluation360/MenuEval.vue'
+import MenuMd from '../navigations/markdown/MenuMd.vue'
 import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
 export default {
     components: {

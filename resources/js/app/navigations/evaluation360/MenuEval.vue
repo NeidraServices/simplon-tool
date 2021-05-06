@@ -10,6 +10,7 @@
 			<v-list-item-title>Gestion sondage</v-list-item-title>
 		</v-list-item>
 	</v-list>
+
 </template>
 
 <script src="./menuEval.js" />

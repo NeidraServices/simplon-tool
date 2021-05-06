@@ -39,7 +39,6 @@
 
 <script>
 import { authenticationService } from "../services/authenticationService";
-
 export default {
 	data() {
 		return {
@@ -49,16 +48,19 @@ export default {
 	},
 	computed: {
 		isChecked() {
-			return this.$store.state.isLogged;
+			let routeName = this.$route.path;
+			var splits = routeName.split("/", 2);
+			if (splits[1] != "compte") {
+				return this.$store.state.isLogged;
+			}
 		},
 	},
-
 	created() {
 		authenticationService.role.subscribe((x) => (this.role = x));
 	},
-
 	methods: {
 		async logout() {
+			this.dialog = false;
 			await localStorage.removeItem("token");
 			await localStorage.removeItem("role");
 			await localStorage.removeItem("vuex");
