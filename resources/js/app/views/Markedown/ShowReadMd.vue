@@ -89,7 +89,7 @@ export default {
         },
         async getCommentary() {
             try {
-                const req = await Axios.get(`/api/markedown/commentaires/${this.id}`)
+                const req = await Axios.get(`${location.origin}/api/markedown/commentaires/${this.id}`)
                 this.commentaries = req.data;
                 console.log(req.data)
             }catch (error) {
@@ -102,7 +102,7 @@ export default {
                 userId : 1 // a changer pour avoir l'id dynamiquement
             }
 
-            await Axios.post(`/api/markedown/commentaire/ajouter/${this.id}`, data).then(({ data }) => {
+            await Axios.post(`${location.origin}/api/markedown/commentaire/ajouter/${this.id}`, data).then(({ data }) => {
                 this.flashMessage.success({
                     message: data.message,
                 });
