@@ -50,7 +50,7 @@ export default {
 
 	created() {
 		authenticationService.role.subscribe((x) => (this.role = x));
-		authenticationService.userLoggedIn.subscribe((x) => (this.userLoggedIn = x.apprenant));
+		authenticationService.userLoggedIn.subscribe((x) => (this.userLoggedIn = x.userInfo));
 		console.log(this.userLoggedIn)
 	},
 
