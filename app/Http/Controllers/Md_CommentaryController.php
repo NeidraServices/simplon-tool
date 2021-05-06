@@ -21,7 +21,7 @@ class Md_CommentaryController extends Controller
     {
         $commentary =  new Markdown_Commentary;
         $commentary->description = $request->get('description');
-        $commentary->user_id = $request->get('userId'); // Auth::id();
+        $commentary->user_id = $request->get('userId'); // Auth::user()->id;
         $commentary->markdowns = $markdown_id;
         $commentary->save();
 

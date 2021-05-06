@@ -85,6 +85,7 @@
                     category: item.md_category_id,
                     description: item.description,
                     title: item.title,
+                    active: item.active,
                     author: "user - "+item.user_id
                 })
             })
