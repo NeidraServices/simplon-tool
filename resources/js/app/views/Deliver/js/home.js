@@ -54,8 +54,6 @@ export default{
         },
         voir_projet(id){
             Router.push('/deliver/projet/'+id);
-           // console.log(id);
-           
         },
         delete_projet: function(project_id){
             Axios.post("/api/deliver/projets/"+ project_id +"/supprimer")
@@ -64,6 +62,10 @@ export default{
                     this.projets = this.projets.filter(projet => projet.id != project_id)
                 }
             })
+        },
+
+        append_projet: function(projet){
+           this.projets.push(projet)
         }
     }
 }
