@@ -3,21 +3,7 @@
         <v-banner
             :sticky="sticky"
         >
-            <div class="row justify-space-between">
-                <div class="pa-5">
-                    <v-btn
-                        class="ma-2"
-                        color="light primary"
-                        dark
-                    >
-                        <v-icon
-                        dark
-                        left
-                        >
-                        mdi-arrow-left
-                        </v-icon>retour
-                    </v-btn>
-                </div>
+            <div class="row justify-center">
                 <div class="pa-5">
                     <h2 v-if="projet">{{ projet.titre }}</h2>
                 </div>
@@ -161,45 +147,36 @@
             </v-card>
         </template>
 
-        <div class="d-flex row ma-10">
-            <div class="col">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Lien du site web</v-list-item-title>
-                        <v-list-item-subtitle>
-                            <v-btn
-                                tile
-                                color="primary"
-                                :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
-                                >
-                                <v-icon left>
-                                    mdi-web
-                                </v-icon>
-                                Voir
-                            </v-btn>
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </div>
-            <div class="col">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Lien du dépo github</v-list-item-title>
-                        <v-list-item-subtitle>
-                            <v-btn
-                                tile
-                                color="primary"
-                                :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
-                                >
-                                <v-icon left>
-                                    mdi-git
-                                </v-icon>
-                                Voir
-                            </v-btn>
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </div>
+        <div class="ma-10">
+            <v-list-item>
+                <v-list-item-content>
+                    <!-- <v-list-item-title>Lien du site web</v-list-item-title> -->
+                    <v-list-item-subtitle>
+                        <v-btn
+                            tile
+                            color="primary"
+                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
+                            >
+                            <v-icon left>
+                                mdi-web
+                            </v-icon>
+                            Site Web
+                        </v-btn>
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                    <v-btn
+                            tile
+                            color="primary"
+                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
+                            >
+                            <v-icon left>
+                                mdi-git
+                            </v-icon>
+                            Github
+                        </v-btn>
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
         </div>
 
         <div>

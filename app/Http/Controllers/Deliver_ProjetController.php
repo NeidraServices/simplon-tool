@@ -44,10 +44,23 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
-    public function mesProjets(){
-        $projets = Deliver_UsersModel::with("projets")->whereHas("projets",function($user){
-            $user->where("user_id",3);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Liste de mes projets
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Liste de mes projets
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mesProjets($formateur_id){
+        $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
+            $user->where("formateur_id", $formateur_id);
         })->get();
+        dd($projets);
        return response()->json(['projets' =>  $projets[0]["projets"]]);
     }
 
