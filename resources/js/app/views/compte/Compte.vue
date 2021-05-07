@@ -1,8 +1,29 @@
 <template>
 	<v-container v-if="user" class="container_compte">
-		<h1 class="mb-10">
-			{{ user.role.name }} {{ user.name }} {{ user.surname }}
-		</h1>
+		<v-row class="mt-5">
+			<h1 class="mb-10">
+				{{ user.role.name }} {{ user.name }} {{ user.surname }}
+			</h1>
+			<v-spacer></v-spacer>
+
+			<div class="updateAvatar">
+				<label for="files">
+					<div class="img">
+						<v-img :src="getAvatar(user.avatar)"></v-img>
+					</div>
+
+					<h5 class="text-center font-weight-thin mt-5">Modifier la photo</h5>
+				</label>
+				<input
+					id="files"
+					ref="file"
+					style="display: none"
+					type="file"
+					@change="onFileChange"
+				/>
+			</div>
+		</v-row>
+
 		<v-card class="mx-auto my-10 pa-10" max-width="400" tile>
 			<v-list-item>
 				<v-list-item-content>
@@ -70,26 +91,7 @@
 			</v-card-actions>
 		</v-card>
 
-		<v-row justify="space-around">
-			<v-col
-				class="my-auto"
-				v-for="(app, key) in apps"
-				:key="key"
-				cols="12"
-				md="4"
-			>
-				<v-sheet
-					@click="pushLink(app.link)"
-					class="pa-12 btn_compte"
-					elevation="3"
-				>
-					<h1 class="text-center">{{ app.name }}</h1>
-					<v-card-actions class="d-flex justify-center pb-5">
-						<v-btn class="acceder" depressed> Accéder </v-btn>
-					</v-card-actions>
-				</v-sheet>
-			</v-col>
-		</v-row>
+		<AppLink />
 	</v-container>
 </template>
 
@@ -120,6 +122,34 @@
 		background-color: gray !important;
 		color: white !important;
 		transition: all 0.3s ease;
+	}
+}
+
+.updateAvatar {
+	position: relative;
+	border-radius: 50%;
+	overflow: hidden;
+
+	.img {
+
+		.v-image {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			top: 0;
+		}
+	}
+
+	label {
+		h5 {
+			cursor: pointer;
+		}
+	}
+	.fileChange {
+		margin: 5px auto;
 	}
 }
 </style>

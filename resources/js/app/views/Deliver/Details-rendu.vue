@@ -55,11 +55,13 @@
                   <v-toolbar color="orange" dark>Modifier un tag</v-toolbar>
                   <div class="pa-8">
                     <v-text-field
+                        @keyup="editBtn = true"
                         v-model="githubUrl"
                         label="Lien github"
                         :value="githubUrl"
                     ></v-text-field>
                     <v-text-field
+                        @keyup="editBtn = true"
                         v-model="siteUrl"
                         label="Lien Site Web"
                         :value="siteUrl"
@@ -139,7 +141,7 @@
                             </v-container>
                         </template>
                     </div>
-                    <v-btn @click="editRendu"> Modifier </v-btn>
+                    <v-btn v-if="editBtn" @click="editRendu"> Modifier </v-btn>
                   </div>
                 </v-card>
 

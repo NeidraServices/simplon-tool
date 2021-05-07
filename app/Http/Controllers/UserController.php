@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -31,14 +32,13 @@ class UserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id' => 'required',
                 'name' => '',
                 'surname' => '',
                 'email' => '',
             ],
         )->validate();
 
-        $user = User::where('id', $validator['id'])->first();
+        $user = User::where('id', Auth::id())->first();
         $validator['name'] != null ? $user->name = $validator['name'] : null;
         $validator['surname'] != null ? $user->surname = $validator['surname'] : null;
         $validator['email'] != null ? $user->email = $validator['email'] : null;
@@ -56,7 +56,6 @@ class UserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id' => 'required',
                 'password' => 'required|min:6|confirmed',
                 'password_confirmation' => 'required|min:6'
             ],
@@ -66,10 +65,53 @@ class UserController extends Controller
             ]
         )->validate();
 
-        $user = User::where('id', $validator['id'])->first();
+        $user = User::where('id', Auth::id())->first();
         $user->password = $validator['password'];
         $user->save();
 
         return response('Mot de passe changer avec succès', 200);;
+    }
+
+    /**
+     * Fonction post qui permet de modifier l'avatar de l'utilisateur
+     * @return success
+     */
+
+    public function updateAvatar(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'image' => 'required|image',
+            ],
+            [
+                'required' => 'Le champs :attribute est requis', // :attribute renvoie le champs / l'id de l'element en erreure
+            ]
+        )->validate();
+
+        $user = User::where('id', Auth::id())->first();
+        if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
+                $oldImage = $user->avatar;
+
+                if ($oldImage != null && $oldImage != "avatars/default.png") {
+                    $oldFilePath = public_path('images') . '/' . $oldImage;
+                    unlink($oldFilePath);
+                    $imageUploaded  = $validator['image'];
+                    $extension      = $imageUploaded->getClientOriginalExtension();
+                    $image          = time() . rand() . '.' . $extension;
+                    $imageUploaded->move(public_path('images/avatars'), $image);
+                    $user->avatar = $image;
+                } else {
+                    $imageUploaded  = $validator['image'];
+                    $extension      = $imageUploaded->getClientOriginalExtension();
+                    $image          = time() . rand() . '.' . $extension;
+                    $imageUploaded->move(public_path('images/avatars'), $image);
+                    $user->avatar = $image;
+                }
+            }
+        }
+        $user->save();
+        return response('Avatar changer avec succès', 200);;
     }
 }

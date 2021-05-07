@@ -17,7 +17,6 @@ export default {
 
     updatePassword() {
       let data = {
-        id: this.$route.params.id,
         password: this.password,
         password_confirmation: this.password_confirmation
       }
