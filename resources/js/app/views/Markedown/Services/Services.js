@@ -25,8 +25,9 @@ export class APIService {
         return axios.get(url);
     }
     getApiMyMds() {
-        const url = `${API_URL}/my-markdowns`;
-        return axios.get(url);
+        let token = localStorage.getItem(token)
+        const url = `${API_URL}/markdowns/showMine`;
+        return axios.get(url,{headers:{'Authorization':`Bearer${token}`}});
     }
     getApiMyArchives(id) {
         const url = `${API_URL}/markdown/archives/${id}`;

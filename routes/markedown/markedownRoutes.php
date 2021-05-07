@@ -44,14 +44,14 @@ Route::group(['prefix' => 'categorie'], function () {
 */
 
 Route::middleware(['auth:api'])->group(function(){
+    Route::group(['prefix' => 'commentaire'], function(){
+        Route::post('ajouter/{markdown_id}', [Md_CommentaryController::class, 'store']);
+    });
 
 });
 
 Route::get('commentaires/{markdown_id}', [Md_CommentaryController::class, 'index']);
 
-Route::group(['prefix' => 'commentaire'], function(){
-    Route::post('ajouter/{markdown_id}', [Md_CommentaryController::class, 'store']);
-});
 
 
 /*
@@ -85,11 +85,13 @@ Route::prefix('/markdown')->group(function () {
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
     Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');
+    Route::get('/showMine', [Md_MarkdownController::class, 'showMine'])->name('api.md_wiki.markdown.showMine');
     Route::post('/update/title/{id}', [Md_MarkdownController::class, 'updateTitle'])->name('api.md_wiki.markdown.update.title');
     Route::post('/update/description/{id}', [Md_MarkdownController::class, 'updateDescription'])->name('api.md_wiki.markdown.update.description');
     Route::get('/archives/{id}', [Md_ArchiveController::class, 'show'])->name('api.md_wiki.markdown.archives.index');
     Route::post('/edit/{id}', [Md_MarkdownController::class, 'editMd'])->name('api.md_wiki.markdown.edit');
     Route::get('/{id}', [Md_MarkdownController::class, 'index'])->name('api.md_wiki.markdown.index');
+    Route::get('/category/{id}', [Md_MarkdownController::class, 'getByCategory'])->name('api.md_wiki.markdown.getbycategory');
 });
 /*
 |--------------------------------------------------------------------------

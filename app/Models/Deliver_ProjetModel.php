@@ -19,7 +19,7 @@ class Deliver_ProjetModel extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany(Deliver_TagModel::class,"dp_projet_tags","tag_id","projet_id");
+        return $this->belongsToMany(Deliver_TagModel::class,"dp_projet_tags", "projet_id", "tag_id");
     }
 
     // Apprenants
