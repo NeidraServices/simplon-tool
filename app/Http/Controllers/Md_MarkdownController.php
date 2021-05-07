@@ -8,6 +8,7 @@ use App\Models\Markdown_Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\MarkdownResource;
 
 class Md_MarkdownController extends Controller
@@ -20,6 +21,16 @@ class Md_MarkdownController extends Controller
           'markdown'    =>  new MarkdownResource($markdown),
           'text'        =>  $data,
         ]);
+    }
+
+    public function showMine(){
+        
+        $userId=Auth::id();
+        $markdowns=Markdown_Markdown::whereHas('contributions', function (Builder $query) use ($userId) {
+            $query->where('user_id', $userId);
+            
+        })->orWhere('user_id',$userId)->get();
+        return MarkdownResource::collection($markdowns);
     }
 
     public function show(){
