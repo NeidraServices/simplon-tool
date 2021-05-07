@@ -5,7 +5,7 @@ import { handleResponse } from "../helpers/handle-response";
 
 
 const currentUserSubject = new BehaviorSubject(
-  JSON.parse(localStorage.getItem('currentUser'))
+  JSON.parse(localStorage.getItem('vuex'))
 );
 
 const roleSubject = new BehaviorSubject(
@@ -19,6 +19,7 @@ export const authenticationService = {
   isAdmin,
   passwordReset,
   role: roleSubject.asObservable(),
+  userLoggedIn: currentUserSubject.asObservable(),
   get currentRoleValue() {
     return roleSubject.value;
   }

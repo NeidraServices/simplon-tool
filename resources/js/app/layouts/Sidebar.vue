@@ -6,7 +6,7 @@
 					<v-list-item>
 						<v-list-item-avatar>
 							<v-img
-								src="https://randomuser.me/api/portraits/women/85.jpg"
+								:src="getAvatar(userLoggedIn.avatar)"
 							></v-img>
 						</v-list-item-avatar>
 					</v-list-item>
@@ -14,9 +14,9 @@
 					<v-list-item link>
 						<v-list-item-content>
 							<v-list-item-title class="title">
-								Sandra Adams
+								{{ userLoggedIn.name }} {{ userLoggedIn.surname }}
 							</v-list-item-title>
-							<v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
+							<v-list-item-subtitle>{{  userLoggedIn.email }}</v-list-item-subtitle>
 						</v-list-item-content>
 					</v-list-item>
 				</v-list>
@@ -39,6 +39,7 @@ export default {
 	data() {
 		return {
 			role: null,
+			userLoggedIn: null
 		};
 	},
 	computed: {
@@ -49,7 +50,15 @@ export default {
 
 	created() {
 		authenticationService.role.subscribe((x) => (this.role = x));
+		authenticationService.userLoggedIn.subscribe((x) => (this.userLoggedIn = x.apprenant));
+		console.log(this.userLoggedIn)
 	},
+
+	methods: {
+			getAvatar(image) {
+			return `${location.origin}/images/${image}`;
+		},
+	}
 };
 </script>
 

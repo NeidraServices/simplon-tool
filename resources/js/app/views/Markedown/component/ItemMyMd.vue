@@ -49,6 +49,8 @@
     </v-col>
 </template>
 <script>
+import {APIService} from '../Services/ServiceRecupCateg'
+const apiCall = new APIService()
     export default {
         data(){
             return{
@@ -58,6 +60,9 @@
         },
         props:{
             item: {
+                id: {
+                    type: Number
+                },
                 title:{
                     type: String
                 },
@@ -76,11 +81,19 @@
         watch: {            
             updateStatus(newValue){
                 console.log("test :", newValue)
-                if(newValue) {
-                    this.status = "Finalisé"
-                }else {
-                    this.status = "En brouillon"
+                let dataSend={
+                    active:this.updateStatus
                 }
+                apiCall.updateStatus(dataSend,this.item.id).then(
+                    reponse => {
+                        console.log("REP :",reponse)
+                        if(newValue) {
+                            this.status = "Finalisé"
+                        }else {
+                            this.status = "En brouillon"
+                        }
+                    }
+                ).catch(err => alert(err))             
             }
         },
         methods: {
@@ -89,7 +102,7 @@
             },
             goTo(item){
                 this.$router.push({ name: 'ShowEditMd', params: {id: item.id.toString()}})
-            }
+            },
         }
     }
 </script>
