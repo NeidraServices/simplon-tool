@@ -1,128 +1,154 @@
 <template>
     <div>
-        <v-banner
-            :sticky="sticky"
-        >
-            <div class="row justify-center">
-                <div class="pa-5">
-                    <h2 v-if="projet">{{ projet.titre }}</h2>
+        <div>
+            <v-container :class="{'px-0': $vuetify.breakpoint.xsOnly }">
+                <div class="d-flex justify-center">
+                    <h1>{{ projet != null ? projet.titre : 'Titre' }}</h1>
                 </div>
-            </div>
+            </v-container>
 
-
+            <!-- <v-checkbox
+            v-model="v0"
+            label="Visible"
+            ></v-checkbox> -->
+            <v-banner
+            v-model="v0"
+            single-line
+            transition="slide-y-transition"
+            >
+            <router-link
+                :to="(projet != null ? '/deliver/projet/' + projet.id : '#' )"
+            >
+                <v-btn
+                    class="ma-2"
+                    color="primary"
+                    text
+                    dark
+                >
+                    <v-icon
+                    dark
+                    left
+                    >
+                    mdi-arrow-left
+                    </v-icon>Retour
+                </v-btn>
+            </router-link>
             <template v-slot:actions>
-               <v-dialog
-                    v-model="dialog"
-                    persistent
-                    max-width="600px"
+                <!-- <v-btn
+                text
+                color="primary"
+                >
+                Modifier
+                </v-btn> -->
+                <v-dialog
+                transition="dialog-bottom-transition"
+                max-width="600px"
+                v-model="dialog"
                 >
                 <template v-slot:activator="{ on, attrs }">
-                     <v-btn
-                        text
-                        v-bind="attrs"
-                        v-on="on"
-                        color="deep-purple accent-4"
-                    >
-                        Modifier
+                    <v-btn color="orange" icon v-bind="attrs" @click="test(medias)" v-on="on">
+                        <v-icon> mdi-pencil-circle </v-icon>
                     </v-btn>
                 </template>
-                <v-card>
-                    <v-card-title>
-                    <span class="headline">User Profile</span>
-                    </v-card-title>
-                    <v-card-text>
-                    <v-container>
-                        <v-row>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                        >
-                            <v-text-field
-                            label="Legal first name*"
-                            required
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                        >
-                            <v-text-field
-                            label="Legal middle name"
-                            hint="example of helper text only on focus"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                        >
-                            <v-text-field
-                            label="Legal last name*"
-                            hint="example of persistent helper text"
-                            persistent-hint
-                            required
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field
-                            label="Email*"
-                            required
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field
-                            label="Password*"
-                            type="password"
-                            required
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                        >
-                            <v-select
-                            :items="['0-17', '18-29', '30-54', '54+']"
-                            label="Age*"
-                            required
-                            ></v-select>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                        >
-                            <v-autocomplete
-                            :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                            label="Interests"
-                            multiple
-                            ></v-autocomplete>
-                        </v-col>
-                        </v-row>
-                    </v-container>
-                    <small>*indicates required field</small>
-                    </v-card-text>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="dialog = false"
-                    >
-                        Close
-                    </v-btn>
-                    <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="dialog = false"
-                    >
-                        Save
-                    </v-btn>
-                    </v-card-actions>
+
+                <v-card class="pa-5">
+                  <v-toolbar color="orange" dark>Modifier un tag</v-toolbar>
+                  <div class="pa-8">
+                    <v-text-field
+                        @keyup="editBtn = true"
+                        v-model="githubUrl"
+                        label="Lien github"
+                        :value="githubUrl"
+                    ></v-text-field>
+                    <v-text-field
+                        @keyup="editBtn = true"
+                        v-model="siteUrl"
+                        label="Lien Site Web"
+                        :value="siteUrl"
+                    ></v-text-field>
+                    <input
+                        type="file"
+                        @change="selectImage"
+                        multiple
+                        ref="inputFile"
+                    />
+                    <!-- <v-file-input
+                        v-model="selectedMedias"
+                        accept="image/png, image/jpeg"
+                        multiple
+                        label="Ajouter un media"
+                        @change="test(selectedMedias)"
+                    ></v-file-input> -->
+                    <div class="ma-5 ctn">
+                        <template>
+                            <v-container class="pa-4 text-center">
+                                <v-row
+                                class="fill-height"
+                                align="center"
+                                justify="center"
+
+                                >
+                                <template v-for="media in medias">
+                                    <v-col
+                                    :key="media.id"
+                                    cols="12"
+                                    md="4"
+                                    >
+                                    <v-hover v-slot="{ hover }">
+                                        <v-card
+                                        :elevation="hover ? 12 : 2"
+                                        :class="{ 'on-hover': hover }"
+                                        height="225"
+                                        dark
+                                        >
+                                        <v-img
+                                            contain
+                                            height="225px"
+                                            :src="media.lien"
+                                            :lazy-src="media.lien"
+                                        >
+                                            <v-card-title class="title white--text">
+                                            <v-row
+                                                class="fill-height flex-column"
+                                                justify="space-between"
+                                            >
+
+                                                <div class="align-self-center">
+                                                <v-btn
+                                                    v-for="(icon, index) in icons"
+                                                    :key="index"
+                                                    :class="{ 'show-btns': hover }"
+                                                    :color="transparent"
+                                                    icon
+                                                    @click="remove(media)"
+                                                >
+                                                    <v-icon
+                                                    :class="{ 'show-btns': hover }"
+                                                    :color="transparent"
+                                                    >
+                                                    {{ icon }}
+                                                    </v-icon>
+                                                </v-btn>
+                                                </div>
+                                            </v-row>
+                                            </v-card-title>
+                                        </v-img>
+                                        </v-card>
+                                    </v-hover>
+                                    </v-col>
+                                </template>
+                                </v-row>
+                            </v-container>
+                        </template>
+                    </div>
+                    <v-btn v-if="editBtn" @click="editRendu"> Modifier </v-btn>
+                  </div>
                 </v-card>
-                </v-dialog>
+
+              </v-dialog>
             </template>
-        </v-banner>
+            </v-banner>
+        </div>
 
         <template>
             <v-card
@@ -132,16 +158,16 @@
             >
                 <v-list-item four-line v-if="user">
                     <v-list-item-content>
-                        <v-list-item-title>Informations</v-list-item-title>
+                        <v-list-item-title>Apprenant</v-list-item-title>
                         <v-list-item-subtitle class="text-capitalize">
                             {{ user.name }} <span class="text-uppercase">{{ user.surname }}</span>
                         </v-list-item-subtitle>
-                        <v-list-item-subtitle>
+                        <!-- <v-list-item-subtitle>
                             _Technologie_utilisé_
                         </v-list-item-subtitle>
                         <v-list-item-subtitle>
                             _Référentiel_
-                        </v-list-item-subtitle>
+                        </v-list-item-subtitle> -->
                     </v-list-item-content>
                 </v-list-item>
             </v-card>
@@ -155,7 +181,7 @@
                         <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-web
@@ -167,7 +193,7 @@
                     <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-git
@@ -190,11 +216,17 @@
                     md="4"
                     >
                     <v-item>
+                        <a
+                            :href="media.lien"
+                            target="_blank"
+                        >
                         <v-card
                         class="d-flex align-center"
-                        height="250"
+                        height="350"
                         >
                             <v-img
+                                contain
+                                height="350"
                                 :src="media.lien"
                                 :lazy-src="media.lien"
                                 class="grey lighten-2"
@@ -213,6 +245,7 @@
                                 </template>
                             </v-img>
                         </v-card>
+                        </a>
                     </v-item>
                     </v-col>
                 </v-row>
@@ -234,5 +267,19 @@
 .btn-style-2 {
     height: auto;
     margin-left: 25px;
+}
+a {
+    text-decoration: none;
+}
+.ctn .v-card {
+  transition: opacity .4s ease-in-out;
+}
+
+.ctn .v-card:not(.on-hover) {
+  opacity: 0.6;
+ }
+
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
 }
 </style>

@@ -29,6 +29,8 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::get("/competences",[Deliver_CompetenceController::class,"liste"]);
     Route::post("/competences/ajout",[Deliver_CompetenceController::class,"addCompetence"]);
+    Route::post("/competences/update",[Deliver_CompetenceController::class,"update"]);
+    Route::post("/competences/delete",[Deliver_CompetenceController::class,"delete"]);
     Route::post("/competences/lier",[Deliver_CompetenceController::class,"relierProjet"]);
     Route::delete("/competences/delier",[Deliver_CompetenceController::class,"delierProjet"]);
 
@@ -42,7 +44,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
     Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);
 
-    Route::get("/commentaires",[Deliver_CommentairesController::class,"liste"]);
+    Route::get("/commentaires/{id}",[Deliver_CommentairesController::class,"liste"]);
     Route::post("/commentaires/ajouter",[Deliver_CommentairesController::class,"ajout"]);
     Route::post("/commentaires/repondre",[Deliver_CommentairesController::class,"repondre"]);
 /*

@@ -195,12 +195,13 @@ class EvalSondageController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function updateData(Request $request, $id)
+    public function updateData(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
             [
                 'name'         => "required",
+                'published'    => 'required',
                 'lines.*'      => 'required',
             ],
             [
@@ -216,30 +217,44 @@ class EvalSondageController extends Controller
             ]);
         }
 
-        $name       =  $validator->validated()['name'];
-        $lines      =  $validator->validated()['lines'];
+        $name        =  $validator->validated()['name'];
+        $published   =  $validator->validated()['published'];
+        $lines       =  $validator->validated()['lines'];
+        
+        $sondages    = EvalSondage::where(['name' => $name])->get();
+        foreach ($sondages as $sondage) {
+            $sondage->name = $name;
+            $sondage->published = $published;
 
-        $sondage    = EvalSondage::where(['id' => $id])->first();
-        if (!$sondage) {
-            return response()->json([
-                'success' => false,
-                'message' => "Sondage introuvable"
-            ], 400);
-        }
-
-        $sondage->name = $name;
-        $sondage->save();
-
-        $sondageLine = EvalSondageLines::where(['sondage_id' => $id])->get();
-        foreach ($sondageLine as $line) {
-            foreach ($lines as $lineInfo) {
-                if ($line->id == $lineInfo['id']) {
-                    $line->langage_id = $lineInfo['langage_id'];
-                    $line->skill_id   = $lineInfo['skill_id'];
-                    $line->save();
-                }
+            $sondageLine = EvalSondageLines::where(['sondage_id' => $sondage->id])->get();
+            foreach ($sondageLine as $line) {
+                $line->delete();
             }
+
+            foreach ($lines as $lineInfo) {
+                $sondageLineUpdate = new EvalSondageLines();
+                $sondageLineUpdate->sondage_id = $sondage->id;
+                $sondageLineUpdate->type       = $lineInfo['type'];
+
+                switch ($lineInfo['type']) {
+                    case 0:
+                        $sondageLineUpdate->langage_id  = $lineInfo['content'];
+                        break;
+                    case 1:
+                        $sondageLineUpdate->skill_id    = $lineInfo['content'];
+                        break;
+                    case 2:
+                        $sondageLineUpdate->question    = $lineInfo['content'];
+                        break;
+                    default:
+                        break;
+                }             
+                $sondageLineUpdate->save();
+            }
+
+            $sondage->save();
         }
+
 
         return response()->json([
             'success' => true,

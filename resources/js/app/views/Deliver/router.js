@@ -29,5 +29,5 @@ export const DeliverRoutes = [
         path: '/deliver/mesprojets/rendu/:id',
         name: 'detailsRendu',
         component: DetailsRendu
-    },
+    }
 ]
