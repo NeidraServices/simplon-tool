@@ -4,16 +4,19 @@
     style="height: 70% !important"
   >
     <v-dialog
-      v-model="createdDialog"
+      v-model="generalDialog"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
     >
       <v-card class="py-5">
         <v-card-title class="d-flex justify-center font-weight-bold py-10">
-          Créer un sondage
+          {{ title }}
         </v-card-title>
-        <div class="d-flex justify-center">
+
+        <v-divider></v-divider>
+
+        <div class="d-flex justify-center mt-8">
           <v-form
             ref="form"
             v-model="valid"
@@ -60,13 +63,13 @@
             <v-row
               no-gutters
               class="justify-center"
-              v-for="(lines, key) in sondageLines"
+              v-for="(line, key) in sondageLines"
               :key="key"
             >
-              <v-col cols="12" lg="3" md="3" class="d-flex justify-center mr-2">
+              <v-col cols="3" class="d-flex justify-center">
                 <v-select
-                  v-model="lines.type"
-                  placeholder="Choisir un langage"
+                  v-model="line.type"
+                  placeholder="Choisir un type de question"
                   :items="sondageTypeList"
                   item-text="name"
                   item-value="id"
@@ -74,14 +77,15 @@
                   persistent-hint
                   single-line
                   required
+                  @change="editeChange(line, line.type)"
                 >
                 </v-select>
               </v-col>
 
-              <v-col cols="12" lg="7" md="7" class="d-flex justify-center">
+              <v-col cols="7" class="ml-5">
                 <v-select
-                  v-if="lines.type == 0"
-                  v-model="lines.content"
+                  v-if="showDetailLangage(line.type) || line.type == 0"
+                  v-model="line.content"
                   placeholder="Choisir un langage"
                   :items="selectLangages"
                   item-text="name"
@@ -94,8 +98,8 @@
                 </v-select>
 
                 <v-select
-                  v-if="lines.type == 1"
-                  v-model="lines.content"
+                  v-if="showDetailSkill(line.type) || line.type == 1"
+                  v-model="line.content"
                   placeholder="Choisir une compétence"
                   :items="selectSkills"
                   item-text="description"
@@ -108,12 +112,18 @@
                 </v-select>
 
                 <v-text-field
-                  v-if="lines.type == 2"
-                  v-model="lines.content"
-                  :rules="pwdRules"
+                  v-if="showDetailQuestion(line.type) || line.type == 2"
+                  v-model="line.content"
                   label="Saisir votre question"
                 />
+              </v-col>
 
+              <v-col cols="1" class="d-flex justify-end align-center">
+                <div>
+                  <v-btn icon x-small @click="removeLine(key)">
+                    <v-icon color="red"> mdi-delete </v-icon>
+                  </v-btn>
+                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -124,14 +134,14 @@
           <v-btn
             small
             class="grey darken-1 mr-3 white--text font-weight-medium"
-            @click="closeAddModal"
+            @click="closeGeneral"
             >Annuler</v-btn
           >
           <v-btn
             small
             class="blue white--text font-weight-medium"
             :disabled="disabled"
-            @click="createSondage"
+            @click="handleSondage"
             >valider</v-btn
           >
           <v-spacer></v-spacer>
@@ -166,7 +176,7 @@
     <div>
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des sondages</h1>
-        <v-btn icon class="py-5 ml-5" @click="openAddModal">
+        <v-btn icon class="py-5 ml-5" @click="openGeneral(false)">
           <v-icon color="green"> mdi-plus-circle-outline </v-icon>
         </v-btn>
       </div>
@@ -199,21 +209,7 @@
                   v-bind="attrs"
                   v-on="on"
                   class="transparent blue-grey--text mr-2"
-                >
-                  <v-icon> mdi-eye </v-icon>
-                </v-btn>
-              </template>
-              <span>Voir</span>
-            </v-tooltip>
-
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                  class="transparent blue-grey--text mr-2"
+                  @click="openGeneral(true, item)"
                 >
                   <v-icon> mdi-square-edit-outline </v-icon>
                 </v-btn>

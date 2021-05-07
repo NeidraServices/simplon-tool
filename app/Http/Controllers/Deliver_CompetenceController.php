@@ -26,6 +26,44 @@ class Deliver_CompetenceController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function update(Request $req)
+    {
+        $validator = Validator::make($req->all(),["id"=>"required","nom"=>"required"]);
+        if($validator->fails()){
+            return response()->json([
+                "success" => false,
+                "error"   => $validator->errors()
+            ]);
+        }
+
+        $tag_data = $validator->validated();
+       $tag=Deliver_CompetencesModel::find($tag_data["id"]);
+        $tag->nom=$tag_data["nom"];
+        $tag->save();
+        return response()->json([
+            "success" => true
+        ]);
+
+    }
+
+    public function delete(Request $req)
+    {
+        $validator = Validator::make($req->all(),["id"=>"required"]);
+        if($validator->fails()){
+            return response()->json([
+                "success" => false,
+                "error"   => $validator->errors()
+            ]);
+        }
+
+        $tag_data = $validator->validated();
+       $tag=Deliver_CompetencesModel::destroy($tag_data["id"]);
+
+        return response()->json([
+            "success" => true
+        ]);
+
+    }
 
     public function relierProjet(Request $req){
        $validator=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"]);

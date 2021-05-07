@@ -14,35 +14,42 @@ export class APIService {
         let token = localStorage.getItem('token');
         return {headers: {'Authorization': `Bearer ${token}`}}
     }
-
     getApiCategories() {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/categories`;
-        return axios.get(url);
-    } 
+        return axios.get(url, header);
+    }
+
     search(val) {
-        const url = `${API_URL}/categorie/search`;        
-        return axios.get(url,{ params: { query: val } });
+        const header = this.getRequestHeadersToSend()
+        const url = `${API_URL}/categorie/search`;
+        return axios.get(url,{ params: { query: val }, header });
     }
     getApiMdCommuns() {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdowns-commun`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
     getApiMyMds() {
-        const url = `${API_URL}/my-markdowns`;
-        return axios.get(url);
+        const header = this.getRequestHeadersToSend()
+        const url = `${API_URL}/markdown/showMine`;
+        return axios.get(url,header);
     }
     getApiMyArchives(id) {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdown/archives/${id}`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
     getApiMdDetails(id) {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/my-markdowns?id=${id}`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
     updateStatus(dataSend, id) {
+        const header = this.getRequestHeadersToSend()
         console.log("datatosend :"+id,dataSend)
         const url = `${API_URL}/markdown/active/${id}`;
-        return axios.post(url, dataSend);
+        return axios.post(url, dataSend, header);
     }
     contributionRequest(id) {
         const headers = this.getRequestHeadersToSend();
@@ -63,5 +70,11 @@ export class APIService {
         const headers = this.getRequestHeadersToSend();
         const url = `${API_URL}/request/${id}`;
         return axios.get(url,headers);
+    }
+    postAddMarkdown(data){
+        const header = this.getRequestHeadersToSend()
+        console.log("datatosend :"+data)
+        const url = `${API_URL}/markdown/create`;
+        return axios.post(url, data, header);
     }
 }

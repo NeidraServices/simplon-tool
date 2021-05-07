@@ -6,7 +6,9 @@
       <v-row>
         <v-col>
           {{ title }}
+          <h2>Description</h2>
           <p>{{ description }}</p>
+          
           <Editor
             mode="viewer"
             ref="editor"
@@ -17,7 +19,7 @@
           />
         </v-col>
       </v-row>
-      <v-btn outlined @click="sendRequest">Editer</v-btn>
+      <v-btn outlined >Faire une demande de modification.</v-btn>
       <br /><br />
       <v-divider></v-divider>
       <br />

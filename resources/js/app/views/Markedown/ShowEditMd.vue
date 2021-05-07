@@ -17,7 +17,7 @@
                 <v-col>
                     <v-autocomplete
                         v-model="category"
-                        :loading="loading" 
+                        :loading="loading"
                         :items="categories"
                         :search-input.sync="search"
                         item-text="composed"
@@ -32,7 +32,7 @@
                         label="Catégorie">
                     </v-autocomplete>
                 </v-col>
-                
+
                 <v-col class="mt-4" cols="2">
                 <v-dialog
                 v-model="dialog"
@@ -88,7 +88,7 @@
                 v-on:blur="updateDescription"
             ></v-textarea>
             <v-divider></v-divider><br><br>
-            
+
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor><br>
             <v-btn outlined @click="editMD">Editer</v-btn>
@@ -195,12 +195,12 @@ export default {
           .then(({ data }) => {
 
               this.loading = false;
-              
+
               /* console.log(this.categorie)
               if (val !==) {
                   this.disabledButton = true;
               } */
-              
+
               data.data.forEach(categorie => {
                   this.categories.push(this.formattedCategorie(categorie))
               });
@@ -212,7 +212,7 @@ export default {
     },
     methods: {
         formattedCategorie: function (categorie) {
-            
+
             return {
 
                 id: categorie.id,
@@ -242,7 +242,7 @@ export default {
         async setStatus(){
             let dataSend={
                 active:this.active
-            }            
+            }
             await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
                 reponse =>{
                     const reqData = reponse.data
@@ -252,7 +252,7 @@ export default {
             ).catch (error => {
                 console.log(error)
                 this. $refs.customFlash.showMessageError(error)
-            })            
+            })
         },
         async editMD(){
             let dataSend={
@@ -276,7 +276,7 @@ export default {
             await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend).then(
                 reponse => {
                     const reqData = reponse.data
-                    console.log(reqData)                
+                    console.log(reqData)
                     this. $refs.customFlash.showMessageSuccess(reqData.message)
                 }
              ).catch (error => {
@@ -292,7 +292,7 @@ export default {
                 const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
                 const reqData = req.data
                 console.log(reqData)
-                
+
                 this.flashMessage.success({
                     message: reqData.message,
                 });
@@ -320,9 +320,9 @@ export default {
             return this.name != ''
         },
         async getData() {
-            
+            const token = localStorage.getItem('token');
             try {
-                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`)
+                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
                 const reqData = req.data
                 console.log(reqData)
                 this.title= reqData.markdown.title
@@ -330,15 +330,15 @@ export default {
                     composed:reqData.markdown.category.name,
                     id:reqData.markdown.category.id
                 }
-                
+
                 this.categories.push( category)
                 this.category=this.categories[0]
                 console.log(this.category)
                 this.description = reqData.markdown.description
                 this.text= reqData.text
                 this.active= reqData.markdown.status
-                
-                
+
+
             }catch (error){
                 console.log(error)
                 this. $refs.customFlash.showMessageError(error)
@@ -346,8 +346,8 @@ export default {
          }
     },
     computed: {
-        
-        
+
+
         validate() {
             return this.isValid()
         }
