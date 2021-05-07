@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Deliver_ProjetModel extends Model
 {
@@ -21,8 +22,10 @@ class Deliver_ProjetModel extends Model
         return $this->belongsToMany(Deliver_TagModel::class,"dp_projet_tags","tag_id","projet_id");
     }
 
-    public function users(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_affectations","projet_id","user_id");
+    // Apprenants
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class,"dp_affectations","projet_id","user_id");
     }
 
     public function rendus(){

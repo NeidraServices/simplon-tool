@@ -24,6 +24,7 @@
                                 <v-btn
                                     v-bind="attrs"
                                     v-on="on"
+                                    small
                                     class="btn-style-1 border-radius-25"
                                     color="green darken-1"
                                     text
@@ -99,6 +100,7 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
+                                    small
                                     v-bind="attrs"
                                     v-on="on"
                                     class="btn-style-1 border-radius-25"
@@ -234,53 +236,65 @@
                 <div class="d-flex row pa-2">
                     <h2>Liste des rendus :</h2>
                 </div>
-                <v-card
-                    class="ma-3"
-                    width="450"
-                    outlined
-                    v-for="item in apprenants"
-                    :key="item.id"
-                >
-                    <v-list-item>
-                        <v-list-item-content>
-                            <div class="overline mb-4">
-                                {{ item.name }} {{ item.surname }}
-                            </div>
-                            <v-list-item-title class="headline mb-1">
-                                Techno utilisé
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+                <v-container fluid class="d-flex row">
+                    <v-col cols="4"
+                           class="pa-2"
+                           v-for="item in rendu"
+                           :key="item.id"
+                    >
+                        <v-card
+                            class="ma-3"
+                            width="450"
+                            outlined
+                        >
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <div class="overline mb-4">
+                                        {{ item.user.name }} {{ item.user.surname }}
+                                    </div>
+                                    <v-list-item-title class="headline mb-1">
+                                        Techno utilisé
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
 
-                    <v-card-actions class="d-flex align-center justify-space-between">
-                        <v-btn
-                            outlined
-                            rounded
-                            text
-                        >
-                            Lien site web
-                        </v-btn>
-                        <v-btn
-                            outlined
-                            rounded
-                            text
-                        >
-                            Lien GitHub
-                        </v-btn>
-                        <!-- :to="{name: '/deliver/mesprojets/rendu/', params: { id: 1}}" -->
-                        <router-link
-                            to="/deliver/mesprojets/rendu/1"
-                        >
-                            <v-btn
-                                outlined
-                                rounded
-                                text
-                            >
-                            Détails
-                            </v-btn>
-                        </router-link>
-                    </v-card-actions>
-                </v-card>
+                            <v-card-actions class="d-flex align-center justify-space-between">
+                                <v-btn
+                                    outlined
+                                    rounded
+                                    small
+                                    text
+                                    link
+                                    :href="item.rendu.site_url"
+                                >
+                                    Lien site web
+                                </v-btn>
+                                <v-btn
+                                    outlined
+                                    small
+                                    rounded
+                                    text
+                                    link
+                                    :href="item.rendu.github_url"
+                                >
+                                    Lien GitHub
+                                </v-btn>
+                                <router-link
+                                    to="/deliver/mesprojets/rendu/1"
+                                >
+                                    <v-btn
+                                        outlined
+                                        small
+                                        rounded
+                                        text
+                                    >
+                                        Détails
+                                    </v-btn>
+                                </router-link>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-container>
             </v-container>
         </template>
     </v-container>

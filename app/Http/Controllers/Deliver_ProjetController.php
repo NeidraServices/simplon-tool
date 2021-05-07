@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
@@ -83,24 +85,16 @@ class Deliver_ProjetController extends Controller
     /**
      * Selectionner un projet
      *
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
-    public function getProjet($id)
+    public function getProjet($id): JsonResponse
     {
+        $projet = Deliver_ProjetModel::whereId($id)->with("users", "tags", "competences")->get();
 
-       // $projet = Deliver_ProjetModel::find($id);
-        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get();
-
-        $affectations = [];
-        foreach ($projet->users as $user) {
-            $apprenant = User::find($user->pivot->user_id);
-            array_push($affectations, $apprenant);
-        }
-
-        if($projet) {
+        if(isset($projet)) {
             return response()->json([
-                'projet' => new Deliver_ProjetResource($projet),
-                'apprenants' => $affectations,
+                'projet' => $projet,
             ]);
         }
 
