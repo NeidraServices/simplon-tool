@@ -34,12 +34,118 @@
                 </v-btn>
             </router-link>
             <template v-slot:actions>
-                <v-btn
+                <!-- <v-btn
                 text
                 color="primary"
                 >
-                Retry
-                </v-btn>
+                Modifier
+                </v-btn> -->
+                <v-dialog
+                transition="dialog-bottom-transition"
+                max-width="600px"
+                v-model="dialog"
+                >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="orange" icon v-bind="attrs" @click="test(medias)" v-on="on">
+                        <v-icon> mdi-pencil-circle </v-icon>
+                    </v-btn>
+                </template>
+
+                <v-card class="pa-5">
+                  <v-toolbar color="orange" dark>Modifier un tag</v-toolbar>
+                  <div class="pa-8">
+                    <v-text-field
+                        @keyup="editBtn = true"
+                        v-model="githubUrl"
+                        label="Lien github"
+                        :value="githubUrl"
+                    ></v-text-field>
+                    <v-text-field
+                        @keyup="editBtn = true"
+                        v-model="siteUrl"
+                        label="Lien Site Web"
+                        :value="siteUrl"
+                    ></v-text-field>
+                    <input
+                        type="file"
+                        @change="selectImage"
+                        multiple
+                        ref="inputFile"
+                    />
+                    <!-- <v-file-input
+                        v-model="selectedMedias"
+                        accept="image/png, image/jpeg"
+                        multiple
+                        label="Ajouter un media"
+                        @change="test(selectedMedias)"
+                    ></v-file-input> -->
+                    <div class="ma-5 ctn">
+                        <template>
+                            <v-container class="pa-4 text-center">
+                                <v-row
+                                class="fill-height"
+                                align="center"
+                                justify="center"
+
+                                >
+                                <template v-for="media in medias">
+                                    <v-col
+                                    :key="media.id"
+                                    cols="12"
+                                    md="4"
+                                    >
+                                    <v-hover v-slot="{ hover }">
+                                        <v-card
+                                        :elevation="hover ? 12 : 2"
+                                        :class="{ 'on-hover': hover }"
+                                        height="225"
+                                        dark
+                                        >
+                                        <v-img
+                                            contain
+                                            height="225px"
+                                            :src="media.lien"
+                                            :lazy-src="media.lien"
+                                        >
+                                            <v-card-title class="title white--text">
+                                            <v-row
+                                                class="fill-height flex-column"
+                                                justify="space-between"
+                                            >
+
+                                                <div class="align-self-center">
+                                                <v-btn
+                                                    v-for="(icon, index) in icons"
+                                                    :key="index"
+                                                    :class="{ 'show-btns': hover }"
+                                                    :color="transparent"
+                                                    icon
+                                                    @click="remove(media)"
+                                                >
+                                                    <v-icon
+                                                    :class="{ 'show-btns': hover }"
+                                                    :color="transparent"
+                                                    >
+                                                    {{ icon }}
+                                                    </v-icon>
+                                                </v-btn>
+                                                </div>
+                                            </v-row>
+                                            </v-card-title>
+                                        </v-img>
+                                        </v-card>
+                                    </v-hover>
+                                    </v-col>
+                                </template>
+                                </v-row>
+                            </v-container>
+                        </template>
+                    </div>
+                    <v-btn v-if="editBtn" @click="editRendu"> Modifier </v-btn>
+                  </div>
+                </v-card>
+
+              </v-dialog>
             </template>
             </v-banner>
         </div>
@@ -52,16 +158,16 @@
             >
                 <v-list-item four-line v-if="user">
                     <v-list-item-content>
-                        <v-list-item-title>Informations</v-list-item-title>
+                        <v-list-item-title>Apprenant</v-list-item-title>
                         <v-list-item-subtitle class="text-capitalize">
                             {{ user.name }} <span class="text-uppercase">{{ user.surname }}</span>
                         </v-list-item-subtitle>
-                        <v-list-item-subtitle>
+                        <!-- <v-list-item-subtitle>
                             _Technologie_utilisé_
                         </v-list-item-subtitle>
                         <v-list-item-subtitle>
                             _Référentiel_
-                        </v-list-item-subtitle>
+                        </v-list-item-subtitle> -->
                     </v-list-item-content>
                 </v-list-item>
             </v-card>
@@ -75,7 +181,7 @@
                         <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-web
@@ -87,7 +193,7 @@
                     <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-git
@@ -164,5 +270,16 @@
 }
 a {
     text-decoration: none;
+}
+.ctn .v-card {
+  transition: opacity .4s ease-in-out;
+}
+
+.ctn .v-card:not(.on-hover) {
+  opacity: 0.6;
+ }
+
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
 }
 </style>

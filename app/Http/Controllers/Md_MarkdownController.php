@@ -8,6 +8,7 @@ use App\Models\Markdown_Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\MarkdownResource;
 
 class Md_MarkdownController extends Controller
@@ -22,9 +23,35 @@ class Md_MarkdownController extends Controller
         ]);
     }
 
-    public function show(){
-        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();  
+    public function showMine(){
+        
+        $userId=Auth::id();
+        $markdowns=Markdown_Markdown::whereHas('contributions', function (Builder $query) use ($userId) {
+            $query->where('user_id', $userId);
+            
+        })->orWhere('user_id',$userId)->get();
         return MarkdownResource::collection($markdowns);
+    }
+
+    public function show(){
+        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();
+        return MarkdownResource::collection($markdowns);
+    }
+
+    public function searchKeyword(Request $request){
+            $data = Validator::make(
+                $request->input(),
+                [
+                    'query' => 'required|max:255',
+                ]
+            )->validate();
+
+            $markdowns = Markdown_Markdown::where('title', 'like', '%' . $data['query'] . '%')
+            ->orWhere('description', 'like', '%' . $data['query'] . '%')
+            ->get();
+
+            return response()->json("ok");
+
     }
     
     // encours:liasin_archive
@@ -46,12 +73,12 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }  
-        
+        }
+
         $file          = time().rand().'.md';
         Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
 
-        
+
         $markdown = Markdown_Markdown::where('id',$id)->first();
         Md_ArchiveController::create($markdown->id,$markdown->url);
         $markdown->url = $file;
@@ -62,7 +89,7 @@ class Md_MarkdownController extends Controller
         ]);
     }
     public function create(Request $request){
-        
+
         $validator = Validator::make(
 
             $request->all(),
@@ -89,7 +116,7 @@ class Md_MarkdownController extends Controller
         }
                 $file          = time().rand().'.md';
                 Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
-                    
+
 
                 //store your file into database
                 $markdown = new Markdown_Markdown();
@@ -99,18 +126,18 @@ class Md_MarkdownController extends Controller
                 $markdown->active=$validator->validated()['active'];
                 $markdown->title=$validator->validated()['title'];
                 $markdown->description=$validator->validated()['description'];
-                $markdown->save();  
-            
-            
-            
-              
+                $markdown->save();
+
+
+
+
             return response()->json([
                 "success" => true,
                 "message" => "Fichier markdown créer avec succès",
                 "file" => $file
             ]);
-  
-        
+
+
     }
     public function updateDescription(Request $request,$id){
         $validator = Validator::make(
@@ -130,9 +157,9 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }      
-        
-        
+        }
+
+
         $markdown = Markdown_Markdown::where('id',$id)->first();
         $markdown->description = $validator->validated()['description'];
         $markdown->save();
@@ -141,7 +168,7 @@ class Md_MarkdownController extends Controller
             "success" => true,
             "message" => "Info Markdown mise a jour",
         ]);
-        
+
     }
     public function updateTitle(Request $request,$id){
         $validator = Validator::make(
@@ -161,9 +188,9 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }      
-        
-        
+        }
+
+
         $markdown = Markdown_Markdown::where('id',$id)->first();
         $markdown->title = $validator->validated()['title'];
         $markdown->save();
@@ -172,7 +199,7 @@ class Md_MarkdownController extends Controller
             "success" => true,
             "message" => "Info Markdown mise a jour",
         ]);
-        
+
     }
     public function updateActive(Request $request,$id){
         $validator = Validator::make(
@@ -192,9 +219,9 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }      
-        
-        
+        }
+
+
         $markdown = Markdown_Markdown::where('id',$id)->first();
         $markdown->active = $validator->validated()['active'];
         $markdown->save();
@@ -203,7 +230,7 @@ class Md_MarkdownController extends Controller
             "success" => true,
             "message" => "Etat modifié avec succès",
         ]);
-        
+
     }
     //en cours:delete fichier
     public function delete($id){
@@ -216,7 +243,7 @@ class Md_MarkdownController extends Controller
         ]);
 
     }
-    
+
     public function updateCategory(Request $request,$id){
         $validator = Validator::make(
             $request->all(),
@@ -235,9 +262,9 @@ class Md_MarkdownController extends Controller
                 'success' => false,
                 'message' => $errors->first()
             ]);
-        }      
-        
-        
+        }
+
+
         $markdown = Markdown_Markdown::where('id',$id)->first();
         $markdown->md_category_id = $validator->validated()['category'];
         $markdown->save();
@@ -246,6 +273,13 @@ class Md_MarkdownController extends Controller
             "success" => true,
             "message" => "Nouvelle categorie",
         ]);
-        
+
+    }
+
+    public function getByCategory(Request $request, $category_id)
+    {
+        $markdown = Markdown_Markdown::where('md_category_id',$category_id)->get();
+
+        return MarkdownResource::collection($markdown);
     }
 }

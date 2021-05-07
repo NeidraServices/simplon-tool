@@ -11,6 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
- 
+mix.options({
+    legacyNodePolyfills: false
+});
+
 mix.sass('resources/sass/style.scss', 'public/css');
 mix.js('resources/js/app.js', 'public/js').vue();

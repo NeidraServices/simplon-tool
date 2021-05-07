@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <FlashMessage :position="'top'"></FlashMessage>
+      <CustomFlashMessage ref="customFlash"/>
       <h2 class="titre">{{ name }}</h2>
       <v-row>
         <v-col>
@@ -19,7 +19,7 @@
           />
         </v-col>
       </v-row>
-      <v-btn outlined @click="">Faire une demande de modification.</v-btn>
+      <v-btn outlined >Faire une demande de modification.</v-btn>
       <br /><br />
       <v-divider></v-divider>
       <br />
@@ -51,11 +51,15 @@
 <script>
 import { Editor } from "vuetify-markdown-editor";
 import Axios from "axios";
+import {APIService} from './Services/Services';
+  import CustomFlashMessage from "./component/CustomFlashMessage";
+const apiCall = new APIService()
 
 export default {
   name: "ShowReadMd",
   components: {
     Editor,
+    CustomFlashMessage
   },
   props: {
     id: {
@@ -120,9 +124,19 @@ export default {
         });
         this.getData();
       });
-    }, getAvatar(image) {
-          return `${location.origin}/images/${image}`;
-      },
+    }, 
+    sendRequest(){
+      apiCall.contributionRequest(this.id).then(
+        reponse => {
+          this. $refs.customFlash.showMessageSuccess(reponse.data.message)
+        }
+      ).catch(error=> {
+        this. $refs.customFlash.showMessageError(error)
+      })
+    },
+    getAvatar(image) {
+        return `${location.origin}/images/${image}`;
+    },
   },
   created() {
     this.getData();

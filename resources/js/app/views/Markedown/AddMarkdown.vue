@@ -106,6 +106,7 @@ import MdEditor from "./component/MdEditor";
 import CustomFlashMessage from "./component/CustomFlashMessage";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import {APIService} from './Services/Services';
+const apiCall = new APIService()
 export default {
     name: "AddMarkedDown",
     components: {
@@ -250,7 +251,7 @@ export default {
         },
 
         async addMarkDown() {
-
+            const header = apiCall.getRequestHeadersToSend()
             const data = {
                 title: this.title,
                 text: this.text,
@@ -259,8 +260,7 @@ export default {
                 category: this.category.id
             };
         
-        axios.post('/api/markedown/markdown/create', data)
-            .then(reponse =>{
+        apiCall.postAddMarkdown(data).then(reponse =>{
                     const reqData = reponse.data
                     console.log(reqData)
                     this. $refs.customFlash.showMessageSuccess(reqData.message)
