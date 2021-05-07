@@ -23,6 +23,28 @@ export default {
         }
     },
 
+    watch: {
+        $route(to, from) {
+            let routeName = to.path;
+            var splits = routeName.split("/", 2);
+            switch (splits[1]) {
+                case "markedowns":
+                    this.prevName = 'eval'
+                    this.nextName = 'deliver'
+                    break
+    
+                case "evaluation360":
+                    this.prevName = 'm-down'
+                    this.nextName = 'deliver'
+                    break
+                case "deliver":
+                    this.prevName = 'm-down'
+                    this.nextName = 'eval'
+                    break
+            }
+        }
+    },
+
     computed: {
         isChecked() {
 			let routeName = this.$route.path;

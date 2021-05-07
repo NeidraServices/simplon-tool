@@ -12,8 +12,9 @@ class Deliver_TagModel extends Model
     protected $fillable = [
         'nom'
     ];
+    
     public function projets(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_tags","projet_id","tag_id");
+        return $this->belongsToMany(Deliver_ProjetModel::class, "dp_projet_tags", "projet_id", "tag_id");
     }
 
     public function rendus(){

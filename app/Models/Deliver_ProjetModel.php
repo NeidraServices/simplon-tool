@@ -18,7 +18,7 @@ class Deliver_ProjetModel extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany(Deliver_TagModel::class,"db_projet_tag","tag_id","projet_id");
+        return $this->belongsToMany(Deliver_TagModel::class,"dp_projet_tags", "projet_id", "tag_id");
     }
 
     public function users(){

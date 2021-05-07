@@ -45,4 +45,31 @@ class UserController extends Controller
         $user->save();
         return new UserResource($user);
     }
+
+    /**
+     * Fonction post qui permet de modifier le mot de passe de l'utilisateur
+     * @return success
+     */
+
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id' => 'required',
+                'password' => 'required|min:6|confirmed',
+                'password_confirmation' => 'required|min:6'
+            ],
+            [
+                'required' => 'Le champs :attribute est requis', // :attribute renvoie le champs / l'id de l'element en erreure
+                'confirmed' => 'le :attriute doit être confirmer'
+            ]
+        )->validate();
+
+        $user = User::where('id', $validator['id'])->first();
+        $user->password = $validator['password'];
+        $user->save();
+
+        return response('Mot de passe changer avec succès', 200);;
+    }
 }
