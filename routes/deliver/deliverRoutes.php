@@ -34,8 +34,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post("/competences/lier",[Deliver_CompetenceController::class,"relierProjet"]);
     Route::delete("/competences/delier",[Deliver_CompetenceController::class,"delierProjet"]);
 
-    Route::post("/projet/affecter",[Deliver_AffectationController::class,"affecter"]);
-    Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class,"supprimerApprenant"]);
+    Route::post("/projet/affecter",[Deliver_AffectationController::class, "affecter"]);
+    Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class, "supprimerApprenant"]);
 
     Route::get("/tags",[Deliver_TagController::class,"liste"]);
     Route::post("/tags/update",[Deliver_TagController::class,"update"]);

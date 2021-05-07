@@ -114,8 +114,10 @@
         },
         getByCategory(){
             if (this.category !== ""){
-                Axios.get(`${location.origin}/api/markedown/markdown/category/${this.category}`).then( response => {
-                    this.markdown_list =   this.formatDataMdCom(response.data.data);
+                apiCall.getByCategory(this.category)
+                .then(response => {
+                  this.markdown_list =   this.formatDataMdCom(response.data.data);
+                  console.log(response)
                 })
             }
         },
