@@ -1,8 +1,9 @@
 <template>
         <div class="ml-5">
-            <div class="d-flex justify-space-around my-10">
-                 <h2 >Tous les projets</h2>
-                 <projet_ModalAdd :user="user" @append_projet="append_projet"/>
+            <div class="d-flex  my-10">
+                 <h2 class="col-8">Tous les projets</h2>
+                 <Modal_projet @append_projet="append_projet" :projet="null" />
+                 <!-- <projet_ModalAdd class="col-4" :user="user" @append_projet="append_projet" /> -->
             </div>
            
            <div class="d-flex flex-wrap justify-space-around">
@@ -14,7 +15,8 @@
                             </v-col>
                             <v-col cols="6" class="text-end" v-if="user.role != 'apprenant'">
                                 <projet_ModalDelete :project_id="projet.id" @delete_projet="delete_projet" />
-                                <projet_ModalUpdate :projet="projet"/>
+                                <Modal_projet @append_projet="append_projet" :projet="projet"/>
+                                <!-- <projet_ModalUpdate :projet="projet"/> -->
                             </v-col>
                         </v-card-title>
                             

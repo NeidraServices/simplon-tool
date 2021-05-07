@@ -106,7 +106,7 @@ class Md_MarkdownController extends Controller
 
             return response()->json([
                 "success" => true,
-                "message" => "File successfully uploaded",
+                "message" => "Fichier markdown créer avec succès",
                 "file" => $file
             ]);
 

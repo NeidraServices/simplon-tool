@@ -1,11 +1,38 @@
 <template>
     <v-col cols="12">
-        <v-card class="my-card">
+        <v-card>
+             <v-row>
+                    <v-card-text v-if="item.status == 0"
+                        class="layout justify-end"
+                    >
+                        <div>
+                            <v-badge
+                                color="red"
+                                class="mr-5"
+                            >
+                            </v-badge>
+                        </div>
+                        En brouillon
+                    </v-card-text>
+                    <v-card-text v-else
+                        class="layout justify-end"
+                    >
+                        <div>
+                            <v-badge
+                                color="green"
+                                class="mr-5"
+                            >                        
+                            </v-badge>
+                        </div>
+                        Publié
+                    </v-card-text>
+            </v-row> 
             <v-card-title 
                 class="layout justify-center"
             >
                 {{item.title}}
             </v-card-title>
+            
             <v-card-text 
                     class="layout justify-start"
                 >
@@ -34,6 +61,7 @@
 </template>
 <script>
     export default {
+
         props:{
             item: {
                 title:{
@@ -48,7 +76,10 @@
                 description:{
                     type: String
                 },
-            }            
+                status:{
+                    type: Number
+                },
+            }
         }
     }
 </script>

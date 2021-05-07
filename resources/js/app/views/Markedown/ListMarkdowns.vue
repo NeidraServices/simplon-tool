@@ -126,6 +126,7 @@
                     category: item.category.name,
                     description: item.description,
                     title: item.title,
+                    status: item.status,
                     author: utils.formatName(item.user.surname, item.user.name)
                 })
             })

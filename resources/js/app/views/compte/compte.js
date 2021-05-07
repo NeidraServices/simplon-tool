@@ -1,6 +1,9 @@
 import { apiService } from '../../services/apiService'
-
+import PasswordChange from './composants/PasswordChange'
 export default {
+  components: {
+    PasswordChange
+  },
   data() {
     return {
       user: null,
@@ -12,7 +15,10 @@ export default {
         surname: null,
         email: null
       },
-      apps: ["Markdown", "Elevation360", "Deliver"],
+      apps: [
+        { name: "Markdown", link: '/markedowns' },
+        { name: "Elevation360", link: '/evaluation360' },
+        { name: "Deliver", link: '/deliver' }],
     }
   },
 
@@ -38,6 +44,11 @@ export default {
       await apiService.post('/api/user/update', data).then(({ data }) => {
         this.user = data.data;
       })
+    },
+
+
+    pushLink(link) {
+      this.$router.push(link)
     }
 
   }
