@@ -1,36 +1,15 @@
 import Axios from "axios"
 
-import Sidebar from '../../../layouts/Sidebar.vue'
-
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
 import projet_ModalDelete from "../components/delete-projet.vue"
 import projet_ModalAdd from "../components/add-projet.vue"
-import Router from '../../../router.js';
-const projets = [
-    {
-        id: 1,
-        titre: "G-a-o",
-        image: "/public/images/dp/default.png",
-        deadline: "2021-05-01",
-        description: "Projet gao qui consiste ....",
-        formateur: {
-            name: "Adrien",
-        }
-    }
-]
-const user  = {
-    id: 1,
-    name: "lcs", 
-    surname: "lvn",
-    avatar: "",
-    email: "lucas.lvn97439@gmail.com",
-    role:["admin", "formateur"]
+import Modal_projet from "../components/projet_modal.vue"
 
-}
+import Router from '../../../router.js';
 
 export default{
     components:{
-        projet_ModalUpdate, projet_ModalDelete, projet_ModalAdd, Sidebar
+        projet_ModalUpdate, projet_ModalDelete, projet_ModalAdd, Modal_projet
     },
     data(){
         return {
@@ -42,19 +21,23 @@ export default{
 
     mounted(){
         this.get_projets()
-        this.user    = user
+        this.user    = this.$store.state.userInfo
     },
 
     methods:{
         get_projets: function(){
+            console.log("get projet");
             Axios.get("/api/deliver/projets")
             .then(({data}) => {
+                console.log(data);
                 this.projets = data.projets
             })
         },
+        
         voir_projet(id){
             Router.push('/deliver/projet/'+id);
         },
+
         delete_projet: function(project_id){
             Axios.post("/api/deliver/projets/"+ project_id +"/supprimer")
             .then(({data}) => {
@@ -66,6 +49,7 @@ export default{
 
         append_projet: function(projet){
            this.projets.push(projet)
-        }
+        },
+
     }
 }

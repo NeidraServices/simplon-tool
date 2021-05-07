@@ -10,16 +10,9 @@
             <v-toolbar color="orange" dark>Modifier le projet {{ projet.titre }} </v-toolbar>
             <v-card-text>
                 <v-container grid-list-xs>
-                    <v-text-field v-model="titre" label="titre" ></v-text-field>
-                    <v-file-input v-model="image" truncate-length="15" label="Image de couverture"></v-file-input>   
+                    <v-text-field v-model="titre" label="titre" ></v-text-field>  
 
-                    <v-menu ref="menu" v-model="menu"
-                            :close-on-content-click="false"
-                            :return-value.sync="deadline"
-                             transition="scale-transition"
-                            offset-y
-                            min-width="auto"
-                    >
+                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="deadline">
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                                 v-model="deadline"
@@ -30,17 +23,9 @@
                                 v-on="on"
                             ></v-text-field>
                         </template>
-                        <v-date-picker
-                        v-model="deadline"
-                        no-title
-                        scrollable
-                        >
+                        <v-date-picker v-model="deadline" no-title scrollable>
                             <v-spacer></v-spacer>
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="menu = false"
-                            >
+                            <v-btn text color="primary" @click="menu = false">
                                 Cancel
                             </v-btn>
                             <v-btn text color="primary" @click="$refs.menu.save(deadline)" >
@@ -49,7 +34,7 @@
                         </v-date-picker>
                     </v-menu>
 
-                    <v-textarea background-color="grey lighten-2" label="Description"  v-model="description"></v-textarea>
+                    <Editor />
                     <div class="d-flex justify-center">
                         <v-btn small block color="success" @click="update_projet">Modifier</v-btn>
                     </div>
