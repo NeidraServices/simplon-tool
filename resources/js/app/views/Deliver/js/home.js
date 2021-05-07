@@ -1,15 +1,13 @@
 import Axios from "axios"
 
-import projet_ModalUpdate from "../components/projet-modal_update.vue"
 import projet_ModalDelete from "../components/delete-projet.vue"
-import projet_ModalAdd from "../components/add-projet.vue"
 import Modal_projet from "../components/projet_modal.vue"
 
 import Router from '../../../router.js';
 
 export default{
     components:{
-        projet_ModalUpdate, projet_ModalDelete, projet_ModalAdd, Modal_projet
+        projet_ModalDelete, Modal_projet
     },
     data(){
         return {

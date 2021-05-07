@@ -18,7 +18,7 @@ export default {
     return {
       editor: new Editor({
         extensions: defaultExtensions(),
-        content: `<h2> Entrez-votre description pour le projet </h2>`,
+        content: (this.description !== null) ? this.description : `<h3> Pas encore de description pour le moment, entrez en une ! </h3>`,
         onBlur: ({ event, state, view }) => {
           this.$emit('set_description', this.editor.contentComponent.$el.innerHTML)
         }
@@ -27,9 +27,7 @@ export default {
   },
 
   mounted() {
-    if(this.description){
-      document.getElementsByClassName('ProseMirror').innerHTML = this.description
-    }
+    console.log(this.description);
   },
 
   beforeDestroy() {
