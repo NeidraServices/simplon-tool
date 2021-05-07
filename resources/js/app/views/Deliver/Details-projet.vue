@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div @voir-projet="getData">
         <template>
-            <v-card-title class="text-center justify-center py-6">
+            <v-card-title class="text-center justify-center py-6" >
                 <h1 class="font-weight-bold">
                     {{ projet.titre }}
                 </h1>
@@ -247,13 +247,18 @@
                                 >
                                     Lien GitHub
                                 </v-btn>
-                                <v-btn
-                                    outlined
-                                    rounded
-                                    text
+                                <!-- :to="{name: '/deliver/mesprojets/rendu/', params: { id: 1}}" -->
+                                <router-link
+                                    to="/deliver/mesprojets/rendu/1"
                                 >
+                                    <v-btn
+                                        outlined
+                                        rounded
+                                        text
+                                    >
                                     Détails
-                                </v-btn>
+                                    </v-btn>
+                                </router-link>
                             </v-card-actions>
                         </v-card>
                     </div>

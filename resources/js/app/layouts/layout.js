@@ -1,9 +1,10 @@
-import Sidebar from "./Sidebar";
-import Logout from './Logout'
-import MenuEval from '../navigations/evaluation360/MenuEval'
-import MenuMd from '../navigations/markdown/MenuMd'
-import MenuDeliver from '../navigations/deliver/MenuDeliver'
+import Sidebar from "./Sidebar.vue";
+import Logout from './Logout.vue'
+import MenuEval from '../navigations/evaluation360/MenuEval.vue'
+import MenuMd from '../navigations/markdown/MenuMd.vue'
+import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
 import Snackbar from '../components/Snackbar.vue';
+
 export default {
     components: {
         Sidebar,
@@ -23,6 +24,14 @@ export default {
     },
 
     computed: {
+        isChecked() {
+			let routeName = this.$route.path;
+			var splits = routeName.split("/", 2);
+			if (splits[1] != "compte") {
+				return this.$store.state.isLogged;
+			}
+		},
+        
         pathIsEval() {
             let routeName = this.$route.path;
             var splits = routeName.split("/", 2);

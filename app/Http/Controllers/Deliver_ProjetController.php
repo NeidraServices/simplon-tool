@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
 use App\Models\Deliver_TagModel;
+use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -30,7 +32,7 @@ class Deliver_ProjetController extends Controller
         $projets = Deliver_ProjetModel::all();
 
         foreach($projets as $projet){
-            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->get();
+            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->first();
 
             $deadline = new DateTime($projet->deadline);
             $projet->deadline = $deadline->format('Y-m-d');
@@ -43,6 +45,33 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Liste de mes projets
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Liste de mes projets
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mesProjets($formateur_id){
+        $user = Auth::user();
+        if($user->role_id != 2 || $user->id != $formateur_id){
+            return response()->json([
+                'success' => false,
+                'message' => "Vous n'êtes pas formateur"
+            ]);
+        }
+
+        $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
+            $user->where("formateur_id", $formateur_id);
+        })->get();
+        dd($projets);
+       return response()->json(['projets' =>  $projets[0]["projets"]]);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -59,6 +88,7 @@ class Deliver_ProjetController extends Controller
     {
 
         $projet = Deliver_ProjetModel::find($id);
+
 
         $affectations = [];
         foreach ($projet->users as $user) {
@@ -90,63 +120,44 @@ class Deliver_ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addProjet(Request $request){
-        $validator = Validator::make(
-            $request->all(),
+        $validator = Validator::make($request->all(),
             [
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
-                'description' => 'required'
+                'description' => 'required',
+                'competences'  => '',
+                'techno'      => ''
             ]
         );
-
-        $errors = $validator->errors();
-
-        if (count($errors) != 0) {
-            return response()->json([
-                'success' => false,
-                'message' => $errors->first()
-            ]);
-        }
-
-        $public_img_path = "/public/img/";
-        if($request->image){
-            $image       =  $request->image;
-            $extension   = $image->getClientOriginalExtension();
-            $image_name  = time() . rand() . '.' . $extension;
-            $image_path  = $public_img_path + "/cover/" + $image_name;
-            $image->move(public_path('img/cover'), $image_name);
-        }else{
-            $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
-        }
+        if($validator->fails()) return response()->json(["success" => false, "error" => $validator->errors()]);
 
         $projet = Deliver_ProjetModel::create(array_merge([
             "titre" => $request->titre,
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "image" => $image_path,
-            "formateur_id" => $request->formateur_id
+            "formateur_id" => $request->formateur_id,
+            "extrait"      => $request->extrait
         ]));
 
         if($request->all()["competences"]){
-        foreach($request->all()["competences"] as $comp){
-            $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
- 
-            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            foreach($request->all()["competences"] as $comp){
+                $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
+                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            }
         }
-    }
-    if($request->all()["techno"]){
-        foreach($request->all()["techno"] as $comp){
-            $competences=Deliver_TagModel::where("nom",$comp)->get();
- 
-            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        if($request->all()["techno"]){
+            foreach($request->all()["techno"] as $comp){
+                $competences=Deliver_TagModel::where("nom",$comp)->get();
+                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            }
         }
-    }
-        return response()->json([
-            'success' => true,
-            'message' => "Projet créé"
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => "Projet créé",
+                "projet_created" => $projet,
+            ]);
     }
 
     /*
@@ -166,6 +177,7 @@ class Deliver_ProjetController extends Controller
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
+                'date_presentation' => 'required',
                 'image' => 'file|mimes:jpg,jpeg,png|max:5000',
             ],
             [
@@ -188,6 +200,7 @@ class Deliver_ProjetController extends Controller
         $projet->titre        = $validator->validated()['titre'];
         $projet->deadline     = $validator->validated()['deadline'];
         $projet->description  = $validator->validated()['description'];
+        $projet->date_presentation  = $validator->validated()['date_presentation'];
 
         // Pour des raisons de test du backend seulement
         if(array_key_exists("image", $validator->validated())) {
@@ -195,14 +208,14 @@ class Deliver_ProjetController extends Controller
                 $oldImage = $projet->image;
 
                 if ($oldImage != null) {
-                    $oldFilePath = public_path('img/cover') . '/' . $oldImage;
+                    $oldFilePath = public_path('images/projets') . '/' . $oldImage;
                     unlink($oldFilePath);
                 }
 
-                $image          = $validator->validated()['cover'];
+                $image          = $validator->validated()['image'];
                 $extension      = $image->getClientOriginalExtension();
                 $image_name          = time() . rand() . '.' . $extension;
-                $image->move(public_path('img/cover'), $image_name);
+                $image->move(public_path('images/projets'), $image_name);
                 $projet->image = $image_name;
             }
         }

@@ -8,6 +8,7 @@ use App\Models\Markdown_Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\MarkdownResource;
 
 class Md_MarkdownController extends Controller
 {
@@ -16,20 +17,16 @@ class Md_MarkdownController extends Controller
         $markdown = Markdown_Markdown::find($id);
         $data = file_get_contents(public_path('markdowns/'.$markdown->url));
         return response()->json([
-            'success' => true,
-            'id'=>$markdown->id,
-            'text'=>$data,
-            'description'=>$markdown->description,
-            'title'=>$markdown->title,
-            'status'=>$markdown->active,
-            'category'=> $markdown->categories(),
+          'markdown'    =>  new MarkdownResource($markdown),
+          'text'        =>  $data,
         ]);
     }
 
     public function show(){
-        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();
-        return $markdowns;
+        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();  
+        return MarkdownResource::collection($markdowns);
     }
+    
     // encours:liasin_archive
     public function editMd(Request $request,$id){
         $validator = Validator::make(
@@ -137,7 +134,7 @@ class Md_MarkdownController extends Controller
         
         
         $markdown = Markdown_Markdown::where('id',$id)->first();
-        $markdown->title = $validator->validated()['descrption'];
+        $markdown->description = $validator->validated()['description'];
         $markdown->save();
 
         return response()->json([
@@ -204,7 +201,7 @@ class Md_MarkdownController extends Controller
 
         return response()->json([
             "success" => true,
-            "message" => "Etat modifier",
+            "message" => "Etat modifié avec succès",
         ]);
         
     }

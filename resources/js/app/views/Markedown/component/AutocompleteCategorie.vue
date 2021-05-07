@@ -16,7 +16,7 @@
 
 <script>
 
-  import {APIService} from '../Services/ServiceRecupCateg';
+  import {APIService} from '../Services/Services';
   const apiCall = new APIService()
   export default {
     name: "AutocompleteCategorie",

@@ -19,8 +19,12 @@ export default {
             selectSkills: [],
             sondagesList: [],
             sondageLines: [],
+
             sondageName: '',
             published: '',
+
+            title: "Créer un sondage",
+            edited: false,
 
             etatList: [
                 {
@@ -28,8 +32,24 @@ export default {
                     id: '0'
                 },
                 {
-                    label: 'Publié',
+                    label: 'Publier',
                     id: '1'
+                }
+            ],
+
+
+            sondageTypeList: [
+                {
+                    name: 'Langage',
+                    id: '0'
+                },
+                {
+                    name: 'Compétence',
+                    id: '1'
+                },
+                {
+                    name: 'Question',
+                    id: '2'
                 }
             ],
 
@@ -53,8 +73,9 @@ export default {
             ],
 
             selectItem: null,
-            createdDialog: false,
-            deleteDialog: false
+            generalDialog: false,
+            deleteDialog: false,
+            selectItem: null
         }
     },
 
@@ -75,13 +96,72 @@ export default {
     },
 
     methods: {
-        openAddModal() {
-            this.createdDialog = true
+        openGeneral(edited, item = null) {
+            this.generalDialog = true
+            this.edited = edited;
+            if (this.edited) {
+                this.title = "Mise à jour d'un sondage";
+                this.selectItem = item;
+                this.sondageName = item.name;
+
+                if (item.published == "Publier") {
+                    this.published = {
+                        label: 'Publier',
+                        id: '1'
+                    };
+                } else {
+                    this.published = {
+                        label: 'Brouillon',
+                        id: '0'
+                    };
+                }
+
+                var arrayContent = [];
+                item.lines.forEach(element => {
+                    if (element.langage != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Langage',
+                                id: '0'
+                            },
+                            content: element.langage
+                        })
+                    } else if (element.skill != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Compétence',
+                                id: '1'
+                            },
+                            content: element.skill
+                        })
+                        console.log(this.selectSkills)
+                    } else if (element.question != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Question',
+                                id: '2'
+                            },
+                            content: element.question
+                        })
+                    }
+                });
+
+                this.sondageLines = arrayContent;
+                console.log(arrayContent)
+        
+            } else {
+                this.title = "Créer un sondage";
+            }
         },
 
-        closeAddModal() {
-            this.sondageLines = []
-            this.createdDialog = false
+        closeGeneral() {
+            this.sondageLines = [];
+            this.generalDialog = false;
+            this.title = "Créer un sondage";
+            this.edited = false;
+            this.sondageName = '';
+            this.published = '';
+            this.selectItem = null;
         },
 
         openDelete(item) {
@@ -96,9 +176,16 @@ export default {
 
         addLines() {
             this.sondageLines.push({
-                langage_id: '',
-                skill_id: ''
+                type: '',
+                content: ''
             })
+        },
+
+        removeLine(key) {
+            const filteredArray = this.sondageLines.filter(function (value, index, arr) {
+                return index != key
+            })
+            this.sondageLines = filteredArray;
         },
 
         async getSondages() {
@@ -107,7 +194,6 @@ export default {
                 const reqData = req.data.data;
                 this.sondagesList = reqData;
                 this.isLoaded = true;
-                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }
@@ -120,8 +206,10 @@ export default {
                 this.selectLangages = reqData;
                 this.selectLangages.unshift({
                     id: "",
-                    name: "Aucun"
+                    name: "Aucun",
+                    image: ""
                 })
+                
             } catch (error) {
                 console.log(error)
             }
@@ -137,7 +225,7 @@ export default {
             }
         },
 
-        async createSondage() {
+        async handleSondage() {
             try {
                 if (this.sondageLines.length == 0) {
                     console.log('Il faut des lignes dans votre sondage')
@@ -151,7 +239,7 @@ export default {
                     const reqData = req.data;
                     if (reqData.success) {
                         await this.getSondages()
-                        await this.closeAddModal()
+                        await this.closeGeneral()
                     } else {
                         console.log(reqData.message)
                     }

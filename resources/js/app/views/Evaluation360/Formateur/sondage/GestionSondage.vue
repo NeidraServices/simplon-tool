@@ -3,18 +3,49 @@
     class="d-flex justify-center align-center"
     style="height: 70% !important"
   >
-    <v-dialog v-model="createdDialog" max-width="600">
+    <v-dialog
+      v-model="generalDialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <v-card class="py-5">
-        <v-card-title class="d-flex justify-center font-weight-bold">
-          Créer un sondage
+        <v-card-title class="d-flex justify-center font-weight-bold py-10">
+          {{ title }}
         </v-card-title>
-        <div class="d-flex justify-center">
+
+        <v-divider></v-divider>
+
+        <div class="d-flex justify-center mt-8">
           <v-form
             ref="form"
             v-model="valid"
             lazy-validation
             style="width: 85% !important"
           >
+            <v-row>
+              <v-col>
+                <v-text-field
+                  label="Nom du sondage"
+                  v-model="sondageName"
+                  :rules="sondageNameRules"
+                />
+              </v-col>
+              <v-col>
+                <v-select
+                  v-model="published"
+                  :rules="publishedRules"
+                  :items="etatList"
+                  item-text="label"
+                  item-value="id"
+                  persistent-hint
+                  single-line
+                  label="Etat - Publié ou Brouillon"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
+
             <v-btn
               text
               outlined
@@ -29,35 +60,17 @@
               </div>
             </v-btn>
 
-            <v-text-field
-              label="Nom du sondage"
-              v-model="sondageName"
-              :rules="sondageNameRules"
-            />
-
-            <v-select
-              v-model="published"
-              :rules="publishedRules"
-              :items="etatList"
-              item-text="label"
-              item-value="id"
-              persistent-hint
-              single-line
-              label="Etat - Publié ou Brouillon"
-              required
-            ></v-select>
-
             <v-row
               no-gutters
               class="justify-center"
-              v-for="(lines, key) in sondageLines"
+              v-for="(line, key) in sondageLines"
               :key="key"
             >
-              <v-col cols="12" lg="3" md="3" class="d-flex justify-center mr-2">
+              <v-col cols="3" class="d-flex justify-center">
                 <v-select
-                  v-model="lines.langage_id"
+                  v-model="line.type"
                   placeholder="Choisir un langage"
-                  :items="selectLangages"
+                  :items="sondageTypeList"
                   item-text="name"
                   item-value="id"
                   label="Langage"
@@ -68,9 +81,28 @@
                 </v-select>
               </v-col>
 
-              <v-col cols="12" lg="7" md="7" class="d-flex justify-center">
+              <v-col class="d-flex justify-center ml-5">
+                <div>
+                  {{ line.content }}
+                </div>
                 <v-select
-                  v-model="lines.skill_id"
+                  v-if="line.type == 0"
+                  v-model="line.content"
+                  placeholder="Choisir un langage"
+                  :items="selectLangages"
+                  item-text="name"
+                  item-value="id"
+                  label="Langage"
+                  persistent-hint
+                  single-line
+                  required
+                  :value="line.content"
+                >
+                </v-select>
+
+                <v-select
+                  v-if="line.type == 1"
+                  v-model="line.content"
                   placeholder="Choisir une compétence"
                   :items="selectSkills"
                   item-text="description"
@@ -79,26 +111,42 @@
                   persistent-hint
                   single-line
                   required
+                  :value="line.content"
                 >
                 </v-select>
+
+                <v-text-field
+                  v-if="line.type == 2"
+                  v-model="line.content"
+                  label="Saisir votre question"
+                  :value="line.content"
+                />
+              </v-col>
+
+              <v-col cols="1" class="d-flex justify-end align-center">
+                <div>
+                  <v-btn icon x-small @click="removeLine(key)">
+                    <v-icon color="red"> mdi-delete </v-icon>
+                  </v-btn>
+                </div>
               </v-col>
             </v-row>
           </v-form>
         </div>
 
-        <v-card-actions>
+        <v-card-actions class="pb-10">
           <v-spacer></v-spacer>
           <v-btn
             small
             class="grey darken-1 mr-3 white--text font-weight-medium"
-            @click="closeAddModal"
+            @click="closeGeneral"
             >Annuler</v-btn
           >
           <v-btn
             small
             class="blue white--text font-weight-medium"
             :disabled="disabled"
-            @click="createSondage"
+            @click="handleSondage"
             >valider</v-btn
           >
           <v-spacer></v-spacer>
@@ -133,7 +181,7 @@
     <div>
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des sondages</h1>
-        <v-btn icon class="py-5 ml-5" @click="openAddModal">
+        <v-btn icon class="py-5 ml-5" @click="openGeneral(false)">
           <v-icon color="green"> mdi-plus-circle-outline </v-icon>
         </v-btn>
       </div>
@@ -181,6 +229,7 @@
                   v-bind="attrs"
                   v-on="on"
                   class="transparent blue-grey--text mr-2"
+                  @click="openGeneral(true, item)"
                 >
                   <v-icon> mdi-square-edit-outline </v-icon>
                 </v-btn>

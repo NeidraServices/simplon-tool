@@ -5,8 +5,7 @@ import Sidebar from '../../../layouts/Sidebar.vue'
 import projet_ModalUpdate from "../components/projet-modal_update.vue"
 import projet_ModalDelete from "../components/delete-projet.vue"
 import projet_ModalAdd from "../components/add-projet.vue"
-
-
+import Router from '../../../router.js';
 const projets = [
     {
         id: 1,
@@ -33,11 +32,11 @@ export default{
     components:{
         projet_ModalUpdate, projet_ModalDelete, projet_ModalAdd, Sidebar
     },
-
     data(){
         return {
             projets: [],
-            user: []
+            user: [],
+            id:0
         }
     },
 
@@ -53,7 +52,9 @@ export default{
                 this.projets = data.projets
             })
         },
-
+        voir_projet(id){
+            Router.push('/deliver/projet/'+id);
+        },
         delete_projet: function(project_id){
             Axios.post("/api/deliver/projets/"+ project_id +"/supprimer")
             .then(({data}) => {
@@ -61,6 +62,10 @@ export default{
                     this.projets = this.projets.filter(projet => projet.id != project_id)
                 }
             })
+        },
+
+        append_projet: function(projet){
+           this.projets.push(projet)
         }
     }
 }
