@@ -69,7 +69,7 @@
               <v-col cols="3" class="d-flex justify-center">
                 <v-select
                   v-model="line.type"
-                  placeholder="Choisir un langage"
+                  placeholder="Choisir un type de question"
                   :items="sondageTypeList"
                   item-text="name"
                   item-value="id"
@@ -77,16 +77,14 @@
                   persistent-hint
                   single-line
                   required
+                  @change="editeChange(line, line.type)"
                 >
                 </v-select>
               </v-col>
 
-              <v-col class="d-flex justify-center ml-5">
-                <div>
-                  {{ line.content }}
-                </div>
+              <v-col cols="7" class="ml-5">
                 <v-select
-                  v-if="line.type == 0"
+                  v-if="showDetailLangage(line.type) || line.type == 0"
                   v-model="line.content"
                   placeholder="Choisir un langage"
                   :items="selectLangages"
@@ -96,12 +94,11 @@
                   persistent-hint
                   single-line
                   required
-                  :value="line.content"
                 >
                 </v-select>
 
                 <v-select
-                  v-if="line.type == 1"
+                  v-if="showDetailSkill(line.type) || line.type == 1"
                   v-model="line.content"
                   placeholder="Choisir une compétence"
                   :items="selectSkills"
@@ -111,15 +108,13 @@
                   persistent-hint
                   single-line
                   required
-                  :value="line.content"
                 >
                 </v-select>
 
                 <v-text-field
-                  v-if="line.type == 2"
+                  v-if="showDetailQuestion(line.type) || line.type == 2"
                   v-model="line.content"
                   label="Saisir votre question"
-                  :value="line.content"
                 />
               </v-col>
 

@@ -88,17 +88,17 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post("/sondageLine/delete/all", [EvalSondageLinesController::class, "deleteDataArray"])->name('api.sondageLine.deleteDataArray');
 });
 
-// Route::middleware(['auth:api'])->group(function(){
-Route::prefix('/formateur')->group(function () {
-    Route::get("/sondage/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
-    Route::post("/sondage/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
-    Route::put("/sondage/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
-    Route::put("/sondage/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
-    Route::put("/sondage/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
-    Route::put("/sondage/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
-    Route::delete("/sondage/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
+Route::middleware(['auth:api'])->group(function(){
+    Route::prefix('/formateur')->group(function () {
+        Route::get("/sondage/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
+        Route::post("/sondage/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
+        Route::put("/sondage/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
+        Route::put("/sondage/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
+        Route::put("/sondage/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
+        Route::put("/sondage/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
+        Route::delete("/sondage/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
+    });
 });
-// });
 
 Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/apprenant')->group(function () {
