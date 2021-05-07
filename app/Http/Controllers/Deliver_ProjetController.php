@@ -11,6 +11,7 @@ use App\Models\Deliver_TagModel;
 use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -57,6 +58,14 @@ class Deliver_ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function mesProjets($formateur_id){
+        $user = Auth::user();
+        if($user->role_id != 2 || $user->id != $formateur_id){
+            return response()->json([
+                'success' => false,
+                'message' => "Vous n'êtes pas formateur"
+            ]);
+        }
+
         $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
             $user->where("formateur_id", $formateur_id);
         })->get();
