@@ -209,21 +209,6 @@
                   v-bind="attrs"
                   v-on="on"
                   class="transparent blue-grey--text mr-2"
-                >
-                  <v-icon> mdi-eye </v-icon>
-                </v-btn>
-              </template>
-              <span>Voir</span>
-            </v-tooltip>
-
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                  class="transparent blue-grey--text mr-2"
                   @click="openGeneral(true, item)"
                 >
                   <v-icon> mdi-square-edit-outline </v-icon>
