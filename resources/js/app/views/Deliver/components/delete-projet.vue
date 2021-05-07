@@ -2,7 +2,7 @@
     <v-dialog transition="dialog-bottom-transition" max-width="450" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
             <v-btn color="error" icon v-bind="attrs" v-on="on">
-              <v-icon> mdi-minus </v-icon>
+              <v-icon> mdi-close-circle </v-icon>
             </v-btn>
         </template>
 
