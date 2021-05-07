@@ -60,11 +60,11 @@ export default {
 	},
 	methods: {
 		async logout() {
-			this.dialog = false;
 			await localStorage.removeItem("token");
 			await localStorage.removeItem("role");
 			await localStorage.removeItem("vuex");
 			await this.$store.commit("disconnect");
+			this.dialog = false
 			await this.$router.push("/connexion");
 		},
 	},

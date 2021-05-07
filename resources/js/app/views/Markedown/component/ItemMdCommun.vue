@@ -2,67 +2,57 @@
     <v-col cols="12">
         <v-card>
              <v-row>
-                <v-col cols="4">
-                    <v-card-text 
-                        class="layout justify-start"
-                    >
-                    </v-card-text>
-                </v-col>                
-                <v-col cols="4">
-                    <v-card-title 
-                        class="layout justify-center"
-                    >
-                        {{item.title}}
-                    </v-card-title>
-                </v-col>                
-                <v-col cols="4"> 
-                    <v-card-text v-if="item.active == 0"
+                    <v-card-text v-if="item.status == 0"
                         class="layout justify-end"
                     >
-                    <div>
-                        <v-badge
-                            color="red"
-                            class="mr-5"
-                            value='false'
-                        >                        
-                        </v-badge>
-                    </div>
+                        <div>
+                            <v-badge
+                                color="red"
+                                class="mr-5"
+                            >
+                            </v-badge>
+                        </div>
                         En brouillon
-                    </v-card-text> 
+                    </v-card-text>
                     <v-card-text v-else
                         class="layout justify-end"
                     >
-                    <div>
-                        <v-badge
-                            color="green"
-                            class="mr-5"
-                            value='false'
-                        >                        
-                        </v-badge>
-                    </div>
+                        <div>
+                            <v-badge
+                                color="green"
+                                class="mr-5"
+                            >                        
+                            </v-badge>
+                        </div>
                         Publié
-                    </v-card-text> 
-                </v-col>
+                    </v-card-text>
             </v-row> 
+            <v-card-title 
+                class="layout justify-center"
+            >
+                {{item.title}}
+            </v-card-title>
             
             <v-card-text 
-                class="layout justify-start"
-            >
-                {{item.description}}
+                    class="layout justify-start"
+                >
+                <div class="contenu">
+                        {{item.description}}
+                </div>
             </v-card-text>  
             <v-row>
                 <v-col cols="6">
                     <v-card-text 
                         class="layout justify-start"
                     >
-                        {{item.category}}
+                        <v-icon color="primary" class="mr-2">mdi-tag</v-icon>{{item.category}}
                     </v-card-text>
                 </v-col>                
                 <v-col cols="6"> 
                     <v-card-text 
                         class="layout justify-end"
                     >
-                        {{item.author}}
+                        <v-icon color="primary" class="mr-2">mdi-account</v-icon>{{item.author}}
                     </v-card-text> 
                 </v-col>
             </v-row> 
@@ -71,11 +61,6 @@
 </template>
 <script>
     export default {
-        data(){
-            return{
-                /*  */
-            }
-        },
 
         props:{
             item: {
@@ -91,10 +76,18 @@
                 description:{
                     type: String
                 },
-                active:{
+                status:{
                     type: Number
                 },
-            }            
+            }
         }
     }
 </script>
+<style>
+    .contenu{
+        white-space: nowrap;
+        word-break: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

@@ -38,6 +38,20 @@ class Deliver_ProjetSeeder extends Seeder
 
             ]);
 
+            DB::table('dp_tags')->insert([
+                'nom' => "nodejs"
+            ]);
+
+            DB::table('dp_tags')->insert([
+                'nom' => "laravel"
+            ]);
+
+            DB::table('dp_competences')->insert([
+                'nom' => "backend"
+            ]);
+            DB::table('dp_competences')->insert([
+                'nom' => "front"
+            ]);
             DB::table('dp_medias')->insert([
                 'type' => "Choisir un type",
                 'lien' => "https://ma.ambafrance.org/IMG/arton11404.png?1565272504",
