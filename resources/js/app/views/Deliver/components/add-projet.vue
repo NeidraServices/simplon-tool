@@ -1,7 +1,7 @@
 <template>
     <v-dialog transition="dialog-bottom-transition" max-width="auto" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn color="success" icon v-bind="attrs" v-on="on">
+            <v-btn color="success" class="mt-3" text v-bind="attrs" v-on="on">
               <v-icon> mdi-plus </v-icon>
             </v-btn>
         </template>
@@ -10,8 +10,14 @@
             <v-toolbar color="orange" dark>Ajouter un projet</v-toolbar>
             <v-card-text>
                 <v-container grid-list-xs>
+
                     <div class="d-flex flex-wrap">
-                        <v-text-field v-model="titre" label="titre" ></v-text-field>
+                        <v-text-field v-model="titre" label="titre" class="mr-2"></v-text-field>
+                        <v-text-field v-model="extrait" label="extrait" ></v-text-field>
+                    </div>
+                    
+                    <div class="d-flex flex-wrap">
+                        
 
                         <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="deadline">
                             <template v-slot:activator="{ on, attrs }">
@@ -56,7 +62,7 @@
                     </div>
 
                     <editor @set_description="set_description" />
-                    <v-text-field v-model="extrait" label="extrait" ></v-text-field>
+                    
                     <div class="d-flex justify-center">
                         <v-btn small block color="success" @click="add_project">Ajouter</v-btn>
                     </div>
