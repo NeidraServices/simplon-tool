@@ -9,7 +9,7 @@ export default{
     props: {
         user: {
             required: true
-        }
+        },
     },
 
     data(){
@@ -17,6 +17,8 @@ export default{
             dialog: false,
             menu: false,
             menu_: false,
+
+            card_title: "",
 
             titre: "",
             deadline: new Date().toISOString().substr(0, 10),
@@ -49,11 +51,9 @@ export default{
                 presentation:this.presentation,
                 competences:this.tags,
                 techno:this.techno,
-                formateur_id:2,
+                formateur_id: this.$store.state.userInfo.id,
                 extrait: this.extrait
-            }
-            )
-            .then(({data}) => {
+            }).then(({data}) => {
                 if(!data.success){
                     this.flashMessage.error({
                         message: data.error

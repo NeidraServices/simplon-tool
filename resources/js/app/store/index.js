@@ -17,7 +17,9 @@ export default new Vuex.Store({
         apprenants: [],
         apprenant: {},
         langages: [],
-        referentiels: []
+        referentiels: [],
+        sondages: [],
+        specificSondage: {}
     },
     mutations: {
         connect(state, payload) {
@@ -39,6 +41,12 @@ export default new Vuex.Store({
         },
         Apprenant(state, payload) {
             state.apprenant = payload
+        },
+        storeSondages(state, payload) {
+            state.sondages = payload
+        },
+        storeSpecificSondage(state, payload) {
+            state.specificSondage = payload
         }
     },
     actions: {
@@ -66,6 +74,22 @@ export default new Vuex.Store({
                 const req = await apiService.get(`${location.origin}/api/evaluation360/referentiel/list`)
                 const reqData = req.data.data
                 this.commit('storeReferentiels', reqData)
+            }
+            catch (err) { console.log(err) }
+        },
+        async getSondages({ state }) {
+            try {
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`)
+                const reqData = req.data.data
+                this.commit('storeSondages', reqData)
+            }
+            catch (err) { console.log(err) }
+        },
+        async getSpecificSondage({ }, data) {
+            try {
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
+                const reqData = req.data.data
+                this.commit('storeSpecificSondage', reqData)
             }
             catch (err) { console.log(err) }
         },

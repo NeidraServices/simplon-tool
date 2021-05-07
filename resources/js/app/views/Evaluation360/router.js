@@ -27,7 +27,7 @@ export const EvalRoutes = [
         component: Cohorte
     },
     {
-        path: '/evaluation360/Sondage',
+        path: '/evaluation360/Sondage/:userId/:sondageId',
         name: 'Sondage',
         component: Sondage
     },

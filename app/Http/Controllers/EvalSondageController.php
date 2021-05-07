@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EvalSondage;
 use App\Http\Resources\EvalSondageResource;
 use App\Models\EvalSondageLines;
+use App\Models\EvalUsersAnswerLines;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -37,12 +38,23 @@ class EvalSondageController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getDataSpecific()
+    public function getDataSpecific($id)
     {
-        $sondages = EvalSondage::where(['user_id' => Auth::id(), 'published' => 1, 'accepted' => 1])->get();
+        $sondages = EvalSondage::where(['user_id' => $id, 'published' => 1, 'accepted' => 1])->get();
         return EvalSondageResource::collection($sondages);
     }
 
+
+    /**
+     * Retrieve specific Sondage (connected learners)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getSpecificSondage($userId, $sondageId)
+    {
+        $sondages = EvalSondage::where(['id' => $sondageId, 'user_id' => $userId, 'published' => 1, 'accepted' => 1])->first();
+        return new EvalSondageResource($sondages);
+    }
     /*
     |--------------------------------------------------------------------------
     | Create data functions
@@ -332,6 +344,47 @@ class EvalSondageController extends Controller
         return response()->json([
             'success' => true,
             'message' => "Sondage supprimer"
+        ]);
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | Answer sondage functions
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Answer sondage
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function answerSondage(Request $request, $id)
+    {
+        $global = 0;
+        $count = 0;
+        foreach ($request['lines'] as $line) {
+            $answer = new EvalUsersAnswerLines();
+            if ($line['answers']) {
+                $answer->reponse = $line['answers'];
+                $answer->user_id = Auth::id();
+                $answer->sondage_line_id = $line['id'];
+                $answer->save();
+            } else if ($line['note']) {
+                $count++;
+                $global = $global + $line['note'];
+                $answer->note = $line['note'];
+                $answer->user_id = Auth::id();
+                $answer->sondage_line_id = $line['id'];
+                $answer->save();
+            }
+        }
+        if ($global != 0) {
+            $globalNote = EvalSondage::where(['id' => 3, 'accepted' => 1, 'published' => 1])->first();
+            $globalNote->global_note = round($global / $count, 2);
+            $globalNote->save();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => "Sondage bien envoyé"
         ]);
     }
 }
