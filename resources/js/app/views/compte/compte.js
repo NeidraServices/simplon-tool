@@ -1,8 +1,10 @@
 import { apiService } from '../../services/apiService'
 import PasswordChange from './composants/PasswordChange'
+import AppLink from './composants/AppLink'
 export default {
   components: {
-    PasswordChange
+    PasswordChange,
+    AppLink
   },
   data() {
     return {
@@ -15,10 +17,8 @@ export default {
         surname: null,
         email: null
       },
-      apps: [
-        { name: "Markdown", link: '/markedowns' },
-        { name: "Elevation360", link: '/evaluation360' },
-        { name: "Deliver", link: '/deliver' }],
+
+      file: '',
     }
   },
 
@@ -35,7 +35,6 @@ export default {
 
     async updateUser() {
       let data = {
-        id: this.user.id,
         name: this.userInfos.name,
         surname: this.userInfos.surname,
         email: this.userInfos.email
@@ -46,10 +45,28 @@ export default {
       })
     },
 
+    getAvatar(image) {
+      return `${location.origin}/images/${image}`;
+    },
 
-    pushLink(link) {
-      this.$router.push(link)
-    }
+    onFileChange() {
+      
+      this.file = this.$refs.file.files[0];
+      let formData = new FormData();
+      formData.append('image', this.file);
+
+
+      // console.log(formData);
+      apiService.post('/api/user/image/update',
+        formData,
+      ).then(function () {
+        console.log('SUCCESS!!');
+      })
+        .catch(function () {
+          console.log('FAILURE!!');
+        });
+    },
+
 
   }
 }
