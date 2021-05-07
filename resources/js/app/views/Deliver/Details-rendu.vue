@@ -46,7 +46,7 @@
                 v-model="dialog"
                 >
                 <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="orange" icon v-bind="attrs" @click="test(mediasEditor)" v-on="on">
+                    <v-btn color="orange" icon v-bind="attrs" @click="test(medias)" v-on="on">
                         <v-icon> mdi-pencil-circle </v-icon>
                     </v-btn>
                 </template>
@@ -64,10 +64,19 @@
                         label="Lien Site Web"
                         :value="siteUrl"
                     ></v-text-field>
-                    <v-file-input
+                    <input
+                        type="file"
+                        @change="selectImage"
+                        multiple
+                        ref="inputFile"
+                    />
+                    <!-- <v-file-input
+                        v-model="selectedMedias"
+                        accept="image/png, image/jpeg"
                         multiple
                         label="Ajouter un media"
-                    ></v-file-input>
+                        @change="test(selectedMedias)"
+                    ></v-file-input> -->
                     <div class="ma-5 ctn">
                         <template>
                             <v-container class="pa-4 text-center">
@@ -77,7 +86,7 @@
                                 justify="center"
 
                                 >
-                                <template v-for="media in mediasEditor">
+                                <template v-for="media in medias">
                                     <v-col
                                     :key="media.id"
                                     cols="12"
@@ -109,6 +118,7 @@
                                                     :class="{ 'show-btns': hover }"
                                                     :color="transparent"
                                                     icon
+                                                    @click="remove(media)"
                                                 >
                                                     <v-icon
                                                     :class="{ 'show-btns': hover }"
@@ -146,16 +156,16 @@
             >
                 <v-list-item four-line v-if="user">
                     <v-list-item-content>
-                        <v-list-item-title>Informations</v-list-item-title>
+                        <v-list-item-title>Apprenant</v-list-item-title>
                         <v-list-item-subtitle class="text-capitalize">
                             {{ user.name }} <span class="text-uppercase">{{ user.surname }}</span>
                         </v-list-item-subtitle>
-                        <v-list-item-subtitle>
+                        <!-- <v-list-item-subtitle>
                             _Technologie_utilisé_
                         </v-list-item-subtitle>
                         <v-list-item-subtitle>
                             _Référentiel_
-                        </v-list-item-subtitle>
+                        </v-list-item-subtitle> -->
                     </v-list-item-content>
                 </v-list-item>
             </v-card>
@@ -169,7 +179,7 @@
                         <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-web
@@ -181,7 +191,7 @@
                     <v-btn
                             tile
                             color="primary"
-                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
+                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
                             >
                             <v-icon left>
                                 mdi-git
