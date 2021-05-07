@@ -1,13 +1,28 @@
 <template>
     <div>
-        <v-banner
-            :sticky="sticky"
-        >
-            <div>
-                <h2>titre_projet</h2>
+        <div>
+            <v-container :class="{'px-0': $vuetify.breakpoint.xsOnly }">
+                <div class="d-flex justify-center">
+                    <h1>{{ projet != null ? projet.titre : 'Titre' }}</h1>
+                </div>
+            </v-container>
+
+            <!-- <v-checkbox
+            v-model="v0"
+            label="Visible"
+            ></v-checkbox> -->
+            <v-banner
+            v-model="v0"
+            single-line
+            transition="slide-y-transition"
+            >
+            <router-link
+                :to="(projet != null ? '/deliver/projet/' + projet.id : '#' )"
+            >
                 <v-btn
                     class="ma-2"
-                    color="light darken-2"
+                    color="primary"
+                    text
                     dark
                 >
                     <v-icon
@@ -15,20 +30,19 @@
                     left
                     >
                     mdi-arrow-left
-                    </v-icon>retour
+                    </v-icon>Retour
                 </v-btn>
-            </div>
-
-
+            </router-link>
             <template v-slot:actions>
                 <v-btn
                 text
-                color="deep-purple accent-4"
+                color="primary"
                 >
-                Modifier
+                Retry
                 </v-btn>
             </template>
-        </v-banner>
+            </v-banner>
+        </div>
 
         <template>
             <v-card
@@ -36,62 +50,53 @@
                 max-width="400"
                 tile
             >
-                <v-list-item four-line>
+                <v-list-item four-line v-if="user">
                     <v-list-item-content>
                         <v-list-item-title>Informations</v-list-item-title>
-                        <v-list-item-subtitle>
-                            Nom et prénom de l'apprenant
+                        <v-list-item-subtitle class="text-capitalize">
+                            {{ user.name }} <span class="text-uppercase">{{ user.surname }}</span>
                         </v-list-item-subtitle>
                         <v-list-item-subtitle>
-                            Technologie utilisé
+                            _Technologie_utilisé_
                         </v-list-item-subtitle>
                         <v-list-item-subtitle>
-                            Référentiel
+                            _Référentiel_
                         </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
             </v-card>
         </template>
 
-        <div class="d-flex row ma-10">
-            <div class="col">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Lien du site web</v-list-item-title>
-                        <v-list-item-subtitle>
-                            <v-btn
-                                tile
-                                color="primary"
-                                :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
-                                >
-                                <v-icon left>
-                                    mdi-web
-                                </v-icon>
-                                Voir
-                            </v-btn>
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </div>
-            <div class="col">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Lien du dépo github</v-list-item-title>
-                        <v-list-item-subtitle>
-                            <v-btn
-                                tile
-                                color="primary"
-                                :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
-                                >
-                                <v-icon left>
-                                    mdi-git
-                                </v-icon>
-                                Voir
-                            </v-btn>
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </div>
+        <div class="ma-10">
+            <v-list-item>
+                <v-list-item-content>
+                    <!-- <v-list-item-title>Lien du site web</v-list-item-title> -->
+                    <v-list-item-subtitle>
+                        <v-btn
+                            tile
+                            color="primary"
+                            :href="(rendu != null ? rendu.github_url : $route.name)" target="_blank"
+                            >
+                            <v-icon left>
+                                mdi-web
+                            </v-icon>
+                            Site Web
+                        </v-btn>
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                    <v-btn
+                            tile
+                            color="primary"
+                            :href="(rendu != null ? rendu.site_url : $route.name)" target="_blank"
+                            >
+                            <v-icon left>
+                                mdi-git
+                            </v-icon>
+                            Github
+                        </v-btn>
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
         </div>
 
         <div>
@@ -105,11 +110,17 @@
                     md="4"
                     >
                     <v-item>
+                        <a
+                            :href="media.lien"
+                            target="_blank"
+                        >
                         <v-card
                         class="d-flex align-center"
-                        height="250"
+                        height="350"
                         >
                             <v-img
+                                contain
+                                height="350"
                                 :src="media.lien"
                                 :lazy-src="media.lien"
                                 class="grey lighten-2"
@@ -128,6 +139,7 @@
                                 </template>
                             </v-img>
                         </v-card>
+                        </a>
                     </v-item>
                     </v-col>
                 </v-row>
@@ -149,5 +161,8 @@
 .btn-style-2 {
     height: auto;
     margin-left: 25px;
+}
+a {
+    text-decoration: none;
 }
 </style>

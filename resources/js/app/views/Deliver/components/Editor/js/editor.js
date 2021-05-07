@@ -3,27 +3,33 @@ import { defaultExtensions } from '@tiptap/starter-kit'
 import Menu from "../menu.vue"
 
 export default {
+  props: {
+    description: {
+      required: true
+    }
+  },
+
+
   components: {
     EditorContent, Menu
   },
 
   data() {
     return {
-      editor: null,
+      editor: new Editor({
+        extensions: defaultExtensions(),
+        content: `<h2> Entrez-votre description pour le projet </h2>`,
+        onBlur: ({ event, state, view }) => {
+          this.$emit('set_description', this.editor.contentComponent.$el.innerHTML)
+        }
+      }),
     }
   },
 
   mounted() {
-    this.editor = new Editor({
-      extensions: defaultExtensions(),
-      content: `
-        <h2>
-          Entrez-votre description pour le projet
-        </h2>`,
-        onBlur: ({ event, state, view }) => {
-          this.$emit('set_description', this.editor.contentComponent.$el.innerHTML)
-      }
-    })
+    if(this.description){
+      document.getElementsByClassName('ProseMirror').innerHTML = this.description
+    }
   },
 
   beforeDestroy() {

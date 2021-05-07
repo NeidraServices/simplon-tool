@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" v-if="editor">
+  <div class="editor" >
       <Menu :editor="editor"/>
       <editor-content :editor="editor" height="500px"/>
   </div>

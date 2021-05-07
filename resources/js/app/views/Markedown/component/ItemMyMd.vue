@@ -1,58 +1,50 @@
 <template>
     <v-col cols="12">
         <v-card 
+            class="my-card layout align-center"
             @click="goTo(item)"
-        >               
-            <v-row class="pa-5" align="start">
-                <v-col cols="3" align="start" justify="center">
-                    <div class="my-badge">
-                        <v-badge
-                            color="green"
-                            content="1"
-                            class="mr-5"
-                            value='false'
-                        >                        
-                        </v-badge>
-                    </div>
-                    {{item.title}}
-                </v-col>
-                <v-col cols="6" align="space-around" justify="space-around">
+        >         
+            <div class="my-badge">
+                <v-badge
+                    color="green"
+                    content="1"
+                    class="mr-5"
+                    value='false'
+                >                        
+                </v-badge>
+            </div>
+            <v-card-title 
+                class="layout justify-center"
+            >
+                {{item.title}}
+            </v-card-title>
+            <v-card-text 
+                class="layout justify-start"
+            >
+                <div class="contenu">
                     {{item.description}}
+                </div>
+            </v-card-text>
+            <v-row style="width:100%">
+                <v-col class="layout align-center justify-center justify-md-start col-12 col-xs-5 col-md-5 col-lg-5 col-xl-6">
+                    <BtnWithIcon v-bind:title="'Archive'" v-bind:routeName="'Archives'" v-bind:parameters="{id:item.id.toString()}">
+                        <v-icon
+                            left
+                            dark
+                        >
+                            mdi-archive
+                        </v-icon>
+                    </BtnWithIcon>
                 </v-col>
-                <v-col cols="3" align="end" justify="center">
-                    <v-row>
-                        <div  class="mt-6 mb-5 ml-4">
-                            <BtnWithIcon v-bind:title="'Archive'" v-bind:routeName="'Archives'" v-bind:parameters="{id:item.id.toString()}">
-                                <v-icon
-                                    left
-                                    dark
-                                >
-                                    mdi-archive
-                                </v-icon>
-                            </BtnWithIcon>
-                        </div>
-                        <!-- <v-spacer></v-spacer> -->
-                        <div  class="mt-5 mb-5 ml-5">
-                            <v-switch
-                                v-model="modifStatus"
-                                @click.stop="updateStatus"
-                                :label="`Status: ${status}`"
-                                color="success"
-                            >
-                            </v-switch>
-                        </div>
-                        <!-- <div class="ma-3">
-                            <v-btn
-                                icon
-                                color="red"
-                                @click.stop="goTo2(item)"
-                            >
-                                <v-icon>mdi-delete
-
-                                </v-icon>
-                            </v-btn>
-                        </div> -->
-                    </v-row>
+                <!-- <v-spacer></v-spacer> -->
+                <v-col class="layout align-center justify-center justify-md-end col-12 col-xs-7 col-md-7 col-lg-7 col-xl-6">
+                    <v-switch
+                        v-model="modifStatus"
+                        @click.stop="updateStatus"
+                        :label="`Status: ${status}`"
+                        color="success"
+                    >
+                    </v-switch>
                 </v-col>
             </v-row>
         </v-card>     
@@ -128,7 +120,21 @@
     .my-badge{
         position: absolute;
         top: 0;
-        left: 10;
+        left: 0;
         margin-top: 5px;
+        width: 100%;
+        margin-left: 20px;
+    }
+    .contenu{
+        text-align: justify;
+        overflow:hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical; 
+        height: 4.125rem;/*Soit 3 x 1.375rem;*/        
+    }
+    .my-card{
+        display: flex;
+        flex-direction: column;
     }
 </style>
