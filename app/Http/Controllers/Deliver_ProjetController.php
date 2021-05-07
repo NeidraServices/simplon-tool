@@ -29,10 +29,9 @@ class Deliver_ProjetController extends Controller
      */
     public function projets()
     {
-        $projets = Deliver_ProjetModel::all();
+        $projets = Deliver_ProjetModel::with("tags")->get();
+
         foreach($projets as $projet){
-            $pjt_tag = $projet->tags()->get();
-            dd($pjt_tag);
             $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->first();
 
             $deadline = new DateTime($projet->deadline);
@@ -132,6 +131,8 @@ class Deliver_ProjetController extends Controller
                 'technos'      => ''
             ]
         );
+
+        // return $request->technos;
         if($validator->fails()) return response()->json(["success" => false, "error" => $validator->errors()]);
 
         $projet = Deliver_ProjetModel::create(array_merge([
@@ -141,19 +142,20 @@ class Deliver_ProjetController extends Controller
             "description"  => $request->description,
             "formateur_id" => $request->formateur_id,
             "date_presentation" => $request->presentation,
-            "extrait"      => $request->extrait
+            "extrait"           => $request->extrait
         ]));
 
-        if($request->competences){
+        if(isset($request->competences)){
             foreach($request->competences as $comp){
-                $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
-                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+                $competences = Deliver_CompetencesModel::where("nom",$comp)->get();
+                $competences[0]->projets()->attach($competences[0]["id"], ["projet_id" => $projet["id"] ]);
             }
         }
-        if(isset($request->techno)){
-            foreach($request->techno as $comp){
-                $competences=Deliver_TagModel::where("nom",$comp)->get();
-                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        if(isset($request->technos)){
+            foreach($request->technos as $techno){
+                $technologies = Deliver_TagModel::where("nom", $techno)->get();
+                // return $technologies;
+                $technologies[0]->projets()->attach($technologies[0]["id"], ["projet_id" => $projet["id"] ]);
             }
         }
             return response()->json([
