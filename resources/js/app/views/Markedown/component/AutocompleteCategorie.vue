@@ -5,6 +5,8 @@
             :items="categories"
             :search-input.sync="search"
             item-text="composed"
+            append-icon=""
+            prepend-inner-icon="mdi-magnify"
             return-object
             cache-items
             hide-no-data

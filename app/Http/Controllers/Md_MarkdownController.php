@@ -38,6 +38,22 @@ class Md_MarkdownController extends Controller
         return MarkdownResource::collection($markdowns);
     }
 
+    public function searchKeyword(Request $request){
+            $data = Validator::make(
+                $request->input(),
+                [
+                    'query' => 'required|max:255',
+                ]
+            )->validate();
+
+            $markdowns = Markdown_Markdown::where('title', 'like', '%' . $data['query'] . '%')
+            ->orWhere('description', 'like', '%' . $data['query'] . '%')
+            ->get();
+
+            return response()->json("ok");
+
+    }
+    
     // encours:liasin_archive
     public function editMd(Request $request,$id){
         $validator = Validator::make(

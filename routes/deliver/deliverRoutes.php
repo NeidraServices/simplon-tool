@@ -44,7 +44,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
     Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);
 
-    Route::get("/commentaires",[Deliver_CommentairesController::class,"liste"]);
+    Route::get("/commentaires/{id}",[Deliver_CommentairesController::class,"liste"]);
     Route::post("/commentaires/ajouter",[Deliver_CommentairesController::class,"ajout"]);
     Route::post("/commentaires/repondre",[Deliver_CommentairesController::class,"repondre"]);
 /*

@@ -15,17 +15,17 @@ class Deliver_ProjetModel extends Model
     ];
 
     public function competences(){
-        return $this->belongsToMany(Deliver_ProjetModel::class,"dp_projet_competences","competence_id","projet_id");
+        return $this->belongsToMany(Deliver_CompetencesModel::class, "dp_projet_competences", "projet_id", "competence_id");
     }
 
     public function tags(){
-        return $this->belongsToMany(Deliver_TagModel::class,"dp_projet_tags", "projet_id", "tag_id");
+        return $this->belongsToMany(Deliver_TagModel::class, "dp_projet_tags", "projet_id", "tag_id");
     }
 
     // Apprenants
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,"dp_affectations","projet_id","user_id");
+        return $this->belongsToMany(User::class,"dp_affectations", "projet_id", "user_id");
     }
 
     public function rendus(){
