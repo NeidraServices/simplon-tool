@@ -14,11 +14,12 @@
             >
             <v-row justify="space-between">
                 <v-col class="layout justify-center justify-md-start align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
-                  <AutocompleteCategorie/>
+                  <AutocompleteCategorie @select="getMdByCategory"/>
+                    <v-icon @click="clearFilter" class="clear-button justify-center" color="red">mdi-close</v-icon>
                 </v-col>
 
                 <v-col class="layout justify-center align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
-                  <AutocompleteCategorie/><!-- Aremplacer par la barre de recherche -->                  
+                  <AutocompleteCategorie/><!-- Aremplacer par la barre de recherche -->
                 </v-col>
                 <v-col class="layout justify-center justify-md-end align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
                 <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
@@ -36,11 +37,11 @@
         </v-col>
         <v-divider></v-divider>
         <div class="item-container">
-          <v-row 
+          <v-row
             no-gutters
             class="justify-center"
           >
-          <v-col              
+          <v-col
               class="col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
               v-for="item in markdown_list"
               :key="item.id"
@@ -64,6 +65,7 @@
   import {APIService} from './Services/Services';
   import CustomFlashMessage from "./component/CustomFlashMessage";
   import Utils from '../../helpers/utils';
+  import Axios from "axios";
   const utils = new Utils();
   const apiCall = new APIService()
 
@@ -77,27 +79,48 @@
     data() {
         return {
           markdown_list: [],
+            category : ""
         };
     },
     mounted() {
-      apiCall.getApiMdCommuns().then(
-        reponse => {
-          console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data.data)
-        }
-      ).catch (error => {
-          console.log(error)
-          this. $refs.customFlash.showMessageError(error)
-      })
+     this.getMdCommuns();
     },
     methods: {
+        getMdCommuns() {
+            apiCall.getApiMdCommuns().then(
+                reponse => {
+                    console.log("Reponse :", reponse)
+                    this.markdown_list = this.formatDataMdCom(reponse.data.data)
+                }
+            ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+        displayClear(){
+            document.getElementsByClassName('clear-button').css('display', 'none');
+        },
+        clearFilter(){
+           this.getMdCommuns();
+        },
+        getByCategory(){
+            if (this.category !== ""){
+                Axios.get(`${location.origin}/api/markedown/markdown/category/${this.category}`).then( response => {
+                    this.markdown_list =   this.formatDataMdCom(response.data.data);
+                })
+            }
+        },
+        getMdByCategory: function (id) {
+            this.category = id;
+            this.getByCategory();
+        },
         goTo(item){
             this.$router.push({ name: 'ShowReadMd', params: {id: item.id.toString()}})
         },
       formatDataMdCom(data){
         let formatedData = []
         if(Array.isArray(data)){
-            data.map(item => {                
+            data.map(item => {
                 formatedData.push({
                     id: item.id,
                     category: item.category.name,
@@ -118,5 +141,8 @@
   }
   .divider {
     margin: 5px;
+  }
+  .clear-button{
+      margin-top: auto;
   }
 </style>
