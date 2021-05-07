@@ -66,12 +66,12 @@ Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 |--------------------------------------------------------------------------
 */
 
-// Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
 Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
 Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
 Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
 Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
-// });
+});
 
 Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
 Route::post('/user/update', [UserController::class, 'updateUser']);

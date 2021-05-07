@@ -26,7 +26,7 @@ class EvalSondageLinesResource extends JsonResource
             'langage'   => $langage,
             'skill'     => $skill,
             'sondage'   => $sondage,
-            'answers'    => EvalUserAnswerLinesResource::collection($this->answers),
+            'answers'    => new EvalUserAnswerLinesResource($this->answers),
         ];
     }
 }

@@ -21,11 +21,26 @@ class Deliver_RenduController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function rendus()
+    public function rendus($projet_id)
     {
-        $rendus = Deliver_Rendu::all();
+        $rendus_data = Deliver_Rendu::where(['projet_id' => $projet_id])->get();
+
+        $rendus = [];
+        foreach ($rendus_data as $key => $rendu) {
+            $user = User::find($rendu->user_id);
+            $projet = Deliver_ProjetModel::find($rendu->projet_id);
+
+            $result = [
+                'projet' => new Deliver_ProjetResource($projet),
+                'rendu' => new Deliver_RenduResource($rendu),
+                'user' => new UserResource($user),
+            ];
+
+            array_push($rendus, $result);
+        }
+
         return response()->json([
-            'projets' =>  Deliver_RenduResource::collection($rendus)
+            $rendus
         ]);
     }
 
