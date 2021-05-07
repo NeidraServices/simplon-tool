@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Deliver_Rendu;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_RenduResource;
+use App\Http\Resources\UserResource;
 
 class Deliver_RenduController extends Controller
 {
@@ -22,7 +24,9 @@ class Deliver_RenduController extends Controller
     public function rendus()
     {
         $rendus = Deliver_Rendu::all();
-        return response()->json(['projets' =>  Deliver_RenduResource::collection($rendus)]);
+        return response()->json([
+            'projets' =>  Deliver_RenduResource::collection($rendus)
+        ]);
     }
 
     /**
@@ -33,6 +37,7 @@ class Deliver_RenduController extends Controller
     public function getRendu($id)
     {
         $rendu = Deliver_Rendu::find($id);
+
 
         // Si le rendu appartient à l'utilisateur
         // Décommenter si la partie auth est totalement fonctionnel
@@ -45,7 +50,14 @@ class Deliver_RenduController extends Controller
 
         // Supprimer si la partie auth est totalement fonctionnel
         if($rendu) {
-            return  new Deliver_RenduResource($rendu);
+            $user = User::find($rendu->user_id);
+            $projet = Deliver_ProjetModel::find($rendu->projet_id);
+
+            return response()->json([
+                'rendu' => new Deliver_RenduResource($rendu),
+                'user' => new UserResource($user),
+                'projet' => new Deliver_ProjetResource($projet),
+            ]);
         }
 
         return response()->json([

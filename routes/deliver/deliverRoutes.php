@@ -36,6 +36,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::delete("/projet/retierapprenant",[Deliver_AffectationController::class,"supprimerApprenant"]);
 
     Route::get("/tags",[Deliver_TagController::class,"liste"]);
+    Route::post("/tags/update",[Deliver_TagController::class,"update"]);
+    Route::post("/tags/delete",[Deliver_TagController::class,"delete"]);
     Route::post("/tags/ajout",[Deliver_TagController::class,"ajout"]);
     Route::post("/tags/lier",[Deliver_TagController::class,"relierProjet"]);
     Route::delete("/tags/delier",[Deliver_TagController::class,"delierProjet"]);

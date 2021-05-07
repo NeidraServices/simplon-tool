@@ -1,30 +1,31 @@
 <template>
     <v-col cols="12">
-        <v-card>
+        <v-card class="my-card">
             <v-card-title 
                 class="layout justify-center"
             >
                 {{item.title}}
             </v-card-title>
-            
             <v-card-text 
-                class="layout justify-start"
-            >
-                {{item.description}}
+                    class="layout justify-start"
+                >
+                <div class="contenu">
+                        {{item.description}}
+                </div>
             </v-card-text>  
             <v-row>
                 <v-col cols="6">
                     <v-card-text 
                         class="layout justify-start"
                     >
-                        {{item.category}}
+                        <v-icon color="primary" class="mr-2">mdi-tag</v-icon>{{item.category}}
                     </v-card-text>
                 </v-col>                
                 <v-col cols="6"> 
                     <v-card-text 
                         class="layout justify-end"
                     >
-                        {{item.author}}
+                        <v-icon color="primary" class="mr-2">mdi-account</v-icon>{{item.author}}
                     </v-card-text> 
                 </v-col>
             </v-row> 
@@ -51,3 +52,16 @@
         }
     }
 </script>
+<style>
+    .my-card:hover{
+        cursor: pointer;
+    }
+    .contenu{
+        text-align: justify;
+        overflow:hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical; 
+        height: 4.125rem;/*Soit 3 x 1.375rem;*/        
+    }
+</style>

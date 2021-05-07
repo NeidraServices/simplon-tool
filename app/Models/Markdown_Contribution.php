@@ -12,8 +12,8 @@ class Markdown_Contribution extends Model
 {
     use HasFactory;
 
-    protected $table = 'contributions';
-    protected $fillable = ['url', 'active'];
+    protected $table = 'md_contributions';
+    protected $fillable = ['user_id','markdown_id', 'active'];
 
     public function users()
     {
