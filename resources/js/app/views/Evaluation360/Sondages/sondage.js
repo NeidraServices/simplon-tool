@@ -49,7 +49,6 @@ export default {
                 }
                 else {
                     EventBus.$emit('snackbar', {
-                        snackbar: true,
                         text: `Erreur`,
                         color: 'red',
                         timeout: 3000
@@ -71,8 +70,8 @@ export default {
             this.$store.dispatch({
                 type: 'getSpecificSondage',
                 ids: {
-                    userId: 3,
-                    sondageId: 1
+                    userId: this.$route.params.userId,
+                    sondageId: this.$route.params.sondageId
                 }
             })
             this.sondage = this.$store.state.specificSondage
