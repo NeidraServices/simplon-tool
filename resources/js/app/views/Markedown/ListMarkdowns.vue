@@ -13,13 +13,19 @@
                 class="layout justify-center"
             >
             <v-row justify="space-between">
+
                 <v-col class="layout justify-center justify-md-start align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
                   <AutocompleteCategorie @select="getMdByCategory"/>
-                    <v-icon @click="clearFilter" class="clear-button justify-center" color="red">mdi-close</v-icon>
+                    <v-icon @click="clearFilter" class="mb-5 clear-button justify-center" color="red">mdi-close-circle</v-icon>
                 </v-col>
 
                 <v-col class="layout justify-center align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
-                  <AutocompleteCategorie/><!-- Aremplacer par la barre de recherche -->
+                  <v-text-field class="mt-6"
+                    prepend-inner-icon="mdi-magnify"
+                    v-on:keyup="getFilteredKeywords"
+                    v-model="textKeywordSearch" 
+                    placeholder="Recherche par mots clés...">
+                  </v-text-field>
                 </v-col>
                 <v-col class="layout justify-center justify-md-end align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
                 <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
@@ -43,7 +49,7 @@
           >
           <v-col
               class="col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
-              v-for="item in markdown_list"
+              v-for="item in getFilteredKeywords"
               :key="item.id"
               @click="goTo(item)"
               style="max-width: 460px;"
@@ -79,7 +85,9 @@
     data() {
         return {
           markdown_list: [],
-            category : ""
+            category : "",
+            textKeywordSearch: '',
+            textCategorySearch: ''
         };
     },
     mounted() {
@@ -91,6 +99,7 @@
                 reponse => {
                     console.log("Reponse :", reponse)
                     this.markdown_list = this.formatDataMdCom(reponse.data.data)
+                    this.category = '';
                 }
             ).catch (error => {
                 console.log(error)
@@ -132,6 +141,14 @@
             })
         }
         return formatedData
+      },
+    },
+
+    computed:{
+      getFilteredKeywords(){
+          return this.markdown_list.filter(item => {
+          return item.description.toLowerCase().includes(this.textKeywordSearch.toLowerCase());
+        })
       },
     }
   };
