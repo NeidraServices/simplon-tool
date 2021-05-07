@@ -89,7 +89,7 @@ class Deliver_ProjetController extends Controller
     {
 
        // $projet = Deliver_ProjetModel::find($id);
-        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get();
+        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get()[0];
 
         $affectations = [];
         foreach ($projet->users as $user) {
