@@ -6,11 +6,14 @@ use App\Http\Resources\EvalSondageFormateurResource;
 use Illuminate\Http\Request;
 use App\Models\EvalSondage;
 use App\Http\Resources\EvalSondageResource;
+use App\Http\Resources\EvalUserAnswerLinesResource;
 use App\Models\EvalSondageLines;
 use App\Models\EvalUsersAnswerLines;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\isEmpty;
 
 class EvalSondageController extends Controller
 {
@@ -120,7 +123,7 @@ class EvalSondageController extends Controller
                         break;
                     default:
                         break;
-                }             
+                }
                 $sondageLine->save();
             }
         }
@@ -386,5 +389,21 @@ class EvalSondageController extends Controller
             'success' => true,
             'message' => "Sondage bien envoyé"
         ]);
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | Get Sondage Answers  functions
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Sondage answers 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getNotes($id)
+    {
+        $notes = EvalUsersAnswerLines::where([['user_id', $id], ['note', '!=', null]])->get();
+        return EvalUserAnswerLinesResource::collection($notes);
     }
 }

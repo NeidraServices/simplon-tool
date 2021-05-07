@@ -17,7 +17,7 @@ export default {
             sondage: null,
             questions: [],
             languages: [],
-            skills: []
+            skills: [],
         }
     },
     mounted() {
@@ -74,20 +74,26 @@ export default {
                     sondageId: this.$route.params.sondageId
                 }
             })
-            this.sondage = this.$store.state.specificSondage
+            if (!_.isEmpty(this.$store.state.specificSondage)) {
+                this.sondage = this.$store.state.specificSondage
+            }else{
+                this.$router.push({name:'SondagesList'})
+            }
         },
         checkSondage() {
-            this.sondage.lines.forEach(line => {
-                if (line.question) {
-                    this.questions.push(line)
-                }
-                else if (line.skill) {
-                    this.skills.push(line)
-                }
-                else if (line.langage) {
-                    this.languages.push(line)
-                }
-            })
+            if (!_.isEmpty(this.sondage)) {
+                this.sondage.lines.forEach(line => {
+                    if (line.question) {
+                        this.questions.push(line)
+                    }
+                    else if (line.skill) {
+                        this.skills.push(line)
+                    }
+                    else if (line.langage) {
+                        this.languages.push(line)
+                    }
+                })
+            }
         }
     }
 }

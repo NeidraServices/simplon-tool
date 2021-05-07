@@ -10,7 +10,9 @@ use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 use App\Http\Controllers\EvalCoorteController;
+use App\Http\Controllers\EvalSondageController;
 use App\Http\Controllers\UserController;
+use App\Models\EvalSondage;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +69,12 @@ Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 */
 
 Route::middleware(['auth:api'])->group(function () {
-Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
-Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
-Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
-Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
+    Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+    Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
+    Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
+    Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
 });
 
 Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
 Route::post('/user/update', [UserController::class, 'updateUser']);
