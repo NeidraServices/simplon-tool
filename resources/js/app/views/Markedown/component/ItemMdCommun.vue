@@ -84,10 +84,15 @@
     }
 </script>
 <style>
+    .my-card:hover{
+        cursor: pointer;
+    }
     .contenu{
-        white-space: nowrap;
-        word-break: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        text-align: justify;
+        overflow:hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical; 
+        height: 4.125rem;/*Soit 3 x 1.375rem;*/        
     }
 </style>

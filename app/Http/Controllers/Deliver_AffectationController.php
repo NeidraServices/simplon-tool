@@ -44,7 +44,10 @@ class Deliver_AffectationController extends Controller
         return response()->json([
             'success' => true,
             'message' => "Mise à jour effectuée",
-            'echecs' => $echecs
+            'echecs' => [
+                'status' => (count($echecs) > 0 ? true : false),
+                $echecs
+            ]
         ]);
 
     }

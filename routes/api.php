@@ -10,6 +10,7 @@ use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 use App\Http\Controllers\EvalCoorteController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,4 +73,5 @@ Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'
 Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
 // });
 
-Route::get('/user', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+Route::post('/user/update', [UserController::class, 'updateUser']);

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
             <v-card-title 
-                class="layout justify-center"
+                class="layout justify-center mb-6"
             >
                 MES MARKDOWNS
             </v-card-title>
             <v-card-text 
                 class="layout justify-center"
             >
-        <v-row >            
-            <v-spacer></v-spacer>
+        <div class="layout justify-center justify-md-end">            
+            <!-- <v-spacer></v-spacer> -->
             <BtnWithIcon v-bind:title="'Ajouter'" v-bind:routeName="'AddMarkdowns'">
                 <v-icon
                     left
@@ -22,22 +22,28 @@
                   mdi-plus-thick
                 </v-icon>
             </BtnWithIcon>
-        </v-row>
+        </div>
             </v-card-text>
         </v-col>
         <v-divider></v-divider>
         <div class="item-container">
-          <v-col
-              v-for="item in markdown_list"
-              :key="item.id"
-              class="item"
-          >  
-            <ItemMyMd 
-                v-bind:item="item"
-                 @show-success-msg="showSuccessMsg" 
-                 @show-error-msg="showErrorsMsg"
-            />
-          </v-col>
+          <v-row
+            no-gutters
+            class="justify-center"
+          >
+            <v-col
+                v-for="item in markdown_list"
+                :key="item.id"
+                class="item col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
+                style="max-width: 460px;"
+            >  
+              <ItemMyMd 
+                  v-bind:item="item"
+                  @show-success-msg="showSuccessMsg" 
+                  @show-error-msg="showErrorsMsg"
+              />
+            </v-col>
+          </v-row>
         </div>
         
       </v-row>
@@ -119,6 +125,9 @@ export default {
   }
   .item:hover {
     cursor: pointer;
+  }
+  .item {
+    max-width: 460px;
   }
   .divider {
     margin: 5px;
