@@ -201,7 +201,7 @@ class Md_MarkdownController extends Controller
 
         return response()->json([
             "success" => true,
-            "message" => "Etat modifier",
+            "message" => "Etat modifié avec succès",
         ]);
         
     }

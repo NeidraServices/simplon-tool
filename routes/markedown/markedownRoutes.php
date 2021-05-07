@@ -6,6 +6,7 @@ use App\Http\Controllers\Md_CategoryController;
 use App\Http\Controllers\Md_MarkdownController;
 use App\Http\Controllers\Md_CommentaryController;
 use App\Http\Controllers\Md_ArchiveController;
+use App\Http\Controllers\Md_ContributionController;
 
 
 /*
@@ -62,7 +63,10 @@ Route::group(['prefix' => 'commentaire'], function(){
 Route::middleware(['auth:api'])->group(function(){
 
 });
-
+Route::prefix('/contribution')->group(function () {
+    Route::get('/accept/{id}', [Md_ContributionController::class, 'acceptContributor'])->name('api.md_wiki.contribution.accept');
+    Route::get('/decline/{id}', [Md_ContributionController::class, 'declineContributor'])->name('api.md_wiki.contribution.decline');
+});
 /*
 |--------------------------------------------------------------------------
 | Markdown markdown routes
@@ -76,6 +80,7 @@ Route::middleware(['auth:api'])->group(function(){
 Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
 Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
 Route::prefix('/markdown')->group(function () {
+    Route::get('/contribution/{id}', [Md_ContributionController::class, 'create'])->name('api.md_wiki.markdown.contribution.create');
     Route::post('/create', [Md_MarkdownController::class, 'create'])->name('api.md_wiki.markdown.create');
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');

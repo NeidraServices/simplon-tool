@@ -81,7 +81,7 @@ Route::delete("/langage/{id}/delete", [EvalLangageController::class, "deleteData
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
     Route::post("/sondageLine/create", [EvalSondageLinesController::class, "addData"])->name('api.sondageLine.create');
     Route::put("/sondageLine/{id}/update", [EvalSondageLinesController::class, "updateData"])->name('api.sondageLine.updateData');
     Route::delete("/sondageLine/{id}/delete", [EvalSondageLinesController::class, "deleteData"])->name('api.sondageLine.deleteData');
@@ -89,20 +89,23 @@ Route::middleware(['auth:api'])->group(function(){
 });
 
 // Route::middleware(['auth:api'])->group(function(){
-    Route::prefix('/formateur')->group(function(){
-        Route::get("/sondage/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
-        Route::post("/sondage/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
-        Route::put("/sondage/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
-        Route::put("/sondage/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
-        Route::put("/sondage/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
-        Route::put("/sondage/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
-        Route::delete("/sondage/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
-    });
+Route::prefix('/formateur')->group(function () {
+    Route::get("/sondage/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
+    Route::post("/sondage/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
+    Route::put("/sondage/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
+    Route::put("/sondage/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
+    Route::put("/sondage/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
+    Route::put("/sondage/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
+    Route::delete("/sondage/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
+});
 // });
 
-// Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/apprenant')->group(function () {
-        Route::get("/sondage/list", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.retrieve');
+        Route::get("/sondage/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.apprenant.retrieve');
+        Route::get("/sondage/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.retrieve');
+        Route::post("/sondage/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.retrieve');
+        Route::get("/sondage/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.retrieve');
         Route::post("/sondage/proposing", [EvalSondageController::class, "proposingData"])->name('api.sondage.apprenant.proposing');
     });
-// });
+});

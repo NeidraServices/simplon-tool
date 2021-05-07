@@ -41,6 +41,6 @@ class EvalSondageLines extends Model
     }
 
     public function answers() {
-        return $this->hasMany(EvalUsersAnswerLines::class, 'sondage_line_id');
+        return $this->belongsTo(EvalUsersAnswerLines::class, 'sondage_line_id','id');
     }
 }

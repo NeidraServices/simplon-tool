@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
             <v-card-title
-                class="layout justify-center"
+                class="layout justify-center mb-6"
             >
                 LES MARKDOWS COMMUNS
             </v-card-title>
@@ -13,11 +13,14 @@
                 class="layout justify-center"
             >
             <v-row justify="space-between">
-                <v-col cols="3" xs="6" class="layout justify-flex-start">
+                <v-col class="layout justify-center justify-md-start align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
                   <AutocompleteCategorie/>
                 </v-col>
-                <v-col cols="3" xs="6" class="layout justify-flex-end">
-                <v-spacer></v-spacer>
+
+                <v-col class="layout justify-center align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
+                  <AutocompleteCategorie/><!-- Aremplacer par la barre de recherche -->                  
+                </v-col>
+                <v-col class="layout justify-center justify-md-end align-center col-12 col-xs-4 col-md-4 col-lg-4 col-xl-4">
                 <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
                     <v-btn
                         @click="navigate"
@@ -33,15 +36,22 @@
         </v-col>
         <v-divider></v-divider>
         <div class="item-container">
-          <v-col
+          <v-row 
+            no-gutters
+            class="justify-center"
+          >
+          <v-col              
+              class="col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
               v-for="item in markdown_list"
               :key="item.id"
               @click="goTo(item)"
+              style="max-width: 460px;"
           >
             <ItemMdCommun
                 v-bind:item="item"
             />
           </v-col>
+          </v-row>
         </div>
 
       </v-row>
@@ -52,7 +62,9 @@
   import ItemMdCommun from "./component/ItemMdCommun";
   import AutocompleteCategorie from "./component/AutocompleteCategorie";
   import {APIService} from './Services/Services';
-import CustomFlashMessage from "./component/CustomFlashMessage";
+  import CustomFlashMessage from "./component/CustomFlashMessage";
+  import Utils from '../../helpers/utils';
+  const utils = new Utils();
   const apiCall = new APIService()
 
   export default {
@@ -85,13 +97,13 @@ import CustomFlashMessage from "./component/CustomFlashMessage";
       formatDataMdCom(data){
         let formatedData = []
         if(Array.isArray(data)){
-            data.map(item => {
+            data.map(item => {                
                 formatedData.push({
                     id: item.id,
                     category: item.category.name,
                     description: item.description,
                     title: item.title,
-                    author: item.user.name
+                    author: utils.formatName(item.user.surname, item.user.name)
                 })
             })
         }
