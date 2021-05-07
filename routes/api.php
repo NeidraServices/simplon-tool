@@ -75,3 +75,4 @@ Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteDa
 
 Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
 Route::post('/user/update', [UserController::class, 'updateUser']);
+Route::post('/user/update/password', [UserController::class, 'updatePassword']);
