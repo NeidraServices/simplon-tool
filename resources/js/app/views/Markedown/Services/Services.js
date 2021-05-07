@@ -19,6 +19,11 @@ export class APIService {
         const url = `${API_URL}/categories`;
         return axios.get(url, header);
     }
+    getByCategory(id) {
+        const header = this.getRequestHeadersToSend()
+        const url = `${API_URL}/markdown/category/${id}`;
+        return axios.get(url, header);
+    }
 
     search(val) {
         const header = this.getRequestHeadersToSend()
@@ -52,5 +57,19 @@ export class APIService {
         console.log("datatosend :"+id,dataSend)
         const url = `${API_URL}/markdown/active/${id}`;
         return axios.post(url, dataSend, header);
+    }
+
+    postCategory(data){
+        const header = this.getRequestHeadersToSend()
+        console.log("datatosend :"+data)
+        const url = `${API_URL}/categorie/ajouter`;
+        return axios.post(url, data);
+    }
+
+    postAddMarkdown(data){
+        const header = this.getRequestHeadersToSend()
+        console.log("datatosend :"+data)
+        const url = `${API_URL}/markdown/create`;
+        return axios.post(url, data, header);
     }
 }
