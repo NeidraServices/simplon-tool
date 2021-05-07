@@ -1,3 +1,4 @@
+import { apiService, ApiServices } from '../../../../services/apiService.js'
 import axios from "axios"
 import Editor from "../Editor/editor.vue"
 
@@ -106,7 +107,7 @@ export default{
         },
 
         get_referentiel: function(){
-            axios.get("/api/evaluation360/referentiel/list")
+            apiService.get("/api/evaluation360/referentiel/list")
             .then(({data}) => {
                 data.data.forEach(element => {
                     this.competence_items.push(element.description)
@@ -115,7 +116,7 @@ export default{
         },
 
         get_techno: function(){
-            axios.get("/api/deliver/tags")
+            apiService.get("/api/deliver/tags")
             .then(({data}) => {
                 data.forEach(element => {
                     this.techno_items.push(element.nom)
