@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Deliver_UsersModel;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class Deliver_AffectationController extends Controller
@@ -13,33 +14,40 @@ class Deliver_AffectationController extends Controller
     public function affecter(Request $req){
 
         $validator=Validator::make($req->all(),[
-            "users_id" => "required",
+            "users" => "required",
             "projet_id" => "required"
         ]);
+
 
         if($validator->fails()){
             return response()->json(["success" => false, "error" => $validator->errors()]);
         }
-        $data=$validator->validate();
+        $data = $validator->validate();
 
-        $projet=Deliver_ProjetModel::find($data["projet_id"]);
+
+//        $projet = Deliver_ProjetModel::whereId($data['projet_id'])->get();
+        $projet = Deliver_ProjetModel::whereId($data['projet_id'])->with("users")->get();
 
         $echecs = [];
-        foreach ($validator->validated()['users_id'] as $key => $user_id) {
-            $user = Deliver_UsersModel::find($user_id);
+
+        foreach ($data['users'] as $key => $user) {
+            $user = Deliver_UsersModel::find($user);
+
+            $user->projets()->detach($projet[0]->id);
 
             //si l'apprenant est déjà affecté au projet
-            $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user_id){
-                $users->where("user_id",$user_id)->where("projet_id",$data["projet_id"]);
-            })->get();
-
-
-            if(sizeof($affectation)==0){
-                return $user->projets()->attach($user_id, ["projet_id"=>$data["projet_id"]]);
-            }else{
-                array_push($echecs, $user->nom . "est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]);
-            }
+//            $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user){
+//                $users->where("user_id", $user)->where("projet_id",$data["projet_id"]);
+//            })->get();
+//
+//
+//            if(sizeof($affectation)==0){
+//                return $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
+//            }else{
+//                array_push($echecs, $user->nom . "est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]);
+//            }
         }
+        return $projet;
 
         return response()->json([
             'success' => true,

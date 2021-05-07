@@ -86,20 +86,24 @@ export default{
             this.allApprenants = allApprenants;
         },
         submit(item) {
-            console.log(item);
+            let dataToSend = {};
+            let users = [];
 
-            let dataToSend = {
-                user_id : item[0].id,
-                projet_id : this.id,
+            for (let i = 0; i < item.length; i++) {
+                users.push(item[i].id);
+            }
+
+            dataToSend = {
+                users : users,
+                projet_id : parseInt(this.id),
             }
 
             console.log(dataToSend);
 
             const dataPost = apiService.post(`${location.origin}/api/deliver/projet/affecter`, dataToSend);
 
-            const verifyDataPost = dataPost.data;
 
-            console.log(verifyDataPost)
+            console.log(dataPost)
 
             this.dialog = false
         },
