@@ -31,7 +31,7 @@ class Deliver_ProjetController extends Controller
         $projets = Deliver_ProjetModel::all();
 
         foreach($projets as $projet){
-            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->get();
+            $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->first();
 
             $deadline = new DateTime($projet->deadline);
             $projet->deadline = $deadline->format('Y-m-d');
@@ -66,6 +66,7 @@ class Deliver_ProjetController extends Controller
     {
         $projet = Deliver_ProjetModel::find($id);
 
+
         $affectations = [];
         return $projet->users;
         foreach ($projet->users as $user) {
@@ -98,65 +99,44 @@ class Deliver_ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addProjet(Request $request){
-        $validator = Validator::make(
-            $request->all(),
+        $validator = Validator::make($request->all(),
             [
                 "formateur_id" => "required",
                 'titre' => 'required',
                 'deadline' => 'required',
                 'description' => 'required',
-                'date_presentation' => 'required'
+                'competences'  => '',
+                'techno'      => ''
             ]
         );
-
-        $errors = $validator->errors();
-
-        if (count($errors) != 0) {
-            return response()->json([
-                'success' => false,
-                'message' => $errors->first()
-            ]);
-        }
-
-        $public_img_path = "/public/images/";
-        if($request->image){
-            $image       =  $request->image;
-            $extension   = $image->getClientOriginalExtension();
-            $image_name  = time() . rand() . '.' . $extension;
-            $image_path  = $public_img_path . "/projets". "/" . $image_name;
-            $image->move(public_path('images/projets'), $image_name);
-        }else{
-            $image_path = "https://ma.ambafrance.org/IMG/arton11404.png?1565272504";
-        }
+        if($validator->fails()) return response()->json(["success" => false, "error" => $validator->errors()]);
 
         $projet = Deliver_ProjetModel::create(array_merge([
             "titre" => $request->titre,
             "formateur" => $request->formateur_id,
             "deadline" => $request->deadline,
             "description" => $request->description,
-            "date_presentation" => $request->date_presentation,
-            "image" => $image_path,
-            "formateur_id" => $request->formateur_id
+            "formateur_id" => $request->formateur_id,
+            "extrait"      => $request->extrait
         ]));
 
         if($request->all()["competences"]){
-        foreach($request->all()["competences"] as $comp){
-            $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
-
-            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            foreach($request->all()["competences"] as $comp){
+                $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
+                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            }
         }
-    }
-    if($request->all()["techno"]){
-        foreach($request->all()["techno"] as $comp){
-            $competences=Deliver_TagModel::where("nom",$comp)->get();
-
-            $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+        if($request->all()["techno"]){
+            foreach($request->all()["techno"] as $comp){
+                $competences=Deliver_TagModel::where("nom",$comp)->get();
+                $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
+            }
         }
-    }
-        return response()->json([
-            'success' => true,
-            'message' => "Projet créé"
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => "Projet créé",
+                "projet_created" => $projet,
+            ]);
     }
 
     /*

@@ -71,3 +71,5 @@ Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->nam
 Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
 Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
 // });
+
+Route::get('/user', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
