@@ -8,7 +8,7 @@ export default{
             rendu: null,
             user: null,
             projet: null,
-            sticky: false,
+            v0: true,
             dialog: false,
         }
     },
