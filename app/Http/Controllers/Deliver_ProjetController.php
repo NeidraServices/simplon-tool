@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
@@ -68,12 +69,10 @@ class Deliver_ProjetController extends Controller
 
 
         $affectations = [];
-        return $projet->users;
         foreach ($projet->users as $user) {
             $apprenant = User::find($user->pivot->user_id);
             array_push($affectations, $apprenant);
         }
-
 
         if($projet) {
             return response()->json([

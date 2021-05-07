@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container>
         <template>
             <v-card-title class="text-center justify-center py-6" >
                 <h1 class="font-weight-bold">
@@ -14,17 +14,7 @@
                     color="basil"
                     class="pa-2"
                 >
-                    <div class="d-flex row justify-space-between">
-                        <div class="d-flex row pa-2">
-                            <v-tab
-                                v-for="item in menus"
-                                :key="item.title"
-                                class="pa-2 text-center btn-style-2"
-                            >
-                                {{ item.title }}
-                            </v-tab>
-                        </div>
-
+                    <div class="d-flex row justify-end">
                         <v-dialog
                             v-model="dialog"
                             persistent
@@ -183,108 +173,117 @@
                     </div>
                 </v-tabs>
             </v-container>
-
-            <v-tabs-items v-model="tab">
-                <v-tab-item
-                    v-for="item in menus"
-                    :key="item.title"
-                >
-                    <div v-if="item.title === 'Détail'" class="row col-md-12">
-                        <v-card
-                            color="basil"
-                            flat
-                            class="col-md-8"
-                        >
-                            <v-card-text>
-                                <b>Techno utilisée.s :</b><br />
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Référentiel :</b><br />
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Description :</b><br />
-                                {{ projet.description }}
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Apprenants :</b><br />
-                                <ul
-                                    v-for="item in apprenants"
-                                    :key="item.id"
-                                >
-                                    <li>
-                                        {{ item.name }} {{ item.surname }}
-                                    </li>
-                                </ul>
-                            </v-card-text>
-                        </v-card>
-                        <v-card
-                            color="basil"
-                            flat
-                            class="col-md-4"
-                        >
-                            <v-card-text>
-                                <b>Deadline : </b>
-                                {{ projet.deadline }}
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Date de presentation : </b>
-                                {{ projet.date_presentation }}
-                            </v-card-text>
-                        </v-card>
-                    </div>
-                    <div class="d-flex row pa-3" v-if="item.title === 'Liste des rendus'">
-                        <v-card
-                            class="ma-3"
-                            width="450"
-                            outlined
-                            v-for="item in apprenants"
-                            :key="item.id"
-                        >
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <div class="overline mb-4">
-                                        {{ item.name }} {{ item.surname }}
-                                    </div>
-                                    <v-list-item-title class="headline mb-1">
-                                        Techno utilisé
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-
-                            <v-card-actions class="d-flex align-center justify-space-between">
-                                <v-btn
-                                    outlined
-                                    rounded
-                                    text
-                                >
-                                    Lien site web
-                                </v-btn>
-                                <v-btn
-                                    outlined
-                                    rounded
-                                    text
-                                >
-                                    Lien GitHub
-                                </v-btn>
-                                <!-- :to="{name: '/deliver/mesprojets/rendu/', params: { id: 1}}" -->
-                                <router-link
-                                    to="/deliver/mesprojets/rendu/1"
-                                >
-                                    <v-btn
-                                        outlined
-                                        rounded
-                                        text
+            <v-container fluid>
+                <v-expansion-panels>
+                    <v-expansion-panel>
+                        <v-expansion-panel-header>
+                            <h2 class="pa-2">Détails</h2>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-row>
+                                <v-col cols="8">
+                                    <v-card
+                                        color="basil"
+                                        flat
+                                        class="col-md-8"
                                     >
-                                    Détails
-                                    </v-btn>
-                                </router-link>
-                            </v-card-actions>
-                        </v-card>
-                    </div>
-                </v-tab-item>
-            </v-tabs-items>
+                                        <v-card-text>
+                                            <b>Techno utilisée.s :</b><br />
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Référentiel :</b><br />
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Description :</b><br />
+                                            <p v-html="projet.description"></p>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Apprenants :</b><br />
+                                            <ul
+                                                v-for="item in apprenants"
+                                                :key="item.id"
+                                            >
+                                                <li>
+                                                    {{ item.name }} {{ item.surname }}
+                                                </li>
+                                            </ul>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                                <v-col cols="4">
+                                    <v-card
+                                        color="basil"
+                                        flat
+                                    >
+                                        <v-card-text>
+                                            <b>Deadline : </b>
+                                            {{ projet.deadline }}
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Date de presentation : </b>
+                                            {{ projet.date_presentation }}
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-container>
+            <v-container fluid>
+                <div class="d-flex row pa-2">
+                    <h2>Liste des rendus :</h2>
+                </div>
+                <v-card
+                    class="ma-3"
+                    width="450"
+                    outlined
+                    v-for="item in apprenants"
+                    :key="item.id"
+                >
+                    <v-list-item>
+                        <v-list-item-content>
+                            <div class="overline mb-4">
+                                {{ item.name }} {{ item.surname }}
+                            </div>
+                            <v-list-item-title class="headline mb-1">
+                                Techno utilisé
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                    <v-card-actions class="d-flex align-center justify-space-between">
+                        <v-btn
+                            outlined
+                            rounded
+                            text
+                        >
+                            Lien site web
+                        </v-btn>
+                        <v-btn
+                            outlined
+                            rounded
+                            text
+                        >
+                            Lien GitHub
+                        </v-btn>
+                        <!-- :to="{name: '/deliver/mesprojets/rendu/', params: { id: 1}}" -->
+                        <router-link
+                            to="/deliver/mesprojets/rendu/1"
+                        >
+                            <v-btn
+                                outlined
+                                rounded
+                                text
+                            >
+                            Détails
+                            </v-btn>
+                        </router-link>
+                    </v-card-actions>
+                </v-card>
+            </v-container>
         </template>
-    </div>
+    </v-container>
 </template>
 
 <script src="./js/Details-projets.js"></script>

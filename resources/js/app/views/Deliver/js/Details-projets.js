@@ -39,6 +39,7 @@ export default{
         // this.currentUser = this.$store.state.userInfo;
 
         this.getProjetData().then(r => {});
+        this.getRenduData().then(r => {});
         // this.getRenduData().then(r => {});
         this.getApprenantData().then(r => {});
     },
@@ -49,6 +50,16 @@ export default{
                 const req = await apiService.get(`${location.origin}/api/deliver/projets/${this.id}/voir`);
                 this.projet = req.data.projet;
                 this.apprenants = req.data.apprenants;
+                this.isLoaded = true;
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getRenduData() {
+            // this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
+            try {
+                const req = await apiService.get(`${location.origin}/api/deliver/view/rendus/projects/${this.id}`);
+                console.log(req.data)
                 this.isLoaded = true;
             } catch (error) {
                 console.log(error)

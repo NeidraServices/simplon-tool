@@ -21,6 +21,7 @@ class Deliver_ProjetSeeder extends Seeder
                 'formateur_id' => 1,
                 'titre' => $project_name[$i - 1],
                 'deadline'      => new \DateTime("now"),
+                'date_presentation'      => new \DateTime("now"),
                 'description'   => "Projet " . $project_name[$i - 1] . " , une explication assé complete sur le projet, techno utiliser, attente du client...",
                 'extrait'       => "Extrait du projet " . $project_name[$i - 1] . ". Juste quelques lignes pour expliquer brievement le projet"
             ]);
