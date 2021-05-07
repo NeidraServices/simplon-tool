@@ -1,13 +1,13 @@
 <template>
-    <v-dialog transition="dialog-bottom-transition" max-width="auto" v-model="dialog">
+    <v-dialog transition="dialog-bottom-transition" max-width="650px" min-width="400px" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn color="success" class="mt-3" text v-bind="attrs" v-on="on">
-              <v-icon> mdi-plus </v-icon>
+            <v-btn icon :color="color_btn" class="" text v-bind="attrs" v-on="on">
+              <v-icon>  {{ button }} </v-icon>
             </v-btn>
         </template>
         <FlashMessage />
          <v-card>
-            <v-toolbar color="orange" dark>Ajouter un projet</v-toolbar>
+            <v-toolbar color="orange" dark> {{ card_title }} de</v-toolbar>
             <v-card-text>
                 <v-container grid-list-xs>
 
@@ -57,14 +57,14 @@
                     </div>
                     
                     <div class="d-flex flex-wrap justify-space-around">
-                        <v-select v-model="techno" :items="techno_items" attach chips label="techno" multiple class="mr-3"></v-select>
+                        <v-select v-model="technos" :items="techno_items" attach chips label="techno" multiple class="mr-3"></v-select>
                         <v-select v-model="tags" :items="tags_items" attach chips label="Compétence" multiple></v-select>
                     </div>
 
-                    <editor @set_description="set_description" />
+                    <Editor @set_description="set_description" :description="description" />
                     
                     <div class="d-flex justify-center">
-                        <v-btn small block color="success" @click="add_project">Ajouter</v-btn>
+                        <v-btn small block color="success" @click="create_update">Ajouter</v-btn>
                     </div>
                 </v-container>
             </v-card-text>
@@ -72,4 +72,4 @@
     </v-dialog>
 </template>
 
-<script src="./js/add-projet.js"></script>
+<script src="./js/projet_modal.js"></script>

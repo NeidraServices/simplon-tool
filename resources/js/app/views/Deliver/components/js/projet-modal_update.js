@@ -1,7 +1,12 @@
 import Axios from "axios"
+import Editor from "../Editor/editor.vue"
 
 
 export default{
+    components:{
+        Editor
+    },
+
     props:{
         projet: {
             required: true
@@ -19,15 +24,17 @@ export default{
             dialog: false,
 
             titre: this.projet.titre,
-            image:  [],
             deadline: this.projet.deadline,
-            description: this.projet.description
+            presentation: this.projet.presentation,
+            extrait: this.projet.extrait,
+            description: this.projet.description,
+
         }
     },
 
     methods: {
         update_projet: function(){
-            Axios.post('/projets/'+ this.projet.id+'/modifier', {
+            Axios.post('/api/deliver/projets/'+ this.projet.id+'/modifier', {
                 titre: this.titre,
                 deadline: this.deadline,
                 description: this.description,

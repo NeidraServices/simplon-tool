@@ -1,4 +1,11 @@
+import { EventBus } from "../../../../eventBus.js"
+
 export default {
+    props: {
+        language: {
+            default: Object
+        }
+    },
     data() {
         return {
             note: 0,
@@ -14,7 +21,7 @@ export default {
             }
             this.note = Math.floor(this.note)
             this.displayNote = Math.floor(this.note / 10)
-
+            EventBus.$emit('changeLangNote', { id: this.language.id, note: this.displayNote })
         },
         getImages(image) {
             return `${location.origin}/images/${image}`

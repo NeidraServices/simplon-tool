@@ -12,6 +12,7 @@ use App\Models\Deliver_TagModel;
 use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -30,8 +31,9 @@ class Deliver_ProjetController extends Controller
     public function projets()
     {
         $projets = Deliver_ProjetModel::all();
-
         foreach($projets as $projet){
+            $pjt_tag = $projet->tags()->get();
+            dd($pjt_tag);
             $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->first();
 
             $deadline = new DateTime($projet->deadline);
@@ -58,6 +60,14 @@ class Deliver_ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function mesProjets($formateur_id){
+        $user = Auth::user();
+        if($user->role_id != 2 || $user->id != $formateur_id){
+            return response()->json([
+                'success' => false,
+                'message' => "Vous n'êtes pas formateur"
+            ]);
+        }
+
         $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
             $user->where("formateur_id", $formateur_id);
         })->get();
@@ -114,32 +124,34 @@ class Deliver_ProjetController extends Controller
         $validator = Validator::make($request->all(),
             [
                 "formateur_id" => "required",
-                'titre' => 'required',
-                'deadline' => 'required',
-                'description' => 'required',
+                'titre'        => 'required',
+                'deadline'     => 'required',
+                'description'  => 'required',
+                'presentation' => 'required',
                 'competences'  => '',
-                'techno'      => ''
+                'technos'      => ''
             ]
         );
         if($validator->fails()) return response()->json(["success" => false, "error" => $validator->errors()]);
 
         $projet = Deliver_ProjetModel::create(array_merge([
-            "titre" => $request->titre,
+            "titre"     => $request->titre,
             "formateur" => $request->formateur_id,
-            "deadline" => $request->deadline,
-            "description" => $request->description,
+            "deadline"  => $request->deadline,
+            "description"  => $request->description,
             "formateur_id" => $request->formateur_id,
+            "date_presentation" => $request->presentation,
             "extrait"      => $request->extrait
         ]));
 
-        if($request->all()["competences"]){
-            foreach($request->all()["competences"] as $comp){
+        if($request->competences){
+            foreach($request->competences as $comp){
                 $competences=Deliver_CompetencesModel::where("nom",$comp)->get();
                 $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
             }
         }
-        if($request->all()["techno"]){
-            foreach($request->all()["techno"] as $comp){
+        if(isset($request->techno)){
+            foreach($request->techno as $comp){
                 $competences=Deliver_TagModel::where("nom",$comp)->get();
                 $competences[0]->projets()->attach($competences[0]["id"],["projet_id"=>$projet["id"] ]);
             }

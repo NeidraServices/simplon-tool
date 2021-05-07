@@ -7,9 +7,9 @@ export default{
     },
 
     props: {
-        user: {
+        projet: {
             required: true
-        },
+        }
     },
 
     data(){
@@ -19,14 +19,17 @@ export default{
             menu_: false,
 
             card_title: "",
+            url: "",
+            button: "",
+            color_btn: "",
 
             titre: "",
-            deadline: new Date().toISOString().substr(0, 10),
+            deadline:     new Date().toISOString().substr(0, 10),
             presentation: new Date().toISOString().substr(0, 10),
             description: "",
             extrait: "",
 
-            techno: [],
+            technos: [],
             techno_items: [],
 
             tags: [],
@@ -37,29 +40,46 @@ export default{
     mounted(){
         this.get_referentiel()
         this.get_techno()
+        if(this.projet !== null){
+            this.set_referentiel()
+            this.titre    = this.projet.titre
+            this.extrait  = this.projet.extrait
+            this.deadline = this.projet.deadline
+            this.presentation = this.projet.presentation
+            this.technos = this.projet.techno
+            this.tags = this.projet.competences
+            this.card_title = "Modifier le projet " + this.projet.titre
+            this.url        = "/api/deliver/projets/" + this.projet.id + "/modifier"
+            this.button     = ' mdi-pencil-circle  '
+            this.color_btn  = "orange"
+        }else{
+            this.card_title = "Ajouter un projet"
+            this.url        = "/api/deliver/projets/ajouter"
+            this.button     = '   mdi-plus '
+            this.color_btn  = "success"
+            this.description = "Pas encore de description !"
+        }
     },
 
+
     methods: {
-        
-        add_project: function(){
-            axios.post("/api/deliver/projets/ajouter",
-            {
+        create_update: function(){
+            axios.post(this.url, {
                 titre:this.titre,
                 description:this.description,
                 deadline:this.deadline,
-                image:this.image,
                 presentation:this.presentation,
                 competences:this.tags,
-                techno:this.techno,
+                technos: this.technos,
                 formateur_id: this.$store.state.userInfo.id,
                 extrait: this.extrait
             }).then(({data}) => {
+                console.log(data);
                 if(!data.success){
                     this.flashMessage.error({
                         message: data.error
                     });
                 }else{
-                    console.log(data);
                     this.$emit('append_projet', data.projet_created)
                     this.dialog = false
                 }
@@ -84,8 +104,13 @@ export default{
             })
         },
 
+        set_referentiel: function(){
+            console.log(this.projet);
+        },
+
         set_description: function(description){
             this.description = description
         }
     }
+
 }
