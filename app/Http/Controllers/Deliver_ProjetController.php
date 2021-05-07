@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Deliver_ProjetModel;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
@@ -88,8 +87,9 @@ class Deliver_ProjetController extends Controller
      */
     public function getProjet($id)
     {
-        $projet = Deliver_ProjetModel::find($id);
 
+       // $projet = Deliver_ProjetModel::find($id);
+        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get();
 
         $affectations = [];
         foreach ($projet->users as $user) {
