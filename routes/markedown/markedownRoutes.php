@@ -85,6 +85,7 @@ Route::prefix('/markdown')->group(function () {
     Route::post('/active/{id}', [Md_MarkdownController::class, 'updateActive'])->name('api.md_wiki.markdown.active');
     Route::post('/category/{id}', [Md_MarkdownController::class, 'updateCategory'])->name('api.md_wiki.markdown.category');
     Route::get('/show', [Md_MarkdownController::class, 'show'])->name('api.md_wiki.markdown.show');
+    Route::get('/showMine', [Md_MarkdownController::class, 'showMine'])->name('api.md_wiki.markdown.showMine');
     Route::post('/update/title/{id}', [Md_MarkdownController::class, 'updateTitle'])->name('api.md_wiki.markdown.update.title');
     Route::post('/update/description/{id}', [Md_MarkdownController::class, 'updateDescription'])->name('api.md_wiki.markdown.update.description');
     Route::get('/archives/{id}', [Md_ArchiveController::class, 'show'])->name('api.md_wiki.markdown.archives.index');
