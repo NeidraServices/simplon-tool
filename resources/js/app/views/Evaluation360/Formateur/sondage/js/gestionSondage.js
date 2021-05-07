@@ -56,6 +56,7 @@ export default {
             sondageNameRules: [
                 v => !!v || "Le nom est requis"
             ],
+
             publishedRules: [
                 v => !!v || "L'état est requis"
             ],
@@ -75,7 +76,7 @@ export default {
             selectItem: null,
             generalDialog: false,
             deleteDialog: false,
-            selectItem: null
+            selectItem: null,
         }
     },
 
@@ -96,9 +97,9 @@ export default {
     },
 
     methods: {
-        openGeneral(edited, item = null) {
+        openGeneral(edit, item = null) {
             this.generalDialog = true
-            this.edited = edited;
+            this.edited = edit;
             if (this.edited) {
                 this.title = "Mise à jour d'un sondage";
                 this.selectItem = item;
@@ -134,7 +135,6 @@ export default {
                             },
                             content: element.skill
                         })
-                        console.log(this.selectSkills)
                     } else if (element.question != null) {
                         arrayContent.push({
                             type: {
@@ -147,8 +147,7 @@ export default {
                 });
 
                 this.sondageLines = arrayContent;
-                console.log(arrayContent)
-        
+
             } else {
                 this.title = "Créer un sondage";
             }
@@ -209,7 +208,7 @@ export default {
                     name: "Aucun",
                     image: ""
                 })
-                
+
             } catch (error) {
                 console.log(error)
             }
@@ -230,12 +229,75 @@ export default {
                 if (this.sondageLines.length == 0) {
                     console.log('Il faut des lignes dans votre sondage')
                 } else {
-                    let dataSend = {
-                        name: this.sondageName,
-                        lines: this.sondageLines,
-                        published: this.published
+                    let dataSend = {}
+                    let req;
+
+                    if (this.edited) {
+                        let ligneFormated = [];
+                        this.sondageLines.forEach(item => {
+                            if (item.type.id) {
+                                switch (item.type.id) {
+                                    case "0":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content.id
+                                        })
+                                        break;
+                                    case "1":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content.id
+                                        })
+                                        break;
+                                    case "2":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } else {
+                                switch (item.type) {
+                                    case "0":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content
+                                        })
+                                        break;
+                                    case "1":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content
+                                        })
+                                        break;
+                                    case "2":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content.id ? "" : item.content
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+                        dataSend = {
+                            name: this.sondageName,
+                            lines: ligneFormated,
+                            published: this.published.id
+                        }
+                        req = await apiService.put(`${location.origin}/api/evaluation360/formateur/sondage/update`, dataSend);
+                    } else {
+
+                        dataSend = {
+                            name: this.sondageName,
+                            lines: this.sondageLines,
+                            published: this.published
+                        }
+                        req = await apiService.post(`${location.origin}/api/evaluation360/formateur/sondage/create`, dataSend);
                     }
-                    const req = await apiService.post(`${location.origin}/api/evaluation360/formateur/sondage/create`, dataSend);
                     const reqData = req.data;
                     if (reqData.success) {
                         await this.getSondages()
@@ -249,6 +311,11 @@ export default {
             }
         },
 
+        editeChange(item, type) {
+            if((typeof item.content) == "object" && type == 2) {
+                item.content = "";
+            }
+        },
 
         async deleteSondage() {
             try {
@@ -264,5 +331,43 @@ export default {
                 console.log(error)
             }
         },
+
+
+        showDetailLangage(type) {
+            if (this.edited) {
+                if (type.id == 0) {
+                    return true
+                }
+            } else {
+                if (type == 0) {
+                    return true
+                }
+            }
+        },
+
+        showDetailSkill(type) {
+            if (this.edited) {
+                if (type.id == 1) {
+                    return true
+                }
+            } else {
+                if (type == 1) {
+                    return true
+                }
+            }
+        },
+
+        showDetailQuestion(type, content = null) {
+            if (this.edited) {
+                if (type.id == 2) {
+                    return true
+                }
+            } else {
+                if (type == 2) {
+                    return true
+                }
+            }
+        },
+
     }
 }

@@ -29,14 +29,17 @@ class Deliver_ProjetController extends Controller
      */
     public function projets()
     {
-        $projets = Deliver_ProjetModel::with("tags")->get();
-
+        $projets = Deliver_ProjetModel::with(["tags", "competences"])->get();
+        
         foreach($projets as $projet){
             $projet->formateur_id = User::find($projet->formateur_id)->select(['name', 'surname', 'email', 'id'])->first();
 
             $deadline = new DateTime($projet->deadline);
             $projet->deadline = $deadline->format('Y-m-d');
 
+            $presentation = new DateTime($projet->date_presentation);
+            $projet->date_presentation = $presentation->format('Y-m-d');
+            
             if($projet->date_presetation !== null){
                 $date_presentation = new DateTime($projet->date_presentation);
                 $projet->date_presentation = $date_presentation->format('Y-m-d');
@@ -88,7 +91,7 @@ class Deliver_ProjetController extends Controller
     {
 
        // $projet = Deliver_ProjetModel::find($id);
-        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get();
+        $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get()[0];
 
         $affectations = [];
         foreach ($projet->users as $user) {
@@ -126,7 +129,7 @@ class Deliver_ProjetController extends Controller
                 'titre'        => 'required',
                 'deadline'     => 'required',
                 'description'  => 'required',
-                'presentation' => 'required',
+                'date_presentation' => 'required',
                 'competences'  => '',
                 'technos'      => ''
             ]
@@ -141,16 +144,11 @@ class Deliver_ProjetController extends Controller
             "deadline"  => $request->deadline,
             "description"  => $request->description,
             "formateur_id" => $request->formateur_id,
-            "date_presentation" => $request->presentation,
+            "date_presentation" => $request->date_presentation,
             "extrait"           => $request->extrait
         ]));
 
-        if(isset($request->competences)){
-            foreach($request->competences as $comp){
-                $competences = Deliver_CompetencesModel::where("nom",$comp)->get();
-                $competences[0]->projets()->attach($competences[0]["id"], ["projet_id" => $projet["id"] ]);
-            }
-        }
+        return $request->competences;
         if(isset($request->technos)){
             foreach($request->technos as $techno){
                 $technologies = Deliver_TagModel::where("nom", $techno)->get();
@@ -175,56 +173,31 @@ class Deliver_ProjetController extends Controller
      * Edit cover
      * @return \Illuminate\Http\Response
      */
-    public function editProjet(Request $request, $id) {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'titre' => 'required',
-                'deadline' => 'required',
-                'description' => 'required',
+    public function editProjet(Request $request, $id) { 
+        $validator = Validator::make( $request->all(), [
+                "formateur_id" => "required",
+                'titre'        => 'required',
+                'deadline'     => 'required',
+                'description'  => 'required',
                 'date_presentation' => 'required',
-                'image' => 'file|mimes:jpg,jpeg,png|max:5000',
-            ],
-            [
+                'competences'  => '',
+                'technos'      => ''
+
+            ], [
                 'file'  => 'Image non fournis',
                 'mimes' => 'Extension invalide',
                 'max'   => '5Mb maximum'
             ]
         );
 
-        $errors = $validator->errors();
-
-        if (count($errors) != 0) {
-            return response()->json([
-                'success' => false,
-                'message' => $errors->first()
-            ]);
-        }
+        if($validator->fails()) return response()->json(['success' => false, 'error' => $validator->errors()]);
 
         $projet = Deliver_ProjetModel::where(['id' => $id])->first();
         $projet->titre        = $validator->validated()['titre'];
         $projet->deadline     = $validator->validated()['deadline'];
         $projet->description  = $validator->validated()['description'];
         $projet->date_presentation  = $validator->validated()['date_presentation'];
-
-        // Pour des raisons de test du backend seulement
-        if(array_key_exists("image", $validator->validated())) {
-            if ($request->hasFile('image')) {
-                $oldImage = $projet->image;
-
-                if ($oldImage != null) {
-                    $oldFilePath = public_path('images/projets') . '/' . $oldImage;
-                    unlink($oldFilePath);
-                }
-
-                $image          = $validator->validated()['image'];
-                $extension      = $image->getClientOriginalExtension();
-                $image_name          = time() . rand() . '.' . $extension;
-                $image->move(public_path('images/projets'), $image_name);
-                $projet->image = $image_name;
-            }
-        }
-
+        $projet->extrait = $request->extrait;
 
         $projet->save();
 

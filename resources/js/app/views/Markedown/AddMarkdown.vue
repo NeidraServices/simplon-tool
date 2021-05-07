@@ -252,7 +252,7 @@ export default {
         },
 
         async addMarkDown() {
-
+            const header = apiCall.getRequestHeadersToSend()
             const data = {
                 title: this.title,
                 text: this.text,

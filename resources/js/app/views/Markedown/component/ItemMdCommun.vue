@@ -1,5 +1,5 @@
 <template>
-    <v-col cols="12">
+    <v-col cols="12 mb-5">
         <v-card>
              <v-row>
                     <v-card-text v-if="item.status == 0"

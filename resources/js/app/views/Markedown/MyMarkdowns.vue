@@ -75,15 +75,7 @@ export default {
         };
     },
     mounted() {
-      apiCall.getApiMyMds().then(
-        reponse => {
-          console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data.data)
-        }
-      ).catch (error => {
-          console.log(error)
-          this. $refs.customFlash.showMessageError(error)
-      })
+      this.getMyMarkdowns()
     },
     methods: {
       formatDataMdCom(data){
@@ -102,13 +94,16 @@ export default {
         }        
         return formatedData
       },
-      recupCateg(){
-        apiCall.getApiCategories().then(
+      getMyMarkdowns(){
+        apiCall.getApiMyMds().then(
           reponse => {
             console.log("Reponse :", reponse)
+            this.markdown_list = this.formatDataMdCom(reponse.data.data)
           }
-        )
-        console.log("categ")
+        ).catch (error => {
+            console.log(error)
+            this. $refs.customFlash.showMessageError(error)
+        })
       },
       showSuccessMsg(msg){
         this.$refs.customFlash.showMessageSuccess(msg)

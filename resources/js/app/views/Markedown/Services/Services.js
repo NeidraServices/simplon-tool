@@ -30,7 +30,6 @@ export class APIService {
         const url = `${API_URL}/categorie/search`;
         return axios.get(url,{ params: { query: val }, header });
     }
-
     getApiMdCommuns() {
         const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdowns-commun`;
@@ -51,7 +50,6 @@ export class APIService {
         const url = `${API_URL}/my-markdowns?id=${id}`;
         return axios.get(url, header);
     }
-
     updateStatus(dataSend, id) {
         const header = this.getRequestHeadersToSend()
         console.log("datatosend :"+id,dataSend)
@@ -66,6 +64,26 @@ export class APIService {
         return axios.post(url, data);
     }
 
+    contributionRequest(id) {
+        const headers = this.getRequestHeadersToSend();
+        const url = `${API_URL}/contribution/${id}`;
+        return axios.get(url,headers);
+    }
+    acceptContribution(id){
+        const headers = this.getRequestHeadersToSend();
+        const url = `${API_URL}/contribution/accept/${id}`;
+        return axios.get(url,headers);
+    }
+    declineContribution(id){
+        const headers = this.getRequestHeadersToSend();
+        const url = `${API_URL}/contribution/decline/${id}`;
+        return axios.get(url,headers);
+    }
+    getListContributionRequest(id) {
+        const headers = this.getRequestHeadersToSend();
+        const url = `${API_URL}/request/${id}`;
+        return axios.get(url,headers);
+    }
     postAddMarkdown(data){
         const header = this.getRequestHeadersToSend()
         console.log("datatosend :"+data)
