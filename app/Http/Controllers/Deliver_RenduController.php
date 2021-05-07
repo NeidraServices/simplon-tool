@@ -173,10 +173,9 @@ class Deliver_RenduController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'github_url' => 'string',
-                'site_url' => 'string',
-                'medias' => 'nullable',
-                'medias.*' => 'file|mimes:jpg,jpeg,png|max:5000'
+                'github_url' => 'required',
+                'site_url' => 'required',
+                'medias.*' => 'nullable|sometimes|file|mimes:jpg,jpeg,png|max:5000'
             ],
             [
                 'file'  => 'Image non fournis',
