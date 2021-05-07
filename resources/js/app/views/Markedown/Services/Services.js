@@ -10,13 +10,18 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 }
 
 export class APIService {
+    getRequestHeadersToSend(){
+        let token = localStorage.getItem('token');
+        return {headers: {'Authorization': `Bearer ${token}`}}
+    }
     getApiCategories() {
         const url = `${API_URL}/categories`;
         return axios.get(url);
-    } 
+    }
 
     search(val) {
-        const url = `${API_URL}/categorie/search`;        
+
+        const url = `${API_URL}/categorie/search`;
         return axios.get(url,{ params: { query: val } });
     }
 
@@ -25,17 +30,19 @@ export class APIService {
         return axios.get(url);
     }
     getApiMyMds() {
-        let token = localStorage.getItem(token)
-        const url = `${API_URL}/markdowns/showMine`;
-        return axios.get(url,{headers:{'Authorization':`Bearer${token}`}});
+        const header = this.getRequestHeadersToSend()
+        const url = `${API_URL}/markdown/showMine`;
+        return axios.get(url,header);
     }
     getApiMyArchives(id) {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdown/archives/${id}`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
     getApiMdDetails(id) {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/my-markdowns?id=${id}`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
 
     updateStatus(dataSend, id) {
