@@ -66,7 +66,7 @@
 				>
 			</v-list-item>
 			<v-card-actions>
-				<PasswordChange/>
+				<PasswordChange />
 			</v-card-actions>
 		</v-card>
 
@@ -81,9 +81,12 @@
 				<v-sheet
 					@click="pushLink(app.link)"
 					class="pa-12 btn_compte"
-					elevation="1"
+					elevation="3"
 				>
 					<h1 class="text-center">{{ app.name }}</h1>
+					<v-card-actions class="d-flex justify-center pb-5">
+						<v-btn class="acceder" depressed> Accéder </v-btn>
+					</v-card-actions>
 				</v-sheet>
 			</v-col>
 		</v-row>
@@ -92,7 +95,7 @@
 
 <script src="./compte.js" />
 
-<style>
+<style lang="scss">
 .container_compte {
 	height: 100%;
 	display: flex;
@@ -102,11 +105,21 @@
 .btn_compte {
 	cursor: pointer;
 	animation: all 0.3s ease;
+
+	.acceder {
+		animation: all 0.3s ease;
+	}
 }
 
 .btn_compte:hover {
 	background-color: #aeb4b7 !important;
 	color: white !important;
 	transition: all 0.3s ease;
+
+	.acceder {
+		background-color: gray !important;
+		color: white !important;
+		transition: all 0.3s ease;
+	}
 }
 </style>

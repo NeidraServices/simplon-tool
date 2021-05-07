@@ -23,7 +23,6 @@ export default {
       }
 
       apiService.post('/api/user/update/password', data).then((data) => {
-        console.log(data);
         this.dialog = false;
 
       })
