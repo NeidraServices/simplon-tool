@@ -18,6 +18,8 @@ export default{
             transparent: 'rgba(255, 255, 255, 0)',
             icons: ['mdi-delete'],
 
+            editBtn: false,
+
         }
     },
     components: {
@@ -45,6 +47,7 @@ export default{
         },
 
         editRendu() {
+            this.editBtn = false;
             let formData = new FormData();
             formData.append("user_id", this.user.id);
             formData.append("github_url", this.githubUrl);
@@ -70,6 +73,7 @@ export default{
             }).catch((er) => {
                 console.log(er)
             })
+            this.initialize();
         },
         selectImage(val) {
             this.images = val.target.files;
