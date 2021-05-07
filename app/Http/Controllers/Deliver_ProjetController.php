@@ -67,7 +67,7 @@ class Deliver_ProjetController extends Controller
 
        // $projet = Deliver_ProjetModel::find($id);
         $projet=Deliver_ProjetModel::with("tags")->where("id",$id)->get();
-dd($projet[0]["tags"]);
+
         $affectations = [];
         foreach ($projet->users as $user) {
             $apprenant = User::find($user->pivot->user_id);
