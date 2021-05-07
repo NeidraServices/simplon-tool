@@ -15,19 +15,21 @@ export class APIService {
         return {headers: {'Authorization': `Bearer ${token}`}}
     }
     getApiCategories() {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/categories`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
 
     search(val) {
-
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/categorie/search`;
-        return axios.get(url,{ params: { query: val } });
+        return axios.get(url,{ params: { query: val }, header });
     }
 
     getApiMdCommuns() {
+        const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdowns-commun`;
-        return axios.get(url);
+        return axios.get(url, header);
     }
     getApiMyMds() {
         const header = this.getRequestHeadersToSend()
@@ -46,8 +48,9 @@ export class APIService {
     }
 
     updateStatus(dataSend, id) {
+        const header = this.getRequestHeadersToSend()
         console.log("datatosend :"+id,dataSend)
         const url = `${API_URL}/markdown/active/${id}`;
-        return axios.post(url, dataSend);
+        return axios.post(url, dataSend, header);
     }
 }
