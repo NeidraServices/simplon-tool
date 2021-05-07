@@ -6,21 +6,25 @@
           <span class="font-weight-light">{{ question.question }}</span>
         </v-col>
         <v-col class="ma-auto" cols="12" lg="6">
-          <v-textarea
-            solo
-            outlined
-            required
-            v-model="description[`${question.id}`]"
-            name="input-7-4"
-            label="Réponse ..."
-            @input="update(question)"
-          ></v-textarea>
+          <v-form v-model="valid" :lazy-validation="lazy">
+            <v-textarea
+              solo
+              outlined
+              required
+              v-model="description[`${question.id}`]"
+              name="question"
+              label="Réponse ..."
+              @input="update(question)"
+            ></v-textarea>
+          </v-form>
         </v-col>
       </v-col>
     </v-row>
 
     <div class="stepper-actions">
-      <v-btn color="primary" @click="next()"> Continuer </v-btn>
+      <v-btn color="primary" :disabled="!valid" @click="next()">
+        Continuer
+      </v-btn>
     </div>
   </v-container>
 </template>

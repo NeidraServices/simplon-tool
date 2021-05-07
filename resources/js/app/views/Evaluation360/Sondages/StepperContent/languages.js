@@ -26,6 +26,9 @@ export default {
         next() {
             EventBus.$emit('next')
             EventBus.$emit('sendLangNotes', this.Languages)
+        },
+        cancel(){
+            EventBus.$emit('cancel')
         }
     }
 }

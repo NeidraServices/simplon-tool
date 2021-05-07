@@ -22,6 +22,9 @@ export default {
         next() {
             EventBus.$emit('next')
             EventBus.$emit('sendSkillsNote', this.skills)
+        },
+        cancel() {
+            EventBus.$emit('cancel')
         }
     }
 }

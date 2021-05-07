@@ -27,7 +27,7 @@
     <div class="stepper-actions">
       <v-btn color="primary" @click="next()"> Valider </v-btn>
 
-      <v-btn text @click="e1 = 2"> retour </v-btn>
+      <v-btn text @click="cancel()"> retour </v-btn>
     </div>
   </v-container>
 </template>

@@ -7,7 +7,9 @@ export default {
     },
     data() {
         return {
-            description: {}
+            description: {},
+            valid: true,
+            lazy: false
         }
     },
     methods: {
@@ -21,6 +23,6 @@ export default {
         next() {
             EventBus.$emit('next')
             EventBus.$emit('sendAnswers', this.questions)
-        }
+        },
     }
 }

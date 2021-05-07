@@ -24,7 +24,7 @@
     <div class="stepper-actions">
       <v-btn color="primary" @click="next()"> Continuer </v-btn>
 
-      <v-btn text @click="e1 = 1"> retour </v-btn>
+      <v-btn text @click="cancel()"> retour </v-btn>
     </div>
   </v-container>
 </template>

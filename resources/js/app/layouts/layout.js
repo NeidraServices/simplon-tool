@@ -3,13 +3,15 @@ import Logout from './Logout'
 import MenuEval from '../navigations/evaluation360/MenuEval'
 import MenuMd from '../navigations/markdown/MenuMd'
 import MenuDeliver from '../navigations/deliver/MenuDeliver'
+import Snackbar from '../components/Snackbar.vue';
 export default {
     components: {
         Sidebar,
         Logout,
         MenuEval,
         MenuMd,
-        MenuDeliver
+        MenuDeliver,
+        Snackbar
     },
 
 

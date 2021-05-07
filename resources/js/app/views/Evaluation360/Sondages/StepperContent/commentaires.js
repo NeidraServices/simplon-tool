@@ -6,9 +6,12 @@ export default {
             commentaire: ''
         }
     },
-    methods:{
-        send(){
-            EventBus.$emit('sendSondage',this.commentaire)
+    methods: {
+        send() {
+            EventBus.$emit('sendSondage', this.commentaire)
+        },
+        cancel() {
+            EventBus.$emit('cancel')
         }
     }
 }

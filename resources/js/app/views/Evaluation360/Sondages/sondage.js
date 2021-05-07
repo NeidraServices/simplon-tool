@@ -38,10 +38,31 @@ export default {
             let newArray = []
             newArray = newArray.concat(this.questions, this.languages, this.skills)
             this.sondage.lines = newArray
-            apiService.post('/api/evaluation360/apprenant/sondage/1/answer', this.sondage);
+            apiService.post('/api/evaluation360/apprenant/sondage/1/answer', this.sondage).then(response => {
+                if (response.status == 200) {
+                    EventBus.$emit('snackbar', {
+                        snackbar: true,
+                        text: `Merci d'avoir répondu au sondage`,
+                        color: 'blue',
+                        timeout: 3000
+                    })
+                }
+                else {
+                    EventBus.$emit('snackbar', {
+                        snackbar: true,
+                        text: `Erreur`,
+                        color: 'red',
+                        timeout: 3000
+                    })
+                }
+            });
+
         })
         EventBus.$on('next', () => {
             this.e1++
+        })
+        EventBus.$on('cancel', () => {
+            this.e1--
         })
 
     },
