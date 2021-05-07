@@ -61,7 +61,8 @@ Route::get('commentaires/{markdown_id}', [Md_CommentaryController::class, 'index
 */
 
 Route::middleware(['auth:api'])->group(function(){
-
+    Route::get('/contribution/{id}', [Md_ContributionController::class, 'create'])->name('api.md_wiki.markdown.contribution.create');
+    Route::get('/request/{id}', [Md_ContributionController::class, 'getListContributionRequest'])->name('api.md_wiki.markdown.getListContributionRequest');
 });
 Route::prefix('/contribution')->group(function () {
     Route::get('/accept/{id}', [Md_ContributionController::class, 'acceptContributor'])->name('api.md_wiki.contribution.accept');
@@ -92,7 +93,6 @@ Route::middleware(['auth:api'])->group(function(){
 
 Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
 Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
-
 /*
 |--------------------------------------------------------------------------
 | Markdown user routes
