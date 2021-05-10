@@ -26,6 +26,7 @@ class EvalSondageResource extends JsonResource
             'comments'      => $this->comments,
             'global_note'   => $this->global_note,
             'lines'         => EvalSondageLinesResource::collection($this->sondage),
+            'userComments'  => EvalUserSondagesCommentsResource::collection($this->userComments),
             'user'          => $user,
             'created_at'    => $createAtFormated,
         ];

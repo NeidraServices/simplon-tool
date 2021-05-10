@@ -1,41 +1,49 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
+      <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
             <v-card-title 
-                class="layout justify-center"
+                class="layout justify-center mb-6"
             >
                 MES MARKDOWNS
             </v-card-title>
             <v-card-text 
                 class="layout justify-center"
             >
-        <v-row >
-            <BtnWithIcon v-bind:title="'Archive'" v-bind:link="'archives'">
+        <div class="layout justify-center justify-md-end">            
+            <!-- <v-spacer></v-spacer> -->
+            <BtnWithIcon v-bind:title="'Ajouter'" v-bind:routeName="'AddMarkdowns'">
                 <v-icon
                     left
                     dark
                 >
-                    mdi-archive
+                  mdi-plus-thick
                 </v-icon>
             </BtnWithIcon>
-            <v-spacer></v-spacer>
-            <SimpleBtn v-bind:title="'Ajouter'" v-bind:link="'add'" />
-        </v-row>
+        </div>
             </v-card-text>
         </v-col>
         <v-divider></v-divider>
         <div class="item-container">
-          <v-col
-              v-for="item in markdown_list"
-              :key="item.id"
-              class="item"
-          >  
-            <ItemMyMd 
-                v-bind:item="item"
-            />
-          </v-col>
+          <v-row
+            no-gutters
+            class="justify-center"
+          >
+            <v-col
+                v-for="item in markdown_list"
+                :key="item.id"
+                class="item col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
+                style="max-width: 460px;"
+            >  
+              <ItemMyMd 
+                  v-bind:item="item"
+                  @show-success-msg="showSuccessMsg" 
+                  @show-error-msg="showErrorsMsg"
+              />
+            </v-col>
+          </v-row>
         </div>
         
       </v-row>
@@ -45,9 +53,9 @@
 <script>
 import ItemMyMd from "./component/ItemMyMd";
 import BtnWithIcon from "./component/BtnWithIcon";
-import SimpleBtn from "./component/SimpleBtn";
 import MdEditor from "./component/MdEditor";
-import {APIService} from './Services/ServiceRecupCateg'
+import {APIService} from './Services/Services'
+import CustomFlashMessage from "./component/CustomFlashMessage";
 const apiCall = new APIService()
 export default {
     name: "MyMarkedDowns",
@@ -55,7 +63,7 @@ export default {
         MdEditor,
         ItemMyMd,
         BtnWithIcon,
-        SimpleBtn
+        CustomFlashMessage
     },
     data() {
         return {
@@ -67,12 +75,7 @@ export default {
         };
     },
     mounted() {
-      apiCall.getApiMyMds().then(
-        reponse => {
-          console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataMdCom(reponse.data)
-        }
-      )
+      this.getMyMarkdowns()
     },
     methods: {
       formatDataMdCom(data){
@@ -83,7 +86,7 @@ export default {
                     id: item.id,
                     category: item.md_category_id,
                     title: item.title,
-                    active: item.active,
+                    status: item.status,
                     description: item.description,
                     author: "user"+item.user_id
                 })
@@ -91,15 +94,23 @@ export default {
         }        
         return formatedData
       },
-      recupCateg(){
-        const apiCall = new APIService()
-        apiCall.getApiCategories().then(
+      getMyMarkdowns(){
+        apiCall.getApiMyMds().then(
           reponse => {
             console.log("Reponse :", reponse)
+            this.markdown_list = this.formatDataMdCom(reponse.data.data)
           }
-        )
-        console.log("categ")
+        ).catch (error => {
+            console.log(error)
+            this. $refs.customFlash.showMessageError(error)
+        })
       },
+      showSuccessMsg(msg){
+        this.$refs.customFlash.showMessageSuccess(msg)
+      },
+      showErrorsMsg(msg){
+        this.$refs.customFlash.showMessageError(msg)
+      }
     }
   };
 </script>
@@ -109,6 +120,9 @@ export default {
   }
   .item:hover {
     cursor: pointer;
+  }
+  .item {
+    max-width: 460px;
   }
   .divider {
     margin: 5px;

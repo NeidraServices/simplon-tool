@@ -9,6 +9,7 @@ import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
 import Compte from './views/compte/Compte.vue';
 import VerifyMail from './views/VerifyMail.vue';
+import Store from './store';
 
 Vue.use(VueRouter);
 
@@ -17,7 +18,7 @@ var routes = [
         path: '/',
         name: 'home',
         component: HomePage,
-        meta: { authorize: [Role.Admin] }
+        meta: { authorize: Role }
     },
     {
         path: '/connexion',
@@ -46,7 +47,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     const { authorize } = to.meta;
-
     if (authorize && !_.isEmpty(authorize)) {
         const role = authenticationService.currentRoleValue;
 

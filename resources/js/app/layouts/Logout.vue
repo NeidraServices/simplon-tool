@@ -39,7 +39,6 @@
 
 <script>
 import { authenticationService } from "../services/authenticationService";
-
 export default {
 	data() {
 		return {
@@ -56,17 +55,16 @@ export default {
 			}
 		},
 	},
-
 	created() {
 		authenticationService.role.subscribe((x) => (this.role = x));
 	},
-
 	methods: {
 		async logout() {
 			await localStorage.removeItem("token");
 			await localStorage.removeItem("role");
 			await localStorage.removeItem("vuex");
 			await this.$store.commit("disconnect");
+			this.dialog = false
 			await this.$router.push("/connexion");
 		},
 	},

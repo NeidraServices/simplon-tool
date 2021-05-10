@@ -1,15 +1,18 @@
-import Sidebar from "./Sidebar";
-import Logout from './Logout'
-import MenuEval from '../navigations/evaluation360/MenuEval'
-import MenuMd from '../navigations/markdown/MenuMd'
-import MenuDeliver from '../navigations/deliver/MenuDeliver'
+import Sidebar from "./Sidebar.vue";
+import Logout from './Logout.vue'
+import MenuEval from '../navigations/evaluation360/MenuEval.vue'
+import MenuMd from '../navigations/markdown/MenuMd.vue'
+import MenuDeliver from '../navigations/deliver/MenuDeliver.vue'
+import Snackbar from '../components/Snackbar.vue';
+
 export default {
     components: {
         Sidebar,
         Logout,
         MenuEval,
         MenuMd,
-        MenuDeliver
+        MenuDeliver,
+        Snackbar
     },
 
 
@@ -20,7 +23,37 @@ export default {
         }
     },
 
+    watch: {
+        $route(to, from) {
+            let routeName = to.path;
+            var splits = routeName.split("/", 2);
+            switch (splits[1]) {
+                case "markedowns":
+                    this.prevName = 'eval'
+                    this.nextName = 'deliver'
+                    break
+    
+                case "evaluation360":
+                    this.prevName = 'm-down'
+                    this.nextName = 'deliver'
+                    break
+                case "deliver":
+                    this.prevName = 'm-down'
+                    this.nextName = 'eval'
+                    break
+            }
+        }
+    },
+
     computed: {
+        isChecked() {
+			let routeName = this.$route.path;
+			var splits = routeName.split("/", 2);
+			if (splits[1] != "compte") {
+				return this.$store.state.isLogged;
+			}
+		},
+        
         pathIsEval() {
             let routeName = this.$route.path;
             var splits = routeName.split("/", 2);

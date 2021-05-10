@@ -23,8 +23,15 @@ class EvalSondageSeeder extends Seeder
         $data2 = new EvalSondage();
         $data2->user_id  = 3;
         $data2->published = 0;
-        $data2->accepted = 0;
+        $data2->accepted = 1;
         $data2->name = "Sondage 2";
         $data2->save();
+
+        $data3 = new EvalSondage();
+        $data3->user_id  = 3;
+        $data3->published = 1;
+        $data3->accepted = 1;
+        $data3->name = "Sondage 3";
+        $data3->save();
     }
 }

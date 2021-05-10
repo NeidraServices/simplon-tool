@@ -1,8 +1,8 @@
 <template>
     <div>
         <v-container>
-            <FlashMessage :position="'top'" ></FlashMessage>
-            <h2 class="titre">{{name}}</h2>
+            <CustomFlashMessage ref="customFlash"/>
+            <h2 class="titre">{{title}}</h2>
             <v-row>
                 <v-col>
                     <v-select
@@ -15,26 +15,80 @@
                     ></v-select>
                 </v-col>
                 <v-col>
-                    <AutocompleteCategorie/>
+                    <v-autocomplete
+                        v-model="category"
+                        :loading="loading"
+                        :items="categories"
+                        :search-input.sync="search"
+                        item-text="composed"
+                        item-value="id"
+                        append-icon=''
+                        return-object
+                        cache-items
+                        flat
+                        hide-no-data
+                        hide-details
+                        v-on:blur="setCategory"
+                        label="Catégorie">
+                    </v-autocomplete>
                 </v-col>
-                <v-col>
-                    <v-btn outlined>Ajouter Catégorie</v-btn>
-                </v-col>
+
+                <v-col class="mt-4" cols="2">
+                <v-dialog
+                v-model="dialog"
+                persistent
+                max-width="600px"
+                >
+                    <template v-slot:activator="{ on }">
+                        <!-- <v-btn v-on="on">
+                            Ajouter une catégorie
+                        </v-btn> -->
+                        <v-btn icon color="green" v-if="disabledButton" disabled>
+                            <v-icon> mdi-plus-circle-outline</v-icon>
+                        </v-btn>
+
+                        <v-btn v-on="on" icon color="green" v-else @click="addCategoryModal">
+                            <v-icon> mdi-plus-circle-outline</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card>
+                        <v-card-title> Ajouter une catégorie </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <v-text-field v-model="name" color="success" label="Nom de la catégorie : " required />
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn outlined color="red" text @click="dialog = false">Annuler</v-btn>
+                            <v-btn outlined color="success" @click="addCategoryModal" :disabled="!validate" class="mr-2">Ajouter</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-col>
             </v-row>
 
             <v-text-field
                 label="Titre"
                 placeholder="Entrez le titre de la fiche"
-                v-model="name"
+                v-model="title"
+                v-on:blur="updateTitle"
             ></v-text-field>
-            <v-btn outlined @click="update">Enregistrer</v-btn><br><br>
-            <v-divider></v-divider><br><br>
             <v-textarea
                 outlined
-                name="description"
                 label="Description"
-                :value="description"
+                placeholder="Entrez une description"
+                v-model="description"
+                v-on:blur="updateDescription"
             ></v-textarea>
+            <v-divider></v-divider><br><br>
+
             <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor><br>
             <v-btn outlined @click="editMD">Editer</v-btn>
@@ -51,12 +105,14 @@
 <script>
 import MdEditor from "./component/MdEditor";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
+import CustomFlashMessage from "./component/CustomFlashMessage";
 import Axios from "axios";
 export default {
     name: "ShowEditMd",
     components: {
         MdEditor,
-        AutocompleteCategorie
+        AutocompleteCategorie,
+        CustomFlashMessage
     },
     props: {
         id: {
@@ -65,7 +121,15 @@ export default {
     },
     data() {
         return {
+            dialog: false,
+            categorie: null,
+            category: '',
+            search: null,
+            loading: false,
+            disabledButton: true,
+            activeModalCategory: false,
             name: '',
+            title:'',
             active: '',
             description: '',
             status: [{
@@ -122,70 +186,171 @@ export default {
             },
         };
     },
+    watch: {
+      search: function (val) {
+        if (val && val.length > 1) {
+          this.disabledButton = false;
+          this.loading = true
+          axios.get('/api/markedown/categorie/search', { params: { query: val } })
+          .then(({ data }) => {
+
+              this.loading = false;
+
+              /* console.log(this.categorie)
+              if (val !==) {
+                  this.disabledButton = true;
+              } */
+
+              data.data.forEach(categorie => {
+                  this.categories.push(this.formattedCategorie(categorie))
+              });
+          });
+        }else{
+            this.disabledButton = true;
+        }
+      },
+    },
     methods: {
+        formattedCategorie: function (categorie) {
+
+            return {
+
+                id: categorie.id,
+                name: categorie.name,
+
+                composed: categorie.name
+            }
+        },
+         async setCategory(){
+            if(typeof this.category.id  != 'undefined'){
+                //console.log(this.category.id)
+                let dataSend={
+                    category:this.category.id
+                }
+                try {
+                    const req = await  Axios.post(`${location.origin}/api/markedown/markdown/category/${this.id}`, dataSend)
+                    const reqData = req.data
+                    console.log(req)
+                    this.flashMessage.success({
+                        message: reqData.message,
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        },
         async setStatus(){
             let dataSend={
                 active:this.active
             }
-            try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend)
-                const reqData = req.data
-                console.log(reqData)
-                this.flashMessage.success({
-                    message: reqData.message,
-                });
-            } catch (error) {
+            await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    console.log(reqData)
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+            ).catch (error => {
                 console.log(error)
-            }
+                this. $refs.customFlash.showMessageError(error)
+            })
         },
         async editMD(){
             let dataSend={
                 text:this.text
             }
+            await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                    console.log(reqData)
+                }
+             ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+        async updateTitle(){
+            let dataSend={
+                title:this.title
+            }
+            await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend).then(
+                reponse => {
+                    const reqData = reponse.data
+                    console.log(reqData)
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+             ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+         async updateDescription(){
+            let dataSend={
+                description:this.description
+            }
             try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend)
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
                 const reqData = req.data
-                
+                console.log(reqData)
+
                 this.flashMessage.success({
                     message: reqData.message,
                 });
-                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }
         },
-        async update(){
-            let dataSend={
-                title:this.name
+        async addCategoryModal(){
+            if (this.isValid()) {
+                const data = {
+                    name: this.name,
+                };
+                await axios.post('/api/markedown/categorie/ajouter', data)
+                    .then(({ data }) => {
+                        this.$emit('create', data.data)
+                        this.dialog = false
+                    })
+                    .catch(error => {
+                        //TODO catch error
+                        console.log(error);
+                    });
             }
-            try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend)
-                const reqData = req.data
-                console.log(reqData)
-                
-                this.flashMessage.success({
-                    message: reqData.message,
-                });
-            } catch (error) {
-                console.log(error)
-            }
+        },
+        isValid() {
+            return this.name != ''
         },
         async getData() {
-            
+            const token = localStorage.getItem('token');
             try {
-                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`)
+                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
                 const reqData = req.data
                 console.log(reqData)
-                this.name= reqData.title
-                this.description = reqData.description
+                this.title= reqData.markdown.title
+                let category ={
+                    composed:reqData.markdown.category.name,
+                    id:reqData.markdown.category.id
+                }
+
+                this.categories.push( category)
+                this.category=this.categories[0]
+                console.log(this.category)
+                this.description = reqData.markdown.description
                 this.text= reqData.text
-                this.active= reqData.status
-                
-                
-            } catch (error) {
+                this.active= reqData.markdown.status
+
+
+            }catch (error){
                 console.log(error)
+                this. $refs.customFlash.showMessageError(error)
             }
          }
+    },
+    computed: {
+
+
+        validate() {
+            return this.isValid()
+        }
     },
     created() {
         this.getData();

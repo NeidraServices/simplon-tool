@@ -10,6 +10,9 @@ use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 use App\Http\Controllers\EvalCoorteController;
+use App\Http\Controllers\EvalSondageController;
+use App\Http\Controllers\UserController;
+use App\Models\EvalSondage;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,9 +68,26 @@ Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 |--------------------------------------------------------------------------
 */
 
-// Route::middleware(['auth:api'])->group(function () {
-Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
-Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
-Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
-Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
-// });
+Route::middleware(['auth:api'])->group(function () {
+  Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+  Route::prefix("/apprenants")->group(function () {
+      Route::post('/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
+      Route::put('/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
+      Route::delete('/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
+  });
+});
+
+Route::middleware(['auth:api'])->prefix('user')->group(function () {
+  Route::get('/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+  Route::post('/update', [UserController::class, 'updateUser']);
+  Route::post('/update/password', [UserController::class, 'updatePassword']);
+  Route::post('/image/update', [UserController::class, 'updateAvatar']);
+});
+
+
+Route::middleware(['auth:api'])->group(function() {
+  Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+  Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
+  Route::post('/user/update', [UserController::class, 'updateUser']);
+  Route::post('/user/update/password', [UserController::class, 'updatePassword']);
+});

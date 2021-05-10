@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h1 class="text-center mb-5">Tout les apprenants</h1>
     <v-row class="d-flex flex-wrap">
       <v-col
         v-for="apprenant in apprenants"
@@ -11,26 +12,28 @@
         sm="6"
         lg="4"
       >
-        <v-card
-          shaped
-          max-width="300"
-          min-width="270"
-          height="100px"
-          class="ma-auto d-flex flex-wrap"
-          elevation="5"
-        >
-          <div class="apprenants-avatar">
-            <img :src="getImages(apprenant.avatar)" />
-          </div>
-          <div class="apprenants-infos">
-            <h3>{{ apprenant.name }} {{ apprenant.surname }}</h3>
-            <span>CDA</span>
-            <h4>8/10</h4>
-            <v-btn class="see-more" icon @click="goToDetails(apprenant)">
-              <v-icon> mdi-eye</v-icon>
-            </v-btn>
-          </div>
-        </v-card>
+        <v-hover v-slot="{ hover }">
+          <v-card
+            shaped
+            max-width="300"
+            min-width="270"
+            height="100px"
+            class="ma-auto d-flex flex-wrap"
+            :elevation="hover ? 5 : 3"
+          >
+            <div class="apprenants-avatar">
+              <img :src="getImages(apprenant.avatar)" />
+            </div>
+            <div class="apprenants-infos">
+              <h3>{{ apprenant.name }} {{ apprenant.surname }}</h3>
+              <span>CDA</span>
+              <h4>8/10</h4>
+              <v-btn class="see-more" icon @click="goToDetails(apprenant)">
+                <v-icon> mdi-eye</v-icon>
+              </v-btn>
+            </div>
+          </v-card>
+        </v-hover>
       </v-col>
     </v-row>
   </v-container>

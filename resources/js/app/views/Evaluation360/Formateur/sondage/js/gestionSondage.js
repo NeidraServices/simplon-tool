@@ -19,8 +19,12 @@ export default {
             selectSkills: [],
             sondagesList: [],
             sondageLines: [],
+
             sondageName: '',
             published: '',
+
+            title: "Créer un sondage",
+            edited: false,
 
             etatList: [
                 {
@@ -28,14 +32,31 @@ export default {
                     id: '0'
                 },
                 {
-                    label: 'Publié',
+                    label: 'Publier',
                     id: '1'
+                }
+            ],
+
+
+            sondageTypeList: [
+                {
+                    name: 'Langage',
+                    id: '0'
+                },
+                {
+                    name: 'Compétence',
+                    id: '1'
+                },
+                {
+                    name: 'Question',
+                    id: '2'
                 }
             ],
 
             sondageNameRules: [
                 v => !!v || "Le nom est requis"
             ],
+
             publishedRules: [
                 v => !!v || "L'état est requis"
             ],
@@ -53,8 +74,9 @@ export default {
             ],
 
             selectItem: null,
-            createdDialog: false,
-            deleteDialog: false
+            generalDialog: false,
+            deleteDialog: false,
+            selectItem: null,
         }
     },
 
@@ -75,13 +97,70 @@ export default {
     },
 
     methods: {
-        openAddModal() {
-            this.createdDialog = true
+        openGeneral(edit, item = null) {
+            this.generalDialog = true
+            this.edited = edit;
+            if (this.edited) {
+                this.title = "Mise à jour d'un sondage";
+                this.selectItem = item;
+                this.sondageName = item.name;
+
+                if (item.published == "Publier") {
+                    this.published = {
+                        label: 'Publier',
+                        id: '1'
+                    };
+                } else {
+                    this.published = {
+                        label: 'Brouillon',
+                        id: '0'
+                    };
+                }
+
+                var arrayContent = [];
+                item.lines.forEach(element => {
+                    if (element.langage != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Langage',
+                                id: '0'
+                            },
+                            content: element.langage
+                        })
+                    } else if (element.skill != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Compétence',
+                                id: '1'
+                            },
+                            content: element.skill
+                        })
+                    } else if (element.question != null) {
+                        arrayContent.push({
+                            type: {
+                                name: 'Question',
+                                id: '2'
+                            },
+                            content: element.question
+                        })
+                    }
+                });
+
+                this.sondageLines = arrayContent;
+
+            } else {
+                this.title = "Créer un sondage";
+            }
         },
 
-        closeAddModal() {
-            this.sondageLines = []
-            this.createdDialog = false
+        closeGeneral() {
+            this.sondageLines = [];
+            this.generalDialog = false;
+            this.title = "Créer un sondage";
+            this.edited = false;
+            this.sondageName = '';
+            this.published = '';
+            this.selectItem = null;
         },
 
         openDelete(item) {
@@ -96,9 +175,16 @@ export default {
 
         addLines() {
             this.sondageLines.push({
-                langage_id: '',
-                skill_id: ''
+                type: '',
+                content: ''
             })
+        },
+
+        removeLine(key) {
+            const filteredArray = this.sondageLines.filter(function (value, index, arr) {
+                return index != key
+            })
+            this.sondageLines = filteredArray;
         },
 
         async getSondages() {
@@ -107,7 +193,6 @@ export default {
                 const reqData = req.data.data;
                 this.sondagesList = reqData;
                 this.isLoaded = true;
-                console.log(reqData)
             } catch (error) {
                 console.log(error)
             }
@@ -120,8 +205,10 @@ export default {
                 this.selectLangages = reqData;
                 this.selectLangages.unshift({
                     id: "",
-                    name: "Aucun"
+                    name: "Aucun",
+                    image: ""
                 })
+
             } catch (error) {
                 console.log(error)
             }
@@ -137,21 +224,84 @@ export default {
             }
         },
 
-        async createSondage() {
+        async handleSondage() {
             try {
                 if (this.sondageLines.length == 0) {
                     console.log('Il faut des lignes dans votre sondage')
                 } else {
-                    let dataSend = {
-                        name: this.sondageName,
-                        lines: this.sondageLines,
-                        published: this.published
+                    let dataSend = {}
+                    let req;
+
+                    if (this.edited) {
+                        let ligneFormated = [];
+                        this.sondageLines.forEach(item => {
+                            if (item.type.id) {
+                                switch (item.type.id) {
+                                    case "0":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content.id
+                                        })
+                                        break;
+                                    case "1":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content.id
+                                        })
+                                        break;
+                                    case "2":
+                                        ligneFormated.push({
+                                            type: item.type.id,
+                                            content: item.content
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } else {
+                                switch (item.type) {
+                                    case "0":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content
+                                        })
+                                        break;
+                                    case "1":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content
+                                        })
+                                        break;
+                                    case "2":
+                                        ligneFormated.push({
+                                            type: item.type,
+                                            content: item.content.id ? "" : item.content
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+                        dataSend = {
+                            name: this.sondageName,
+                            lines: ligneFormated,
+                            published: this.published.id
+                        }
+                        req = await apiService.put(`${location.origin}/api/evaluation360/formateur/sondage/update`, dataSend);
+                    } else {
+
+                        dataSend = {
+                            name: this.sondageName,
+                            lines: this.sondageLines,
+                            published: this.published
+                        }
+                        req = await apiService.post(`${location.origin}/api/evaluation360/formateur/sondage/create`, dataSend);
                     }
-                    const req = await apiService.post(`${location.origin}/api/evaluation360/formateur/sondage/create`, dataSend);
                     const reqData = req.data;
                     if (reqData.success) {
                         await this.getSondages()
-                        await this.closeAddModal()
+                        await this.closeGeneral()
                     } else {
                         console.log(reqData.message)
                     }
@@ -161,6 +311,11 @@ export default {
             }
         },
 
+        editeChange(item, type) {
+            if((typeof item.content) == "object" && type == 2) {
+                item.content = "";
+            }
+        },
 
         async deleteSondage() {
             try {
@@ -176,5 +331,43 @@ export default {
                 console.log(error)
             }
         },
+
+
+        showDetailLangage(type) {
+            if (this.edited) {
+                if (type.id == 0) {
+                    return true
+                }
+            } else {
+                if (type == 0) {
+                    return true
+                }
+            }
+        },
+
+        showDetailSkill(type) {
+            if (this.edited) {
+                if (type.id == 1) {
+                    return true
+                }
+            } else {
+                if (type == 1) {
+                    return true
+                }
+            }
+        },
+
+        showDetailQuestion(type, content = null) {
+            if (this.edited) {
+                if (type.id == 2) {
+                    return true
+                }
+            } else {
+                if (type == 2) {
+                    return true
+                }
+            }
+        },
+
     }
 }

@@ -26,24 +26,75 @@ class Deliver_CompetenceController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function update(Request $req)
+    {
+        $validator = Validator::make($req->all(),["id"=>"required","nom"=>"required"]);
+        if($validator->fails()){
+            return response()->json([
+                "success" => false,
+                "error"   => $validator->errors()
+            ]);
+        }
+
+        $tag_data = $validator->validated();
+       $tag=Deliver_CompetencesModel::find($tag_data["id"]);
+        $tag->nom=$tag_data["nom"];
+        $tag->save();
+        return response()->json([
+            "success" => true
+        ]);
+
+    }
+
+    public function delete(Request $req)
+    {
+        $validator = Validator::make($req->all(),["id"=>"required"]);
+        if($validator->fails()){
+            return response()->json([
+                "success" => false,
+                "error"   => $validator->errors()
+            ]);
+        }
+
+        $tag_data = $validator->validated();
+       $tag=Deliver_CompetencesModel::destroy($tag_data["id"]);
+
+        return response()->json([
+            "success" => true
+        ]);
+
+    }
 
     public function relierProjet(Request $req){
-       $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+       $validator=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"]);
 
+       if($validator->fails()) {
+        return response()->json(["success"=>false,"error"=>$validator->errors()]);
+         }
+
+        $data=$validator->validate();
         $competences=Deliver_CompetencesModel::find($data["competence_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
         $competences->projets()->attach($competences["id"],["projet_id"=>$projet["id"] ]);
+        return response()->json(['success' => true]);
     }
 
     public function delierProjet(Request $req){
 
-        $data=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"])->validate();
+        $validator=Validator::make($req->all(),["competence_id"=>"required","projet_id"=>"required"]);
+
+        if($validator->fails()) {
+            return response()->json(["success"=>false,"error"=>$validator->errors()]);
+        }
+
+        $data=$validator->validate();
 
         $competences=Deliver_CompetencesModel::find($data["competence_id"]);
         $projet=Deliver_ProjetModel::find($data["projet_id"]);
 
         $competences->projets()->detach($projet["id"]);
+        return response()->json(['success' => true]);
     }
 
 }

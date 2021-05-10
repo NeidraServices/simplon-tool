@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <v-container>
         <template>
-            <v-card-title class="text-center justify-center py-6">
+            <v-card-title class="text-center justify-center py-6" >
                 <h1 class="font-weight-bold">
                     {{ projet.titre }}
                 </h1>
@@ -14,17 +14,7 @@
                     color="basil"
                     class="pa-2"
                 >
-                    <div class="d-flex row justify-space-between">
-                        <div class="d-flex row pa-2">
-                            <v-tab
-                                v-for="item in menus"
-                                :key="item.title"
-                                class="pa-2 text-center btn-style-2"
-                            >
-                                {{ item.title }}
-                            </v-tab>
-                        </div>
-
+                    <div class="d-flex row justify-end">
                         <v-dialog
                             v-model="dialog"
                             persistent
@@ -32,11 +22,12 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    color="primary"
-                                    dark
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="btn-style-1"
+                                    small
+                                    class="btn-style-1 border-radius-25"
+                                    color="green darken-1"
+                                    text
                                 >
                                     Ajout d'un apprenant
                                 </v-btn>
@@ -45,46 +36,61 @@
                                 <v-card-title>
                                     <span class="headline">Ajout d'un apprenant</span>
                                 </v-card-title>
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col
-                                                cols="12"
-                                            >
-                                                <v-text-field
-                                                    label="Ajout d'un apprenant par son E-mail"
-                                                    required
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                cols="12"
-                                            >
-                                                <v-autocomplete
-                                                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                                                    label="Ajout d'un apprenant"
-                                                    multiple
-                                                ></v-autocomplete>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn
-                                        color="red darken-1"
-                                        text
-                                        @click="dialog = false"
-                                    >
-                                        Fermer
-                                    </v-btn>
-                                    <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="dialog = false"
-                                    >
-                                        Valider
-                                    </v-btn>
-                                </v-card-actions>
+                                <v-form>
+                                    <v-card-text>
+                                        <v-text-field
+                                            v-model="newEmailApprenant"
+                                            label="Ajout d'un apprenant par son E-mail"
+                                        ></v-text-field>
+                                        <v-autocomplete
+                                            v-model="apprenants"
+                                            :items="allApprenants"
+                                            chips
+                                            label="Ajout d'un apprenant"
+                                            item-value="name"
+                                            multiple
+                                            hide-no-data
+                                            return-object
+                                        >
+                                            <template v-slot:selection="data">
+                                                <v-chip
+                                                    v-bind="data.attrs"
+                                                    :input-value="data.selected"
+                                                    @click="data.select"
+                                                >
+                                                    {{ data.item.name }} {{ data.item.surname }}
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item="data">
+                                                <template v-if="typeof data.item !== 'object'">
+                                                    <v-list-item-content v-text="data.item"></v-list-item-content>
+                                                </template>
+                                                <template v-else>
+                                                    <v-list-item-content>
+                                                        <v-list-item-content v-html="data.item.name + ' ' + data.item.surname"></v-list-item-content>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </template>
+                                        </v-autocomplete>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="red darken-1"
+                                            text
+                                            @click="dialog = false"
+                                        >
+                                            Fermer
+                                        </v-btn>
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="submit(apprenants)"
+                                        >
+                                            Valider
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-form>
                             </v-card>
                         </v-dialog>
                         <v-dialog
@@ -94,11 +100,12 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    color="primary"
-                                    dark
+                                    small
                                     v-bind="attrs"
                                     v-on="on"
-                                    class="btn-style-1"
+                                    class="btn-style-1 border-radius-25"
+                                    color="green darken-1"
+                                    text
                                 >
                                     Soumettre mon rendu
                                 </v-btn>
@@ -168,63 +175,82 @@
                     </div>
                 </v-tabs>
             </v-container>
-
-            <v-tabs-items v-model="tab">
-                <v-tab-item
-                    v-for="item in menus"
-                    :key="item.title"
-                >
-                    <div v-if="item.title === 'Détail'" class="row col-md-12">
-                        <v-card
-                            color="basil"
-                            flat
-                            class="col-md-8"
-                        >
-                            <v-card-text>
-                                <b>Techno utilisée.s :</b><br />
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Référentiel :</b><br />
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Description :</b><br />
-                                {{ projet.description }}
-                            </v-card-text>
-                            <v-card-text>
-                                <b>Apprenants :</b><br />
-                                <ul
-                                    v-for="item in apprenants"
-                                    :key="item.id"
-                                >
-                                    <li>
-                                        {{ item.name }} {{ item.surname }}
-                                    </li>
-                                </ul>
-                            </v-card-text>
-                        </v-card>
-                        <v-card
-                            color="basil"
-                            flat
-                            class="col-md-4"
-                        >
-                            <v-card-text>
-                                <b>Deadline : </b>
-                                {{ projet.deadline }}
-                            </v-card-text>
-                        </v-card>
-                    </div>
-                    <div class="d-flex row pa-3" v-if="item.title === 'Liste des rendus'">
+            <v-container fluid>
+                <v-expansion-panels>
+                    <v-expansion-panel>
+                        <v-expansion-panel-header>
+                            <h2 class="pa-2">Détails</h2>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-row>
+                                <v-col cols="8">
+                                    <v-card
+                                        color="basil"
+                                        flat
+                                        class="col-md-8"
+                                    >
+                                        <v-card-text>
+                                            <b>Techno utilisée.s :</b><br />
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Référentiel :</b><br />
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Description :</b><br />
+                                            <p v-html="projet.description"></p>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Apprenants :</b><br />
+                                            <ul
+                                                v-for="item in apprenants"
+                                                :key="item.id"
+                                            >
+                                                <li>
+                                                    {{ item.name }} {{ item.surname }}
+                                                </li>
+                                            </ul>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                                <v-col cols="4">
+                                    <v-card
+                                        color="basil"
+                                        flat
+                                    >
+                                        <v-card-text>
+                                            <b>Deadline : </b>
+                                            {{ projet.deadline }}
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <b>Date de presentation : </b>
+                                            {{ projet.date_presentation }}
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-container>
+            <v-container fluid>
+                <div class="d-flex row pa-2">
+                    <h2>Liste des rendus :</h2>
+                </div>
+                <v-container fluid class="d-flex row">
+                    <v-col cols="4"
+                           class="pa-2"
+                           v-for="item in rendu"
+                           :key="item.id"
+                    >
                         <v-card
                             class="ma-3"
                             width="450"
                             outlined
-                            v-for="item in apprenants"
-                            :key="item.id"
                         >
                             <v-list-item>
                                 <v-list-item-content>
                                     <div class="overline mb-4">
-                                        {{ item.name }} {{ item.surname }}
+                                        {{ item.user.name }} {{ item.user.surname }}
                                     </div>
                                     <v-list-item-title class="headline mb-1">
                                         Techno utilisé
@@ -236,31 +262,42 @@
                                 <v-btn
                                     outlined
                                     rounded
+                                    small
                                     text
+                                    link
+                                    :href="item.rendu.site_url"
                                 >
                                     Lien site web
                                 </v-btn>
                                 <v-btn
                                     outlined
+                                    small
                                     rounded
                                     text
+                                    link
+                                    :href="item.rendu.github_url"
                                 >
                                     Lien GitHub
                                 </v-btn>
-                                <v-btn
-                                    outlined
-                                    rounded
-                                    text
+                                <router-link
+                                    to="/deliver/mesprojets/rendu/1"
                                 >
-                                    Détails
-                                </v-btn>
+                                    <v-btn
+                                        outlined
+                                        small
+                                        rounded
+                                        text
+                                    >
+                                        Détails
+                                    </v-btn>
+                                </router-link>
                             </v-card-actions>
                         </v-card>
-                    </div>
-                </v-tab-item>
-            </v-tabs-items>
+                    </v-col>
+                </v-container>
+            </v-container>
         </template>
-    </div>
+    </v-container>
 </template>
 
 <script src="./js/Details-projets.js"></script>
@@ -274,5 +311,9 @@
 .btn-style-2 {
     height: auto;
     margin-left: 25px;
+}
+
+.border-radius-25 {
+    border-radius: 25%;
 }
 </style>

@@ -1,8 +1,11 @@
 <template>
   <v-row>
-    <v-col cols="2">
+    <v-col cols="4">
       <v-card class="sondage-langages-notes d-flex">
-        <img :src="getImages('langages/flutter.png')" />
+        <img
+          style="width: 100%; object-fit: contain"
+          :src="getImages(language.image)"
+        />
       </v-card>
     </v-col>
     <v-col cols="8">
@@ -16,7 +19,6 @@
         <strong>{{ displayNote }}/ 10</strong></v-progress-linear
       >
     </v-col>
-    
   </v-row>
 </template>
 <script src="./languagesProgressBar.js"/>

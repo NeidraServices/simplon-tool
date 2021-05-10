@@ -21,13 +21,18 @@ class EvalSondage extends Model
         'user_id'
     ];
 
-    function sondage()
+    public function sondage()
     {
         return $this->hasMany(EvalSondageLines::class, 'sondage_id');
     }
 
-    function user()
+    public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
+
+    public function userComments()
+    {
+        return $this->hasMany(EvalUserSondagesComments::class, 'sondage_id');
     }
 }

@@ -1,13 +1,15 @@
 <template>
-    <div>                    
-        <v-autocomplete 
-            :loading="loading" 
-            :items="categories" 
+    <div>
+        <v-autocomplete
+            :loading="loading"
+            :items="categories"
             :search-input.sync="search"
             item-text="composed"
-            return-object 
-            cache-items 
-            hide-no-data 
+            append-icon=""
+            prepend-inner-icon="mdi-magnify"
+            return-object
+            cache-items
+            hide-no-data
             hide-details
             label="Catégorie">
         </v-autocomplete>
@@ -16,7 +18,7 @@
 
 <script>
 
-  import {APIService} from '../Services/ServiceRecupCateg';
+  import {APIService} from '../Services/Services';
   const apiCall = new APIService()
   export default {
     name: "AutocompleteCategorie",
@@ -35,18 +37,19 @@
             ({ data }) => {
             this.loading = false;
               data.data.forEach(categorie => {
-                this.categories.push(this.formattedCategorie(categorie))
+                  this.$emit('select', categorie.id)
+                  this.categories.push(this.formattedCategorie(categorie))
               });
           });
         }
       },
     },
-    methods: { 
+    methods: {
       formattedCategorie: function (categorie) {
-        return {            
-            composed: categorie.name
+        return {
+            composed: categorie.name,
         }
-      },   
+      },
     }
   };
 </script>

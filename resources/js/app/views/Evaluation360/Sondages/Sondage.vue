@@ -1,45 +1,46 @@
 <template>
-  <v-container style="height: 100%">
-    <v-stepper style="height: 100%" v-model="e1">
+  <v-container style="height: 100%" v-if="sondage">
+    <div class="font-weight-thin text-center mb-5">
+      <h1 class="font-weight-thin text-center">{{ sondage.name }}:</h1>
+      <span>{{ sondage.user.name }} {{ sondage.user.surname }}</span>
+    </div>
+
+    <v-stepper
+      class="mb-5"
+      style="height: 100%"
+      v-model="e1"
+      v-if="sondage != {}"
+    >
       <v-stepper-header>
         <v-stepper-step :complete="e1 > 1" step="1"> Questions </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step :complete="e1 > 2" step="2">
-          Langues & Référentiel
+        <v-stepper-step :complete="e1 > 2" step="2"> Langues </v-stepper-step>
+
+        <v-divider></v-divider>
+        <v-stepper-step :complete="e1 > 3" step="3">
+          Compétences
         </v-stepper-step>
 
         <v-divider></v-divider>
-
-        <v-stepper-step step="3"> Commentaire</v-stepper-step>
+        <v-stepper-step step="4"> Commentaire</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items style="height: 100%">
         <v-stepper-content step="1">
-          <Questions />
-
-          <div class="stepper-actions">
-            <v-btn color="primary" @click="e1 = 2"> Continuer </v-btn>
-          </div>
+          <Questions :questions="questions" />
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <Languages />
-          <div class="stepper-actions">
-            <v-btn color="primary" @click="e1 = 3"> Continuer </v-btn>
-
-            <v-btn text @click="e1 = 1"> retour </v-btn>
-          </div>
+          <Languages :Languages="languages" />
         </v-stepper-content>
 
         <v-stepper-content step="3">
+          <Skills :skills="skills" />
+        </v-stepper-content>
+        <v-stepper-content step="4">
           <Commentaires />
-          <div class="stepper-actions">
-            <v-btn color="primary" @click="e1 = 1"> Continuer </v-btn>
-
-            <v-btn text @click="e1 = 2"> retour </v-btn>
-          </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
