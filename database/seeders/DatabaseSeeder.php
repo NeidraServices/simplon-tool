@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EvalPromotion;
 use App\Models\EvalReferentiel;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -26,6 +27,13 @@ class DatabaseSeeder extends Seeder
             EvalSkillSeeder::class,
         ]);
 
+        EvalPromotion::create([
+            "name" => "CDA 2020"
+        ]);
+
+        EvalPromotion::create([
+            "name" => "DWWM 2020"
+        ]);
 
         $mailArray = ["admin@simplonapp.re", "formateur@simplonapp.re", "apprenant@simplonapp.re"];
 
@@ -40,7 +48,8 @@ class DatabaseSeeder extends Seeder
             $user->save();
         }
 
-        
+        \App\Models\User::factory(15)->create();
+
         $this->call([
             EvalSondageSeeder::class,
             EvalSondageLinesSeeder::class,
