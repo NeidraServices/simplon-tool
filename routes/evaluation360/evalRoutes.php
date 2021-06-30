@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EvalCoorteController;
 use App\Http\Controllers\EvalLangageController;
 use App\Http\Controllers\EvalPromotionController;
 use App\Http\Controllers\EvalReferentielController;
@@ -11,6 +12,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Apprenants routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
+    Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
+    Route::put('/apprenants/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
+    Route::delete('/apprenants/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
+});
+
+Route::middleware(['auth:api'])->prefix('user')->group(function () {
+    Route::get('/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+    Route::post('/update', [UserController::class, 'updateUser']);
+    Route::post('/update/password', [UserController::class, 'updatePassword']);
+    Route::post('/image/update', [UserController::class, 'updateAvatar']);
+  });
+  
 /*
 |--------------------------------------------------------------------------
 | Evaluation360 Promotions routes
