@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="2">
+    <v-col cols="4">
       <v-card class="sondage-langages-notes d-flex">
         <img
           style="width: 100%; object-fit: contain"

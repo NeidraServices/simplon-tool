@@ -1,7 +1,11 @@
 <template>
   <v-container>
     <v-row class="d-flex">
-      <v-col cols="12" v-for="question in questions" :key="question.id">
+      <v-col
+        cols="12"
+        v-for="question in questions"
+        :key="question.id"
+      >
         <v-col cols="12 text-center">
           <span class="font-weight-light">{{ question.question }}</span>
         </v-col>
@@ -21,10 +25,11 @@
       </v-col>
     </v-row>
 
-    <div class="stepper-actions">
+    <div class="stepper-actions mb-5">
       <v-btn color="primary" :disabled="!valid" @click="next()">
         Continuer
       </v-btn>
+      <v-btn text to="/sondages"> retour </v-btn>
     </div>
   </v-container>
 </template>

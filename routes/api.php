@@ -10,7 +10,9 @@ use App\Http\Controllers\Deliver_CompetenceController;
 use App\Http\Controllers\Deliver_MediaController;
 use App\Http\Controllers\Deliver_TagController;
 use App\Http\Controllers\EvalCoorteController;
+use App\Http\Controllers\EvalSondageController;
 use App\Http\Controllers\UserController;
+use App\Models\EvalSondage;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,35 +38,35 @@ Route::post('/email/verification', [AuthController::class, 'verifymail'])->name(
 Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
 
 
-/*
-|--------------------------------------------------------------------------
-| Evaluation360 Routes routes
-|--------------------------------------------------------------------------
-*/
+// /*
+// |--------------------------------------------------------------------------
+// | Evaluation360 Routes routes
+// |--------------------------------------------------------------------------
+// */
 
-Route::prefix('/evaluation360')->group(__DIR__ . '/evaluation360/evalRoutes.php');
+// Route::prefix('/evaluation360')->group(__DIR__ . '/evaluation360/evalRoutes.php');
 
-/*
-|--------------------------------------------------------------------------
-| Deliver routes
-|--------------------------------------------------------------------------
-*/
+// /*
+// |--------------------------------------------------------------------------
+// | Deliver routes
+// |--------------------------------------------------------------------------
+// */
 
-Route::prefix('/deliver')->group(__DIR__ . '/deliver/deliverRoutes.php');
+// Route::prefix('/deliver')->group(__DIR__ . '/deliver/deliverRoutes.php');
 
-/*
-|--------------------------------------------------------------------------
-| Markdown archive routes
-|--------------------------------------------------------------------------
-*/
+// /*
+// |--------------------------------------------------------------------------
+// | Markdown archive routes
+// |--------------------------------------------------------------------------
+// */
 
-Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
+// Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 
-/*
-|--------------------------------------------------------------------------
-| Users routes
-|--------------------------------------------------------------------------
-*/
+// /*
+// |--------------------------------------------------------------------------
+// | Users routes
+// |--------------------------------------------------------------------------
+// */
 
 
 Route::middleware(['auth:api'])->prefix('user')->group(function () {
@@ -82,5 +84,6 @@ Route::prefix("/apprenants")->group(function () {
 });
 
 Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
 Route::post('/user/update', [UserController::class, 'updateUser']);
 Route::post('/user/update/password', [UserController::class, 'updatePassword']);

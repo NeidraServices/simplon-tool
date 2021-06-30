@@ -4,6 +4,7 @@ import SeeMore from './Dashboard/SeeMore/SeeMore.vue';
 import Cohorte from './Formateur/Cohorte.vue';
 import Sondage from './Sondages/Sondage.vue';
 import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
+import SondagesList from './Sondages/SondagesList.vue';
 
 export const EvalRoutes = [
     {
@@ -12,12 +13,12 @@ export const EvalRoutes = [
         component: Home
     },
     {
-        path: '/evaluation360/apprenants',
+        path: '/apprenants',
         name: 'Apprenants',
         component: Apprenants
     },
     {
-        path: '/evaluation360/Details',
+        path: '/user/:id',
         name: 'SeeMore',
         component: SeeMore
     },
@@ -25,6 +26,11 @@ export const EvalRoutes = [
         path: '/evaluation360/Cohorte',
         name: 'Cohorte',
         component: Cohorte
+    },
+    {
+        path: '/evaluation360/Sondages',
+        name: 'SondagesList',
+        component: SondagesList
     },
     {
         path: '/evaluation360/Sondage/:userId/:sondageId',

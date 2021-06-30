@@ -1,17 +1,13 @@
 export default {
-    data() {
-        return {
-            langages: []
+    props: {
+        langues: {
+            default: Object
         }
     },
-    mounted() {
-        this.initializeData()
+    mounted(){
+        console.log(this.langues)
     },
     methods: {
-        initializeData() {
-            this.$store.dispatch('getLangages')
-            this.langages = this.$store.state.langages
-        },
         getImages(image) {
             return `${location.origin}/images/${image}`
         }

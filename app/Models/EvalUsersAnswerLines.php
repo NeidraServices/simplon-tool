@@ -17,6 +17,8 @@ class EvalUsersAnswerLines extends Model
     protected $fillable = [
         'note',
         'reponse',
+        'user_id',
+        'sondage_line_id'
     ];
 
     public function user() {
@@ -24,6 +26,6 @@ class EvalUsersAnswerLines extends Model
     }
 
     public function sondageLine() {
-        return $this->belongsTo(EvalSondageLines::class, 'sondage_line_id', 'id');
+        return $this->belongsTo(EvalSondageLines::class, 'sondage_line_id');
     }
 }

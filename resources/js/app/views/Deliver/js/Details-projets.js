@@ -1,42 +1,31 @@
-import { createRelativePositionFromTypeIndex } from "yjs";
-import Vue from 'vue';
 import {apiService} from "../../../services/apiService";
-import moment from "moment";
-
-Vue.filter('formatDate', function(value) {
-    if (value) {
-        return moment(String(value)).format('DD/MM/YYYY h:mm a')
-    }
-});
 
 export default{
+    name: 'showProjectDeliver',
+    props: {
+        id: {
+            type: String
+        }
+    },
     data () {
         return {
             isLoaded: false,
             dialog: false,
             dialogRendu: false,
-            dialogRep:false,
             tab: null,
-            idProjet:0,
+            // idProjet:0,
+            valid: true,
+            newEmailApprenant: '',
+            newApprenant: '',
             currentUser: [],
-            commentaires:[],
-            commentaire:"",
-            comId:0,
-            reponseCom:"",
             menus: [
                 {title: 'Détail'},
                 {title: 'Liste des rendus'},
             ],
             projet: [],
             apprenants: [],
-            select: { state: 'Florida'},
-            items: [
-                { user: 'Florida'},
-                { user: 'Georgia'},
-                { user: 'Nebraska'},
-                { user: 'California'},
-                { user: 'New York'},
-            ],
+            allApprenants: [],
+            rendu: []
         }
     },
     components: {
@@ -46,72 +35,77 @@ export default{
     watch: {
     },
     created() {
-        console.log(this.$store);
-        console.log(this.$store.state);
+        // console.log(this.$store);
+        // console.log(this.$store.state);
+        // this.currentUser = this.$store.state.userInfo;
 
-        this.currentUser = this.$store.state.userInfo;
-        console.log(this.currentUser);
-
-        this.getData().then(
-            r => {
-                console.log(r);
-            }
-        )
-        this.getComm();
+        this.getProjetData().then(r => {});
+        this.getRenduData().then(r => {});
+        this.getApprenantData().then(r => {});
     },
     methods: {
-        async getData() {
-            this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
+        async getProjetData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/deliver/projets/${this.idProjet}}/voir`);
-                this.projet = req.data.projet;
-                this.apprenants = req.data.apprenants;
+                const req = await apiService.get(`${location.origin}/api/deliver/projets/${this.id}/voir`);
+                this.projet = req.data.projet[0];
+
+                let allApprenants = [];
+
+                for(let i = 0; i < req.data.projet[0].users.length; i++) {
+                    allApprenants.push(req.data.projet[0].users[i])
+                }
+
+                this.apprenants = allApprenants;
                 this.isLoaded = true;
             } catch (error) {
                 console.log(error)
             }
         },
-        async getComm(){
-            this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
+        async getRenduData() {
+            // this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
             try {
-                const req = await apiService.get(`${location.origin}/api/deliver/commentaires/${this.idProjet}}`);
-                this.commentaires = req.data.commentaires;
+                const req = await apiService.get(`${location.origin}/api/deliver/view/rendus/projects/${this.id}`);
+                let allRendu = [];
+                for (let i = 0; i < req.data[0].length; i++) {
+                    if (parseInt(req.data[0][i].projet.id) === parseInt(this.id, 10)) {
+                        allRendu.push(req.data[0][i])
+                    }
+                }
+                this.rendu = allRendu;
+                this.isLoaded = true;
             } catch (error) {
                 console.log(error)
             }
         },
-        async addCom(){
-            this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
-            try {
-               const req = await apiService.post(`${location.origin}/api/deliver/commentaires/ajouter`,{projet_id:this.idProjet,text:this.commentaire});
-             
-               if(req.data.success){
-                this.dialogRep=false;
-                this.commentaire="";
-                this.getComm();
-                }
-             } catch (error) {
-                console.log(error)
+        async getApprenantData() {
+            let allApprenants = this.allApprenants;
+            const req = await apiService.get(`${location.origin}/api/apprenants`);
+            for (let i = 0; i < req.data.data.length; i++) {
+                allApprenants.push(req.data.data[i]);
             }
+            this.allApprenants = allApprenants;
         },
-        setComid(id){
-            this.comId=id;
-        }
-        ,
-       async  repondreCom(){
+        submit(item) {
+            let dataToSend = {};
+            let users = [];
 
-            this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
-            try {
-               const req = await apiService.post(`${location.origin}/api/deliver/commentaires/repondre`,{projet_id:this.idProjet,commentaire_id:this.comId,text:this.reponseCom});
-             
-               if(req.data.success){
-                this.dialogRep=false;
-                this.reponseCom="";
-                this.getComm();
-                }
-             } catch (error) {
-                console.log(error)
+            for (let i = 0; i < item.length; i++) {
+                users.push(item[i].id);
             }
-        }
+
+            dataToSend = {
+                users : users,
+                projet_id : parseInt(this.id),
+            }
+
+            console.log(dataToSend);
+
+            const dataPost = apiService.post(`${location.origin}/api/deliver/projet/affecter`, dataToSend);
+
+
+            console.log(dataPost)
+
+            this.dialog = false
+        },
     }
 }

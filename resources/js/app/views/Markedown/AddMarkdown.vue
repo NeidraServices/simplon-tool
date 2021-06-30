@@ -106,7 +106,8 @@ import MdEditor from "./component/MdEditor";
 import CustomFlashMessage from "./component/CustomFlashMessage";
 import AutocompleteCategorie from "./component/AutocompleteCategorie";
 import {APIService} from './Services/Services';
-const apiCall = new APIService()
+  const apiCall = new APIService()
+
 export default {
     name: "AddMarkedDown",
     components: {
@@ -192,7 +193,7 @@ export default {
         if (val && val.length > 1) {
           this.disabledButton = false;
           this.loading = true
-          axios.get('/api/markedown/categorie/search', { params: { query: val } })
+          apiCall.search(val)
           .then(({ data }) => {
               this.loading = false;
               data.data.forEach(categorie => {
@@ -231,7 +232,7 @@ export default {
                 const data = {
                     name: this.name,
                 };
-                axios.post('/api/markedown/categorie/ajouter', data)
+                apiCall.postCategory(data)
                     .then(({ data }) => {
                         this.flashMessage.success({
                             message: data.message,
@@ -260,15 +261,16 @@ export default {
                 category: this.category.id
             };
         
-        apiCall.postAddMarkdown(data).then(reponse =>{
-                    const reqData = reponse.data
-                    console.log(reqData)
-                    this. $refs.customFlash.showMessageSuccess(reqData.message)
-                }
-            ).catch (error => {
-                console.log(error)
-                this. $refs.customFlash.showMessageError(error)
-            })
+            apiCall.postAddMarkdown(data)
+                .then(reponse =>{
+                        const reqData = reponse.data
+                        console.log(reqData)
+                        this. $refs.customFlash.showMessageSuccess(reqData.message)
+                    }
+                ).catch (error => {
+                    console.log(error)
+                    this. $refs.customFlash.showMessageError(error)
+                })
         }
     },
 

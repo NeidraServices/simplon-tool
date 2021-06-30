@@ -1,9 +1,10 @@
 export default {
     data() {
         return {
-            apprenants: []
+            apprenants: [],
         }
     },
+
     created() {
         this.initializeData()
     },
@@ -17,7 +18,7 @@ export default {
         },
         async goToDetails(apprenant) {
             await this.$store.commit('Apprenant', apprenant)
-            await this.$router.push(`details`);
+            await this.$router.push(`/user/` + apprenant.id);
         }
     }
 
