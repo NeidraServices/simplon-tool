@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <div class="stepper-actions">
+    <div class="stepper-actions mb-5">
       <v-btn color="primary" @click="next()"> Valider </v-btn>
 
       <v-btn text @click="cancel()"> retour </v-btn>

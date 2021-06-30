@@ -24,5 +24,6 @@ export default {
             EventBus.$emit('next')
             EventBus.$emit('sendAnswers', this.questions)
         },
+        
     }
 }

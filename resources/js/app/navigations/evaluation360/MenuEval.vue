@@ -10,6 +10,9 @@
       <v-list-item link to="/evaluation360/apprenants">
         <v-list-item-title>Profils des apprenants</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="/evaluation360/sondages">
+        <v-list-item-title>Tout les sondages</v-list-item-title>
+      </v-list-item>
     </v-list>
 
     <v-list nav dense v-if="userRole == 3">

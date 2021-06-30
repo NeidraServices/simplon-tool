@@ -85,13 +85,15 @@ export default new Vuex.Store({
             }
             catch (err) { console.log(err) }
         },
-        async getSpecificSondage({ }, data) {
+        async getSpecificSondage({ state }, data) {
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
                 const reqData = req.data.data
                 this.commit('storeSpecificSondage', reqData)
             }
-            catch (err) { console.log(err) }
+            catch (err) {
+                this.commit('storeSpecificSondage', {})
+            }
         },
 
     },
