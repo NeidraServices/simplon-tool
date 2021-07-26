@@ -14,7 +14,7 @@ export const EvalRoutes = [
         component: Home
     },
     {
-        path: '/apprenants',
+        path: '/evaluation360/apprenants',
         name: 'Apprenants',
         component: Apprenants
     },
@@ -24,12 +24,12 @@ export const EvalRoutes = [
         component: SeeMore
     },
     {
-        path: '/evaluation360/Cohorte',
+        path: '/evaluation360/cohorte',
         name: 'Cohorte',
         component: Cohorte
     },
     {
-        path: '/evaluation360/Sondages',
+        path: '/evaluation360/sondages',
         name: 'SondagesList',
         component: SondagesList
     }, 
@@ -39,13 +39,13 @@ export const EvalRoutes = [
         component: GestionLearnerSondage
     },
     {
-        path: '/evaluation360/Sondage/:userId/:sondageId',
-        name: 'Sondage',
-        component: Sondage
-    },
-    {
         path: '/evaluation360/formateur/sondages',
         name: 'gestionSondage',
         component: GestionSondage
+    },
+    {
+        path: '/evaluation360/Sondage/:userId/:sondageId',
+        name: 'Sondage',
+        component: Sondage
     },
 ]
