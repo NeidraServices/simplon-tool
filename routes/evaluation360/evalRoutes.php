@@ -101,11 +101,14 @@ Route::middleware(['auth:api'])->prefix("/sondageLine")->group(function () {
 });
 
 Route::middleware(['auth:api'])->group(function(){
-    Route::prefix('/formateur/sondage')->group(function () {
+    Route::prefix("/formateur/sondage")->group(function() {
         Route::get("/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
+    });
+
+    Route::prefix('/sondage')->group(function () {
         Route::post("/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
         Route::put("/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
-        Route::put("/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
+        Route::put("{id}/proposing/accepte", [EvalSondageController::class, "acceptProposing"])->name('api.sondage.formateur.acceptProposing');
         Route::put("/draft", [EvalSondageController::class, "setToDraft"])->name('api.sondage.formateur.setToDraft');
         Route::put("/publish", [EvalSondageController::class, "setToPublish"])->name('api.sondage.formateur.setToPublish');
         Route::delete("/{name}/delete", [EvalSondageController::class, "deleteData"])->name('api.sondage.formateur.deleteData');
@@ -114,10 +117,9 @@ Route::middleware(['auth:api'])->group(function(){
 
 Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/apprenant/sondage')->group(function () {
-        Route::get("/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.apprenant.retrieve');
+        Route::get("/list", [EvalSondageController::class, "getSondageList"])->name('api.sondage.apprenant.retrieve');
         Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.retrieve');
         Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.retrieve');
         Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.retrieve');
-        Route::post("/proposing", [EvalSondageController::class, "proposingData"])->name('api.sondage.apprenant.proposing');
     });
 });

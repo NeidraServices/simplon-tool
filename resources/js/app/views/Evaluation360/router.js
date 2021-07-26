@@ -5,6 +5,7 @@ import Cohorte from './Formateur/Cohorte.vue';
 import Sondage from './Sondages/Sondage.vue';
 import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
 import SondagesList from './Sondages/SondagesList.vue';
+import GestionLearnerSondage from './Sondages/Gestion/GestionLearnerSondage.vue';
 
 export const EvalRoutes = [
     {
@@ -31,6 +32,11 @@ export const EvalRoutes = [
         path: '/evaluation360/Sondages',
         name: 'SondagesList',
         component: SondagesList
+    }, 
+    {
+        path: '/evaluation360/apprenant/sondages',
+        name: 'learnerSondage',
+        component: GestionLearnerSondage
     },
     {
         path: '/evaluation360/Sondage/:userId/:sondageId',
@@ -38,7 +44,7 @@ export const EvalRoutes = [
         component: Sondage
     },
     {
-        path: '/evaluation360/gestion/sondages',
+        path: '/evaluation360/formateur/sondages',
         name: 'gestionSondage',
         component: GestionSondage
     },
