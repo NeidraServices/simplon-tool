@@ -5,13 +5,13 @@
             <v-row>
                 <v-col>
                     {{ title }}
-                    <h2>Description</h2>
-                    <p>{{ description }}</p>
+                    <p class="description">{{ description }}</p>
 
                     <Editor
                         mode="viewer"
                         ref="editor"
                         hint="Test"
+                        class="editor"
                         :outline="false"
                         :preview="true"
                         v-model="text"
@@ -19,6 +19,8 @@
                 </v-col>
             </v-row>
             <v-btn outlined @click="sendRequest">Faire une demande de modification.</v-btn>
+            <v-btn outlined>Voir liste contributeurs</v-btn>
+
             <br/><br/>
             <v-divider></v-divider>
             <br/>
@@ -52,6 +54,16 @@
     width: 100%;
     text-align: center;
     margin-bottom: 30px;
+}
+.description{
+    font-size: 12px;
+    margin-bottom: 50px !important;
+}
+.editor {
+    border: 2px solid grey;
+    margin-bottom: 20px;
+    padding: 20px !important;
+    border-radius: 20px;
 }
 </style>
 
