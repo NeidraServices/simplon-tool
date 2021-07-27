@@ -76,7 +76,8 @@ export default {
             selectItem: null,
             generalDialog: false,
             deleteDialog: false,
-            selectItem: null,
+            dialogAgree: false,
+            selectItem: null
         }
     },
 
@@ -173,6 +174,16 @@ export default {
             this.deleteDialog = false;
         },
 
+        openAgree(item) {
+            this.dialogAgree = true;
+            this.selectItem = item;
+        },
+
+        closeAgree() {
+            this.dialogAgree = false;
+            this.selectItem = null;
+        },
+
         addLines() {
             this.sondageLines.push({
                 type: '',
@@ -194,7 +205,11 @@ export default {
                 this.sondagesList = reqData;
                 this.isLoaded = true;
             } catch (error) {
-                console.log(error)
+                EventBus.$emit('snackbar', {
+                    text: `Sondages : Une erreur est survenue`,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         },
 
@@ -203,14 +218,18 @@ export default {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/langage/list`)
                 const reqData = req.data.data;
                 this.selectLangages = reqData;
-                this.selectLangages.unshift({
-                    id: "",
-                    name: "Aucun",
-                    image: ""
-                })
+                // this.selectLangages.unshift({
+                //     id: "",
+                //     name: "Aucun",
+                //     image: ""
+                // })
 
             } catch (error) {
-                console.log(error)
+                EventBus.$emit('snackbar', {
+                    text: `Langages : Une erreur est survenue`,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         },
 
@@ -220,7 +239,11 @@ export default {
                 const reqData = req.data.data;
                 this.selectSkills = reqData;
             } catch (error) {
-                console.log(error)
+                EventBus.$emit('snackbar', {
+                    text: `Compétences : Une erreur est survenue`,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         },
 
@@ -237,19 +260,19 @@ export default {
                         this.sondageLines.forEach(item => {
                             if (item.type.id) {
                                 switch (item.type.id) {
-                                    case "0":
+                                    case 0:
                                         ligneFormated.push({
                                             type: item.type.id,
                                             content: item.content.id
                                         })
                                         break;
-                                    case "1":
+                                    case 1:
                                         ligneFormated.push({
                                             type: item.type.id,
                                             content: item.content.id
                                         })
                                         break;
-                                    case "2":
+                                    case 2:
                                         ligneFormated.push({
                                             type: item.type.id,
                                             content: item.content
@@ -260,22 +283,22 @@ export default {
                                 }
                             } else {
                                 switch (item.type) {
-                                    case "0":
+                                    case 0:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.content
+                                            content: item.langage.id
                                         })
                                         break;
-                                    case "1":
+                                    case 1:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.content
+                                            content: item.skill.id
                                         })
                                         break;
-                                    case "2":
+                                    case 2:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.content.id ? "" : item.content
+                                            content: item.question == null ? "" : item.question
                                         })
                                         break;
                                     default:
@@ -288,7 +311,7 @@ export default {
                             lines: ligneFormated,
                             published: this.published.id
                         }
-                        req = await apiService.put(`${location.origin}/api/evaluation360/formateur/sondage/update`, dataSend);
+                        req = await apiService.put(`${location.origin}/api/evaluation360/sondage/update`, dataSend);
                     } else {
 
                         dataSend = {
@@ -296,30 +319,58 @@ export default {
                             lines: this.sondageLines,
                             published: this.published
                         }
-                        req = await apiService.post(`${location.origin}/api/evaluation360/formateur/sondage/create`, dataSend);
+                        req = await apiService.post(`${location.origin}/api/evaluation360/sondage/create`, dataSend);
                     }
                     const reqData = req.data;
                     if (reqData.success) {
                         await this.getSondages()
                         await this.closeGeneral()
                     } else {
-                        console.log(reqData.message)
+                        EventBus.$emit('snackbar', {
+                            snackbar: true,
+                            text: reqData.message,
+                            color: 'blue',
+                            timeout: 3000
+                        })
                     }
                 }
             } catch (error) {
-                console.log(error)
+                EventBus.$emit('snackbar', {
+                    text: `Une erreur est survenue`,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         },
 
-        editeChange(item, type) {
-            if((typeof item.content) == "object" && type == 2) {
-                item.content = "";
+
+        async accepteSondage() {
+            try {
+                const req = await apiService.put(`${location.origin}/api/evaluation360/sondage/${this.selectItem.id}/proposing/accepte`, null);
+                const reqData = req.data;
+                if (reqData.success) {
+                    await this.getSondages()
+                    await this.closeAgree()
+                } else {
+                    EventBus.$emit('snackbar', {
+                        snackbar: true,
+                        text: reqData.message,
+                        color: 'blue',
+                        timeout: 3000
+                    })
+                } 
+            } catch (error) {
+                EventBus.$emit('snackbar', {
+                    text: `Une erreur est survenue`,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         },
 
         async deleteSondage() {
             try {
-                const req = await apiService.delete(`${location.origin}/api/evaluation360/formateur/sondage/${this.selectItem.name}/delete`,);
+                const req = await apiService.delete(`${location.origin}/api/evaluation360/sondage/${this.selectItem.name}/delete`,);
                 const reqData = req.data;
                 if (reqData.success) {
                     await this.getSondages()
@@ -329,6 +380,12 @@ export default {
                 }
             } catch (error) {
                 console.log(error)
+            }
+        },
+
+        editeChange(item, type) {
+            if((typeof item.content) == "object" && type == 2) {
+                item.content = "";
             }
         },
 
@@ -368,6 +425,7 @@ export default {
                 }
             }
         },
+
 
     }
 }

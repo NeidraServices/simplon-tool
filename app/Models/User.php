@@ -49,14 +49,16 @@ class User extends Authenticatable
     /**
      * 1 user belong to 1 role
      */
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**
      * Accessor to show avatar image
      */
-    public function getAvatarAttribute($value) {
+    public function getAvatarAttribute($value)
+    {
         return $this->directoryImage . $value;
     }
 
@@ -75,5 +77,14 @@ class User extends Authenticatable
         return $this->belongsTo(EvalPromotion::class, 'promotion_id');
     }
 
-    
+    /**
+     * Check if it's an administrator
+     */
+    public function isAdmin()
+    {
+        if ($this->role->label == "admin") {
+            return true;
+        }
+        return false;
+    }
 }

@@ -37,6 +37,18 @@ class EvalSondageController extends Controller
 
 
     /**
+     * Retrieve all (connected learner)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getSondageList()
+    {
+        $sondages = EvalSondage::where(['user_id' => Auth::id(), 'isOwner' => 1])->get();
+        return EvalSondageFormateurResource::collection($sondages);
+    }
+
+
+    /**
      * Retrieve all (connected learners)
      * 
      * @return \Illuminate\Http\Response
@@ -58,6 +70,8 @@ class EvalSondageController extends Controller
         $sondages = EvalSondage::where(['id' => $sondageId, 'user_id' => $userId, 'published' => 1, 'accepted' => 1])->first();
         return new EvalSondageResource($sondages);
     }
+
+
     /*
     |--------------------------------------------------------------------------
     | Create data functions
@@ -98,12 +112,15 @@ class EvalSondageController extends Controller
 
         $apprenants = User::where(["role_id" => 3])->get();
 
-        foreach ($apprenants as $apprenant) {
+        $user = Auth::user();
+
+        if($user->role_id == 3) {
             $sondage            = new EvalSondage();
             $sondage->name      = $name;
-            $sondage->user_id   = $apprenant->id;
-            $sondage->accepted  = 1;
+            $sondage->user_id   = $user->id;
             $sondage->published = $published;
+            $sondage->accepted  = 0;
+            $sondage->isOwner   = 1;
             $sondage->save();
 
             foreach ($lines as $lineInfo) {
@@ -126,62 +143,50 @@ class EvalSondageController extends Controller
                 }
                 $sondageLine->save();
             }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => "Sondage ajouté"
-        ]);
-    }
-
-
-    /**
-     * Proposing data
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function proposingData(Request $request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name'         => "required",
-                'lines.*'      => 'required',
-            ],
-            [
-                'required' => 'Le champ :attribute est requis',
-            ]
-        );
-
-        $errors = $validator->errors();
-        if (count($errors) != 0) {
             return response()->json([
-                'success' => false,
-                'message' => $errors->first()
+                'success' => true,
+                'message' => "Sondage ajouté"
+            ]);
+        } else {
+            foreach ($apprenants as $apprenant) {
+                $sondage            = new EvalSondage();
+                $sondage->name      = $name;
+                $sondage->user_id   = $apprenant->id;
+                $sondage->published = $published;
+                $sondage->accepted  = 1;
+                $sondage->isOwner   = 1;
+                $sondage->save();
+    
+                foreach ($lines as $lineInfo) {
+                    $sondageLine = new EvalSondageLines();
+                    $sondageLine->sondage_id = $sondage->id;
+                    $sondageLine->type       = $lineInfo['type'];
+    
+                    switch ($lineInfo['type']) {
+                        case 0:
+                            $sondageLine->langage_id  = $lineInfo['content'];
+                            break;
+                        case 1:
+                            $sondageLine->skill_id    = $lineInfo['content'];
+                            break;
+                        case 2:
+                            $sondageLine->question    = $lineInfo['content'];
+                            break;
+                        default:
+                            break;
+                    }
+                    $sondageLine->save();
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "Sondage ajouté"
             ]);
         }
-
-        $name       =  $validator->validated()['name'];
-        $lines      =  $validator->validated()['lines'];
-
-        $sondage            = new EvalSondage();
-        $sondage->name      = $name;
-        $sondage->user_id   = Auth::id();
-        $sondage->save();
-
-        foreach ($lines as $lineInfo) {
-            $sondageLine = new EvalSondageLines();
-            $sondageLine->sondage_id = $sondage->id;
-            $sondageLine->langage_id = $lineInfo['langage_id'] ?? null;
-            $sondageLine->skill_id   = $lineInfo['skill_id'];
-            $sondageLine->save();
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => "Sondage ajouté"
-        ]);
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -341,6 +346,7 @@ class EvalSondageController extends Controller
     |--------------------------------------------------------------------------
     */
 
+
     /**
      * Delete data
      * 
@@ -364,6 +370,8 @@ class EvalSondageController extends Controller
             'message' => "Sondage supprimer"
         ]);
     }
+
+
     /*
     |--------------------------------------------------------------------------
     | Answer sondage functions
