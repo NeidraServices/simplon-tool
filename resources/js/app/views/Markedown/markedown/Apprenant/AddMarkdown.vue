@@ -124,7 +124,6 @@ export default {
             description: '',
             disabledButton: true,
             activeModalCategory: false,
-
             active: '',
             status:[
                 {
@@ -222,8 +221,7 @@ export default {
                 user : this.$store.state.userInfo.id
             };
 
-           apiService.post(`${location.origin}/api/markedown/markdown/create`, data)
-                .then(response =>{
+           apiService.post(`${location.origin}/api/markedown/markdown/create`, data).then(response =>{
                     const reqData = response.data
                         EventBus.$emit('snackbar', {
                             snackbar: true,
@@ -247,10 +245,10 @@ export default {
                 const data = {
                     name: this.name,
                 };
-                apiService.post(`${location.origin}/categorie/ajouter`, data).then(({ data }) => {
+                apiService.post(`${location.origin}/api/markedown/categorie/ajouter`, data).then(({ data }) => {
                         EventBus.$emit('snackbar', {
                             snackbar: true,
-                            text: data.message,
+                            text: data.data.message,
                             color: 'blue',
                             timeout: 3000
                         })
