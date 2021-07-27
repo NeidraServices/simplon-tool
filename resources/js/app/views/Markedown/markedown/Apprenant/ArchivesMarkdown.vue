@@ -3,20 +3,20 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-            <v-card-title 
+            <v-card-title
                 class="layout justify-center mb-6"
             >
                 Archives
             </v-card-title>
-            <v-card-text 
+            <v-card-text
                 class="layout justify-center"
             >
               <v-row class="layout justify-center justify-md-end">
                   <router-link to="/markedowns/mymarkedowns" custom v-slot="{ navigate }">
-                      <v-btn 
+                      <v-btn
                           class="ma-2"
                           @click="navigate"
-                          @keypress.enter="navigate" 
+                          @keypress.enter="navigate"
                           role="link"
                       >
                           Mes Markdown
@@ -36,22 +36,22 @@
                 :key="item.id"
                   class="item col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
                   style="max-width: 460px;"
-            >  
-              <ItemArchive 
+            >
+              <ItemArchive
                   v-bind:item="item"
               />
             </v-col>
           </v-row>
         </div>
-        
+
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
-  import ItemArchive from './component/ItemArchive';
-  import {APIService} from './Services/Services'
-  import Utils from '../../helpers/utils';
+  import ItemArchive from '../../component/ItemArchive';
+  import {APIService} from '../../Services/Services'
+  import Utils from '../../../../helpers/utils';
   const utils = new Utils();
   const apiCall = new APIService()
   export default {
@@ -69,7 +69,7 @@
           markdown_list: [
             ],
           categories: [
-            
+
           ],
         };
     },
@@ -95,7 +95,7 @@
                     date: utils.formatDate(item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : null))
                 })
             })
-        }        
+        }
         return formatedData
       },
     }

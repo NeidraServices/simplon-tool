@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ListMarkdowns from "./ListMarkdowns";
+  import ListMarkdowns from "./markedown/AllUsersMarkdowns";
   export default {
     components: {
       ListMarkdowns,

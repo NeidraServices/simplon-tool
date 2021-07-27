@@ -1,16 +1,17 @@
 <template>
     <div>
         <v-container>
-          <CustomFlashMessage ref="customFlash"/>
-            <h2>Ajouter une fiche</h2>
+            <CustomFlashMessage ref="customFlash"/>
+            <h2 class="titre">{{title}}</h2>
             <v-row>
                 <v-col>
                     <v-select
+                        v-model="active"
+                        :items="status"
                         item-text="label"
                         item-value="value"
-                        :items="status"
-                        v-model="active"
                         label="Status"
+                        v-on:change="setStatus"
                     ></v-select>
                 </v-col>
                 <v-col>
@@ -27,6 +28,7 @@
                         flat
                         hide-no-data
                         hide-details
+                        v-on:blur="setCategory"
                         label="Catégorie">
                     </v-autocomplete>
                 </v-col>
@@ -76,21 +78,20 @@
                 label="Titre"
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
+                v-on:blur="updateTitle"
             ></v-text-field>
             <v-textarea
                 outlined
-                name="description"
                 label="Description"
+                placeholder="Entrez une description"
                 v-model="description"
+                v-on:blur="updateDescription"
             ></v-textarea>
-            <markdown-editor
-            theme="primary"
-            ref="md"
-            v-model="text"
-            toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote | fullscreen | preview"
-            :extend="custom"></markdown-editor>
+            <v-divider></v-divider><br><br>
 
-            <v-btn @click="addMarkDown">Valider</v-btn>
+            <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
+        fullscreen | preview" :extend="custom"></markdown-editor><br>
+            <v-btn outlined @click="editMD">Editer</v-btn>
         </v-container>
 
     </div>
@@ -102,47 +103,45 @@
 }
 </style>
 <script>
-import MdEditor from "./component/MdEditor";
-import CustomFlashMessage from "./component/CustomFlashMessage";
-import AutocompleteCategorie from "./component/AutocompleteCategorie";
-import {APIService} from './Services/Services';
-  const apiCall = new APIService()
-
+import MdEditor from "../../component/MdEditor";
+import AutocompleteCategorie from "../../component/AutocompleteCategorie";
+import CustomFlashMessage from "../../component/CustomFlashMessage";
+import Axios from "axios";
 export default {
-    name: "AddMarkedDown",
+    name: "ShowEditMd",
     components: {
         MdEditor,
         AutocompleteCategorie,
         CustomFlashMessage
     },
+    props: {
+        id: {
+            type: String
+        }
+    },
     data() {
         return {
-            title: '',
-            category: '',
-            name: '',
-            text: '',
-            description: '',
-            disabledButton: true,
-            activeModalCategory: false,
-
-            active: '',
-            status:[
-                {
-                    label:'En brouillon',
-                    value: 0
-                },
-                {
-                    label:'Publié',
-                    value: 1
-                }
-            ],
-
             dialog: false,
             categorie: null,
-            categories: [],
+            category: '',
             search: null,
             loading: false,
-
+            disabledButton: true,
+            activeModalCategory: false,
+            name: '',
+            title:'',
+            active: '',
+            description: '',
+            status: [{
+                label:'En brouillon',
+                value:0
+            },
+            {
+                label:'Public',
+                value:1
+            }],
+            categories: [],
+            text: '',
             custom: {
                 'preview': {
                     cmd: 'preview',
@@ -187,15 +186,21 @@ export default {
             },
         };
     },
-
     watch: {
       search: function (val) {
         if (val && val.length > 1) {
           this.disabledButton = false;
           this.loading = true
-          apiCall.search(val)
+          axios.get('/api/markedown/categorie/search', { params: { query: val } })
           .then(({ data }) => {
+
               this.loading = false;
+
+              /* console.log(this.categorie)
+              if (val !==) {
+                  this.disabledButton = true;
+              } */
+
               data.data.forEach(categorie => {
                   this.categories.push(this.formattedCategorie(categorie))
               });
@@ -205,14 +210,9 @@ export default {
         }
       },
     },
-
     methods: {
-        init: function () {
-            this.name = ''
-            this.categorie = {}
-        },
-
         formattedCategorie: function (categorie) {
+
             return {
 
                 id: categorie.id,
@@ -221,22 +221,92 @@ export default {
                 composed: categorie.name
             }
         },
-
-        openCategoryModal(){
-            this.isActiveModalCategory = true
-            this.$emit('addCategoryModalActive', false);
+         async setCategory(){
+            if(typeof this.category.id  != 'undefined'){
+                //console.log(this.category.id)
+                let dataSend={
+                    category:this.category.id
+                }
+                try {
+                    const req = await  Axios.post(`${location.origin}/api/markedown/markdown/category/${this.id}`, dataSend)
+                    const reqData = req.data
+                    console.log(req)
+                    this.flashMessage.success({
+                        message: reqData.message,
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         },
+        async setStatus(){
+            let dataSend={
+                active:this.active
+            }
+            await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    console.log(reqData)
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+            ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+        async editMD(){
+            let dataSend={
+                text:this.text
+            }
+            await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend).then(
+                reponse =>{
+                    const reqData = reponse.data
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                    console.log(reqData)
+                }
+             ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+        async updateTitle(){
+            let dataSend={
+                title:this.title
+            }
+            await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend).then(
+                reponse => {
+                    const reqData = reponse.data
+                    console.log(reqData)
+                    this. $refs.customFlash.showMessageSuccess(reqData.message)
+                }
+             ).catch (error => {
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            })
+        },
+         async updateDescription(){
+            let dataSend={
+                description:this.description
+            }
+            try {
+                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
+                const reqData = req.data
+                console.log(reqData)
 
-        addCategoryModal(){
+                this.flashMessage.success({
+                    message: reqData.message,
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async addCategoryModal(){
             if (this.isValid()) {
                 const data = {
                     name: this.name,
                 };
-                apiCall.postCategory(data)
+                await axios.post('/api/markedown/categorie/ajouter', data)
                     .then(({ data }) => {
-                        this.flashMessage.success({
-                            message: data.message,
-                        });
                         this.$emit('create', data.data)
                         this.dialog = false
                     })
@@ -246,39 +316,50 @@ export default {
                     });
             }
         },
-
         isValid() {
             return this.name != ''
         },
+        async getData() {
+            const token = localStorage.getItem('token');
+            try {
+                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
+                const reqData = req.data
+                console.log(reqData)
+                this.title= reqData.markdown.title
+                let category ={
+                    composed:reqData.markdown.category.name,
+                    id:reqData.markdown.category.id
+                }
 
-        async addMarkDown() {
-            const header = apiCall.getRequestHeadersToSend()
-            const data = {
-                title: this.title,
-                text: this.text,
-                description: this.description,
-                active: this.active,
-                category: this.category.id,
-                user : this.$store.state.userInfo.id
-            };
+                this.categories.push( category)
+                this.category=this.categories[0]
+                console.log(this.category)
+                this.description = reqData.markdown.description
+                this.text= reqData.text
+                this.active= reqData.markdown.status
 
-            apiCall.postAddMarkdown(data)
-                .then(reponse =>{
-                        const reqData = reponse.data
-                        console.log(reqData)
-                        this. $refs.customFlash.showMessageSuccess(reqData.message)
-                    }
-                ).catch (error => {
-                    console.log(error)
-                    this. $refs.customFlash.showMessageError(error)
-                })
-        }
+
+            }catch (error){
+                console.log(error)
+                this. $refs.customFlash.showMessageError(error)
+            }
+         }
     },
-
     computed: {
         validate() {
             return this.isValid()
         }
-    }
+    },
+    created() {
+        this.getData();
+    },
 };
 </script>
+
+<style>
+    .titre{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>

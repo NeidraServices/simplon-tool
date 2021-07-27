@@ -4,15 +4,15 @@
       <CustomFlashMessage ref="customFlash"/>
       <v-row justify="space-between">
         <v-col cols="12">
-            <v-card-title 
+            <v-card-title
                 class="layout justify-center mb-6"
             >
                 MES MARKDOWNS
             </v-card-title>
-            <v-card-text 
+            <v-card-text
                 class="layout justify-center"
             >
-        <div class="layout justify-center justify-md-end">            
+        <div class="layout justify-center justify-md-end">
             <!-- <v-spacer></v-spacer> -->
             <BtnWithIcon v-bind:title="'Ajouter'" v-bind:routeName="'AddMarkdowns'">
                 <v-icon
@@ -36,26 +36,26 @@
                 :key="item.id"
                 class="item col-12 col-xs-6 col-md-6 col-lg-4 col-xl-3"
                 style="max-width: 460px;"
-            >  
-              <ItemMyMd 
+            >
+              <ItemMyMd
                   v-bind:item="item"
-                  @show-success-msg="showSuccessMsg" 
+                  @show-success-msg="showSuccessMsg"
                   @show-error-msg="showErrorsMsg"
               />
             </v-col>
           </v-row>
         </div>
-        
+
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
-import ItemMyMd from "./component/ItemMyMd";
-import BtnWithIcon from "./component/BtnWithIcon";
-import MdEditor from "./component/MdEditor";
-import {APIService} from './Services/Services'
-import CustomFlashMessage from "./component/CustomFlashMessage";
+import ItemMyMd from "../../component/ItemMyMd";
+import BtnWithIcon from "../../component/BtnWithIcon";
+import MdEditor from "../../component/MdEditor";
+import {APIService} from '../../Services/Services'
+import CustomFlashMessage from "../../component/CustomFlashMessage";
 const apiCall = new APIService()
 export default {
     name: "MyMarkedDowns",
@@ -70,7 +70,7 @@ export default {
           markdown_list: [
             ],
           categories: [
-            
+
           ]
         };
     },
@@ -91,14 +91,13 @@ export default {
                     author: "user"+item.user_id
                 })
             })
-        }        
+        }
         return formatedData
       },
       getMyMarkdowns(){
-        apiCall.getApiMyMds().then(
-          reponse => {
-            console.log("Reponse :", reponse)
-            this.markdown_list = this.formatDataMdCom(reponse.data.data)
+        apiCall.getApiMyMds().then(response => {
+            console.log("Reponse :", response)
+            this.markdown_list = this.formatDataMdCom(response.data.data)
           }
         ).catch (error => {
             console.log(error)

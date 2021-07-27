@@ -8,7 +8,7 @@
           {{ title }}
           <h2>Description</h2>
           <p>{{ description }}</p>
-          
+
           <Editor
             mode="viewer"
             ref="editor"
@@ -51,8 +51,8 @@
 <script>
 import { Editor } from "vuetify-markdown-editor";
 import Axios from "axios";
-import {APIService} from './Services/Services';
-  import CustomFlashMessage from "./component/CustomFlashMessage";
+import {APIService} from '../Services/Services';
+  import CustomFlashMessage from "../component/CustomFlashMessage";
 const apiCall = new APIService()
 
 export default {
@@ -124,7 +124,7 @@ export default {
         });
         this.getData();
       });
-    }, 
+    },
     sendRequest(){
       apiCall.contributionRequest(this.id).then(
         reponse => {
@@ -138,7 +138,7 @@ export default {
         return `${location.origin}/images/${image}`;
     },
   },
-  created() {
+  mounted() {
     this.getData();
   },
 };

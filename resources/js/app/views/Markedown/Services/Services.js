@@ -25,11 +25,6 @@ export class APIService {
         return axios.get(url, header);
     }
 
-    search(val) {
-        const header = this.getRequestHeadersToSend()
-        const url = `${API_URL}/categorie/search`;
-        return axios.get(url,{ params: { query: val }, header });
-    }
     getApiMdCommuns() {
         const header = this.getRequestHeadersToSend()
         const url = `${API_URL}/markdowns-commun`;

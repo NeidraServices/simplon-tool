@@ -1,10 +1,10 @@
 import Home from './Home.vue';
-import ListMarkedDowns from './ListMarkdowns';
-import MyMarkedDowns from './MyMarkdowns';
-import Archives from './Archives';
-import AddMarkdown from "./AddMarkdown";
-import ShowEditMd from "./ShowEditMd";
-import ShowReadMd from "./ShowReadMd";
+import ListMarkedDowns from './markedown/AllUsersMarkdowns';
+import MyMarkedDowns from './markedown/Apprenant/Markdown';
+import Archives from './markedown/Apprenant/ArchivesMarkdown';
+import AddMarkdown from "./markedown/Apprenant/AddMarkdown";
+import ShowEditMd from "./markedown/Apprenant/EditMarkdown";
+import ShowReadMd from "./markedown/ReadOnlyMarkdown";
 
 export const MarkedownRoutes = [
     {
