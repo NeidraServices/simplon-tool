@@ -16,7 +16,7 @@
                 <v-col>
                     <v-autocomplete
                         v-model="category"
-                        :loading="loading" 
+                        :loading="loading"
                         :items="categories"
                         :search-input.sync="search"
                         item-text="composed"
@@ -30,7 +30,7 @@
                         label="Catégorie">
                     </v-autocomplete>
                 </v-col>
-                
+
                 <v-col class="mt-4" cols="2">
                 <v-dialog
                 v-model="dialog"
@@ -83,11 +83,11 @@
                 label="Description"
                 v-model="description"
             ></v-textarea>
-            <markdown-editor 
-            theme="primary" 
-            ref="md" 
-            v-model="text" 
-            toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote | fullscreen | preview" 
+            <markdown-editor
+            theme="primary"
+            ref="md"
+            v-model="text"
+            toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote | fullscreen | preview"
             :extend="custom"></markdown-editor>
 
             <v-btn @click="addMarkDown">Valider</v-btn>
@@ -124,7 +124,7 @@ export default {
             description: '',
             disabledButton: true,
             activeModalCategory: false,
-            
+
             active: '',
             status:[
                 {
@@ -187,7 +187,7 @@ export default {
             },
         };
     },
-    
+
     watch: {
       search: function (val) {
         if (val && val.length > 1) {
@@ -205,7 +205,7 @@ export default {
         }
       },
     },
-    
+
     methods: {
         init: function () {
             this.name = ''
@@ -226,7 +226,7 @@ export default {
             this.isActiveModalCategory = true
             this.$emit('addCategoryModalActive', false);
         },
-      
+
         addCategoryModal(){
             if (this.isValid()) {
                 const data = {
@@ -258,9 +258,10 @@ export default {
                 text: this.text,
                 description: this.description,
                 active: this.active,
-                category: this.category.id
+                category: this.category.id,
+                user : this.$store.state.userInfo.id
             };
-        
+
             apiCall.postAddMarkdown(data)
                 .then(reponse =>{
                         const reqData = reponse.data

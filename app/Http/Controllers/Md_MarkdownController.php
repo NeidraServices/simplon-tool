@@ -24,11 +24,11 @@ class Md_MarkdownController extends Controller
     }
 
     public function showMine(){
-        
+
         $userId=Auth::id();
         $markdowns=Markdown_Markdown::whereHas('contributions', function (Builder $query) use ($userId) {
             $query->where('user_id', $userId);
-            
+
         })->orWhere('user_id',$userId)->get();
         return MarkdownResource::collection($markdowns);
     }
@@ -53,7 +53,7 @@ class Md_MarkdownController extends Controller
             return response()->json("ok");
 
     }
-    
+
     // encours:liasin_archive
     public function editMd(Request $request,$id){
         $validator = Validator::make(
@@ -99,6 +99,7 @@ class Md_MarkdownController extends Controller
                 'description'          => 'required',
                 'active'        => 'required',
                 'title'         =>  'required',
+                'user'          => 'required'
             ],
 
             [
@@ -121,7 +122,7 @@ class Md_MarkdownController extends Controller
                 //store your file into database
                 $markdown = new Markdown_Markdown();
                 $markdown->url = $file;
-                $markdown->user_id =1;
+                $markdown->user_id = $validator->validated()['user'];
                 $markdown->md_category_id= $validator->validated()['category'];
                 $markdown->active=$validator->validated()['active'];
                 $markdown->title=$validator->validated()['title'];
