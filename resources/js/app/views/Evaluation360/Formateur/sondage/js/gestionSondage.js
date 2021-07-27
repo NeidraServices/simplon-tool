@@ -218,11 +218,11 @@ export default {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/langage/list`)
                 const reqData = req.data.data;
                 this.selectLangages = reqData;
-                this.selectLangages.unshift({
-                    id: "",
-                    name: "Aucun",
-                    image: ""
-                })
+                // this.selectLangages.unshift({
+                //     id: "",
+                //     name: "Aucun",
+                //     image: ""
+                // })
 
             } catch (error) {
                 EventBus.$emit('snackbar', {
