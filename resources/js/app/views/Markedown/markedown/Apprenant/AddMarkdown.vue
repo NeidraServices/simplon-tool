@@ -1,7 +1,6 @@
 <template>
     <div>
         <v-container>
-          <CustomFlashMessage ref="customFlash"/>
             <h2>Ajouter une fiche</h2>
             <v-row>
                 <v-col>
@@ -255,8 +254,12 @@ export default {
                         this.$emit('create', data.data)
                         this.dialog = false
                     }).catch(error => {
-                        //TODO catch error
-                        console.log(error);
+                        EventBus.$emit('snackbar', {
+                            snackbar: true,
+                            text: "Une erreur est survenue",
+                            color: 'red',
+                            timeout: 3000
+                        })
                     });
             }
         },

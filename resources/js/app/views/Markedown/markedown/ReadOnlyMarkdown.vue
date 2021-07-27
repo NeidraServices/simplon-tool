@@ -97,13 +97,15 @@ export default {
         async getData() {
             try {
                 const req = await apiService.get(`${location.origin}/api/markedown/markdown/${this.id}`);
-                const reqData = req.data.markdown;
+                const reqDataMd = req.data.markdown;
 
-                this.name = reqData.title;
-                this.description = reqData.description;
-                this.text = reqData.text;
-                this.active = reqData.status;
-                this.commentaries = reqData.commentary
+                this.name = reqDataMd.title;
+                this.description = reqDataMd.description;
+                this.text = req.data.text;
+                this.active = reqDataMd.status;
+                this.commentaries = reqDataMd.commentary
+
+                console.log(req.data)
 
             } catch (error) {
                 console.log(error);

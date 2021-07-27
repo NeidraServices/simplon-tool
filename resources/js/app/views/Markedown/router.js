@@ -1,6 +1,6 @@
 import Home from './Home.vue';
 import ListMarkedDowns from './markedown/AllUsersMarkdowns';
-import MyMarkedDowns from './markedown/Apprenant/Markdown';
+import MyMarkedDowns from './markedown/Apprenant/Markdowns';
 import Archives from './markedown/Apprenant/ArchivesMarkdown';
 import AddMarkdown from "./markedown/Apprenant/AddMarkdown";
 import ShowEditMd from "./markedown/Apprenant/EditMarkdown";

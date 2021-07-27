@@ -1,7 +1,6 @@
 <template>
     <div>
         <v-container>
-            <CustomFlashMessage ref="customFlash"/>
             <v-row justify="space-between">
                 <v-col cols="12">
                     <v-card-title
@@ -70,6 +69,21 @@
         </v-container>
     </div>
 </template>
+
+<style>
+.item-container {
+    width: 100%;
+}
+
+.divider {
+    margin: 5px;
+}
+
+.clear-button {
+    margin-top: auto;
+}
+</style>
+
 <script>
 import ItemMdCommun from "../component/ItemMdCommun";
 import AutocompleteCategorie from "../component/AutocompleteCategorie";
@@ -161,16 +175,3 @@ export default {
     },
 };
 </script>
-<style>
-.item-container {
-    width: 100%;
-}
-
-.divider {
-    margin: 5px;
-}
-
-.clear-button {
-    margin-top: auto;
-}
-</style>
