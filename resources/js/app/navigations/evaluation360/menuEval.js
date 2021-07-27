@@ -18,7 +18,7 @@ export default {
     },
     
     created() {
-
+        console.log(this.userRole)
     },
 
     methods: {

@@ -11,41 +11,49 @@ export const EvalRoutes = [
     {
         path: '/evaluation360',
         name: 'eval',
-        component: Home
+        component: Home,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
         path: '/evaluation360/apprenants',
         name: 'Apprenants',
-        component: Apprenants
+        component: Apprenants,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
         path: '/user/:id',
         name: 'SeeMore',
-        component: SeeMore
+        component: SeeMore,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
         path: '/evaluation360/cohorte',
         name: 'Cohorte',
-        component: Cohorte
+        component: Cohorte,
+        meta: { requiresAuth: true, requiresRole: true, roles: [1,2] }
     },
     {
         path: '/evaluation360/sondages',
         name: 'SondagesList',
-        component: SondagesList
-    }, 
+        component: SondagesList,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
+    },
     {
         path: '/evaluation360/apprenant/sondages',
         name: 'learnerSondage',
-        component: GestionLearnerSondage
+        component: GestionLearnerSondage,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
         path: '/evaluation360/formateur/sondages',
         name: 'gestionSondage',
-        component: GestionSondage
+        component: GestionSondage,
+        meta: { requiresAuth: true, requiresRole: true, roles: [1,2] }
     },
     {
         path: '/evaluation360/Sondage/:userId/:sondageId',
         name: 'Sondage',
-        component: Sondage
+        component: Sondage,
+        meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
 ]
