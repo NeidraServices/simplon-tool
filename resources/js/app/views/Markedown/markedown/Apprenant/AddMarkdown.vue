@@ -102,7 +102,7 @@
 </style>
 <script>
 import MdEditor from "../../component/MdEditor";
-import AutocompleteCategorie from "../../component/AutocompleteCategorie";
+import AutocompleteCategorie from "../../component/AutocompleteCategory";
 import {APIService} from '../../Services/Services';
 import {apiService} from "../../../../services/apiService";
 import {EventBus} from "../../../../eventBus";

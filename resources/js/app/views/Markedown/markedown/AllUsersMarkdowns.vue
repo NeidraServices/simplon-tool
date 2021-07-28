@@ -85,8 +85,8 @@
 </style>
 
 <script>
-import ItemMdCommun from "../component/ItemMdCommun";
-import AutocompleteCategorie from "../component/AutocompleteCategorie";
+import ItemMdCommun from "../component/SharedUsersMdCards";
+import AutocompleteCategorie from "../component/AutocompleteCategory";
 import Utils from '../../../helpers/utils';
 import {apiService} from "../../../services/apiService";
 import {EventBus} from "../../../eventBus";

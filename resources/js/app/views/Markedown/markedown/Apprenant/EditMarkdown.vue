@@ -104,7 +104,7 @@
 </style>
 <script>
 import MdEditor from "../../component/MdEditor";
-import AutocompleteCategorie from "../../component/AutocompleteCategorie";
+import AutocompleteCategorie from "../../component/AutocompleteCategory";
 import CustomFlashMessage from "../../component/CustomFlashMessage";
 import Axios from "axios";
 export default {

@@ -51,11 +51,12 @@
   </div>
 </template>
 <script>
-import ItemMyMd from "../../component/ItemMyMd";
-import BtnWithIcon from "../../component/BtnWithIcon";
+import ItemMyMd from "../../component/UserMdCards.vue";
+import BtnWithIcon from "../../component/buttons/BtnWithIcon";
 import MdEditor from "../../component/MdEditor";
 import {APIService} from '../../Services/Services'
 import CustomFlashMessage from "../../component/CustomFlashMessage";
+import {apiService} from "../../../../services/apiService";
 const apiCall = new APIService()
 export default {
     name: "MyMarkedDowns",
@@ -94,15 +95,14 @@ export default {
         }
         return formatedData
       },
-      getMyMarkdowns(){
-        apiCall.getApiMyMds().then(response => {
-            console.log("Reponse :", response)
-            this.markdown_list = this.formatDataMdCom(response.data.data)
-          }
-        ).catch (error => {
+      async getMyMarkdowns(){
+          try{
+              let myMarkdowns = await apiService.get(`${location.origin}/api/markedown/markdown/showMine`)
+              this.markdown_list = this.formatDataMdCom(myMarkdowns.data.data)
+          }catch (error) {
             console.log(error)
             this. $refs.customFlash.showMessageError(error)
-        })
+        }
       },
       showSuccessMsg(msg){
         this.$refs.customFlash.showMessageSuccess(msg)

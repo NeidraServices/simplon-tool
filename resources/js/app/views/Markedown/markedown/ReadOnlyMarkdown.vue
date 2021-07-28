@@ -4,7 +4,9 @@
             <h2 class="titre">{{ name }}</h2>
             <v-row>
                 <v-col>
-                    {{ title }}
+                    <h1 class="md-title">{{ title }}</h1>
+                    <v-spacer></v-spacer>
+                    <v-icon color="primary" class="mb-5 mr-2">mdi-tag</v-icon>{{category.name}}
                     <p class="description">{{ description }}</p>
 
                     <Editor
@@ -50,6 +52,9 @@
     width: 100%;
 }
 
+.category{
+    margin-bottom: 20px;
+}
 .titre {
     width: 100%;
     text-align: center;
@@ -113,6 +118,7 @@ export default {
 
                 this.name = reqDataMd.title;
                 this.description = reqDataMd.description;
+                this.category = reqDataMd.category
                 this.text = req.data.text;
                 this.active = reqDataMd.status;
                 this.commentaries = reqDataMd.commentary
