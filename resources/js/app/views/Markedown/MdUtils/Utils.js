@@ -1,5 +1,5 @@
 import Utils from '../../../helpers/utils';
-
+const utils = new Utils()
 export class MdUtils {
     static FormatMdData(data){
         let formatedData = []
@@ -27,11 +27,28 @@ export class MdUtils {
                     category: item.markdown.category.name,
                     title: item.markdown.title,
                     description: item.markdown.description,
-                    date: Utils.formatDate(item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : null))
+                    date: utils.formatDate(item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : null))
                 })
             })
         }
         return formatedData
     }
 
+    formatDataMdCom(data) {
+        let formatedData = []
+        if (Array.isArray(data)) {
+            data.map(item => {
+                formatedData.push({
+                    id: item.id,
+                    category: item.category.name,
+                    description: item.description,
+                    title: item.title,
+                    status: item.status,
+                    created: utils.formatDate(item.created_at),
+                    author: utils.formatName(item.user.surname, item.user.name)
+                })
+            })
+        }
+        return formatedData
+    }
 }

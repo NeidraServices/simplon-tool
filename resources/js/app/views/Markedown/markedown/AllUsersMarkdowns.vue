@@ -58,7 +58,7 @@
                             @click="goTo(item)"
                             style="max-width: 460px;"
                         >
-                            <ItemMdCommun
+                            <SharedUsersMdCards
                                 v-bind:item="item"
                             />
                         </v-col>
@@ -85,18 +85,20 @@
 </style>
 
 <script>
-import ItemMdCommun from "../component/SharedUsersMdCards";
+import SharedUsersMdCards from "../component/SharedUsersMdCards";
 import AutocompleteCategorie from "../component/AutocompleteCategory";
 import Utils from '../../../helpers/utils';
 import {apiService} from "../../../services/apiService";
 import {EventBus} from "../../../eventBus";
+import {MdUtils} from "../MdUtils/Utils";
 
 const utils = new Utils();
+const mdUtils = new MdUtils();
 
 export default {
     name: "ListMarkdowns",
     components: {
-        ItemMdCommun,
+        SharedUsersMdCards,
         AutocompleteCategorie
     },
     data() {
@@ -121,7 +123,8 @@ export default {
         async getMdCommuns() {
             try {
                 let markdowns = await apiService.get(`${location.origin}/api/markedown/markdowns-commun`)
-                this.markdown_list = this.formatDataMdCom(markdowns.data.data)
+                console.log(markdowns.data.data)
+                this.markdown_list = mdUtils.formatDataMdCom(markdowns.data.data)
                 this.category = '';
             } catch (error) {
                 console.log(error)
@@ -137,7 +140,7 @@ export default {
             if (this.category !== "") {
                 try {
                     let markdown = await apiService.get(`${location.origin}/api/markedown/markdown/category/${this.category}`)
-                    this.markdown_list = this.formatDataMdCom(markdown.data.data);
+                    this.markdown_list = mdUtils.formatDataMdCom(markdown.data.data);
                 } catch (e) {
                     console.log(e)
                 }
@@ -155,22 +158,6 @@ export default {
         },
         goTo(item) {
             this.$router.push({name: 'ShowReadMd', params: {id: item.id.toString()}})
-        },
-        formatDataMdCom(data) {
-            let formatedData = []
-            if (Array.isArray(data)) {
-                data.map(item => {
-                    formatedData.push({
-                        id: item.id,
-                        category: item.category.name,
-                        description: item.description,
-                        title: item.title,
-                        status: item.status,
-                        author: utils.formatName(item.user.surname, item.user.name)
-                    })
-                })
-            }
-            return formatedData
         },
     },
 };
