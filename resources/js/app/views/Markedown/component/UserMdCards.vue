@@ -116,7 +116,6 @@
 </style>
 <script>
     import BtnWithIcon from "./buttons/BtnWithIcon";
-    import {APIService} from '../Services/Services'
     import {apiService} from "../../../services/apiService";
     import Contributions from "../markedown/Contributions";
 

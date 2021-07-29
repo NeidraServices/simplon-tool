@@ -6,10 +6,12 @@
                 <v-expansion-panel
                     v-for="(item,i) in requestList"
                     :key="i"
+
                 >
                     <v-expansion-panel-header>
-                        <div class="align-center">
-                            <v-icon left color="primary" class="mr-2">mdi-account</v-icon>{{item.user_id}} Dexter Morgan
+                        <div class="align-center" v-show="getUser(item.user_id)">
+                            <v-icon left color="primary" class="mr-2">mdi-account</v-icon>
+                            <span>{{ username }}</span>
                         </div>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -46,6 +48,8 @@
 <script>
 import BtnWithIcon from "../component/buttons/BtnWithIcon";
 import {apiService} from "../../../services/apiService";
+import Utils from "../../../helpers/utils";
+const utils = new Utils()
 
 export default {
     name: "Contribution",
@@ -53,13 +57,27 @@ export default {
         BtnWithIcon
     },
     data(){
-        return{ }
+        return{
+            username : ""
+        }
     },
     props:[
        'requestList',
         { item : {}}
     ],
+    created() {
+    console.log(this.requestList)
+        },
     methods: {
+        async getUser(id){
+          let user = await apiService.get(`${location.origin}/api/markedown/user/${id}`)
+            let data = user.data.data
+            console.log(data.surname)
+
+            this.username = data.surname + " " + data.name
+
+
+        },
         async acceptContribution(id){
             console.log("accept ID :", id)
             try{

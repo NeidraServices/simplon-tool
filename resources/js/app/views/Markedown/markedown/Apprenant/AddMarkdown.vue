@@ -103,10 +103,10 @@
 <script>
 import MdEditor from "../../component/MdEditor";
 import AutocompleteCategorie from "../../component/AutocompleteCategory";
-import {APIService} from '../../Services/Services';
+import {MdUtils} from '../../MdUtils/Utils';
 import {apiService} from "../../../../services/apiService";
 import {EventBus} from "../../../../eventBus";
-const apiCall = new APIService()
+
 
 export default {
     name: "AddMarkedDown",

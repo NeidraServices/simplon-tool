@@ -54,10 +54,12 @@
 import ItemMyMd from "../../component/UserMdCards.vue";
 import BtnWithIcon from "../../component/buttons/BtnWithIcon";
 import MdEditor from "../../component/MdEditor";
-import {APIService} from '../../Services/Services'
+import {MdUtils} from '../../MdUtils/Utils'
 import CustomFlashMessage from "../../component/CustomFlashMessage";
 import {apiService} from "../../../../services/apiService";
-const apiCall = new APIService()
+
+
+
 export default {
     name: "MyMarkedDowns",
     components: {
@@ -98,7 +100,7 @@ export default {
       async getMyMarkdowns(){
           try{
               let myMarkdowns = await apiService.get(`${location.origin}/api/markedown/markdown/showMine`)
-              this.markdown_list = this.formatDataMdCom(myMarkdowns.data.data)
+              this.markdown_list = new MdUtils.FormatMdData(myMarkdowns.data.data)
           }catch (error) {
             console.log(error)
             this. $refs.customFlash.showMessageError(error)

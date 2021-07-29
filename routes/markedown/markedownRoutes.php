@@ -1,7 +1,8 @@
-    <?php
+<?php
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Md_CategoryController;
 use App\Http\Controllers\Md_MarkdownController;
 use App\Http\Controllers\Md_CommentaryController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\Md_ContributionController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
 
 });
 
@@ -26,7 +27,7 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
 });
 Route::get('categories', [Md_CategoryController::class, 'index']);
 Route::group(['prefix' => 'categorie'], function () {
@@ -43,8 +44,8 @@ Route::group(['prefix' => 'categorie'], function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
-    Route::group(['prefix' => 'commentaire'], function(){
+Route::middleware(['auth:api'])->group(function () {
+    Route::group(['prefix' => 'commentaire'], function () {
         Route::post('ajouter/{markdown_id}', [Md_CommentaryController::class, 'store']);
     });
 
@@ -53,14 +54,14 @@ Route::middleware(['auth:api'])->group(function(){
 Route::get('commentaires/{markdown_id}', [Md_CommentaryController::class, 'index']);
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Markdown Contribution routes
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/user/{id}', [UserController::class, 'getUser']);
     Route::get('/contribution/{id}', [Md_ContributionController::class, 'create'])->name('api.md_wiki.markdown.contribution.create');
     Route::get('/request/{id}', [Md_ContributionController::class, 'getListContributionRequest'])->name('api.md_wiki.markdown.getListContributionRequest');
 });
@@ -74,7 +75,7 @@ Route::prefix('/contribution')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/markdown')->group(function () {
         Route::get('/contribution/{id}', [Md_ContributionController::class, 'create'])->name('api.md_wiki.markdown.contribution.create');
         Route::post('/create', [Md_MarkdownController::class, 'create'])->name('api.md_wiki.markdown.create');
@@ -99,6 +100,6 @@ Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
 
 });

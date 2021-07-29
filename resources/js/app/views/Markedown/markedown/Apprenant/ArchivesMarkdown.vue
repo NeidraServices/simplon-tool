@@ -50,10 +50,11 @@
 </template>
 <script>
   import ItemArchive from '../../component/ItemArchive';
-  import {APIService} from '../../Services/Services'
-  import Utils from '../../../../helpers/utils';
+  import {MdUtils} from '../../MdUtils/Utils'
+  import {apiService} from "../../../../services/apiService";
+  import Utils from "../../../../helpers/utils";
   const utils = new Utils();
-  const apiCall = new APIService()
+
   export default {
     name: "Archives",
     components: {
@@ -74,30 +75,18 @@
         };
     },
     mounted() {
-      console.log("ID :", this.id)
-      apiCall.getApiMyArchives(this.id).then(
-        reponse => {
-          console.log("Reponse :", reponse)
-          this.markdown_list = this.formatDataArchives(reponse.data.data)
-        }
-      )
+        this.getArchives(this.id)
     },
     methods: {
-      formatDataArchives(data){
-        let formatedData = []
-        if(Array.isArray(data)){
-            data.map(item => {
-                formatedData.push({
-                    id: item.id,
-                    category: item.markdown.category.name,
-                    title: item.markdown.title,
-                    description: item.markdown.description,
-                    date: utils.formatDate(item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : null))
-                })
-            })
-        }
-        return formatedData
-      },
+        async getArchives(id){
+            try{
+                let response = await apiService.get(`${location.origin}/api/markedown/markdown/archives/${id}`)
+                console.log(response)
+                this.markdown_list = new MdUtils.FormatMdArchive(response.data.data)
+            }catch (e) {
+                console.log(e)
+            }
+        },
     }
   };
 </script>
