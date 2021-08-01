@@ -1,3 +1,4 @@
+import { EventBus } from "../../../../eventBus.js";
 import { apiService } from "../../../../services/apiService.js";
 
 export default {
@@ -64,12 +65,12 @@ export default {
         openGeneral(item = null, isEdited = false) {
             this.edited = isEdited;
             this.generalDialog = true;
-            if(isEdited) {
-                this.title      = "Modifier un compte apprenant"
+            if (isEdited) {
+                this.title = "Modifier un compte apprenant"
                 this.selectItem = item;
-                this.name       = item.name;
-                this.surname    = item.surname;
-                this.email      = item.email;
+                this.name = item.name;
+                this.surname = item.surname;
+                this.email = item.email;
             } else {
                 this.title = "Ajouter un compte apprenant"
             }
@@ -78,18 +79,18 @@ export default {
         closeGeneral() {
             this.edited = false;
             this.generalDialog = false;
-            this.name       = '';
-            this.surname    = '';
-            this.email      = '';
+            this.name = '';
+            this.surname = '';
+            this.email = '';
         },
 
         openDeleteDialog(item) {
-            this.selectItem   = item;
+            this.selectItem = item;
             this.deleteDialog = true;
         },
 
-        closeDeleteDialog(){
-            this.selectItem   = null;
+        closeDeleteDialog() {
+            this.selectItem = null;
             this.deleteDialog = false;
         },
 
@@ -106,11 +107,13 @@ export default {
 
         async deleteApprenanAccount() {
             try {
-                const req  = await apiService.delete(`${location.origin}/api/apprenants/${this.selectItem.id}/delete`)
+                const req = await apiService.delete(`${location.origin}/api/apprenants/${this.selectItem.id}/delete`)
                 const reqData = req.data;
-                if(reqData.success) {
+                if (reqData.success) {
                     await this.closeDeleteDialog();
                     await this.getData();
+                    await EventBus.$emit('snackbar', { text: reqData.message, color: 'error' })
+
                     await console.log(reqData.message)
                 } else {
                     console.log(reqData.message)
@@ -130,17 +133,18 @@ export default {
                     email: this.email
                 }
 
-                if(this.edited) {
-                    req  = await apiService.put(`${location.origin}/api/apprenants/${this.selectItem.id}/update`, dataSend)
+                if (this.edited) {
+                    req = await apiService.put(`${location.origin}/api/apprenants/${this.selectItem.id}/update`, dataSend)
                 } else {
-                    req  = await apiService.post(`${location.origin}/api/apprenants/create`, dataSend)
+                    req = await apiService.post(`${location.origin}/api/apprenants/create`, dataSend)
                 }
 
                 const reqData = req.data;
-                if(reqData.success) {
+                if (reqData.success) {
                     await this.$refs.form.resetValidation();
                     await this.closeGeneral();
                     await this.getData();
+                    await EventBus.$emit('snackbar', { text: reqData.message, color: 'success' })
                     await console.log(reqData.message)
                 } else {
                     console.log(reqData.message)

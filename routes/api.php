@@ -28,59 +28,26 @@ Route::post('/email/verification', [AuthController::class, 'verifymail'])->name(
 Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
 
 
-// /*
-// |--------------------------------------------------------------------------
-// | Evaluation360 Routes routes
-// |--------------------------------------------------------------------------
-// */
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Routes routes
+|--------------------------------------------------------------------------
+*/
 
-// Route::prefix('/evaluation360')->group(__DIR__ . '/evaluation360/evalRoutes.php');
+Route::prefix('/evaluation360')->group(__DIR__ . '/evaluation360/evalRoutes.php');
 
-// /*
-// |--------------------------------------------------------------------------
-// | Deliver routes
-// |--------------------------------------------------------------------------
-// */
+/*
+|--------------------------------------------------------------------------
+| Deliver routes
+|--------------------------------------------------------------------------
+*/
 
-// Route::prefix('/deliver')->group(__DIR__ . '/deliver/deliverRoutes.php');
+Route::prefix('/deliver')->group(__DIR__ . '/deliver/deliverRoutes.php');
 
-// /*
-// |--------------------------------------------------------------------------
-// | Markdown archive routes
-// |--------------------------------------------------------------------------
-// */
+/*
+|--------------------------------------------------------------------------
+| Markdown archive routes
+|--------------------------------------------------------------------------
+*/
 
-<<<<<<< HEAD
 // Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
-
-// /*
-// |--------------------------------------------------------------------------
-// | Users routes
-// |--------------------------------------------------------------------------
-// */
-
-
-Route::middleware(['auth:api'])->prefix('user')->group(function () {
-  Route::get('/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
-  Route::post('/update', [UserController::class, 'updateUser']);
-  Route::post('/update/password', [UserController::class, 'updatePassword']);
-  Route::post('/image/update', [UserController::class, 'updateAvatar']);
-});
-
-Route::middleware(['auth:api'])->prefix("/apprenants")->group(function () {
-  Route::get('/', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
-  Route::post('/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
-  Route::put('/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
-  Route::delete('/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
-  Route::post('/filter', [EvalCoorteController::class, 'filterApprenant']);
-});
-
-Route::middleware(['auth:api'])->group(function() {
-  Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
-  Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
-  Route::post('/user/update', [UserController::class, 'updateUser']);
-  Route::post('/user/update/password', [UserController::class, 'updatePassword']);
-});
-=======
-Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
->>>>>>> aa5465b195b5b099cda4572846c11d5ec7887d8b

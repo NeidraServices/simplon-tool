@@ -192,15 +192,16 @@ export default {
             try {
                 const request = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`);
                 const reqData = request.data.data;
+
                 if (reqData) {
                     this.sondagesList = reqData;
                     this.isLoaded = true;
+
                 }
             } catch (error) {
                 EventBus.$emit('snackbar', {
                     text: `Sondages : Une erreur est survenue`,
                     color: 'red',
-                    timeout: 3000
                 })
             }
         },
@@ -300,6 +301,8 @@ export default {
                         }
 
                         req = await apiService.put(`${location.origin}/api/evaluation360/sondage/update`, dataSend);
+                        EventBus.$emit('snackbar', {text: req.data.message, color: 'success'})
+
                     } else {
 
                         dataSend = {
@@ -308,6 +311,8 @@ export default {
                             published: this.published
                         }
                         req = await apiService.post(`${location.origin}/api/evaluation360/sondage/create`, dataSend);
+                        EventBus.$emit('snackbar', {text: req.data.message, color: 'success'})
+
                     }
                     const reqData = req.data;
                     if (reqData.success) {
