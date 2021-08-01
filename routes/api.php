@@ -76,14 +76,17 @@ Route::middleware(['auth:api'])->prefix('user')->group(function () {
   Route::post('/image/update', [UserController::class, 'updateAvatar']);
 });
 
-Route::prefix("/apprenants")->group(function () {
+Route::middleware(['auth:api'])->prefix("/apprenants")->group(function () {
   Route::get('/', [EvalCoorteController::class, 'getData'])->name('api.coort.retrieve');
   Route::post('/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
   Route::put('/{id}/update', [EvalCoorteController::class, 'updateData'])->name('api.coort.updateData');
   Route::delete('/{id}/delete', [EvalCoorteController::class, 'deleteData'])->name('api.coort.delete');
+  Route::post('/filter', [EvalCoorteController::class, 'filterApprenant']);
 });
 
-Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
-Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
-Route::post('/user/update', [UserController::class, 'updateUser']);
-Route::post('/user/update/password', [UserController::class, 'updatePassword']);
+Route::middleware(['auth:api'])->group(function() {
+  Route::get('/user/{id}', [UserController::class, 'getUser'])->where('id', "[0-9]+");
+  Route::get('/notes/{userId}', [EvalSondageController::class,'getNotes']);
+  Route::post('/user/update', [UserController::class, 'updateUser']);
+  Route::post('/user/update/password', [UserController::class, 'updatePassword']);
+});

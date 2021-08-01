@@ -1,4 +1,5 @@
 import ApprenantsCards from './Apprenants/ApprenantsCards.vue';
+import { apiService } from '../../../services/apiService.js'
 export default {
     components: {
         ApprenantsCards
@@ -6,33 +7,50 @@ export default {
     data() {
         return {
             isLoading: false,
-            items: [],
-            model: null,
-            search: null,
-            tab: null
+            apprenants: [],
+            apprenant: null,
+            search: null
         }
     },
-    watch: {
-        model(val) {
-            if (val != null) this.tab = 0
-            else this.tab = null
-        },
-        search(val) {
-            // Items have already been loaded
-            if (this.items.length > 0) return
 
-            this.isLoading = true
-
-            // Lazily load input items
-            fetch('https://api.coingecko.com/api/v3/coins/list')
-                .then(res => res.clone().json())
-                .then(res => {
-                    this.items = res
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-                .finally(() => (this.isLoading = false))
-        },
+    created() {
+        this.getStatus();
+        this.getSources();
+        this.getContacts();
     },
+
+    watch: {
+        apprenant: function (val) {
+            if (val == null) {
+                this.$store.state.apprenants = [];
+                this.$store.dispatch('getApprenants');
+            }
+        }
+    },
+    created() {
+        this.apprenants = this.$store.state.apprenants
+    },
+
+    methods: {
+        filter() {
+            const filter = this.buildFilter();
+            apiService.post('/api/apprenants/filter', filter)
+                .then(({ data }) => {
+                    data.data.forEach(apprenant => {
+                        apprenant.show = true
+                    })
+                    this.$store.state.apprenants = data.data;
+                    this.$emit("input", data);
+                })
+        },
+
+        buildFilter() {
+            let filter = {};
+
+            if (this.apprenant && !_.isEmpty(this.apprenant)) {
+                filter['apprenant'] = this.apprenant;
+            }
+            return filter;
+        }
+    }
 }
