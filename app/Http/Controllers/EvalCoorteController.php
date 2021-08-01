@@ -49,7 +49,7 @@ class EvalCoorteController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            [   
+            [
                 'name'    => "required",
                 'surname' => "required",
                 'email'   => "required|unique:users|regex:/^.+@.+$/i",
@@ -86,7 +86,7 @@ class EvalCoorteController extends Controller
         $user->save();
 
         $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $confirmToken;
-        Mail::to($user->email)->send(new NotificationCreateAccount($user->name, $user->surname, $generatePassword , $url));
+        Mail::to($user->email)->send(new NotificationCreateAccount($user->name, $user->surname, $generatePassword, $url));
 
         return response()->json([
             "success" => true,
@@ -111,7 +111,7 @@ class EvalCoorteController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            [   
+            [
                 'name'    => "required",
                 'surname' => "required",
                 'email'   => "required|regex:/^.+@.+$/i",
@@ -147,7 +147,7 @@ class EvalCoorteController extends Controller
         $user->save();
 
         $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $confirmToken;
-        Mail::to($user->email)->send(new NotificationCreateAccount($user->name, $user->surname, $generatePassword , $url));
+        Mail::to($user->email)->send(new NotificationCreateAccount($user->name, $user->surname, $generatePassword, $url));
 
         return response()->json([
             "success" => true,
@@ -170,7 +170,7 @@ class EvalCoorteController extends Controller
     public function deleteData($id)
     {
         $user               = User::where(['id' => $id])->first();
-        if(!$user) {
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => "Compte apprenant introuvable"
@@ -192,6 +192,17 @@ class EvalCoorteController extends Controller
      */
     public function deleteDataArray(Request $request)
     {
+    }
 
+    public function filterApprenant(Request $request)
+    {
+        $users = User::query();
+        if ($request->apprenant) {
+            $users =  $users->where('name', 'like', '%' . $request->apprenant . '%');
+        }
+
+        $users = $users->get();
+
+        return UserResource::collection($users);
     }
 }

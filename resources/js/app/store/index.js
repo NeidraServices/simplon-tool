@@ -51,7 +51,9 @@ export default new Vuex.Store({
     },
     actions: {
         async getApprenants({ state }) {
+
             if (_.isEmpty(state.apprenants)) {
+
                 try {
                     const req = await apiService.get(`${location.origin}/api/apprenants`)
                     const reqData = req.data.data

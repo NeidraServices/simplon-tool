@@ -1,16 +1,13 @@
 export default {
-    data() {
-        return {
-            apprenants: []
-        }
-    },
+   
+
     created() {
         this.initializeData()
     },
     methods: {
         initializeData() {
             this.$store.dispatch('getApprenants')
-            this.apprenants = this.$store.state.apprenants
+            this.$store.state.apprenants
         },
         getImages(image) {
             return `${location.origin}/images/${image}`
