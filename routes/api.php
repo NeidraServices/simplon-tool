@@ -1,18 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EvalLangageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Deliver_ProjetController;
-use App\Http\Controllers\Deliver_CommentairesController;
-use App\Http\Controllers\Deliver_CompetenceController;
-use App\Http\Controllers\Deliver_MediaController;
-use App\Http\Controllers\Deliver_TagController;
-use App\Http\Controllers\EvalCoorteController;
-use App\Http\Controllers\EvalSondageController;
-use App\Http\Controllers\UserController;
-use App\Models\EvalSondage;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +50,7 @@ Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['aut
 // |--------------------------------------------------------------------------
 // */
 
+<<<<<<< HEAD
 // Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
 
 // /*
@@ -90,3 +81,6 @@ Route::middleware(['auth:api'])->group(function() {
   Route::post('/user/update', [UserController::class, 'updateUser']);
   Route::post('/user/update/password', [UserController::class, 'updatePassword']);
 });
+=======
+Route::prefix('/markedown')->group(__DIR__ . '/markedown/markedownRoutes.php');
+>>>>>>> aa5465b195b5b099cda4572846c11d5ec7887d8b

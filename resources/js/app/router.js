@@ -46,8 +46,21 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const { authorize } = to.meta;
-    if (authorize && !_.isEmpty(authorize)) {
+    const { authorize, requiresAuth, requiresRole, roles } = to.meta;
+
+    if (requiresAuth && requiresRole) {
+        if (Store.state.isLogged && !roles.includes(Store.state.userInfo.role.id)) {
+            return next({ path: "/" });
+        } else {
+            return next();
+        }
+    } else if (requiresAuth && !requiresRole) {
+        if (!Store.state.isLogged) {
+            return next({ path: "/connexion", query: { returnUrl: to.path }  });
+        } else {
+            return next();
+        }
+    } else if (authorize && !_.isEmpty(authorize)) {
         const role = authenticationService.currentRoleValue;
 
         if (!role) {

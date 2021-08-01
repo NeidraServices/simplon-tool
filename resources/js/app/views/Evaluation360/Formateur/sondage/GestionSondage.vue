@@ -173,6 +173,30 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialogAgree" max-width="600">
+      <v-card class="py-5">
+        <v-card-title class="d-flex justify-center font-weight-bold">
+          Voulez-vous vraiment accepter ce sondage ?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            small
+            class="grey darken-1 mr-3 white--text font-weight-medium"
+            @click="closeAgree"
+            >Annuler</v-btn
+          >
+          <v-btn
+            small
+            class="green white--text font-weight-medium"
+            @click="accepteSondage"
+            >Accepter</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div>
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des sondages</h1>
@@ -201,6 +225,22 @@
           locale="fr"
         >
           <template v-slot:item.actions="{ item }">
+            <v-tooltip top v-if="item.accepted == 'En attente'">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  small
+                  v-bind="attrs"
+                  v-on="on"
+                  class="transparent green--text mr-2"
+                  @click="openAgree(item)"
+                >
+                  <v-icon> mdi-check-circle-outline </v-icon>
+                </v-btn>
+              </template>
+              <span>Accepter</span>
+            </v-tooltip>
+
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
