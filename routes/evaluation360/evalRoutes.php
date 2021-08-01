@@ -128,9 +128,10 @@ Route::middleware(['auth:api'])->group(function(){
 
 Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/apprenant/sondage')->group(function () {
-        Route::get("/list", [EvalSondageController::class, "getSondageList"])->name('api.sondage.apprenant.retrieve');
-        Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.retrieve');
-        Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.retrieve');
-        Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.retrieve');
+        Route::get("/list", [EvalSondageController::class, "getSondageList"])->name('api.sondage.apprenant.one');
+        Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.two');
+        Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.three');
+        Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.four');
     });
 });
+
