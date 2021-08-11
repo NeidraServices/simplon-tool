@@ -5,7 +5,7 @@ export default {
                 {
                     name: "Evaluation 360°",
                     description: "Faites vous évaluer et gagner en compétence",
-                    path: "/evaluation360/apprenants"
+                    path: "/evaluation360/accueil"
                 },
                 {
                     name: "Markdown",
