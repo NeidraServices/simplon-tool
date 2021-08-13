@@ -34,10 +34,13 @@ export default {
         async connection() {
             try {
                 this.loading = true;
-                const user = await authenticationService.login(this.user);
-                if (user == undefined) {
+                const data = await authenticationService.login(this.user);
+                if(data.message && !data.success) {
+                    this.erreur = data.message                    
+                }else if (data == undefined) {
                     this.erreur = 'mot de passe ou email incorrect'
                 } else {
+                    const user = data
                     this.erreur = '';
                     await EventBus.$emit('loggedIn', true);
                     await this.$store.commit('connect', user);
@@ -46,6 +49,7 @@ export default {
                     // await this.$router.push(this.returnUrl);
                 }
             } catch (error) {
+                this.erreur = error     
                 this.loading = false;
             }
         }

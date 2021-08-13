@@ -73,8 +73,8 @@
 							</v-col>
 						</v-row>
 					</v-card-actions>
-					<div class="ml-7">
-						<span>{{ erreur }}</span>
+					<div class="ml-7 pt-3">
+						<span style="color:red">{{ erreur }}</span>
 					</div>
 				</v-card>
 			</v-col>

@@ -9,6 +9,7 @@ export default {
   data() {
     return {
       user: null,
+      avatar: "",
       isUpdateName: false,
       isUpdateSurname: false,
       isUpdateEmail: false,
@@ -28,8 +29,12 @@ export default {
 
   methods: {
     getUser() {
-      apiService.get('/api/user/' + this.$route.params.id).then(({ data }) => {
+      apiService.get('/api/account/user/' + this.$route.params.id).then(({ data }) => {
+        // console.log("DATAAAA : ",data)
         this.user = data.data;
+        this.userInfos.surname = data.data.surname
+        this.userInfos.name = data.data.name
+        this.userInfos.email = data.data.email
       })
     },
 
@@ -40,7 +45,7 @@ export default {
         email: this.userInfos.email
       }
 
-      await apiService.post('/api/user/update', data).then(({ data }) => {
+      await apiService.post('/api/account/user/update', data).then(({ data }) => {
         this.user = data.data;
       })
     },
@@ -55,15 +60,17 @@ export default {
       let formData = new FormData();
       formData.append('image', this.file);
 
-
       // console.log(formData);
-      apiService.post('/api/user/image/update',
+      let elem = this
+      apiService.post('/api/account/user/image/update',
         formData,
-      ).then(function () {
-        console.log('SUCCESS!!');
+      ).then(function (response) {
+        // console.log(elem)
+        elem.avatar = `${location.origin}/images/avatars/${response.data.avatar_name}`;
+        console.log(response.data.message);
       })
-        .catch(function () {
-          console.log('FAILURE!!');
+        .catch(function (error) {
+          console.log('FAILURE!!', error);
         });
     },
 

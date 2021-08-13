@@ -8,8 +8,12 @@
 
 			<div class="updateAvatar">
 				<label for="files">
-					<div class="img">
+					<div v-if="!avatar" class="img">
 						<v-img :src="getAvatar(user.avatar)"></v-img>
+					</div>
+
+					<div v-if="avatar" class="img">
+						<v-img :src="avatar"></v-img>
 					</div>
 
 					<h5 class="text-center font-weight-thin mt-5">Modifier la photo</h5>
@@ -63,7 +67,7 @@
 				<v-btn icon v-if="!isUpdateSurname" text @click="isUpdateSurname = true"
 					><v-icon>mdi-pencil-box-outline</v-icon></v-btn
 				>
-				<v-btn icon v-if="isUpdateSurname" text @click="isUpdateSurname = false"
+				<v-btn icon v-if="isUpdateSurname" text @click="updateUser(), (isUpdateSurname = false)"
 					><v-icon>mdi-pencil-plus</v-icon></v-btn
 				>
 			</v-list-item>
@@ -82,7 +86,7 @@
 				<v-btn icon v-if="!isUpdateEmail" text @click="isUpdateEmail = true"
 					><v-icon>mdi-pencil-box-outline</v-icon></v-btn
 				>
-				<v-btn icon v-if="isUpdateEmail" text @click="isUpdateEmail = false"
+				<v-btn icon v-if="isUpdateEmail" text @click="updateUser(), (isUpdateEmail = false)"
 					><v-icon>mdi-pencil-plus</v-icon></v-btn
 				>
 			</v-list-item>
@@ -93,10 +97,10 @@
 
 		<AppLink />
 	</v-container>
+	
 </template>
 
-<script src="./compte.js" />
-
+<script src="./compte.js"></script>
 <style lang="scss">
 .container_compte {
 	height: 100%;

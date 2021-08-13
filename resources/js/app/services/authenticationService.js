@@ -37,10 +37,13 @@ function login(user) {
   )
     .then(handleResponse)
     .then(data => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem("role", JSON.stringify(data.informations.role));
-      roleSubject.next(data.informations.role);
 
+      if(data.success) {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem("role", JSON.stringify(data.informations.role));
+        roleSubject.next(data.informations.role);
+      }
+      
       return data;
 
     });

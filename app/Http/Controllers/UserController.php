@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -52,7 +53,7 @@ class UserController extends Controller
      */
 
     public function updatePassword(Request $request)
-    {
+    {        
         $validator = Validator::make(
             $request->all(),
             [
@@ -66,9 +67,8 @@ class UserController extends Controller
         )->validate();
 
         $user = User::where('id', Auth::id())->first();
-        $user->password = $validator['password'];
+        $user->password = Hash::make($validator['password']);
         $user->save();
-
         return response('Mot de passe changer avec succès', 200);;
     }
 
@@ -90,6 +90,7 @@ class UserController extends Controller
         )->validate();
 
         $user = User::where('id', Auth::id())->first();
+        $image = "";
         if ($request->hasFile('image')) {
             if ($request->hasFile('image')) {
                 $oldImage = $user->avatar;
@@ -112,6 +113,7 @@ class UserController extends Controller
             }
         }
         $user->save();
-        return response('Avatar changer avec succès', 200);;
+        $respData = array('message' => 'Avatar changé avec succès', 'avatar_name' => $image);
+        return response($respData, 200);
     }
 }

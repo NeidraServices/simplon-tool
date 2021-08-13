@@ -27,6 +27,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')
 Route::post('/email/verification', [AuthController::class, 'verifymail'])->name('api.verify.email');
 Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
 
+/*
+|--------------------------------------------------------------------------
+| User account routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('/account')->group(__DIR__ . '/account/accountRoutes.php');
+/*
 
 /*
 |--------------------------------------------------------------------------

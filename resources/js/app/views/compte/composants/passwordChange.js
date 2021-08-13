@@ -21,9 +21,9 @@ export default {
         password_confirmation: this.password_confirmation
       }
 
-      apiService.post('/api/user/update/password', data).then((data) => {
+      apiService.post('/api/account/user/update/password', data).then((data) => {
+        console.log("DATAAA PWD: ",data)
         this.dialog = false;
-
       })
     },
     resetForm() {
