@@ -8,6 +8,7 @@ use App\Http\Controllers\EvalReferentielController;
 use App\Http\Controllers\EvalSkillController;
 use App\Http\Controllers\EvalSondageController;
 use App\Http\Controllers\EvalSondageLinesController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -133,5 +134,18 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.two');
         Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.three');
         Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.four');
+    });
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Evaluation360 Statistiques
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:api', "role:1,2"])->group(function () {
+    Route::prefix('/stats')->group(function(){
+        Route::get('/sondage', [StatsController::class, 'getSondageStats'])->name('api.stats.sondage');
     });
 });
