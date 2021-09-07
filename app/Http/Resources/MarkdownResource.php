@@ -14,7 +14,7 @@ class MarkdownResource extends JsonResource
      */
     public function toArray($request)
     {
-        
+
         return [
             'id'            => $this->id,
             'user'          => new UserResource($this->users),

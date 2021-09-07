@@ -9,7 +9,11 @@
         <Referentiel :apprenant="apprenant" />
       </v-col>
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
-        <Langages :langues="langagesList" :apprenant="apprenant" class="pb-5 pr-2" />
+        <Langages
+          :langues="langagesList"
+          :apprenant="apprenant"
+          class="pb-5 pr-2"
+        />
       </v-col>
     </v-row>
     <v-row>

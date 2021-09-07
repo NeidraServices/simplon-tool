@@ -19,12 +19,12 @@ export default {
     },
     created() {
         this.initializeData()
-        // this.initializeReferentiel()
+        this.initializeReferentiel()
     },
     methods: {
         async initializeData() {
             try {
-                const req = await apiService.get('/api/user/1')
+                const req = await apiService.get('/api/evaluation360/user/1')
                 this.apprenant = req.data.data
             }
             catch (err) { console.log(err) }
@@ -32,31 +32,33 @@ export default {
             this.langagesList = this.$store.state.langages
         },
         //TODO Matt - A terminer, problème object array
-        // async initializeReferentiel() {
-        //     try {
-        //         const req = await apiService.get('/api/notes/3')
-        //         this.notes = req.data.data
-        //         var langNote = 0
-        //         var langI = 0
-        //         await this.notes.forEach(note => {
-        //             if (note.sondage_line_id.langage) {
-        //                 this.langagesList.forEach(_langList => {
-        //                     if (note.sondage_line_id.langage.name == _langList.name) {
-        //                         langI++
-        //                         langNote = langNote + note.note
-        //                         this.langagesNoted[note.sondage_line_id.langage.name] = [{ note: Math.floor(langNote / langI), langage: note.sondage_line_id.langage.name }]
-        //                         this.Langages.push({
-        //                             name: note.sondage_line_id.langage.name,
-        //                             note: Math.floor(langNote / langI)
-        //                         })
-        //                     }
-        //                 })
-        //             }
-        //             else if (note.sondage_line_id.skill) {
-        //             }
-        //         });
-        //     }
-        //     catch (err) { console.log(err) }
-        // },
+        async initializeReferentiel() {
+            try {
+                const req = await apiService.get('/api/evaluation360/apprenant/sondage/notes/2')
+                this.notes = req.data.data
+                var langNote = 0
+                var langI = 0
+                await this.notes.forEach(note => {
+                    if (note.sondage_line_id.langage) {
+                        this.langagesList.forEach(_langList => {
+                            if (note.sondage_line_id.langage.name == _langList.name) {
+                                langI++
+                                langNote = langNote + note.note
+                                this.langagesNoted[note.sondage_line_id.langage.name] = [{ note: Math.floor(langNote / langI), langage: note.sondage_line_id.langage.name }]
+                                this.Langages.push({
+                                    name: note.sondage_line_id.langage.name,
+                                    note: Math.floor(langNote / langI)
+                                })
+                                _langList['note'] = Math.floor(langNote / langI)
+                            }
+                        })
+
+                    }
+                    else if (note.sondage_line_id.skill) {
+                    }
+                });
+            }
+            catch (err) { console.log(err) }
+        },
     }
 }

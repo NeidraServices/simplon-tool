@@ -53,11 +53,11 @@ export default new Vuex.Store({
         async getApprenants({ state }) {
 
             if (_.isEmpty(state.apprenants)) {
-
                 try {
-                    const req = await apiService.get(`${location.origin}/api/apprenants`)
+                    const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`)
                     const reqData = req.data.data
                     this.commit('storeApprenants', reqData)
+
                 }
                 catch (err) { console.log(err) }
             }
@@ -89,7 +89,9 @@ export default new Vuex.Store({
         },
         async getSpecificSondage({ state }, data) {
             try {
-                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
+                
+                // const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/3/${data.ids.sondageId}`)
                 const reqData = req.data.data
                 this.commit('storeSpecificSondage', reqData)
             }
