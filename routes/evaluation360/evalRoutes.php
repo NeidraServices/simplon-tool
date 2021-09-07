@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->middleware('auth:api')->name('api.coort.retrieve');
+Route::post('/apprenants/filter', [EvalCoorteController::class, 'filterApprenant']);
 
 Route::middleware(['auth:api', "role:1,2"])->group(function () {
     Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
@@ -31,8 +32,8 @@ Route::middleware(['auth:api'])->prefix('user')->group(function () {
     Route::post('/update', [UserController::class, 'updateUser']);
     Route::post('/update/password', [UserController::class, 'updatePassword']);
     Route::post('/image/update', [UserController::class, 'updateAvatar']);
-  });
-  
+});
+
 /*
 |--------------------------------------------------------------------------
 | Evaluation360 Promotions routes
@@ -54,7 +55,7 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("promotion")->group(function
 | Evaluation360 Référentiel routes
 |--------------------------------------------------------------------------
 */
- 
+
 
 Route::get("/list", [EvalReferentielController::class, "getData"])->middleware('auth:api')->name('api.referentiel.retrieve');
 
@@ -87,7 +88,7 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("/skill")->group(function ()
 
 Route::get("/list", [EvalLangageController::class, "getData"])->middleware('auth:api')->name('api.langage.retrieve');
 
-Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function(){
+Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function () {
     Route::post("/create", [EvalLangageController::class, "addData"])->name('api.langage.create');
     Route::put("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
     Route::delete("/{id}/delete", [EvalLangageController::class, "deleteData"])->name('api.langage.delete');
@@ -106,8 +107,8 @@ Route::middleware(['auth:api'])->prefix("/sondageLine")->group(function () {
     Route::post("/delete/all", [EvalSondageLinesController::class, "deleteDataArray"])->name('api.sondageLine.deleteDataArray');
 });
 
-Route::middleware(['auth:api', "role:1,2"])->group(function(){
-    Route::prefix("/formateur/sondage")->group(function() {
+Route::middleware(['auth:api', "role:1,2"])->group(function () {
+    Route::prefix("/formateur/sondage")->group(function () {
         Route::get("/list", [EvalSondageController::class, "getDataAll"])->name('api.sondage.formateur.retrieve');
     });
 
@@ -116,7 +117,7 @@ Route::middleware(['auth:api', "role:1,2"])->group(function(){
     });
 });
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
     Route::prefix('/sondage')->group(function () {
         Route::post("/create", [EvalSondageController::class, "addData"])->name('api.sondage.formateur.create');
         Route::put("/update", [EvalSondageController::class, "updateData"])->name('api.sondage.formateur.updateData');
@@ -134,4 +135,3 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.four');
     });
 });
-
