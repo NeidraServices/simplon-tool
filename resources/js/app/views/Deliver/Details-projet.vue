@@ -22,6 +22,7 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
+                                v-if="currentUser.role.name == 'formateur'"
                                     v-bind="attrs"
                                     v-on="on"
                                     small
