@@ -1,25 +1,22 @@
-import Axios from "axios"
-
-import Sidebar from '../../../layouts/Sidebar.vue'
-import Router from '../../../router.js';
-
+import ProjetTemplate from '../components/projet_template.vue'
 import {apiService} from "../../../services/apiService";
+import Sidebar from '../../../layouts/Sidebar.vue'
+import Axios from "axios"
 
 export default{
     components:{
-        Sidebar, apiService
+        Sidebar, apiService, ProjetTemplate
     },
     data(){
         return {
             projets: [],
-            user: [],
+            user: this.$store.state.userInfo,
             id:0
         }
     },
 
     mounted(){
         this.get_projets()
-        console.log();
     },
 
     methods:{
@@ -28,10 +25,6 @@ export default{
             .then(({data}) => {
                 this.projets = data.response
             })
-        },
-
-        voir_projet(id){
-            Router.push('/deliver/projet/'+id);
         },
 
 

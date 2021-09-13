@@ -34,11 +34,6 @@ export default{
                 this.githubUrl = result.data.rendu.github_url
                 this.siteUrl = result.data.rendu.site_url
             });
-
-
-            console.log(this.rendu)
-            console.log(this.user)
-            console.log(this.projet)
         },
 
         editRendu() {
@@ -54,11 +49,6 @@ export default{
                 }
             }
 
-
-            // formData.append("medias[]", this.selectedMedias);
-            // console.log(this.selectedMedias)
-
-
             axios.post("/api/deliver/edit/rendus/" + this.rendu.id, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -73,7 +63,6 @@ export default{
 
         selectImage(val) {
             this.images = val.target.files;
-            console.log(this.images)
         },
 
         remove(media) {
@@ -82,6 +71,7 @@ export default{
                 this.medias.splice(index, 1);
             }
         },
+
         test(medias) {
             console.log(medias)
         },

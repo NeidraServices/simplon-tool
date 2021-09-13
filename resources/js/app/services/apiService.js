@@ -2,7 +2,7 @@ import Axios from "axios";
 
 export const apiService = {
     get(url, data = {}) {
-        console.log("URL :", url)
+        // console.log("URL :", url)
         return Axios({
             method: 'get',
             url: url,

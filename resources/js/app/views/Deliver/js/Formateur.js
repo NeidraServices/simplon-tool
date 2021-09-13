@@ -34,10 +34,7 @@ export default{
            
             try {
                 const req = await apiService.get(`${location.origin}/api/deliver/tags`);
-                
-               
                 this.tags=req.data;
-                console.log(req.data);
             } catch (error) {
                 console.log(error)
             }
@@ -76,23 +73,16 @@ export default{
 
                 const req = await apiService.post(`${location.origin}/api/deliver/tags/delete`,{id:id});
                 if(req.data.success){
-                
                     this.getTags();
                 }
             } catch (error) {
                 console.log(error)
             }
-
         },
 
-
-
         async getComp() {
-           
             try {
                 const req = await apiService.get(`${location.origin}/api/deliver/competences`);
-                
-               
                 this.competences=req.data;
             } catch (error) {
                 console.log(error)
@@ -128,10 +118,8 @@ export default{
         },
        async supprimerComp(id){
             try {
-
                 const req = await apiService.post(`${location.origin}/api/deliver/competences/delete`,{id:id});
                 if(req.data.success){
-                
                     this.getComp();
                 }
             } catch (error) {
@@ -139,9 +127,5 @@ export default{
             }
 
         }
-
-
-
     }
-
 }

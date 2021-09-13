@@ -128,7 +128,6 @@ export default{
             this.projet.tags.forEach(element => {
                 this.technos.push(element.nom)
             })
-            console.log(this.technos);
         },
 
         set_competence: function(){
