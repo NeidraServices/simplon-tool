@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-list nav dense v-if="userRole == 2">
+    <v-list nav dense v-if="userRole == 1 || userRole == 2">
       <v-list-item
         v-for="(menu, key) in trainerMenu"
         :key="key"

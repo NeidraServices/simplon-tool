@@ -15,7 +15,8 @@ export default {
             valid: true,
             isLoaded: false,
             disabled: true,
-
+            page: 1,
+            pageCount: 0,
             selectLangages: [],
             selectSkills: [],
             sondagesList: [],

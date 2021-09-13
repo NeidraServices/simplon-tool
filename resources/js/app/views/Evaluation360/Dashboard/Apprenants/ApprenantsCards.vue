@@ -40,24 +40,24 @@
 <script src="./apprenantsCards.js"/>
 <style>
 .apprenants-avatar {
-	width: 100px;
-	height: 100%;
-	position: relative;
-	left: -15%;
+    width: 100px;
+    height: 100%;
+    position: relative;
+    left: -15%;
 }
 .apprenants-avatar img {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
 }
 .apprenants-infos {
-	padding: 10px;
+    padding: 10px;
 }
 .apprenants-infos .see-more {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	padding: 5px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 5px;
 }
 </style>
