@@ -33,7 +33,7 @@ class Deliver_AffectationController extends Controller
         foreach ($data['users'] as $key => $user) {
             $user = Deliver_UsersModel::find($user);
 
-            $user->projets()->detach($projet[0]->id);
+            $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
 
             //si l'apprenant est déjà affecté au projet
            $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user){

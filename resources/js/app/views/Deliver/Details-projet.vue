@@ -123,6 +123,7 @@
                                             >
                                                 <v-text-field
                                                     label="Lien GitHub"
+                                                    v-model="rendu['github_url']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -131,6 +132,7 @@
                                             >
                                                 <v-text-field
                                                     label="Lien du site en ligne"
+                                                     v-model="rendu['site_url']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -139,6 +141,7 @@
                                             >
                                                 <v-text-field
                                                     label="Technologie utilisé"
+                                                     v-model="rendu['technos']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -148,6 +151,7 @@
                                                 <v-file-input
                                                     accept="image/*"
                                                     label="Ajout de média"
+                                                    v-model="rendu['medias']"
                                                     multiple
                                                 ></v-file-input>
                                             </v-col>
@@ -166,7 +170,8 @@
                                     <v-btn
                                         color="blue darken-1"
                                         text
-                                        @click="dialogRendu = false"
+                                        
+                                        @click="setRendu()"
                                     >
                                         Valider
                                     </v-btn>
