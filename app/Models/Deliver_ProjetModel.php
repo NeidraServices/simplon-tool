@@ -29,7 +29,7 @@ class Deliver_ProjetModel extends Model
     }
 
     public function rendus(){
-        return $this->hasMany(Deliver_Rendu::class);
+        return $this->hasMany(Deliver_Rendu::class,"projet_id","id");
     }
 
     public function commentaires(){

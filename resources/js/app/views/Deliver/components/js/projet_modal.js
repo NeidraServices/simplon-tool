@@ -101,8 +101,10 @@ export default{
                     }else{
                         this.$emit('append_projet', data.projet_created)
                     }
-                    this.dialog = false
+                    
                 }
+                this.dialog = false
+                this.$emit('refresh_projets')
             })
         },
 

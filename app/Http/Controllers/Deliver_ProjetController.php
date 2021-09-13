@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
+use App\Models\Deliver_RendusModel;
 use App\Models\Deliver_TagModel;
 use App\Models\Deliver_UsersModel;
 use App\Models\User;
@@ -220,7 +221,17 @@ public function getApprenants(){
     public function deleteProjet($id)
     {
         $projet=Deliver_ProjetModel::find($id);
+        $rendus=Deliver_RendusModel::where("projet_id",$id)->get();
 
+    
+        $projet->users()->detach();
+
+        foreach($rendus as $rendu){
+            $rendu->medias()->delete();
+        }
+        $projet->rendus()->delete();
+
+        
         if($projet) {
             $projet->delete();
             return response()->json([

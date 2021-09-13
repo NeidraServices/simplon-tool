@@ -3,7 +3,7 @@
             <div class="d-flex  my-10">
                  <h2 class="col-8">Tous les projets</h2>
                  <v-col v-if="user.role.name != 'apprenant'">
-                 <Modal_projet @append_projet="append_projet" :projet="null" />
+                 <Modal_projet @append_projet="append_projet" @refresh_projets="get_projets" :projet="null" />
                  </v-col>
                  <!-- <projet_ModalAdd class="col-4" :user="user" @append_projet="append_projet" /> -->
             </div>
