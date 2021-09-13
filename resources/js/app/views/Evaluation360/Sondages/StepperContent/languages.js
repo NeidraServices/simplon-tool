@@ -1,5 +1,5 @@
 import { EventBus } from '../../../../eventBus.js';
-import ProgressBar from './LanguagesProgressBar';
+import ProgressBar from './LanguagesProgressBar.vue';
 export default {
     components: {
         ProgressBar,
