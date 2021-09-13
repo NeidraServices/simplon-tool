@@ -1,5 +1,5 @@
-import { EventBus } from "../../../../../eventBus";
-import { apiService } from "../../../../../services/apiService";
+import { EventBus } from "../../../../../eventBus.js";
+import { apiService } from "../../../../../services/apiService.js";
 
 export default {
     components: {
@@ -275,13 +275,13 @@ export default {
                                     case 0:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.langage.id
+                                            content: item.content
                                         })
                                         break;
                                     case 1:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.skill.id
+                                            content: item.content
                                         })
                                         break;
                                     case 2:

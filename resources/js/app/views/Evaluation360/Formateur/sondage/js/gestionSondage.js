@@ -1,4 +1,5 @@
 import { apiService } from "../../../../../services/apiService.js";
+import { EventBus } from "../../../../../eventBus.js";
 
 export default {
     components: {
@@ -83,6 +84,7 @@ export default {
 
     watch: {
         sondageLines: function (val) {
+            console.log(val)
             if (val.length == 0) {
                 this.disabled = true;
             } else {
@@ -247,6 +249,64 @@ export default {
             }
         },
 
+        formatedData(sondageLines) {
+            let ligneFormated = [];
+
+            sondageLines.forEach(item => {
+                console.log(item);
+
+                if (item.type.id) {
+                    switch (item.type.id) {
+                        case "0":
+                            ligneFormated.push({
+                                type: item.type.id,
+                                content: item.content.id
+                            })
+                            break;
+                        case "1":
+                            ligneFormated.push({
+                                type: item.type.id,
+                                content: item.content.id
+                            })
+                            break;
+                        case "2":
+                            ligneFormated.push({
+                                type: item.type.id,
+                                content: item.content
+                            })
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    switch (item.type) {
+                        case "0":
+                            ligneFormated.push({
+                                type: item.type,
+                                content: item.content
+                            })
+                            break;
+                        case "1":
+                            ligneFormated.push({
+                                type: item.type,
+                                content: item.content
+                            })
+                            break;
+                        case "2":
+                            ligneFormated.push({
+                                type: item.type,
+                                content: item.question == null ? "" : item.question
+                            })
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
+            return ligneFormated;
+        },
+
         async handleSondage() {
             try {
                 if (this.sondageLines.length == 0) {
@@ -256,56 +316,9 @@ export default {
                     let req;
 
                     if (this.edited) {
-                        let ligneFormated = [];
-                        this.sondageLines.forEach(item => {
-                            if (item.type.id) {
-                                switch (item.type.id) {
-                                    case 0:
-                                        ligneFormated.push({
-                                            type: item.type.id,
-                                            content: item.content.id
-                                        })
-                                        break;
-                                    case 1:
-                                        ligneFormated.push({
-                                            type: item.type.id,
-                                            content: item.content.id
-                                        })
-                                        break;
-                                    case 2:
-                                        ligneFormated.push({
-                                            type: item.type.id,
-                                            content: item.content
-                                        })
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            } else {
-                                switch (item.type) {
-                                    case 0:
-                                        ligneFormated.push({
-                                            type: item.type,
-                                            content: item.langage.id
-                                        })
-                                        break;
-                                    case 1:
-                                        ligneFormated.push({
-                                            type: item.type,
-                                            content: item.skill.id
-                                        })
-                                        break;
-                                    case 2:
-                                        ligneFormated.push({
-                                            type: item.type,
-                                            content: item.question == null ? "" : item.question
-                                        })
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
+                        let ligneFormated = this.formatedData(this.sondageLines)
+                        console.log(ligneFormated);
+
                         dataSend = {
                             name: this.sondageName,
                             lines: ligneFormated,
@@ -323,6 +336,7 @@ export default {
                     }
                     const reqData = req.data;
                     if (reqData.success) {
+                        this.isLoaded = false;
                         await this.getSondages()
                         await this.closeGeneral()
                     } else {
@@ -335,6 +349,7 @@ export default {
                     }
                 }
             } catch (error) {
+                console.log(error)
                 EventBus.$emit('snackbar', {
                     text: `Une erreur est survenue`,
                     color: 'red',

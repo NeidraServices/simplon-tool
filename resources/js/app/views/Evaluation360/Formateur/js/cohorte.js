@@ -96,7 +96,7 @@ export default {
 
         async getData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/apprenants`);
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`);
                 const reqData = req.data.data;
                 this.userList = reqData;
                 this.isLoaded = true;
@@ -107,14 +107,12 @@ export default {
 
         async deleteApprenanAccount() {
             try {
-                const req = await apiService.delete(`${location.origin}/api/apprenants/${this.selectItem.id}/delete`)
+                const req = await apiService.delete(`${location.origin}/api/evaluation360/apprenants/${this.selectItem.id}/delete`)
                 const reqData = req.data;
                 if (reqData.success) {
                     await this.closeDeleteDialog();
                     await this.getData();
                     await EventBus.$emit('snackbar', { text: reqData.message, color: 'error' })
-
-                    await console.log(reqData.message)
                 } else {
                     console.log(reqData.message)
                 }
@@ -134,9 +132,9 @@ export default {
                 }
 
                 if (this.edited) {
-                    req = await apiService.put(`${location.origin}/api/apprenants/${this.selectItem.id}/update`, dataSend)
+                    req = await apiService.put(`${location.origin}/api/evaluation360/apprenants/${this.selectItem.id}/update`, dataSend)
                 } else {
-                    req = await apiService.post(`${location.origin}/api/apprenants/create`, dataSend)
+                    req = await apiService.post(`${location.origin}/api/evaluation360/apprenants/create`, dataSend)
                 }
 
                 const reqData = req.data;
@@ -145,7 +143,6 @@ export default {
                     await this.closeGeneral();
                     await this.getData();
                     await EventBus.$emit('snackbar', { text: reqData.message, color: 'success' })
-                    await console.log(reqData.message)
                 } else {
                     console.log(reqData.message)
                 }

@@ -31,8 +31,16 @@ class EvalSondageController extends Controller
      */
     public function getDataAll()
     {
-        $sondages = EvalSondage::distinct()->get();
-        return EvalSondageFormateurResource::collection($sondages);
+        $userAuth = User::whereId(Auth::id())->first();
+
+        if($userAuth->role_id == 3) {
+            $sondages = EvalSondage::where(['published' => 1, 'accepted' => 1])->where("user_id", "!=", $userAuth->id)->get();
+            return EvalSondageFormateurResource::collection($sondages);
+
+        } else  {
+            $sondages = EvalSondage::distinct()->get()->unique('name');
+            return EvalSondageFormateurResource::collection($sondages);
+        }
     }
 
 

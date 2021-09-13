@@ -15,11 +15,13 @@
 
               <v-btn
                 text
+                rounded
+                color='#d14631'
                 :to="
                   '/evaluation360/sondage/' + sondage.id + '/' + sondage.user.id
                 "
               >
-                <span>Répondre<v-icon>mdi-arrow-right</v-icon></span>
+                <span><v-icon text>mdi-arrow-right</v-icon></span>
               </v-btn>
             </v-card-actions>
           </v-card>

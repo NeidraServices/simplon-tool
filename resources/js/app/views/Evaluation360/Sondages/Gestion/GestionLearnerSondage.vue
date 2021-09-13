@@ -10,7 +10,10 @@
 			transition="dialog-bottom-transition"
 		>
 			<v-card class="py-5">
-				<v-card-title class="d-flex justify-center font-weight-bold py-10">
+				<v-card-title
+					style="background-color: #f1960f; color: white"
+					class="d-flex justify-center font-weight-bold py-10"
+				>
 					{{ title }}
 				</v-card-title>
 
@@ -56,7 +59,7 @@
 								<span>Ajouter une ligne</span>
 							</div>
 							<div class="ml-4">
-								<v-icon color="green"> mdi-plus-circle-outline </v-icon>
+								<v-icon color="#F1960F"> mdi-plus-circle-outline </v-icon>
 							</div>
 						</v-btn>
 
@@ -133,13 +136,15 @@
 					<v-spacer></v-spacer>
 					<v-btn
 						small
-						class="grey darken-1 mr-3 white--text font-weight-medium"
+						color="#d14631"
+						class="darken-1 mr-3 white--text font-weight-medium"
 						@click="closeGeneral"
 						>Annuler</v-btn
 					>
 					<v-btn
 						small
-						class="blue white--text font-weight-medium"
+						color="#F1960F"
+						class="white--text font-weight-medium"
 						:disabled="disabled"
 						@click="handleSondage"
 						>valider</v-btn
@@ -177,7 +182,7 @@
 			<div class="d-flex justify-start align-center mb-8">
 				<h1 class="text-center">Liste des sondages</h1>
 				<v-btn icon class="py-5 ml-5" @click="openGeneral(false)">
-					<v-icon color="green"> mdi-plus-circle-outline </v-icon>
+					<v-icon color="#F1960F"> mdi-plus-circle-outline </v-icon>
 				</v-btn>
 			</div>
 

@@ -8,13 +8,16 @@
               <v-img :src="getAvatar(userLoggedIn.avatar)"></v-img>
             </v-list-item-avatar>
           </v-list-item>
-
-          <v-list-item link :to="'/evaluation360/user/' + userLoggedIn.id">
-            <v-list-item-content>
+          <v-list-item
+            link
+            :to="'/evaluation360/user/' + userLoggedIn.id"
+            style="background-color: #d14631"
+          >
+            <v-list-item-content style="color: white">
               <v-list-item-title class="title">
                 {{ userLoggedIn.name }} {{ userLoggedIn.surname }}
               </v-list-item-title>
-              <v-list-item-subtitle>{{
+              <v-list-item-subtitle style="color: white">{{
                 userLoggedIn.email
               }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -48,7 +51,7 @@ export default {
       let routeName = this.$route.path;
       let defaultRoute = this.$route.path;
       var splits = routeName.split("/", 2);
-       if (splits[1] != "compte" && defaultRoute != "/") {
+      if (splits[1] != "compte" && defaultRoute != "/") {
         return this.$store.state.isLogged;
       }
     },
@@ -64,7 +67,7 @@ export default {
     this.userLoggedIn = this.$store.state.userInfo;
     authenticationService.role.subscribe((x) => (this.role = x));
   },
-  
+
   methods: {
     getAvatar(image) {
       return `${location.origin}/images/${image}`;
@@ -75,7 +78,7 @@ export default {
 
 <style>
 .link:hover {
-  background-color: gray;
+  background-color: #d14631;
   color: white;
   cursor: pointer;
 }

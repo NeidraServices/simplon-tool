@@ -17,6 +17,7 @@
         :key="key"
         link
         :to="menu.route"
+        color='#d14631'
       >
         <v-list-item-title> {{ menu.title }}</v-list-item-title>
       </v-list-item>

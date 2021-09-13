@@ -20,10 +20,16 @@
 					></v-autocomplete>
 				</v-list-item>
 				<v-list-item>
-					<v-select v-model='note' :items="['bas', 'moyen', 'haute']" label="Notes"></v-select>
+					<v-select
+						v-model="note"
+						:items="['bas', 'moyen', 'haute']"
+						label="Notes"
+					></v-select>
 				</v-list-item>
 				<v-list-item>
-					<v-btn rounded text @click="filter()">Filtrer</v-btn>
+					<v-btn rounded text @click="filter()" style="color: #d14631"
+						>Filtrer</v-btn
+					>
 					<v-btn rounded text @click="allApprenant()">Tout voir</v-btn>
 				</v-list-item>
 			</v-list>
