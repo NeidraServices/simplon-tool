@@ -43,7 +43,7 @@ Route::middleware(['auth:api'])->prefix('user')->group(function () {
 */
 
 
-Route::get("/list", [EvalPromotionController::class, "getData"])->middleware('auth:api')->name('api.promotion.retrieve');
+Route::get("/promotion/list", [EvalPromotionController::class, "getData"])->middleware('auth:api')->name('api.promotion.retrieve');
 
 Route::middleware(['auth:api', "role:1,2"])->prefix("promotion")->group(function () {
     Route::post("/create", [EvalPromotionController::class, "addData"])->name('api.promotion.create');
@@ -149,7 +149,7 @@ Route::middleware(['auth:api'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:api', "role:1,2"])->group(function () {
+Route::middleware(['auth:api', "role:1,2,3"])->group(function () {
     Route::prefix('/stats')->group(function () {
         Route::get('/sondage', [StatsController::class, 'getSondageStats'])->name('api.stats.sondage');
     });
