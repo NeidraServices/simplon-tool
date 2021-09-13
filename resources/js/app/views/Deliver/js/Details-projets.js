@@ -85,6 +85,21 @@ export default{
             }
             this.allApprenants = allApprenants;
         },
+        async setRendu(){
+    
+            let dataToSend = {};
+
+            dataToSend={
+                site_url:this.rendu["site_url"],
+                github_url:this.rendu["github_url"],
+                user_id:this.currentUser.id,
+                medias:this.rendu["medias"],
+                technos:this.rendu["technos"]
+            }
+            const req = await apiService.post(`${location.origin}/api/deliver/create/rendus/projects/${this.id}`,dataToSend);
+           await this.getRenduData();
+            this.dialogRendu = false
+        },
         submit(item) {
             let dataToSend = {};
             let users = [];
