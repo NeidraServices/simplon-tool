@@ -14,6 +14,7 @@ use App\Models\Deliver_UsersModel;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
 
 class Deliver_ProjetController extends Controller
@@ -62,20 +63,25 @@ class Deliver_ProjetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function mesProjets($formateur_id){
+    public function mesProjets($formateur_id = null){
         $user = Auth::user();
-        if($user->role_id != 2 || $user->id != $formateur_id){
-            return response()->json([
-                'success' => false,
-                'message' => "Vous n'êtes pas formateur"
-            ]);
+        
+        if($user->role_id === 2 || $user->id === $formateur_id){
+            $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
+                $user->where("formateur_id", $formateur_id);
+            })->get();
+            return response()->json(['projets' =>  $projets[0]["projets"]]);            
+        }elseif($user){
+            $assignation_projet = DB::table('dp_affectations')->where('user_id', $user->id)->get();
+            $mes_projets        = [];
+            foreach($assignation_projet as $assign){
+                $projet = Deliver_ProjetModel::find($assign->projet_id)->first();
+                array_push($mes_projets, $projet);
+            }
+            return response()->json(['response' => $mes_projets]);
+        }else{
+            return response()->json(['success' => false, 'erreur' => 'Veuillez vous connecté !']);
         }
-
-        $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
-            $user->where("formateur_id", $formateur_id);
-        })->get();
-        dd($projets);
-       return response()->json(['projets' =>  $projets[0]["projets"]]);
     }
 
     /*
