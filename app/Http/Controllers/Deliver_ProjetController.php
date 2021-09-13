@@ -50,7 +50,12 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
+public function getApprenants(){
 
+    $apprenants=Deliver_UsersModel::select(['name', 'surname', 'email', 'id'])->where("role_id",3)->get();
+
+    return response()->json(['data' =>  $apprenants]);
+}
     /*
     |--------------------------------------------------------------------------
     | Liste de mes projets

@@ -37,7 +37,7 @@ export default{
     created() {
         // console.log(this.$store);
         // console.log(this.$store.state);
-        // this.currentUser = this.$store.state.userInfo;
+          this.currentUser = this.$store.state.userInfo;
 
         this.getProjetData().then(r => {});
         this.getRenduData().then(r => {});
@@ -79,7 +79,7 @@ export default{
         },
         async getApprenantData() {
             let allApprenants = this.allApprenants;
-            const req = await apiService.get(`${location.origin}/api/apprenants`);
+            const req = await apiService.get(`${location.origin}/api/deliver/apprenants`);
             for (let i = 0; i < req.data.data.length; i++) {
                 allApprenants.push(req.data.data[i]);
             }
