@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use App\Mail\NotificationCreateAccount;
+use App\Models\EvalSondage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -28,6 +29,7 @@ class EvalCoorteController extends Controller
      */
     public function getData()
     {
+
         $coorte = User::where(['role_id' => 3])->get();
         return UserResource::collection($coorte);
     }
@@ -203,7 +205,70 @@ class EvalCoorteController extends Controller
         }
 
         $users = $users->get();
+        if ($request->note) {
+            $users_noted = [];
 
+            switch ($request->note) {
+                case 'bas':
+
+                    foreach ($users as $user) {
+                        $sondages_notes = [];
+                        $sondages = EvalSondage::where('user_id', $user->id)->get();
+                        foreach ($sondages as $sondage) {
+                            $sondages_notes[] = $sondage->global_note;
+                        }
+                        if (!empty($sondages_notes)) {
+                            $note_global = array_sum($sondages_notes) / count($sondages_notes);
+                            $note_global = round($note_global);
+                            $user['note'] = $note_global;
+                            if ($note_global <= 9) {
+                                $users_noted[] = $user;
+                            }
+                        }
+                    }
+
+                    return UserResource::collection($users_noted);
+                    break;
+                case 'moyen':
+
+                    foreach ($users as $user) {
+                        $sondages_notes = [];
+                        $sondages = EvalSondage::where('user_id', $user->id)->get();
+                        foreach ($sondages as $sondage) {
+                            $sondages_notes[] = $sondage->global_note;
+                        }
+                        if (!empty($sondages_notes)) {
+                            $note_global = array_sum($sondages_notes) / count($sondages_notes);
+                            $note_global = round($note_global);
+                            $user['note'] = $note_global;
+                            if ($note_global > 9 && $note_global <= 14) {
+                                $users_noted[] = $user;
+                            }
+                        }
+                    }
+                    return UserResource::collection($users_noted);
+
+                    break;
+                case 'haute':
+                    foreach ($users as $user) {
+                        $sondages_notes = [];
+                        $sondages = EvalSondage::where('user_id', $user->id)->get();
+                        foreach ($sondages as $sondage) {
+                            $sondages_notes[] = $sondage->global_note;
+                        }
+                        if (!empty($sondages_notes)) {
+                            $note_global = array_sum($sondages_notes) / count($sondages_notes);
+                            $note_global = round($note_global);
+                            $user['note'] = $note_global;
+                            if ($note_global > 14) {
+                                $users_noted[] = $user;
+                            }
+                        }
+                    }
+                    return UserResource::collection($users_noted);
+                    break;
+            }
+        }
         return UserResource::collection($users);
     }
 }

@@ -1,13 +1,19 @@
+import { apiService } from "../../../../services/apiService";
+
 export default {
-   
 
     created() {
         this.initializeData()
     },
     methods: {
+        getSondages() {
+
+        },
+
         initializeData() {
             this.$store.dispatch('getApprenants')
             this.$store.state.apprenants
+
         },
         getImages(image) {
             return `${location.origin}/images/${image}`

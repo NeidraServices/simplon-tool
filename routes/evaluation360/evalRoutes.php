@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->middleware('auth:api')->name('api.coort.retrieve');
+Route::post('/apprenants/filter', [EvalCoorteController::class, 'filterApprenant']);
 
 Route::middleware(['auth:api', "role:1,2"])->group(function () {
     Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');
@@ -87,8 +88,9 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("/skill")->group(function ()
 |--------------------------------------------------------------------------
 */
 
+Route::get("/list", [EvalLangageController::class, "getData"])->middleware('auth:api')->name('api.langage.retrieve');
+
 Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function () {
-    Route::get("/list", [EvalLangageController::class, "getData"])->middleware('auth:api')->name('api.langage.retrieve');
     Route::post("/create", [EvalLangageController::class, "addData"])->name('api.langage.create');
     Route::put("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
     Route::delete("/{id}/delete", [EvalLangageController::class, "deleteData"])->name('api.langage.delete');

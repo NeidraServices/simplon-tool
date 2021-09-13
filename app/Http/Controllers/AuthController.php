@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\ResetTentatives;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotificationLockedAccount;

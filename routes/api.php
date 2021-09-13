@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -26,6 +26,8 @@ Route::post('/connexion', [AuthController::class, 'connexion'])->name('api.conne
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('api.logout');
 Route::post('/email/verification', [AuthController::class, 'verifymail'])->name('api.verify.email');
 Route::post('/verify', [AuthController::class, 'verifyToken'])->middleware(['auth:api'])->name('api.verify.token');
+Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
+Route::post('password/reset', [ForgotPasswordController::class, 'reset']);
 
 
 /*

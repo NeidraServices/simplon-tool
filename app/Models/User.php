@@ -34,6 +34,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token'
     ];
 
     /**
@@ -77,6 +78,11 @@ class User extends Authenticatable
         return $this->belongsTo(EvalPromotion::class, 'promotion_id');
     }
 
+    function userAnswer()
+    {
+        return $this->hasMany(EvalUsersAnswerLines::class, 'user_id');
+    }
+
     /**
      * Check if it's an administrator
      */
@@ -86,5 +92,10 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
     }
 }

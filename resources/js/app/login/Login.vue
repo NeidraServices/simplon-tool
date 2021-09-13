@@ -60,7 +60,7 @@
 					<v-card-actions>
 						<v-row>
 							<v-col>
-								<v-btn text color="error">Mot de passe oublié?</v-btn>
+								<v-btn to="/reset-password" text color="error">Mot de passe oublié?</v-btn>
 							</v-col>
 							<v-col class="text-right">
 								<v-btn

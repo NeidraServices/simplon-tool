@@ -7,6 +7,8 @@ import HomePage from './views/Home.vue'
 import { authenticationService } from "./services/authenticationService";
 import { Role } from './helpers/role.js';
 import Login from './login/Login.vue';
+import ForgotPassword from './login/ForgotPassword.vue';
+import ResetPasswordForm from './login/ResetPasswordForm.vue'
 import Compte from './views/compte/Compte.vue';
 import VerifyMail from './views/VerifyMail.vue';
 import Store from './store';
@@ -35,6 +37,22 @@ var routes = [
         name: 'verification',
         component: VerifyMail,
     },
+    {
+        path: '/reset-password',
+        name: 'reset-password',
+        component: ForgotPassword,
+        meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/reset-password/:token',
+        name: 'reset-password-form',
+        component: ResetPasswordForm,
+        meta: {
+            auth: false
+        }
+    }
 ];
 
 routes = routes.concat(EvalRoutes, DeliverRoutes, MarkedownRoutes);
@@ -56,7 +74,7 @@ router.beforeEach((to, from, next) => {
         }
     } else if (requiresAuth && !requiresRole) {
         if (!Store.state.isLogged) {
-            return next({ path: "/connexion", query: { returnUrl: to.path }  });
+            return next({ path: "/connexion", query: { returnUrl: to.path } });
         } else {
             return next();
         }
