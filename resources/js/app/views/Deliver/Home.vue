@@ -2,7 +2,9 @@
         <div class="ml-5">
             <div class="d-flex  my-10">
                  <h2 class="col-8">Tous les projets</h2>
+                 <v-col v-if="user.role.name != 'apprenant'">
                  <Modal_projet @append_projet="append_projet" :projet="null" />
+                 </v-col>
                  <!-- <projet_ModalAdd class="col-4" :user="user" @append_projet="append_projet" /> -->
             </div>
            
@@ -13,7 +15,7 @@
                             <v-col cols="6">
                                 {{ projet.titre }}
                             </v-col>
-                            <v-col cols="6" class="text-end" v-if="user.role != 'apprenant'">
+                            <v-col cols="6" class="text-end" v-if="user.role.name != 'apprenant'">
                                 <projet_ModalDelete :project_id="projet.id" @delete_projet="delete_projet" />
                                 <Modal_projet @append_projet="append_projet" :projet="projet"/>
                                 <!-- <projet_ModalUpdate :projet="projet"/> -->
