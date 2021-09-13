@@ -1,6 +1,6 @@
 export default {
     props: {
-        langues: {
+        list: {
             default: Object
         },
     },

@@ -4,7 +4,7 @@ export default {
         apprenant: {
             default: Object
         },
-        referentielsList: {
+        list: {
             default: Array
         }
     },
@@ -23,7 +23,7 @@ export default {
             this.referentiel = this.$store.state.referentiels
         },
         checkNotes() {
-            
+
         }
     }
 }
