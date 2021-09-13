@@ -6,6 +6,7 @@ import Sondage from './Sondages/Sondage.vue';
 import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
 import SondagesList from './Sondages/SondagesList.vue';
 import GestionLearnerSondage from './Sondages/Gestion/GestionLearnerSondage.vue';
+import Promotion from './Promotion/Promotion.vue';
 
 export const EvalRoutes = [
     {
@@ -19,6 +20,12 @@ export const EvalRoutes = [
         name: 'Apprenants',
         component: Apprenants,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
+    },
+    {
+        path: '/evaluation360/promotions',
+        name: 'Promotions',
+        component: Promotion,
+        meta: { requiresAuth: true, requiresRole: false, roles: [1,2] }
     },
     {
         path: '/evaluation360/user/:id',

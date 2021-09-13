@@ -78,7 +78,6 @@ export default {
             generalDialog: false,
             deleteDialog: false,
             dialogAgree: false,
-            selectItem: null
         }
     },
 
