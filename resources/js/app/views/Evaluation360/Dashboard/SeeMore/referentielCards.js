@@ -3,6 +3,9 @@ export default {
     props: {
         apprenant: {
             default: Object
+        },
+        referentielsList: {
+            default: Array
         }
     },
     data() {
@@ -12,11 +15,15 @@ export default {
     },
     created() {
         this.initializeData()
+        this.checkNotes()
     },
     methods: {
         initializeData() {
             this.$store.dispatch('getReferentiels')
             this.referentiel = this.$store.state.referentiels
         },
+        checkNotes() {
+            
+        }
     }
 }

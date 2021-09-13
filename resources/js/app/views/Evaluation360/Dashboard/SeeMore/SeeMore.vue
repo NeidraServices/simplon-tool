@@ -6,7 +6,7 @@
     </div>
     <v-row class="ma-auto pa-5">
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
-        <Referentiel :apprenant="apprenant" />
+        <Referentiel :apprenant="apprenant" :notes="referentielsList" />
       </v-col>
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
         <Langages

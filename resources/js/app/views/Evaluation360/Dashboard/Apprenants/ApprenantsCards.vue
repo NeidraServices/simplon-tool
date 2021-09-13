@@ -25,7 +25,7 @@
               <img :src="getImages(apprenant.avatar)" />
             </div>
             <div class="apprenants-infos">
-              <h3>{{ apprenant.name }} {{ apprenant.surname }}</h3>
+              <h5>{{ apprenant.name }} {{ apprenant.surname }}</h5>
               <span>CDA</span>
               <h4>8/10</h4>
               <v-btn class="see-more" icon @click="goToDetails(apprenant)">
