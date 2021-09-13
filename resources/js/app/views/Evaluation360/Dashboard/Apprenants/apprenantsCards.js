@@ -20,7 +20,7 @@ export default {
         },
         async goToDetails(apprenant) {
             await this.$store.commit('Apprenant', apprenant)
-            await this.$router.push(`/user/` + apprenant.id);
+            await this.$router.push(`/evaluation360/user/` + apprenant.id);
         }
     }
 

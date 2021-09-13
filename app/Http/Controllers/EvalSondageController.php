@@ -114,7 +114,7 @@ class EvalSondageController extends Controller
 
         $user = Auth::user();
 
-        if($user->role_id == 3) {
+        if ($user->role_id == 3) {
             $sondage            = new EvalSondage();
             $sondage->name      = $name;
             $sondage->user_id   = $user->id;
@@ -157,12 +157,12 @@ class EvalSondageController extends Controller
                 $sondage->accepted  = 1;
                 $sondage->isOwner   = 1;
                 $sondage->save();
-    
+
                 foreach ($lines as $lineInfo) {
                     $sondageLine = new EvalSondageLines();
                     $sondageLine->sondage_id = $sondage->id;
                     $sondageLine->type       = $lineInfo['type'];
-    
+
                     switch ($lineInfo['type']) {
                         case 0:
                             $sondageLine->langage_id  = $lineInfo['content'];
@@ -225,7 +225,7 @@ class EvalSondageController extends Controller
         $name        =  $validator->validated()['name'];
         $published   =  $validator->validated()['published'];
         $lines       =  $validator->validated()['lines'];
-        
+
         $sondages    = EvalSondage::where(['name' => $name])->get();
         foreach ($sondages as $sondage) {
             $sondage->name = $name;
@@ -253,7 +253,7 @@ class EvalSondageController extends Controller
                         break;
                     default:
                         break;
-                }             
+                }
                 $sondageLineUpdate->save();
             }
 

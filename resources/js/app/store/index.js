@@ -52,29 +52,15 @@ export default new Vuex.Store({
     actions: {
         async getApprenants({ state }) {
 
-            // if (_.isEmpty(state.apprenants)) {
+            if (_.isEmpty(state.apprenants)) {
+                try {
+                    const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`)
+                    const reqData = req.data.data
+                    this.commit('storeApprenants', reqData)
 
-            try {
-                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`)
-                const reqData = req.data.data
-                reqData.forEach(apprenant => {
-                    apprenant['note'] = null;
-                    apiService.get('/api/evaluation360/apprenant/sondage/' + apprenant.id).then(({ data }) => {
-                        if (data.data.length > 0) {
-                            let sondages_notes = [];
-    
-                            data.data.forEach(sondage => {
-                                sondages_notes.push(sondage.global_note)
-                            });
-                            var note_global = _.sum(sondages_notes) / data.data.length;
-                            note_global = note_global.toFixed(0);
-                            apprenant['note'] = note_global;
-                        }
-                    })
-                });
-                this.commit('storeApprenants', reqData)
+                }
+                catch (err) { console.log(err) }
             }
-            catch (err) { console.log(err) }
             // }
         },
         async getLangages({ state }) {
@@ -104,7 +90,9 @@ export default new Vuex.Store({
         },
         async getSpecificSondage({ state }, data) {
             try {
-                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
+
+                // const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${data.ids.userId}/${data.ids.sondageId}`)
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/3/${data.ids.sondageId}`)
                 const reqData = req.data.data
                 this.commit('storeSpecificSondage', reqData)
             }

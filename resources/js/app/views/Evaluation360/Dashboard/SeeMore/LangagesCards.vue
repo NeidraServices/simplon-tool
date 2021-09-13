@@ -19,7 +19,8 @@
               class="langages-note"
               :elevation="hover ? 5 : 2"
             >
-              <span>9/10</span>
+              <span v-if="langage.note">{{ langage.note }}</span>
+              <span v-if="!langage.note">n/a</span>
             </v-card>
           </v-card>
         </v-col>

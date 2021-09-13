@@ -21,7 +21,7 @@ export const EvalRoutes = [
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
-        path: '/user/:id',
+        path: '/evaluation360/user/:id',
         name: 'SeeMore',
         component: SeeMore,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }

@@ -14,6 +14,7 @@ class EvalSondage extends Model
      *
      * @var array
      */
+    
     protected $fillable = [
         'name',
         'comments',
