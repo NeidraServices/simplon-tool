@@ -33,11 +33,43 @@ class EvalSondageController extends Controller
     {
         $userAuth = User::whereId(Auth::id())->first();
 
-        if($userAuth->role_id == 3) {
-            $sondages = EvalSondage::where(['published' => 1, 'accepted' => 1])->where("user_id", "!=", $userAuth->id)->get();
-            return EvalSondageFormateurResource::collection($sondages);
+        if ($userAuth->role_id == 3) {
+            $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
+                ->join('users', 'eval_sondages.user_id', '=', 'users.id')
+                ->where(['eval_sondages.published' => 1, 'eval_sondages.accepted' => 1])
+                ->where("eval_sondages.user_id", "!=", $userAuth->id)
+                ->where("users.promotion_id", "=", $userAuth->promotion_id)
+                ->select('eval_sondages.*')
+                ->get();
 
-        } else  {
+            return EvalSondageFormateurResource::collection($sondages);
+        } else {
+            $sondages = EvalSondage::distinct()->get()->unique('name');
+            return EvalSondageFormateurResource::collection($sondages);
+        }
+    }
+
+
+    /**
+     * Retrieve all (formateur)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getDataAllForApprenant()
+    {
+        $userAuth = User::whereId(Auth::id())->first();
+
+        if ($userAuth->role_id == 3) {
+            $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
+                ->join('users', 'eval_sondages.user_id', '=', 'users.id')
+                ->where("eval_sondages.user_id", $userAuth->id)
+                ->where("eval_sondages.isOwner", 1)
+                ->where("users.promotion_id", "!=", $userAuth->promotion_id)
+                ->select('eval_sondages.*')
+                ->get();
+
+            return EvalSondageFormateurResource::collection($sondages);
+        } else {
             $sondages = EvalSondage::distinct()->get()->unique('name');
             return EvalSondageFormateurResource::collection($sondages);
         }

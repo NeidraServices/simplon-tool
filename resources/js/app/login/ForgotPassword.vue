@@ -42,11 +42,9 @@ export default {
   },
   methods: {
     requestResetPassword() {
-      console.log(this.email);
       axios.post("/api/password/email", { email: this.email}).then(
         (result) => {
           this.response = result.data;
-          console.log(result.data);
         },
         (error) => {
           console.error(error);

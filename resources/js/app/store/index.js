@@ -95,7 +95,6 @@ export default new Vuex.Store({
         async getSondages({ state }) {
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`)
-                console.log(req);
                 const reqData = req.data.data
                 this.commit('storeSondages', reqData)
             }

@@ -72,7 +72,6 @@ export default {
                 filter['apprenant'] = this.apprenant;
             }
             if (this.note) {
-                console.log(this.note)
                 filter['note'] = this.note;
 
             }

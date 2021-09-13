@@ -37,6 +37,8 @@ export default {
             name: '',
             surname: '',
             email: '',
+            promoList: [],
+            selectedPromo: '',
 
             nameRules: [
                 v => !!v || "Nom de l'apprenant requis"
@@ -47,7 +49,9 @@ export default {
             emailRules: [
                 v => !!v || "Nom de l'apprenant requis"
             ],
-
+            promotionRules: [
+                v => !!v || "Promotion requise"
+            ],
             selectItem: null,
             generalDialog: false
         }
@@ -96,8 +100,11 @@ export default {
 
         async getData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`);
+                const req      = await apiService.get(`${location.origin}/api/evaluation360/apprenants`);
+                const reqPromo = await apiService.get(`${location.origin}/api/evaluation360/promotion/list`);
                 const reqData = req.data.data;
+                const reqDataPromo = reqPromo.data.data;
+                this.promoList = reqDataPromo;
                 this.userList = reqData;
                 this.isLoaded = true;
             } catch (error) {
@@ -128,7 +135,8 @@ export default {
                 let dataSend = {
                     name: this.name,
                     surname: this.surname,
-                    email: this.email
+                    email: this.email,
+                    promotion: this.selectedPromo.id
                 }
 
                 if (this.edited) {

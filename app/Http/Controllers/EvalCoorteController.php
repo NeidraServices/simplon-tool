@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Mail\NotificationCreateAccount;
 use App\Models\EvalSondage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -29,8 +30,15 @@ class EvalCoorteController extends Controller
      */
     public function getData()
     {
+        $userAuth = User::whereId(Auth::id())->first();
+        $coorte = "";
 
-        $coorte = User::where(['role_id' => 3])->get();
+        if ($userAuth->role_id == 3) {
+            $coorte = User::where(['role_id' => 3, "promotion_id" => $userAuth->promotion_id])->get();
+        } else {
+            $coorte = User::where(['role_id' => 3])->get();
+        }
+
         return UserResource::collection($coorte);
     }
 
@@ -53,9 +61,10 @@ class EvalCoorteController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name'    => "required",
-                'surname' => "required",
-                'email'   => "required|unique:users|regex:/^.+@.+$/i",
+                'name'      => "required",
+                'surname'   => "required",
+                'promotion' => "required",
+                'email'     => "required|unique:users|regex:/^.+@.+$/i",
             ],
             [
                 'required' => 'Le champ :attribute est requis',
@@ -72,9 +81,10 @@ class EvalCoorteController extends Controller
             ], 400);
         }
 
-        $name    =  $validator->validated()['name'];
-        $surname =  $validator->validated()['surname'];
-        $email   =  $validator->validated()['email'];
+        $name        =  $validator->validated()['name'];
+        $surname     =  $validator->validated()['surname'];
+        $email       =  $validator->validated()['email'];
+        $promotion   =  $validator->validated()['promotion'];
 
         $confirmToken      = Str::random(20);
         $generatePassword  = Str::random(10);
@@ -85,6 +95,7 @@ class EvalCoorteController extends Controller
         $user->email        = $email;
         $user->password     = Hash::make($generatePassword);
         $user->confirmToken = $confirmToken;
+        $user->promotion_id = $promotion;
         $user->role_id      = 3;
         $user->save();
 
@@ -115,9 +126,10 @@ class EvalCoorteController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name'    => "required",
-                'surname' => "required",
-                'email'   => "required|regex:/^.+@.+$/i",
+                'name'      => "required",
+                'surname'   => "required",
+                'promotion' => "required",
+                'email'     => "required|regex:/^.+@.+$/i",
             ],
             [
                 'required' => 'Le champ :attribute est requis',
@@ -133,9 +145,11 @@ class EvalCoorteController extends Controller
             ], 400);
         }
 
-        $name    =  $validator->validated()['name'];
-        $surname =  $validator->validated()['surname'];
-        $email   =  $validator->validated()['email'];
+        $name        =  $validator->validated()['name'];
+        $surname     =  $validator->validated()['surname'];
+        $email       =  $validator->validated()['email'];
+        $promotion   =  $validator->validated()['promotion'];
+
 
         $confirmToken      = Str::random(20);
         $generatePassword  = Str::random(10);
@@ -146,6 +160,7 @@ class EvalCoorteController extends Controller
         $user->email        = $email;
         $user->password     = Hash::make($generatePassword);
         $user->confirmToken = $confirmToken;
+        $user->promotion_id = $promotion;
         $user->role_id      = 3;
         $user->save();
 
@@ -188,20 +203,17 @@ class EvalCoorteController extends Controller
     }
 
 
-    /**
-     * Delete data (array selected)
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteDataArray(Request $request)
-    {
-    }
 
     public function filterApprenant(Request $request)
     {
+        $userAuth = User::whereId(Auth::id())->first();
         $users = User::query();
         if ($request->apprenant) {
-            $users =  $users->where('name', 'like', '%' . $request->apprenant . '%');
+            if ($userAuth->role_id == 3) {
+                $users =  $users->where('name', 'like', '%' . $request->apprenant . '%')->where("promotion_id", $userAuth->promotion_id);
+            } else {
+                $users =  $users->where('name', 'like', '%' . $request->apprenant . '%');
+            }
         }
 
         $users = $users->get();
