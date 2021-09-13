@@ -15,7 +15,9 @@
       </v-col>
     </v-row>
     <div class="stepper-actions mb-5">
-      <v-btn color="primary" @click="send"> Valider </v-btn>
+      <v-btn color="primary" @click="send" to="/evaluation360/sondages">
+        Valider
+      </v-btn>
 
       <v-btn text @click="cancel()"> retour </v-btn>
     </div>
