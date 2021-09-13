@@ -4,7 +4,7 @@
       ><span class="ma-auto">Langages</span></v-card-title
     >
     <v-row class="pa-5">
-      <v-hover v-slot="{ hover }" v-for="langage in langues" :key="langage.id">
+      <v-hover v-slot="{ hover }" v-for="langage in list" :key="langage.id">
         <v-col class="pa-5" xs="12" sm="6" md="4" lg="3" xl="2" cols="12"
           ><v-card
             :elevation="hover ? 5 : 2"
@@ -19,8 +19,8 @@
               class="langages-note"
               :elevation="hover ? 5 : 2"
             >
-              <span v-if="langage.note">{{ langage.note }}</span>
-              <span v-if="!langage.note">n/a</span>
+              <span v-if="!isNaN(langage.note)">{{ langage.note }}</span>
+              <span v-if="isNaN(langage.note)">-</span>
             </v-card>
           </v-card>
         </v-col>

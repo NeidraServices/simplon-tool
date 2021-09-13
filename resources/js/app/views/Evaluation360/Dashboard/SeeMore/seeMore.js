@@ -13,16 +13,15 @@ export default {
             notes: [],
             langagesList: [],
             langagesNoted: {},
-            Langages: [],
-            skills: [],
             referentielsList: [],
+            notedReferentiel: [],
+            LangFinalTab: [],
+            RefFinalTab: []
         }
     },
     created() {
         this.initializeData()
-        this.initializeReferentiel()
-        console.log(this.skills)
-
+        this.initializeNote()
     },
     methods: {
         async initializeData() {
@@ -38,44 +37,69 @@ export default {
 
         },
         //TODO Matt - A terminer, problème object array
-        async initializeReferentiel() {
+        async initializeNote() {
             try {
                 const req = await apiService.get('/api/evaluation360/apprenant/sondage/notes/' + this.$route.params.id)
                 this.notes = req.data.data
-                var langNote = 0
-                var langI = 0
-                var refNote = 0
-                var refI = 0
-                await this.notes.forEach(note => {
-                    if (note.sondage_line_id.langage) {
-                        this.langagesList.forEach(_langList => {
-                            if (note.sondage_line_id.langage.name == _langList.name) {
-                                langI++
-                                langNote = langNote + note.note
-                                this.langagesNoted[note.sondage_line_id.langage.name] = [{ note: Math.floor(langNote / langI), langage: note.sondage_line_id.langage.name }]
-                                this.Langages.push({
-                                    name: note.sondage_line_id.langage.name,
-                                    note: Math.floor(langNote / langI)
-                                })
-                                _langList['note'] = Math.floor(langNote / langI)
-                            }
-                        })
-
-                    }
-                    else if (note.sondage_line_id.skill) {
-                        this.referentielsList.forEach(_referentiel => {
-                            _referentiel.competences.forEach(_ref => {
-                                if (_ref.description == note.sondage_line_id.skill.description) {
-                                    refI++
-                                    refNote = refNote + note.note
-                                    _ref['note'] = Math.floor(refNote / refI)
-                                }
-                            })
-                        })
-                    }
-                });
+                this.evaluateLanguages(this.notes)
+                this.evaluateReferentiel(this.notes)
             }
             catch (err) { console.log(err) }
         },
+        evaluateReferentiel(notes) {
+            let noteArray = []
+            notes.forEach(_note => {
+                if (_note.sondage_line_id.skill != null) {
+                    noteArray.push(_note)
+                }
+            })
+            this.referentielsList.forEach(referentiel => {
+                let initialPush = {
+                    name: referentiel.description,
+                    competences: [],
+                    moyenne: 0,
+                }
+                referentiel.competences.forEach(_ref => {
+                    let noteResult = 0;
+                    let note = noteArray.filter(_note => _note.sondage_line_id.skill.description == _ref.description)
+                    note.forEach(_note => {
+                        noteResult += _note.note
+                    })
+                    initialPush.competences.push({
+                        id: _ref.id,
+                        description: _ref.description,
+                        note: (noteResult / note.length).toFixed(2)
+                    })
+                    if (!isNaN(parseFloat((noteResult / note.length).toFixed(2)))) {
+                        initialPush.moyenne += parseFloat((noteResult / note.length).toFixed(2))
+                    }
+                })
+                var notNan = initialPush.competences.filter(_note => !isNaN(_note.note))
+                initialPush.moyenne = (initialPush.moyenne / notNan.length).toFixed(2)
+                
+                this.RefFinalTab.push(initialPush)
+            })
+        },
+        evaluateLanguages(notes) {
+            let noteArray = []
+            notes.forEach(_note => {
+                if (_note.sondage_line_id.langage != null) {
+                    noteArray.push(_note)
+                }
+            })
+            this.langagesList.forEach(langage => {
+                let noteResult = 0;
+                let note = noteArray.filter(_note => _note.sondage_line_id.langage.name == langage.name)
+                note.forEach(_note => {
+                    noteResult += _note.note
+                })
+                this.LangFinalTab.push({
+                    id: langage.id,
+                    image: langage.image,
+                    name: langage.name,
+                    note: (noteResult / note.length).toFixed(2)
+                })
+            })
+        }
     }
 }
