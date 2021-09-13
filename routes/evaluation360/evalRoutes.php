@@ -60,8 +60,9 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("promotion")->group(function
 
 
 
+Route::get("/referentiel/list", [EvalReferentielController::class, "getData"])->middleware('auth:api')->name('api.referentiel.retrieve');
+
 Route::middleware(['auth:api', "role:1,2"])->prefix("/referentiel")->group(function () {
-    Route::get("/list", [EvalReferentielController::class, "getData"])->middleware('auth:api')->name('api.referentiel.retrieve');
     Route::post("/create", [EvalReferentielController::class, "addData"])->name('api.referentiel.create');
     Route::put("/{id}/update", [EvalReferentielController::class, "updateData"])->name('api.referentiel.update');
     Route::delete("/{id}/delete", [EvalReferentielController::class, "deleteData"])->name('api.referentiel.delete');
@@ -74,8 +75,9 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("/referentiel")->group(funct
 */
 
 
+Route::get("/skill/list", [EvalSkillController::class, "getData"])->middleware('auth:api')->name('api.skill.retrieve');
+
 Route::middleware(['auth:api', "role:1,2"])->prefix("/skill")->group(function () {
-    Route::get("/list", [EvalSkillController::class, "getData"])->middleware('auth:api')->name('api.skill.retrieve');
     Route::post("/create", [EvalSkillController::class, "addData"])->name('api.skill.create');
     Route::put("/{id}/update", [EvalSkillController::class, "updateData"])->name('api.skill.update');
     Route::delete("/{id}/delete", [EvalSkillController::class, "deleteData"])->name('api.skill.delete');
@@ -88,7 +90,7 @@ Route::middleware(['auth:api', "role:1,2"])->prefix("/skill")->group(function ()
 |--------------------------------------------------------------------------
 */
 
-Route::get("/list", [EvalLangageController::class, "getData"])->middleware('auth:api')->name('api.langage.retrieve');
+Route::get("/langage/list", [EvalLangageController::class, "getData"])->middleware('auth:api')->name('api.langage.retrieve');
 
 Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function () {
     Route::post("/create", [EvalLangageController::class, "addData"])->name('api.langage.create');
