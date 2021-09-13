@@ -36,13 +36,13 @@ export const EvalRoutes = [
         path: '/evaluation360/sondages',
         name: 'SondagesList',
         component: SondagesList,
-        meta: { requiresAuth: true, requiresRole: false, roles: [] }
+        meta: { requiresAuth: true, requiresRole: true, roles: [3] }
     },
     {
         path: '/evaluation360/apprenant/sondages',
         name: 'learnerSondage',
         component: GestionLearnerSondage,
-        meta: { requiresAuth: true, requiresRole: false, roles: [] }
+        meta: { requiresAuth: true, requiresRole: true, roles: [3] }
     },
     {
         path: '/evaluation360/formateur/sondages',
