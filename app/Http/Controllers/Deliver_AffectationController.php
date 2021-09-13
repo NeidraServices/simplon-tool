@@ -36,16 +36,16 @@ class Deliver_AffectationController extends Controller
             $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
 
             //si l'apprenant est déjà affecté au projet
-//            $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user){
-//                $users->where("user_id", $user)->where("projet_id",$data["projet_id"]);
-//            })->get();
-//
-//
-//            if(sizeof($affectation)==0){
-//                return $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
-//            }else{
-//                array_push($echecs, $user->nom . "est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]);
-//            }
+           $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user){
+               $users->where("user_id", $user)->where("projet_id",$data["projet_id"]);
+           })->get();
+
+
+           if(sizeof($affectation)==0){
+               return $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
+           }else{
+               array_push($echecs, $user->nom . "est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]);
+           }
         }
         return $projet;
 

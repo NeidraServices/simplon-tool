@@ -1,11 +1,12 @@
 <template>
     
         <div class="ml-5">
-           
+            
            <div class="d-flex flex-wrap justify-space-around">
                 <div v-for="projet in projets" :key="projet.id" >
                     <v-card min-width="300" max-width="344">
                         <v-card-title>
+                           
                             <v-col cols="6">
                                 {{ projet.titre }}
                             </v-col>

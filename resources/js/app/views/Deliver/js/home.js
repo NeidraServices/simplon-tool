@@ -24,7 +24,6 @@ export default{
 
     methods:{
         get_projets: function(){
-            console.log("get projet");
             Axios.get("/api/deliver/projets")
             .then(({data}) => {
                 console.log(data);

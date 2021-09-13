@@ -22,19 +22,14 @@ export default{
 
         }
     },
-    components: {
-    },
-    mounted() {
-    },
-    watch: {
-    },
+    
     methods: {
         async initialize() {
             const renduId = this.$router.currentRoute.params.id;
             const response = await axios.get("/api/deliver/view/rendus/" + renduId).then((result) => {
-                this.rendu = result.data.rendu
+                this.rendu  = result.data.rendu
                 this.medias = result.data.rendu.medias
-                this.user = result.data.user
+                this.user   = result.data.user
                 this.projet = result.data.projet
                 this.githubUrl = result.data.rendu.github_url
                 this.siteUrl = result.data.rendu.site_url
@@ -75,6 +70,7 @@ export default{
             })
             this.initialize();
         },
+
         selectImage(val) {
             this.images = val.target.files;
             console.log(this.images)
