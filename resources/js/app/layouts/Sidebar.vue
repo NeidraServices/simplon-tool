@@ -9,7 +9,7 @@
             </v-list-item-avatar>
           </v-list-item>
 
-          <v-list-item link :to="'/compte/' + userLoggedIn.id">
+          <v-list-item link :to="'/evaluation360/user/' + userLoggedIn.id">
             <v-list-item-content>
               <v-list-item-title class="title">
                 {{ userLoggedIn.name }} {{ userLoggedIn.surname }}
