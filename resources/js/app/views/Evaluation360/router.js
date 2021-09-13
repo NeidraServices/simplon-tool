@@ -9,7 +9,7 @@ import GestionLearnerSondage from './Sondages/Gestion/GestionLearnerSondage.vue'
 
 export const EvalRoutes = [
     {
-        path: '/evaluation360/accueil',
+        path: '/evaluation360/',
         name: 'eval',
         component: Home,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }

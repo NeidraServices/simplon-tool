@@ -52,16 +52,28 @@ export default new Vuex.Store({
     actions: {
         async getApprenants({ state }) {
 
-            if (_.isEmpty(state.apprenants)) {
-                try {
-                    const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`)
-                    const reqData = req.data.data
-                    this.commit('storeApprenants', reqData)
 
-                }
-                catch (err) { console.log(err) }
+            try {
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenants`)
+                const reqData = req.data.data
+                reqData.forEach(apprenant => {
+                    apprenant['note'] = null;
+                    apiService.get('/api/evaluation360/apprenant/sondage/' + apprenant.id).then(({ data }) => {
+                        if (data.data.length > 0) {
+                            let sondages_notes = [];
+
+                            data.data.forEach(sondage => {
+                                sondages_notes.push(sondage.global_note)
+                            });
+                            var note_global = _.sum(sondages_notes) / data.data.length;
+                            note_global = note_global.toFixed(0);
+                            apprenant['note'] = note_global;
+                        }
+                    })
+                });
+                this.commit('storeApprenants', reqData)
             }
-            // }
+            catch (err) { console.log(err) }
         },
         async getLangages({ state }) {
             try {
@@ -84,6 +96,7 @@ export default new Vuex.Store({
             try {
                 const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`)
                 const reqData = req.data.data
+                console.log(reqData);
                 this.commit('storeSondages', reqData)
             }
             catch (err) { console.log(err) }
