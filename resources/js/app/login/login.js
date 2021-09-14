@@ -44,6 +44,12 @@ export default {
                     await localStorage.setItem('token', user.token);
                     await this.$router.push('/');
                     // await this.$router.push(this.returnUrl);
+                    EventBus.$emit('snackbar', {
+                        snackbar: true,
+                        text: `Bienvenue`,
+                        color: 'blue',
+                        timeout: 3000
+                    })
                 }
             } catch (error) {
                 this.loading = false;
