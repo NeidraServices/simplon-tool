@@ -62,20 +62,22 @@ class Deliver_ProjetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function mesProjets($formateur_id){
-        $user = Auth::user();
-        if($user->role_id != 2 || $user->id != $formateur_id){
-            return response()->json([
-                'success' => false,
-                'message' => "Vous n'êtes pas formateur"
-            ]);
-        }
+    public function mesProjets(Request $request){
+        $userId=$request->all()["userid"];
+        // if($user->role_id != 2 ){
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => "Vous n'êtes pas formateur"
+        //     ]);
+        // }
 
-        $projets = Deliver_UsersModel::with("projets")->whereHas("projets", function($user) use($formateur_id){
-            $user->where("formateur_id", $formateur_id);
+        $projets = Deliver_ProjetModel::with("users")->whereHas("users", function($user) use($userId){
+            $user->where("user_id", $userId);
         })->get();
-        dd($projets);
-       return response()->json(['projets' =>  $projets[0]["projets"]]);
+
+        $futureprojets=Deliver_ProjetModel::where("date_presentation",">",now())->orWhere("deadline",">",now())->get();
+ 
+       return response()->json(['projets' =>  $projets,"future_projets"=>$futureprojets]);
     }
 
     /*

@@ -9,6 +9,7 @@ export default{
     data(){
         return {
             projets: [],
+            futureprojets:[],
             user: [],
             id:0
         }
@@ -20,10 +21,12 @@ export default{
 
     methods:{
         get_projets: function(){
-            Axios.get("/api/deliver/projets/mesprojets")
+           let id =this.$store.state.userInfo.id
+            Axios.post("/api/deliver/mesprojets",{userid:id})
             .then(({data}) => {
                 this.projets = data.projets
-                console.log(this.projets);
+                this.futureprojets=data.future_projets
+              
             })
         },
         voir_projet(id){

@@ -137,7 +137,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.two');
         Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.three');
         Route::get("/notes/{userId}", [EvalSondageController::class, "getNotes"])->name('api.sondage.apprenant.four');
-        Route::get("/{userId}/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.five');
+        Route::get("/{sondageId}", [EvalSondageController::class, "getSpecificSondage"])->name('api.sondage.apprenant.five');
 
     });
 });

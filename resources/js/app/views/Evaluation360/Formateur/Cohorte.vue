@@ -29,6 +29,7 @@
             ></v-text-field>
             <v-text-field
               v-model="email"
+              type="email"
               :rules="emailRules"
               label="Adresse e-mail"
               required

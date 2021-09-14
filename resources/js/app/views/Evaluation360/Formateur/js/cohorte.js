@@ -44,10 +44,11 @@ export default {
                 v => !!v || "Nom de l'apprenant requis"
             ],
             surnameRules: [
-                v => !!v || "Nom de l'apprenant requis"
+                v => !!v || "Prenom de l'apprenant requis"
             ],
             emailRules: [
-                v => !!v || "Nom de l'apprenant requis"
+                v => !!v || "Email de l'apprenant requis",
+                v => /.+@.+\..+/.test(v) || "Ce champ doit être un email"
             ],
             promotionRules: [
                 v => !!v || "Promotion requise"

@@ -11,6 +11,7 @@ use App\Models\EvalSondageLines;
 use App\Models\EvalUsersAnswerLines;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
@@ -22,7 +23,6 @@ class EvalSondageController extends Controller
     | Get data functions
     |--------------------------------------------------------------------------
     */
-
 
     /**
      * Retrieve all (formateur)
@@ -62,13 +62,11 @@ class EvalSondageController extends Controller
         if ($userAuth->role_id == 3) {
             $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
                 ->join('users', 'eval_sondages.user_id', '=', 'users.id')
-                ->where("eval_sondages.user_id", $userAuth->id)
-                ->where("eval_sondages.isOwner", 1)
-                ->where("users.promotion_id", "!=", $userAuth->promotion_id)
+                ->where("eval_sondages.user_id", "!=", $userAuth->id)
+                ->where("users.promotion_id", "=", $userAuth->promotion_id)
                 ->select('eval_sondages.*')
                 ->get();
-
-            return EvalSondageFormateurResource::collection($sondages);
+              return EvalSondageFormateurResource::collection($sondages);
         } else {
             $sondages = EvalSondage::distinct()->get()->unique('name');
             return EvalSondageFormateurResource::collection($sondages);
@@ -105,7 +103,7 @@ class EvalSondageController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getSpecificSondage($userId, $sondageId)
+    public function getSpecificSondage($sondageId)
     {
         $sondages = EvalSondage::where(['id' => $sondageId, 'published' => 1, 'accepted' => 1])->first();
         return new EvalSondageResource($sondages);
