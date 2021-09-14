@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/apprenants', [EvalCoorteController::class, 'getData'])->middleware('auth:api')->name('api.coort.retrieve');
-Route::post('/apprenants/filter', [EvalCoorteController::class, 'filterApprenant']);
+Route::middleware(['auth:api'])->post('/apprenants/filter', [EvalCoorteController::class, 'filterApprenant']);
 
 Route::middleware(['auth:api', "role:1,2"])->group(function () {
     Route::post('/apprenants/create', [EvalCoorteController::class, 'addData'])->name('api.coort.addData');

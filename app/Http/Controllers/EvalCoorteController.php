@@ -209,7 +209,6 @@ class EvalCoorteController extends Controller
         $userAuth = User::whereId(Auth::id())->first();
         $users = User::query();
         if ($request->apprenant) {
-            return $users;
             if ($userAuth->role_id == 3) {
                 $users =  $users->where('name', 'like', '%' . $request->apprenant . '%')->where("promotion_id", $userAuth->promotion_id);
             } else {
