@@ -28,55 +28,39 @@ export default{
             rendu: []
         }
     },
-    components: {
-    },
-    mounted() {
-    },
-    watch: {
-    },
-    created() {
-        // console.log(this.$store);
-        // console.log(this.$store.state);
-          this.currentUser = this.$store.state.userInfo;
 
+    created() {
+
+        this.currentUser = this.$store.state.userInfo;
         this.getProjetData().then(r => {});
         this.getRenduData().then(r => {});
         this.getApprenantData().then(r => {});
     },
+
     methods: {
         async getProjetData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/deliver/projets/${this.id}/voir`);
-                this.projet = req.data.projet[0];
+                apiService.get(`/api/deliver/projets/${this.id}/voir`)
+                .then(({data}) => {
+                    console.log(data);
+                    this.projet = data.projet[0]
+                    this.apprenants = data.projet[0].users
+                })
 
-                let allApprenants = [];
-
-                for(let i = 0; i < req.data.projet[0].users.length; i++) {
-                    allApprenants.push(req.data.projet[0].users[i])
-                }
-
-                this.apprenants = allApprenants;
                 this.isLoaded = true;
             } catch (error) {
                 console.log(error)
             }
         },
         async getRenduData() {
-            // this.idProjet=location.href.substr(location.href.lastIndexOf("/")+1)
-            try {
-                const req = await apiService.get(`${location.origin}/api/deliver/view/rendus/projects/${this.id}`);
-                let allRendu = [];
-                for (let i = 0; i < req.data[0].length; i++) {
-                    if (parseInt(req.data[0][i].projet.id) === parseInt(this.id, 10)) {
-                        allRendu.push(req.data[0][i])
-                    }
-                }
-                this.rendu = allRendu;
-                this.isLoaded = true;
-            } catch (error) {
-                console.log(error)
-            }
+            apiService.get(`/api/deliver/view/rendus/projects/${this.id}`)
+            .then(({data}) => {
+                console.log('data');
+                console.log(data[0]);
+                this.rendu = data[0]
+            })
         },
+
         async getApprenantData() {
             let allApprenants = this.allApprenants;
             const req = await apiService.get(`${location.origin}/api/deliver/apprenants`);
@@ -85,11 +69,11 @@ export default{
             }
             this.allApprenants = allApprenants;
         },
+        
         async setRendu(){
-    
             let dataToSend = {};
 
-            dataToSend={
+            dataToSend = {
                 site_url:this.rendu["site_url"],
                 github_url:this.rendu["github_url"],
                 user_id:this.currentUser.id,
@@ -100,25 +84,20 @@ export default{
            await this.getRenduData();
             this.dialogRendu = false
         },
-        submit(item) {
+
+        async submit(item) {
             let dataToSend = {};
             let users = [];
 
-            for (let i = 0; i < item.length; i++) {
+            for(let i = 0; i < item.length; i++) {
                 users.push(item[i].id);
             }
 
-            dataToSend = {
-                users : users,
-                projet_id : parseInt(this.id),
-            }
-
-            console.log(dataToSend);
-
-            const dataPost = apiService.post(`${location.origin}/api/deliver/projet/affecter`, dataToSend);
-
-
-            console.log(dataPost)
+            dataToSend = { users : users, projet_id : parseInt(this.id) }
+            apiService.post('/api/deliver/projet/affecter', dataToSend)
+            .then(({data}) => {
+                console.log(data);
+            })
 
             this.dialog = false
         },

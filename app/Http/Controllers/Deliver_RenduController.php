@@ -30,13 +30,13 @@ class Deliver_RenduController extends Controller
             $user = User::find($rendu->user_id);
             $projet = Deliver_ProjetModel::find($rendu->projet_id);
 
-            $result = [
+            $rendu = [
                 'projet' => new Deliver_ProjetResource($projet),
                 'rendu' => new Deliver_RenduResource($rendu),
                 'user' => new UserResource($user),
             ];
 
-            array_push($rendus, $result);
+            array_push($rendus, $rendu);
         }
 
         return response()->json([
