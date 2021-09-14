@@ -64,9 +64,9 @@ Route::middleware(['auth:api'])->group(function(){
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:api'])->group(function(){
-    Route::get("/projets/mesprojets/{formateur_id}",[Deliver_ProjetController::class,"mesProjets"])->name('api.projects.retrievemine');
-});
 
+});
+    Route::post("/mesprojets",[Deliver_ProjetController::class,"mesProjets"])->name('api.projects.retrievemine');
 Route::get("/projets",[Deliver_ProjetController::class,"projets"])->name('api.projects.retrieveall');
 Route::post("/projets/ajouter",[Deliver_ProjetController::class,"addProjet"])->name('api.projects.create');
 Route::get("/projets/{id}/voir",[Deliver_ProjetController::class,"getProjet"])->name('api.projects.retrieveone');
