@@ -74,6 +74,7 @@ export default {
                     sondageId: this.$route.params.sondageId
                 }
             })
+
             if (!_.isEmpty(this.$store.state.specificSondage)) {
                 this.sondage = this.$store.state.specificSondage
             }else{

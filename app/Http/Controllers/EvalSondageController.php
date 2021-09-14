@@ -107,7 +107,7 @@ class EvalSondageController extends Controller
      */
     public function getSpecificSondage($userId, $sondageId)
     {
-        $sondages = EvalSondage::where(['id' => $sondageId, 'user_id' => $userId, 'published' => 1, 'accepted' => 1])->first();
+        $sondages = EvalSondage::where(['id' => $sondageId, 'published' => 1, 'accepted' => 1])->first();
         return new EvalSondageResource($sondages);
     }
 
