@@ -47,6 +47,12 @@ export default {
                 }
             } catch (error) {
                 this.loading = false;
+                EventBus.$emit('snackbar', {
+                    snackbar: true,
+                    text: error,
+                    color: 'red',
+                    timeout: 3000
+                })
             }
         }
     }
