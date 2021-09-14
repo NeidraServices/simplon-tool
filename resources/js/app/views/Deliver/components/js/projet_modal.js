@@ -101,8 +101,10 @@ export default{
                     }else{
                         this.$emit('append_projet', data.projet_created)
                     }
-                    this.dialog = false
+                    
                 }
+                this.dialog = false
+                this.$emit('refresh_projets')
             })
         },
 
@@ -128,7 +130,6 @@ export default{
             this.projet.tags.forEach(element => {
                 this.technos.push(element.nom)
             })
-            console.log(this.technos);
         },
 
         set_competence: function(){

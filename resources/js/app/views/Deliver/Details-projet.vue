@@ -8,12 +8,7 @@
             </v-card-title>
 
             <v-container fluid>
-                <v-tabs
-                    v-model="tab"
-                    background-color="transparent"
-                    color="basil"
-                    class="pa-2"
-                >
+                <v-tabs v-model="tab" background-color="transparent" color="basil"  class="pa-2">
                     <div class="d-flex row justify-end">
                         <v-dialog
                             v-model="dialog"
@@ -22,6 +17,7 @@
                         >
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
+                                v-if="currentUser.role.name == 'formateur'"
                                     v-bind="attrs"
                                     v-on="on"
                                     small
@@ -38,26 +34,9 @@
                                 </v-card-title>
                                 <v-form>
                                     <v-card-text>
-                                        <v-text-field
-                                            v-model="newEmailApprenant"
-                                            label="Ajout d'un apprenant par son E-mail"
-                                        ></v-text-field>
-                                        <v-autocomplete
-                                            v-model="apprenants"
-                                            :items="allApprenants"
-                                            chips
-                                            label="Ajout d'un apprenant"
-                                            item-value="name"
-                                            multiple
-                                            hide-no-data
-                                            return-object
-                                        >
+                                        <v-autocomplete v-model="apprenants" :items="allApprenants" label="Ajout d'un apprenant" item-value="name" multiple hide-no-data return-object>
                                             <template v-slot:selection="data">
-                                                <v-chip
-                                                    v-bind="data.attrs"
-                                                    :input-value="data.selected"
-                                                    @click="data.select"
-                                                >
+                                                <v-chip v-bind="data.attrs" :input-value="data.selected" @click="data.select" >
                                                     {{ data.item.name }} {{ data.item.surname }}
                                                 </v-chip>
                                             </template>
@@ -122,6 +101,7 @@
                                             >
                                                 <v-text-field
                                                     label="Lien GitHub"
+                                                    v-model="rendu['github_url']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -130,6 +110,7 @@
                                             >
                                                 <v-text-field
                                                     label="Lien du site en ligne"
+                                                     v-model="rendu['site_url']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -138,6 +119,7 @@
                                             >
                                                 <v-text-field
                                                     label="Technologie utilisé"
+                                                     v-model="rendu['technos']"
                                                     required
                                                 ></v-text-field>
                                             </v-col>
@@ -147,6 +129,7 @@
                                                 <v-file-input
                                                     accept="image/*"
                                                     label="Ajout de média"
+                                                    v-model="rendu['medias']"
                                                     multiple
                                                 ></v-file-input>
                                             </v-col>
@@ -165,7 +148,8 @@
                                     <v-btn
                                         color="blue darken-1"
                                         text
-                                        @click="dialogRendu = false"
+                                        
+                                        @click="setRendu()"
                                     >
                                         Valider
                                     </v-btn>

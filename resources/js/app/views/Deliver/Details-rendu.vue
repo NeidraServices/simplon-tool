@@ -7,30 +7,11 @@
                 </div>
             </v-container>
 
-            <!-- <v-checkbox
-            v-model="v0"
-            label="Visible"
-            ></v-checkbox> -->
-            <v-banner
-            v-model="v0"
-            single-line
-            transition="slide-y-transition"
-            >
-            <router-link
-                :to="(projet != null ? '/deliver/projet/' + projet.id : '#' )"
-            >
-                <v-btn
-                    class="ma-2"
-                    color="primary"
-                    text
-                    dark
-                >
-                    <v-icon
-                    dark
-                    left
-                    >
-                    mdi-arrow-left
-                    </v-icon>Retour
+            <v-banner v-model="v0" single-line transition="slide-y-transition">
+            <router-link :to="(projet != null ? '/deliver/projet/' + projet.id : '#' )">
+                <v-btn class="ma-2" color="primary"  text dark>
+                    <v-icon dark left>mdi-arrow-left</v-icon>
+                    Retour
                 </v-btn>
             </router-link>
             <template v-slot:actions>

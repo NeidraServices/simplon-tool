@@ -22,28 +22,18 @@ export default{
 
         }
     },
-    components: {
-    },
-    mounted() {
-    },
-    watch: {
-    },
+    
     methods: {
         async initialize() {
             const renduId = this.$router.currentRoute.params.id;
             const response = await axios.get("/api/deliver/view/rendus/" + renduId).then((result) => {
-                this.rendu = result.data.rendu
+                this.rendu  = result.data.rendu
                 this.medias = result.data.rendu.medias
-                this.user = result.data.user
+                this.user   = result.data.user
                 this.projet = result.data.projet
                 this.githubUrl = result.data.rendu.github_url
                 this.siteUrl = result.data.rendu.site_url
             });
-
-
-            console.log(this.rendu)
-            console.log(this.user)
-            console.log(this.projet)
         },
 
         editRendu() {
@@ -59,11 +49,6 @@ export default{
                 }
             }
 
-
-            // formData.append("medias[]", this.selectedMedias);
-            // console.log(this.selectedMedias)
-
-
             axios.post("/api/deliver/edit/rendus/" + this.rendu.id, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -75,9 +60,9 @@ export default{
             })
             this.initialize();
         },
+
         selectImage(val) {
             this.images = val.target.files;
-            console.log(this.images)
         },
 
         remove(media) {
@@ -86,6 +71,7 @@ export default{
                 this.medias.splice(index, 1);
             }
         },
+
         test(medias) {
             console.log(medias)
         },

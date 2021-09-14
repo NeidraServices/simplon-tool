@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Deliver_UsersModel;
 use App\Models\Deliver_ProjetModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,44 +19,27 @@ class Deliver_AffectationController extends Controller
             "projet_id" => "required"
         ]);
 
-
-        if($validator->fails()){
-            return response()->json(["success" => false, "error" => $validator->errors()]);
-        }
+        if($validator->fails()) return response()->json(["success" => false, "error" => $validator->errors()]);
         $data = $validator->validate();
+        
+        $projet  = Deliver_ProjetModel::find($validator->validated()['projet_id']);
+        $fails   = [];
 
-
-//        $projet = Deliver_ProjetModel::whereId($data['projet_id'])->get();
-        $projet = Deliver_ProjetModel::whereId($data['projet_id'])->with("users")->get();
-
-        $echecs = [];
-
-        foreach ($data['users'] as $key => $user) {
-            $user = Deliver_UsersModel::find($user);
-
-            $user->projets()->detach($projet[0]->id);
-
-            //si l'apprenant est déjà affecté au projet
-//            $affectation = Deliver_ProjetModel::with("users")->whereHas("users", function($users) use($data, $user){
-//                $users->where("user_id", $user)->where("projet_id",$data["projet_id"]);
-//            })->get();
-//
-//
-//            if(sizeof($affectation)==0){
-//                return $user->projets()->attach($user, ["projet_id"=>$data["projet_id"]]);
-//            }else{
-//                array_push($echecs, $user->nom . "est d&eacute;j&agrave; affect&eacute; au projet ".$projet["titre"]);
-//            }
+        foreach($data['users'] as $user => $id){
+            $affectation = DB::table('dp_affectations')->where('user_id', $id)->get();
+            
+            $apprenant = Deliver_UsersModel::find($id)->first();
+            $apprenant_name = $apprenant->name . ' ' . $apprenant->surname;
+            
+            if(sizeof($affectation) > 0) $fails += array_merge($fails, [" l'apprenant $apprenant_name à déjà une affectation sur ce projet"]);
+            else{
+                DB::table('dp_affectations')->insert(['user_id' => $id, 'projet_id' => $projet->id]);
+            }
         }
-        return $projet;
-
+        
         return response()->json([
             'success' => true,
-            'message' => "Mise à jour effectuée",
-            'echecs' => [
-                'status' => (count($echecs) > 0 ? true : false),
-                $echecs
-            ]
+            'infos'   => $fails,
         ]);
 
     }

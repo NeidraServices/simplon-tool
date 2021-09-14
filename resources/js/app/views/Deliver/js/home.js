@@ -1,33 +1,28 @@
-import Axios from "axios"
-
-import projet_ModalDelete from "../components/delete-projet.vue"
+import ProjetTemplate from '../components/projet_template.vue'
 import Modal_projet from "../components/projet_modal.vue"
-
 import Router from '../../../router.js';
+import Axios from "axios"
 
 export default{
     components:{
-        projet_ModalDelete, Modal_projet
+        ProjetTemplate, Modal_projet
     },
     data(){
         return {
             projets: [],
-            user: [],
+            user: this.$store.state.userInfo,
             id:0
         }
     },
 
     mounted(){
         this.get_projets()
-        this.user    = this.$store.state.userInfo
     },
 
     methods:{
         get_projets: function(){
-            console.log("get projet");
             Axios.get("/api/deliver/projets")
             .then(({data}) => {
-                console.log(data);
                 this.projets = data.projets
             })
         },

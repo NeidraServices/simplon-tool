@@ -11,11 +11,11 @@ class Deliver_RendusModel extends Model
     protected $table = 'dp_rendus';
 
     public function projets(){
-        return $this->belongsTo(Deliver_ProjetModel::class);
+        return $this->belongsTo(Deliver_ProjetModel::class,"projet_id","id");
     }
 
     public function medias(){
-        return $this->hasMany(Deliver_MediaModel::class);
+        return $this->hasMany(Deliver_MediaModel::class,"rendu_id");
     }
 
     public function tags(){
