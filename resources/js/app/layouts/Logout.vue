@@ -7,6 +7,7 @@
 		color="transparent"
 		flat
 		height="75"
+		style="z-index: 3000"
 	>
 		<v-spacer />
 		<v-dialog v-model="dialog" width="550">
