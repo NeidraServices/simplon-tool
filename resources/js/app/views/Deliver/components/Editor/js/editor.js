@@ -1,5 +1,6 @@
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import { defaultExtensions }     from '@tiptap/starter-kit'
+
 import Menu from "../menu.vue"
 
 export default {

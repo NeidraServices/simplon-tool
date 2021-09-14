@@ -6,11 +6,11 @@
                 <v-expansion-panel
                     v-for="(item,i) in listContributeur"
                     :key="i"
-
+                    class="mt-2"
                 >
-                        <div class="align-center mt-4 mb-4 ml-4" v-show="getUser(item.user_id)">
+                        <div class="align-center mt-4 mb-4 ml-4" v-show="item.user">
                             <v-icon left color="primary" class="mr-2">mdi-account</v-icon>
-                            <span>{{ username }}</span>
+                            <span>{{ item.user }}</span>
                         </div>
                   
                 </v-expansion-panel>
@@ -33,22 +33,18 @@ export default {
     data(){
         return{
             username : "",
-            hasContributor: false
         }
     },
     props:[
        'listContributeur',
-        'item'
+        'item',
+        'hasContributor'
         
     ],
     created() {
-        if(this.listContributeur.length > 0) {
-            
-    console.log("testttt")
-            this.hasContributor = true
-        }
-    console.log('uuuuuuuuuuuu',this.listContributeur)
-   console.log('iteeeemmm',this.item)
+      //  if(this.listContributeur.length > 0) {
+      //      this.hasContributor = true
+        //     }
         },
     methods: {
         validate: function () {
@@ -58,15 +54,7 @@ export default {
         // this.dialog = false
         this.$emit("call", { cancel: true, message: "test" });
         },
-        async getUser(id){
-          let user = await apiService.get(`${location.origin}/api/markedown/user/${id}`)
-            let data = user.data.data
-            console.log(data.surname)
-
-            this.username = data.surname + " " + data.name
-
-
-        },
+       
         async acceptContribution(id){
             console.log("accept ID :", id)
             try{

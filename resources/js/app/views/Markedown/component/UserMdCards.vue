@@ -69,7 +69,7 @@
                         </div>
                     </template>
                     <v-card>
-                        <ListContributeurs  @call="closeContributorListDialog" v-bind:listContributeur="listContributeur" v-bind:item="[item]"/>
+                        <ListContributeurs  @call="closeContributorListDialog" v-bind:listContributeur="listContributeur" v-bind:hasContributor="hasContributor"/>
                         <!-- <v-divider></v-divider> -->
                         <v-card-actions class="mb-2">
                             <!-- <v-col cols="6" class="layout justify-center">
@@ -179,7 +179,9 @@
                 dialog: false,
                 dialog2: false,
                 requestList: [],
-                listContributeur:[]
+                listContributeur:[],
+                contributorIsLoaded: false,                
+                hasContributor: false
             }
         },
         props:{
@@ -198,7 +200,7 @@
                 }
             },
         },
-        mounted() {
+        created() {
             this.status = (this.item.status === 0) ? "En brouillon" : "Finalisé"
             this.modifStatus = (this.item.status !== 0)
             this.getRequests()
@@ -207,6 +209,13 @@
         watch: {
             modifStatus(newValue){
                 this.modifStatus = newValue
+            },
+            dialog2: function(val){
+                if(val){
+                    this.contributorIsLoaded = true
+                }else {
+                    this.contributorIsLoaded = false
+                }
             }
         },
         methods: {
@@ -217,17 +226,31 @@
             },
             
             closeContributorListDialog(){
-                this.dialog2 = false
                 this.getRequests()
                 this.getContributors()
+                this.contributorIsLoaded = false
+                this.dialog2 = false
+            },
+            async getUser(elem, type){
+                let user = await apiService.get(`${location.origin}/api/markedown/user/${elem.user_id}`)
+                    let data = user.data.data
+                    console.log(data.surname)
+                    this.username = data.surname + " " + data.name
+                    Object.assign(elem, {user: this.username})
+                    if(type == "request") {                  
+                        this.requestList.push(elem)
+                    } {
+                        this.listContributeur.push(elem)  
+                    }
             },
             async getRequests(){
                try{
                    let data = await apiService.get(`${location.origin}/api/markedown/request/${this.item.id}`)
+                   
                    this.nbRequest = data.data.length
                    if(data.data.length > 0){
-                       data.data.map(elem => {
-                           this.requestList.push(elem)
+                       data.data.map(elem => {                                                  
+                           this.getUser(elem, "request")
                        })
                    }
                    console.log("Rep requestList :",this.requestList)
@@ -241,8 +264,9 @@
                try{
                    let data = await apiService.get(`${location.origin}/api/markedown/contributeur/${this.item.id}`)                  
                    if(data.data.length > 0){
-                       data.data.map(elem => {
-                           this.listContributeur.push(elem)
+                       this.hasContributor = true
+                       data.data.map(elem => {                           
+                            this.getUser(elem, "contribution")
                        })
                    }
                    console.log("Rep listContributeur :",this.listContributeur)

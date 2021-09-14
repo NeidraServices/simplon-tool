@@ -9,9 +9,9 @@
 
                 >
                     <v-expansion-panel-header>
-                        <div class="align-center" v-show="getUser(item.user_id)">
+                        <div class="align-center" v-show="item.user">
                             <v-icon left color="primary" class="mr-2">mdi-account</v-icon>
-                            <span>{{ username }}</span>
+                            <span>{{ item.user }}</span>
                         </div>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -67,20 +67,11 @@ export default {
         },
     methods: {
         validate: function () {
-        this.$emit("call", { message: "test" });
+        this.$emit("call", { message: "Demznde de contribution accépté!" });
         },
         cancel: function () {
         // this.dialog = false
-        this.$emit("call", { cancel: true, message: "test" });
-        },
-        async getUser(id){
-          let user = await apiService.get(`${location.origin}/api/markedown/user/${id}`)
-            let data = user.data.data
-            console.log(data.surname)
-
-            this.username = data.surname + " " + data.name
-
-
+        this.$emit("call", { cancel: true, message: "Demande de contribution rejeté" });
         },
         async acceptContribution(id){
             console.log("accept ID :", id)

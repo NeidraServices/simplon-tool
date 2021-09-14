@@ -30,7 +30,7 @@ class Md_MarkdownController extends Controller
                   ->where('active',true);
 
         })->orWhere('user_id',$userId)->get();
-        return response()->json(['error' => 'error generated']);
+        //return response()->json(['error' => 'error generated']);
         return MarkdownResource::collection($markdowns);
     }
 
