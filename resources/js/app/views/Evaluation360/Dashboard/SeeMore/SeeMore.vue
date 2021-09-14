@@ -6,10 +6,14 @@
     </div>
     <v-row class="ma-auto pa-5">
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
-        <Referentiel :apprenant="apprenant" />
+        <Referentiel :apprenant="apprenant" :list="RefFinalTab" />
       </v-col>
       <v-col class="d-flex" cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
-        <Langages :langues="langagesList" :apprenant="apprenant" class="pb-5 pr-2" />
+        <Langages
+          :apprenant="apprenant"
+          :list="LangFinalTab"
+          class="pb-5 pr-2"
+        />
       </v-col>
     </v-row>
     <v-row>

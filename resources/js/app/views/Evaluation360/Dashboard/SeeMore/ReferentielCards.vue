@@ -4,11 +4,12 @@
       ><span class="ma-auto">Référentiel</span></v-card-title
     >
     <v-expansion-panels focusable class="mb-6 pa-5">
-      <v-expansion-panel v-for="item in referentiel" :key="item.id">
+      <v-expansion-panel v-for="item in list" :key="item.id">
         <v-expansion-panel-header expand>
-          {{ item.description }}
+          {{ item.name }}
           <template v-slot:actions>
-            <span>8/10</span>
+            <span v-if="!isNaN(item.moyenne)">{{ item.moyenne }}</span>
+            <span v-if="isNaN(item.moyenne)">-</span>
             <v-icon> mdi-arrow-down </v-icon>
           </template>
         </v-expansion-panel-header>
@@ -20,7 +21,12 @@
               </span>
             </v-col>
             <v-col class="text-right text-xs-center" cols="4">
-              <span class="competences-notes">5/10</span>
+              <span class="competences-notes" v-if="!isNaN(competence.note)">{{
+                competence.note
+              }}</span>
+              <span class="competences-notes" v-if="isNaN(competence.note)"
+                >-</span
+              >
             </v-col>
           </v-row>
         </v-expansion-panel-content>

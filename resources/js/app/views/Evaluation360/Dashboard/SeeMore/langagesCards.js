@@ -1,11 +1,8 @@
 export default {
     props: {
-        langues: {
+        list: {
             default: Object
-        }
-    },
-    mounted(){
-        console.log(this.langues)
+        },
     },
     methods: {
         getImages(image) {

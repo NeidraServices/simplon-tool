@@ -1,3 +1,4 @@
+import { EventBus } from "../../../../eventBus.js";
 import { apiService } from "../../../../services/apiService.js";
 
 export default {
@@ -36,17 +37,22 @@ export default {
             name: '',
             surname: '',
             email: '',
+            promoList: [],
+            selectedPromo: '',
 
             nameRules: [
                 v => !!v || "Nom de l'apprenant requis"
             ],
             surnameRules: [
-                v => !!v || "Nom de l'apprenant requis"
+                v => !!v || "Prenom de l'apprenant requis"
             ],
             emailRules: [
-                v => !!v || "Nom de l'apprenant requis"
+                v => !!v || "Email de l'apprenant requis",
+                v => /.+@.+\..+/.test(v) || "Ce champ doit être un email"
             ],
-
+            promotionRules: [
+                v => !!v || "Promotion requise"
+            ],
             selectItem: null,
             generalDialog: false
         }
@@ -64,12 +70,12 @@ export default {
         openGeneral(item = null, isEdited = false) {
             this.edited = isEdited;
             this.generalDialog = true;
-            if(isEdited) {
-                this.title      = "Modifier un compte apprenant"
+            if (isEdited) {
+                this.title = "Modifier un compte apprenant"
                 this.selectItem = item;
-                this.name       = item.name;
-                this.surname    = item.surname;
-                this.email      = item.email;
+                this.name = item.name;
+                this.surname = item.surname;
+                this.email = item.email;
             } else {
                 this.title = "Ajouter un compte apprenant"
             }
@@ -78,25 +84,28 @@ export default {
         closeGeneral() {
             this.edited = false;
             this.generalDialog = false;
-            this.name       = '';
-            this.surname    = '';
-            this.email      = '';
+            this.name = '';
+            this.surname = '';
+            this.email = '';
         },
 
         openDeleteDialog(item) {
-            this.selectItem   = item;
+            this.selectItem = item;
             this.deleteDialog = true;
         },
 
-        closeDeleteDialog(){
-            this.selectItem   = null;
+        closeDeleteDialog() {
+            this.selectItem = null;
             this.deleteDialog = false;
         },
 
         async getData() {
             try {
-                const req = await apiService.get(`${location.origin}/api/apprenants`);
+                const req      = await apiService.get(`${location.origin}/api/evaluation360/apprenants`);
+                const reqPromo = await apiService.get(`${location.origin}/api/evaluation360/promotion/list`);
                 const reqData = req.data.data;
+                const reqDataPromo = reqPromo.data.data;
+                this.promoList = reqDataPromo;
                 this.userList = reqData;
                 this.isLoaded = true;
             } catch (error) {
@@ -106,12 +115,12 @@ export default {
 
         async deleteApprenanAccount() {
             try {
-                const req  = await apiService.delete(`${location.origin}/api/apprenants/${this.selectItem.id}/delete`)
+                const req = await apiService.delete(`${location.origin}/api/evaluation360/apprenants/${this.selectItem.id}/delete`)
                 const reqData = req.data;
-                if(reqData.success) {
+                if (reqData.success) {
                     await this.closeDeleteDialog();
                     await this.getData();
-                    await console.log(reqData.message)
+                    await EventBus.$emit('snackbar', { text: reqData.message, color: 'error' })
                 } else {
                     console.log(reqData.message)
                 }
@@ -127,21 +136,22 @@ export default {
                 let dataSend = {
                     name: this.name,
                     surname: this.surname,
-                    email: this.email
+                    email: this.email,
+                    promotion: this.selectedPromo.id
                 }
 
-                if(this.edited) {
-                    req  = await apiService.put(`${location.origin}/api/apprenants/${this.selectItem.id}/update`, dataSend)
+                if (this.edited) {
+                    req = await apiService.put(`${location.origin}/api/evaluation360/apprenants/${this.selectItem.id}/update`, dataSend)
                 } else {
-                    req  = await apiService.post(`${location.origin}/api/apprenants/create`, dataSend)
+                    req = await apiService.post(`${location.origin}/api/evaluation360/apprenants/create`, dataSend)
                 }
 
                 const reqData = req.data;
-                if(reqData.success) {
+                if (reqData.success) {
                     await this.$refs.form.resetValidation();
                     await this.closeGeneral();
                     await this.getData();
-                    await console.log(reqData.message)
+                    await EventBus.$emit('snackbar', { text: reqData.message, color: 'success' })
                 } else {
                     console.log(reqData.message)
                 }

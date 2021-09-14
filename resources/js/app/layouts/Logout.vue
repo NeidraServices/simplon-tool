@@ -7,9 +7,10 @@
 		color="transparent"
 		flat
 		height="75"
+		style="z-index: 3000"
 	>
 		<v-spacer />
-		<v-dialog v-model="dialog" width="550">
+		<v-dialog v-model="dialog" width="600">
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn icon color="error" dark v-bind="attrs" v-on="on">
 					<v-icon color="error">mdi-logout</v-icon>

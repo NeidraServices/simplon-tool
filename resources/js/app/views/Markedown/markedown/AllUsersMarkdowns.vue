@@ -123,9 +123,9 @@ export default {
         async getMdCommuns() {
             try {
                 let markdowns = await apiService.get(`${location.origin}/api/markedown/markdowns-commun`)
-                console.log(markdowns.data.data)
-                this.markdown_list = mdUtils.formatDataMdCom(markdowns.data.data)
-                this.category = '';
+                console.log(markdowns)
+                // this.markdown_list = mdUtils.formatDataMdCom(markdowns.data.data)
+                // this.category = '';
             } catch (error) {
                 console.log(error)
                 EventBus.$emit('snackbar', {

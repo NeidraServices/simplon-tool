@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EvalPromotion;
 use App\Models\EvalReferentiel;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -26,24 +27,17 @@ class DatabaseSeeder extends Seeder
             EvalSkillSeeder::class,
         ]);
 
+        EvalPromotion::create([
+            "name" => "CDA 2020"
+        ]);
 
-        $mailArray = ["admin@simplonapp.re", "formateur@simplonapp.re", "apprenant@simplonapp.re"];
+        EvalPromotion::create([
+            "name" => "DWWM 2020"
+        ]);
 
-        for ($i = 1; $i < 4; $i++) {
-            $user = new User();
-            $user->name         = $faker->firstName();
-            $user->surname      = $faker->lastName();
-            $user->email        = $mailArray[$i - 1];
-            $user->password     = Hash::make('password');
-            $user->verified_at  = now();
-            $user->role_id      = $i;
-            $user->save();
-        }
 
-        
         $this->call([
-            EvalSondageSeeder::class,
-            EvalSondageLinesSeeder::class,
+            UserSeeder::class,
             Deliver_ProjetSeeder::class,
             MdCategorySeeder::class,
             MarkdownSeeder::class

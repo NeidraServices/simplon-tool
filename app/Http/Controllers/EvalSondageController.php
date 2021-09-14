@@ -11,6 +11,7 @@ use App\Models\EvalSondageLines;
 use App\Models\EvalUsersAnswerLines;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
@@ -23,7 +24,6 @@ class EvalSondageController extends Controller
     |--------------------------------------------------------------------------
     */
 
-
     /**
      * Retrieve all (formateur)
      * 
@@ -31,8 +31,46 @@ class EvalSondageController extends Controller
      */
     public function getDataAll()
     {
-        $sondages = EvalSondage::distinct()->get();
-        return EvalSondageFormateurResource::collection($sondages);
+        $userAuth = User::whereId(Auth::id())->first();
+
+        if ($userAuth->role_id == 3) {
+            $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
+                ->join('users', 'eval_sondages.user_id', '=', 'users.id')
+                ->where(['eval_sondages.published' => 1, 'eval_sondages.accepted' => 1])
+                ->where("eval_sondages.user_id", "!=", $userAuth->id)
+                ->where("users.promotion_id", "=", $userAuth->promotion_id)
+                ->select('eval_sondages.*')
+                ->get();
+
+            return EvalSondageFormateurResource::collection($sondages);
+        } else {
+            $sondages = EvalSondage::distinct()->get()->unique('name');
+            return EvalSondageFormateurResource::collection($sondages);
+        }
+    }
+
+
+    /**
+     * Retrieve all (formateur)
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getDataAllForApprenant()
+    {
+        $userAuth = User::whereId(Auth::id())->first();
+
+        if ($userAuth->role_id == 3) {
+            $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
+                ->join('users', 'eval_sondages.user_id', '=', 'users.id')
+                ->where("eval_sondages.user_id", "!=", $userAuth->id)
+                ->where("users.promotion_id", "=", $userAuth->promotion_id)
+                ->select('eval_sondages.*')
+                ->get();
+              return EvalSondageFormateurResource::collection($sondages);
+        } else {
+            $sondages = EvalSondage::distinct()->get()->unique('name');
+            return EvalSondageFormateurResource::collection($sondages);
+        }
     }
 
 
@@ -65,9 +103,9 @@ class EvalSondageController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getSpecificSondage($userId, $sondageId)
+    public function getSpecificSondage($sondageId)
     {
-        $sondages = EvalSondage::where(['id' => $sondageId, 'user_id' => $userId, 'published' => 1, 'accepted' => 1])->first();
+        $sondages = EvalSondage::where(['id' => $sondageId, 'published' => 1, 'accepted' => 1])->first();
         return new EvalSondageResource($sondages);
     }
 
@@ -114,7 +152,7 @@ class EvalSondageController extends Controller
 
         $user = Auth::user();
 
-        if($user->role_id == 3) {
+        if ($user->role_id == 3) {
             $sondage            = new EvalSondage();
             $sondage->name      = $name;
             $sondage->user_id   = $user->id;
@@ -157,12 +195,12 @@ class EvalSondageController extends Controller
                 $sondage->accepted  = 1;
                 $sondage->isOwner   = 1;
                 $sondage->save();
-    
+
                 foreach ($lines as $lineInfo) {
                     $sondageLine = new EvalSondageLines();
                     $sondageLine->sondage_id = $sondage->id;
                     $sondageLine->type       = $lineInfo['type'];
-    
+
                     switch ($lineInfo['type']) {
                         case 0:
                             $sondageLine->langage_id  = $lineInfo['content'];
@@ -225,7 +263,7 @@ class EvalSondageController extends Controller
         $name        =  $validator->validated()['name'];
         $published   =  $validator->validated()['published'];
         $lines       =  $validator->validated()['lines'];
-        
+
         $sondages    = EvalSondage::where(['name' => $name])->get();
         foreach ($sondages as $sondage) {
             $sondage->name = $name;
@@ -253,7 +291,7 @@ class EvalSondageController extends Controller
                         break;
                     default:
                         break;
-                }             
+                }
                 $sondageLineUpdate->save();
             }
 

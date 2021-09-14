@@ -24,18 +24,18 @@ class Md_MarkdownController extends Controller
     }
 
     public function showMine(){
-
-        $userId=Auth::id();
+        $userId = Auth::id();
         $markdowns=Markdown_Markdown::whereHas('contributions', function (Builder $query) use ($userId) {
             $query->where('user_id', $userId)
                   ->where('active',true);
 
         })->orWhere('user_id',$userId)->get();
+        return response()->json(['error' => 'error generated']);
         return MarkdownResource::collection($markdowns);
     }
 
     public function show(){
-        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get();
+        $markdowns=Markdown_Markdown::orderBy('created_at', 'desc')->get(); 
         return MarkdownResource::collection($markdowns);
     }
 

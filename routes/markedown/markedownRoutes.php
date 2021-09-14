@@ -20,7 +20,8 @@ Route::middleware(['auth:api'])->group(function () {
 
 });
 
-
+Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
+Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
 /*
 |--------------------------------------------------------------------------
 | Markdown Category routes
@@ -95,8 +96,7 @@ Route::middleware(['auth:api'])->group(function () {
     });
 });
 
-Route::get('markdowns-commun', [Md_MarkdownController::class, 'show']);
-Route::get('my-markdowns', [Md_MarkdownController::class, 'show']);
+
 /*
 |--------------------------------------------------------------------------
 | Markdown user routes

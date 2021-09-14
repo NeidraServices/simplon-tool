@@ -6,10 +6,11 @@ import Sondage from './Sondages/Sondage.vue';
 import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
 import SondagesList from './Sondages/SondagesList.vue';
 import GestionLearnerSondage from './Sondages/Gestion/GestionLearnerSondage.vue';
+import Promotion from './Promotion/Promotion.vue';
 
 export const EvalRoutes = [
     {
-        path: '/evaluation360',
+        path: '/evaluation360/',
         name: 'eval',
         component: Home,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
@@ -21,7 +22,13 @@ export const EvalRoutes = [
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
     },
     {
-        path: '/user/:id',
+        path: '/evaluation360/promotions',
+        name: 'Promotions',
+        component: Promotion,
+        meta: { requiresAuth: true, requiresRole: false, roles: [1,2] }
+    },
+    {
+        path: '/evaluation360/user/:id',
         name: 'SeeMore',
         component: SeeMore,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
@@ -36,13 +43,13 @@ export const EvalRoutes = [
         path: '/evaluation360/sondages',
         name: 'SondagesList',
         component: SondagesList,
-        meta: { requiresAuth: true, requiresRole: false, roles: [] }
+        meta: { requiresAuth: true, requiresRole: true, roles: [3] }
     },
     {
         path: '/evaluation360/apprenant/sondages',
         name: 'learnerSondage',
         component: GestionLearnerSondage,
-        meta: { requiresAuth: true, requiresRole: false, roles: [] }
+        meta: { requiresAuth: true, requiresRole: true, roles: [3] }
     },
     {
         path: '/evaluation360/formateur/sondages',

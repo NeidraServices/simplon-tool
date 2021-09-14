@@ -18,6 +18,11 @@ class CreateEvalPromotionsTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('promotion_id')->unsigned()->nullable();
+            $table->foreign('promotion_id')->references('id')->on('eval_promotions');
+        });
     }
 
     /**
@@ -27,6 +32,9 @@ class CreateEvalPromotionsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('eval_promotions');
+        Schema::enableForeignKeyConstraints();
+
     }
 }

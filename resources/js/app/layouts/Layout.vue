@@ -13,6 +13,7 @@
 						cols="12"
 						md="6"
 						sm="6"
+            color='primary'
 						@click="prev()"
 					>
 						<span>{{ prevName }}</span>

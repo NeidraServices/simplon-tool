@@ -59,10 +59,7 @@ export default {
       this.file = this.$refs.file.files[0];
       let formData = new FormData();
       formData.append('image', this.file);
-
-      // console.log(formData);
-      let elem = this
-      apiService.post('/api/account/user/image/update',
+      apiService.post('/api/user/image/update',
         formData,
       ).then(function (response) {
         // console.log(elem)

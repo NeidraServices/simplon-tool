@@ -1,9 +1,9 @@
 <template>
   <v-container
     class="d-flex justify-center align-center"
-    style="height: 70% !important"
+    style="height: 70vh !important"
   >
-      <v-dialog v-model="generalDialog" max-width="600">
+    <v-dialog v-model="generalDialog" max-width="600" style="z-index: 2500">
       <v-card class="py-5">
         <v-card-title class="d-flex justify-center font-weight-bold">
           {{ title }}
@@ -29,10 +29,22 @@
             ></v-text-field>
             <v-text-field
               v-model="email"
+              type="email"
               :rules="emailRules"
               label="Adresse e-mail"
               required
             ></v-text-field>
+            <v-select
+              v-model="selectedPromo"
+              :rules="promotionRules"
+              :items="promoList"
+              item-text="name"
+              return-object
+              item-value="id"
+              persistent-hint
+              label="Promotion"
+              required
+            ></v-select>
           </v-form>
         </div>
 
@@ -55,8 +67,7 @@
       </v-card>
     </v-dialog>
 
-
-    <v-dialog v-model="deleteDialog" max-width="600">
+    <v-dialog v-model="deleteDialog" max-width="600" style="z-index: 2500">
       <v-card class="py-5">
         <v-card-title class="d-flex justify-center font-weight-bold">
           Voulez-vous vraiment supprimer ce compte apprenant ?
@@ -80,7 +91,7 @@
       </v-card>
     </v-dialog>
 
-    <div>
+    <div style="z-index: 2000">
       <div class="d-flex justify-start align-center mb-8">
         <h1 class="text-center">Liste des apprenants</h1>
         <v-btn icon class="py-5 ml-5" @click="openGeneral">

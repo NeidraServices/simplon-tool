@@ -1,5 +1,5 @@
-import { EventBus } from "../../../../../eventBus";
-import { apiService } from "../../../../../services/apiService";
+import { EventBus } from "../../../../../eventBus.js";
+import { apiService } from "../../../../../services/apiService.js";
 
 export default {
     components: {
@@ -15,7 +15,8 @@ export default {
             valid: true,
             isLoaded: false,
             disabled: true,
-
+            page: 1,
+            pageCount: 0,
             selectLangages: [],
             selectSkills: [],
             sondagesList: [],
@@ -192,15 +193,16 @@ export default {
             try {
                 const request = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`);
                 const reqData = request.data.data;
+
                 if (reqData) {
                     this.sondagesList = reqData;
                     this.isLoaded = true;
+
                 }
             } catch (error) {
                 EventBus.$emit('snackbar', {
                     text: `Sondages : Une erreur est survenue`,
                     color: 'red',
-                    timeout: 3000
                 })
             }
         },
@@ -273,13 +275,13 @@ export default {
                                     case 0:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.langage.id
+                                            content: item.content
                                         })
                                         break;
                                     case 1:
                                         ligneFormated.push({
                                             type: item.type,
-                                            content: item.skill.id
+                                            content: item.content
                                         })
                                         break;
                                     case 2:
@@ -300,6 +302,8 @@ export default {
                         }
 
                         req = await apiService.put(`${location.origin}/api/evaluation360/sondage/update`, dataSend);
+                        EventBus.$emit('snackbar', {text: req.data.message, color: 'success'})
+
                     } else {
 
                         dataSend = {
@@ -308,6 +312,8 @@ export default {
                             published: this.published
                         }
                         req = await apiService.post(`${location.origin}/api/evaluation360/sondage/create`, dataSend);
+                        EventBus.$emit('snackbar', {text: req.data.message, color: 'success'})
+
                     }
                     const reqData = req.data;
                     if (reqData.success) {

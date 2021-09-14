@@ -23,6 +23,7 @@ class UserResource extends JsonResource
 
         if (isset($this->token)) {
             $role = new RoleResource($this->role);
+            $promotion = new EvalPromotionResource($this->promotion);
 
             return [
                 'id' => $this->id,
@@ -33,9 +34,11 @@ class UserResource extends JsonResource
                 'role' => $role,
                 'token' => $this->token,
                 'avatar' => $this->avatar,
+                'promotion' => $promotion
             ];
         } else {
             $role = new RoleResource($this->role);
+            $promotion = new EvalPromotionResource($this->promotion);
 
             return [
                 'id' => $this->id,
@@ -45,6 +48,7 @@ class UserResource extends JsonResource
                 'email' => $this->email,
                 'role' => $role,
                 'avatar' => $this->avatar,
+                'promotion' => $promotion
             ];
         }
     }

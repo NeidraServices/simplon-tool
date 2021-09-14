@@ -1,23 +1,26 @@
+import { apiService } from "../../../../services/apiService";
+
 export default {
-    data() {
-        return {
-            apprenants: []
-        }
-    },
+
     created() {
         this.initializeData()
     },
     methods: {
+        getSondages() {
+
+        },
+
         initializeData() {
             this.$store.dispatch('getApprenants')
-            this.apprenants = this.$store.state.apprenants
+            this.$store.state.apprenants
+
         },
         getImages(image) {
             return `${location.origin}/images/${image}`
         },
         async goToDetails(apprenant) {
             await this.$store.commit('Apprenant', apprenant)
-            await this.$router.push(`/user/` + apprenant.id);
+            await this.$router.push(`/evaluation360/user/` + apprenant.id);
         }
     }
 

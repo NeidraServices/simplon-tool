@@ -83,7 +83,6 @@ export default{
                 formateur_id: this.$store.state.userInfo.id,
                 extrait:      this.extrait
             }).then(({data}) => {
-                console.log(data);
                 if(!data.success){
                     this.flashMessage.error({
                         message: data.error
