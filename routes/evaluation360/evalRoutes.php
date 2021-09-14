@@ -134,6 +134,7 @@ Route::middleware(['auth:api'])->group(function () {
 Route::middleware(['auth:api'])->group(function () {
     Route::prefix("/apprenant/sondage")->group(function () {
         Route::get("/list", [EvalSondageController::class, "getDataAllForApprenant"])->name('api.sondage.apprenant.one');
+        Route::get("/all", [EvalSondageController::class, "getDataAll"])->name('api.sondage.apprenant.two');
         Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.two');
         Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.three');
         Route::get("/notes/{userId}", [EvalSondageController::class, "getNotes"])->name('api.sondage.apprenant.four');
