@@ -25,7 +25,7 @@ export const EvalRoutes = [
         path: '/evaluation360/promotions',
         name: 'Promotions',
         component: Promotion,
-        meta: { requiresAuth: true, requiresRole: false, roles: [1,2] }
+        meta: { requiresAuth: true, requiresRole: false, roles: [1] }
     },
     {
         path: '/evaluation360/user/:id',
