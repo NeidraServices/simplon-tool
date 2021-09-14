@@ -4,6 +4,7 @@ import Commentaires from './StepperContent/Commentaires.vue';
 import Skills from './StepperContent/Skills.vue';
 import { EventBus } from '../../../eventBus';
 import { apiService } from '../../../services/apiService.js';
+
 export default {
     components: {
         Languages,
@@ -21,42 +22,9 @@ export default {
         }
     },
     mounted() {
-        this.initializeData()
-        this.checkSondage()
     },
     created() {
-        EventBus.$on('sendAnswers', data => {
-            this.questions = data
-        })
-        EventBus.$on('sendLangNotes', data => {
-            this.languages = data
-        })
-        EventBus.$on('sendSkillsNote', data => {
-            this.skills = data
-        })
-        EventBus.$on('sendSondage', data => {
-            let newArray = []
-            newArray = newArray.concat(this.questions, this.languages, this.skills)
-            this.sondage.lines = newArray
-            apiService.post('/api/evaluation360/apprenant/sondage/1/answer', this.sondage).then(response => {
-                if (response.status == 200) {
-                    EventBus.$emit('snackbar', {
-                        snackbar: true,
-                        text: `Merci d'avoir répondu au sondage`,
-                        color: 'blue',
-                        timeout: 3000
-                    })
-                }
-                else {
-                    EventBus.$emit('snackbar', {
-                        text: `Erreur`,
-                        color: 'red',
-                        timeout: 3000
-                    })
-                }
-            });
-
-        })
+        this.getSpecificSondage(this.$route.params.sondageId);
         EventBus.$on('next', () => {
             this.e1++
         })
@@ -66,23 +34,26 @@ export default {
 
     },
     methods: {
-        initializeData() {
-            this.$store.dispatch({
-                type: 'getSpecificSondage',
-                ids: {
-                    userId: this.$route.params.userId,
-                    sondageId: this.$route.params.sondageId
+        async getSpecificSondage(sondageId) {
+            try {
+                const req = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/${sondageId}`)
+                const reqData = req.data.data;
+                if (reqData) {
+                    this.sondage = reqData;
+                    await this.checkSondage(reqData)
                 }
-            })
-            if (!_.isEmpty(this.$store.state.specificSondage)) {
-                this.sondage = this.$store.state.specificSondage
-            }else{
-                this.$router.push({name:'SondagesList'})
+                else {
+                    this.$router.push({ name: 'SondagesList' })
+                }
+            }
+            catch (err) {
+                console.log(err)
+                console.log("creve")
             }
         },
-        checkSondage() {
-            if (!_.isEmpty(this.sondage)) {
-                this.sondage.lines.forEach(line => {
+        checkSondage(sondage) {
+            if (!_.isEmpty(sondage)) {
+                sondage[0].lines.forEach(line => {
                     if (line.question) {
                         this.questions.push(line)
                     }
@@ -93,6 +64,10 @@ export default {
                         this.languages.push(line)
                     }
                 })
+
+                console.log(this.questions)
+                console.log(this.skills)
+                console.log(this.languages)
             }
         }
     }
