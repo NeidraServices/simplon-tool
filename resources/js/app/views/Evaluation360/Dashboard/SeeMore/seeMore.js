@@ -22,6 +22,10 @@ export default {
     created() {
         this.initializeData()
         this.initializeNote()
+        this.$store.dispatch('getLangages');
+        this.$store.dispatch('getReferentiels');
+        this.langagesList = this.$store.state.langages
+        this.referentielsList = this.$store.state.referentiels
     },
     methods: {
         async initializeData() {
@@ -30,11 +34,6 @@ export default {
                 this.apprenant = req.data.data
             }
             catch (err) { console.log(err) }
-            this.$store.dispatch('getLangages');
-            this.$store.dispatch('getReferentiels');
-            this.langagesList = this.$store.state.langages
-            this.referentielsList = this.$store.state.referentiels
-
         },
         //TODO Matt - A terminer, problème object array
         async initializeNote() {
@@ -76,7 +75,7 @@ export default {
                 })
                 var notNan = initialPush.competences.filter(_note => !isNaN(_note.note))
                 initialPush.moyenne = (initialPush.moyenne / notNan.length).toFixed(2)
-                
+
                 this.RefFinalTab.push(initialPush)
             })
         },
