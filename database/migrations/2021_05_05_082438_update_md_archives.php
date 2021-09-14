@@ -16,6 +16,10 @@ class UpdateMdArchives extends Migration
         //
         Schema::table('md_archives', function (Blueprint $table) {
             $table->renameColumn('markdowns', 'markdown_id');
+            $table->string('title');
+            $table->integer('category_id');
+            $table->string('description');
+
         });
     }
 

@@ -5,7 +5,14 @@
             <h2 class="titre">{{title}}</h2>
             <v-row>
                 <v-col>
+                    <v-text-field
+                    v-if="isArchive"
+                    disabled
+                    label="ARCHIVE">
+                        
+                    </v-text-field>
                     <v-select
+                    v-if="!isArchive"
                         v-model="active"
                         :items="status"
                         item-text="label"
@@ -16,6 +23,25 @@
                 </v-col>
                 <v-col>
                     <v-autocomplete
+                    disabled
+                        v-if="isArchive"
+                        v-model="category"
+                        :loading="loading"
+                        :items="categories"
+                        :search-input.sync="search"
+                        item-text="composed"
+                        item-value="id"
+                        append-icon=''
+                        return-object
+                        cache-items
+                        flat
+                        hide-no-data
+                        hide-details
+                        v-on:blur="setCategory"
+                        label="Catégorie">
+                    </v-autocomplete>
+                    <v-autocomplete
+                        v-if="!isArchive"
                         v-model="category"
                         :loading="loading"
                         :items="categories"
@@ -75,12 +101,32 @@
             </v-row>
 
             <v-text-field
+            disabled
+                v-if="isArchive"
                 label="Titre"
                 placeholder="Entrez le titre de la fiche"
                 v-model="title"
                 v-on:blur="updateTitle"
             ></v-text-field>
             <v-textarea
+            disabled
+                v-if="isArchive"
+                outlined
+                label="Description"
+                placeholder="Entrez une description"
+                v-model="description"
+                v-on:blur="updateDescription"
+            ></v-textarea>
+            
+            <v-text-field
+                            v-if="!isArchive"
+                label="Titre"
+                placeholder="Entrez le titre de la fiche"
+                v-model="title"
+                v-on:blur="updateTitle"
+            ></v-text-field>
+            <v-textarea
+                            v-if="!isArchive"
                 outlined
                 label="Description"
                 placeholder="Entrez une description"
@@ -89,9 +135,13 @@
             ></v-textarea>
             <v-divider></v-divider><br><br>
 
-            <markdown-editor theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
+            <markdown-editor v-if="isArchive" theme="primary" ref="md" v-model="text" :extend="custom" toolbar="preview" preview=true ></markdown-editor><br>
+
+            <v-btn v-if="isArchive" disabled outlined>ARCHIVE</v-btn>
+
+            <markdown-editor v-if="!isArchive" theme="primary" ref="md" v-model="text" toolbar="redo | undo | bold | italic | strikethrough | heading | link |  quote |
         fullscreen | preview" :extend="custom"></markdown-editor><br>
-            <v-btn outlined @click="editMD">Editer</v-btn>
+            <v-btn v-if="!isArchive" outlined @click="editMD">Editer</v-btn>
         </v-container>
 
     </div>
@@ -106,6 +156,7 @@
 import MdEditor from "../../component/MdEditor";
 import AutocompleteCategorie from "../../component/AutocompleteCategory";
 import CustomFlashMessage from "../../component/CustomFlashMessage";
+import {apiService} from "../../../../services/apiService";
 import Axios from "axios";
 export default {
     name: "ShowEditMd",
@@ -116,6 +167,9 @@ export default {
     },
     props: {
         id: {
+            type: String
+        },
+        isArchive: {
             type: String
         }
     },
@@ -228,7 +282,7 @@ export default {
                     category:this.category.id
                 }
                 try {
-                    const req = await  Axios.post(`${location.origin}/api/markedown/markdown/category/${this.id}`, dataSend)
+                    const req = await  apiService.post(`${location.origin}/api/markedown/markdown/category/${this.id}`, dataSend)
                     const reqData = req.data
                     console.log(req)
                     this.flashMessage.success({
@@ -243,7 +297,7 @@ export default {
             let dataSend={
                 active:this.active
             }
-            await Axios.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
+            await apiService.post(`${location.origin}/api/markedown/markdown/active/${this.id}`, dataSend).then(
                 reponse =>{
                     const reqData = reponse.data
                     console.log(reqData)
@@ -256,9 +310,12 @@ export default {
         },
         async editMD(){
             let dataSend={
-                text:this.text
+                title:this.title,
+                text:this.text,
+                category:this.category.id
             }
-            await Axios.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend).then(
+            console.log("DATASEND", dataSend)
+            await apiService.post(`${location.origin}/api/markedown/markdown/edit/${this.id}`, dataSend).then(
                 reponse =>{
                     const reqData = reponse.data
                     this. $refs.customFlash.showMessageSuccess(reqData.message)
@@ -273,7 +330,7 @@ export default {
             let dataSend={
                 title:this.title
             }
-            await Axios.post(`${location.origin}/api/markedown/markdown/update/${this.id}`, dataSend).then(
+            await apiService.post(`${location.origin}/api/markedown/markdown/update/title/${this.id}`, dataSend).then(
                 reponse => {
                     const reqData = reponse.data
                     console.log(reqData)
@@ -289,7 +346,7 @@ export default {
                 description:this.description
             }
             try {
-                const req = await Axios.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
+                const req = await apiService.post(`${location.origin}/api/markedown/markdown/update/description/${this.id}`, dataSend)
                 const reqData = req.data
                 console.log(reqData)
 
@@ -321,10 +378,27 @@ export default {
         },
         async getData() {
             const token = localStorage.getItem('token');
-            try {
-                const req = await Axios.get(`${location.origin}/api/markedown/markdown/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
+            if (this.isArchive=="true") {                
+                const req = await apiService.get(`${location.origin}/api/markedown/markdown/archive/show/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
                 const reqData = req.data
-                console.log(reqData)
+                console.log("REQDATA", reqData)
+                this.title= reqData.archiveMd.title
+                this.description = reqData.archiveMd.description
+                let category ={
+                    composed:reqData.archiveMd.category.name,
+                    id:reqData.archiveMd.category.id
+                }
+
+                this.categories.push(category)
+                this.category=this.categories[0]
+                console.log(this.category)
+                this.text= reqData.text
+                
+            } else {
+              try {
+                const req = await apiService.get(`${location.origin}/api/markedown/markdown/${this.id}`, {headers: {'Authorization': `Bearer ${token}`}})
+                const reqData = req.data
+                console.log("REQDATA", reqData)
                 this.title= reqData.markdown.title
                 let category ={
                     composed:reqData.markdown.category.name,
@@ -342,7 +416,9 @@ export default {
             }catch (error){
                 console.log(error)
                 this. $refs.customFlash.showMessageError(error)
+            }  
             }
+            
          }
     },
     computed: {

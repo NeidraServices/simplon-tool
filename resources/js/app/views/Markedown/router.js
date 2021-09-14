@@ -34,7 +34,7 @@ export const MarkedownRoutes = [
         component: AddMarkdown
     },
     {
-        path: '/markedowns/show-edit-md/:id',
+        path: '/markedowns/show-edit-md/:id/:isArchive?',
         name: 'ShowEditMd',
         component: ShowEditMd,
         props:true

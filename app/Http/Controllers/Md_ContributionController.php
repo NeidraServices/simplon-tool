@@ -43,4 +43,16 @@ class Md_ContributionController extends Controller
             "message" => "Demande de contribution refusé",
         ]);
     }
+
+    
+    /**
+     * Fonction get qui recupère la liste des contributeurs
+     * @return user
+     */
+
+    public function getListContributeur($id)
+    {
+        return Markdown_Contribution::where(["markdown_id"=>$id, "active"=>1])->get();
+    }
+
 }

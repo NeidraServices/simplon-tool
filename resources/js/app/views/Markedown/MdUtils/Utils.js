@@ -24,9 +24,9 @@ export class MdUtils {
             data.map(item => {
                 formatedData.push({
                     id: item.id,
-                    category: item.markdown.category.name,
-                    title: item.markdown.title,
-                    description: item.markdown.description,
+                    title: item.title,
+                    category: item.category.name,
+                    description: item.description,
                     date: utils.formatDate(item.updated_at ? item.updated_at : ((item.created_at) ? item.created_at : null))
                 })
             })

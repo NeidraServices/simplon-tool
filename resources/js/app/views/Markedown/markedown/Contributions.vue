@@ -15,10 +15,6 @@
                         </div>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <div class="request-content">
-                            {{item.markdown_id}}
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </div>
                         <v-row class="mt-2">
                             <v-col cols="6" class="layout justify-center">
                                 <v-btn
@@ -63,12 +59,20 @@ export default {
     },
     props:[
        'requestList',
-        { item : {}}
+        'item'
     ],
     created() {
     console.log(this.requestList)
+   console.log('iteeeemmm',this.item)
         },
     methods: {
+        validate: function () {
+        this.$emit("call", { message: "test" });
+        },
+        cancel: function () {
+        // this.dialog = false
+        this.$emit("call", { cancel: true, message: "test" });
+        },
         async getUser(id){
           let user = await apiService.get(`${location.origin}/api/markedown/user/${id}`)
             let data = user.data.data
@@ -84,19 +88,23 @@ export default {
                 let data = await apiService.get(`${location.origin}/api/markedown/contribution/accept/${id}`)
                 console.log("Response accept contrib :", data)
                 this.$emit('show-success-msg', data.data.message)
+                this.validate()
             }catch(error) {
                 console.log("Error :", error)
                 this.$emit('show-error-msg', error);
+                this.validate()
             }
         },
         async declineContribution(id){
             try{
                 let data = await apiService.get(`${location.origin}/api/markedown/contribution/decline/${id}`)
                 console.log("Response decline contrib :", data)
-                this.$emit('show-success-msg', data.data.message);
+                this.$emit('show-success-msg', data.data.message);                
+                this.validate()
             }catch(error) {
                 console.log("Error :", error)
-                this.$emit('show-error-msg', error);
+                this.$emit('show-error-msg', error);                
+                this.validate()
             }
         }
     }

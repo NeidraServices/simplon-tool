@@ -227,7 +227,9 @@ export default {
                             text: `Markedown crée avec succès !`,
                             color: 'blue',
                             timeout: 3000
-                        })
+                        }
+                        )
+                        this.$router.push({ name: 'MyMarkdowns'})
                     }).catch (error => {
                    console.log(error)
                    EventBus.$emit('snackbar', {

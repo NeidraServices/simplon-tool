@@ -70,11 +70,8 @@ export default {
     },
     data() {
         return {
-          markdown_list: [
-            ],
-          categories: [
-
-          ]
+          markdown_list: [],
+          categories: []
         };
     },
     mounted() {

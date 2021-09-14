@@ -31,7 +31,45 @@
                         </div>
                     </template>
                     <v-card>
-                        <Contributions v-bind:requestList="requestList" v-bind:item="item"/>
+                        <Contributions  @call="closeContribRequestListDialog" v-bind:requestList="requestList" v-bind:item="item"/>
+                        <!-- <v-divider></v-divider> -->                       
+                        <v-card-actions class="mb-2">
+                            <!-- <v-col cols="6" class="layout justify-center">
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog = false"
+                                >
+                                    Fermer
+                                </v-btn>
+                            </v-col>  -->
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
+                </v-row>
+            </div>
+            
+            <div class="list-contrib"
+                @click.stop="showRequets"
+            >
+                <v-row justify="center">
+                    <v-dialog
+                    v-model="dialog2"
+                    scrollable
+                    max-width="460px"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <div
+                            color="none"
+                            v-bind="attrs"
+                            v-on="on"
+                            class="pa-0 badge-container"
+                        >
+                        <span class="justify-end"> <v-icon color="primary" class="mr-2">mdi-account-multiple</v-icon></span>
+                        </div>
+                    </template>
+                    <v-card>
+                        <ListContributeurs  @call="closeContributorListDialog" v-bind:listContributeur="listContributeur" v-bind:item="[item]"/>
                         <!-- <v-divider></v-divider> -->
                         <v-card-actions class="mb-2">
                             <!-- <v-col cols="6" class="layout justify-center">
@@ -93,6 +131,13 @@
     margin-top: 20px;
     margin-left: 30px;
 }
+.list-contrib{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 30px;
+}
 .badge-container:hover{
     & *{
         zoom: 1.05;
@@ -118,11 +163,13 @@
     import BtnWithIcon from "./buttons/BtnWithIcon";
     import {apiService} from "../../../services/apiService";
     import Contributions from "../markedown/Contributions";
+    import ListContributeurs from "../markedown/ListContributeurs.vue";
 
     export default {
         components: {
             Contributions,
-            BtnWithIcon
+            BtnWithIcon,
+            ListContributeurs
         },
         data(){
             return{
@@ -130,7 +177,9 @@
                 modifStatus: false,
                 nbRequest: 0,
                 dialog: false,
-                requestList: []
+                dialog2: false,
+                requestList: [],
+                listContributeur:[]
             }
         },
         props:{
@@ -153,6 +202,7 @@
             this.status = (this.item.status === 0) ? "En brouillon" : "Finalisé"
             this.modifStatus = (this.item.status !== 0)
             this.getRequests()
+            this.getContributors()
         },
         watch: {
             modifStatus(newValue){
@@ -160,6 +210,17 @@
             }
         },
         methods: {
+            closeContribRequestListDialog(){
+                this.dialog = false
+                this.getRequests()
+                this.getContributors()
+            },
+            
+            closeContributorListDialog(){
+                this.dialog2 = false
+                this.getRequests()
+                this.getContributors()
+            },
             async getRequests(){
                try{
                    let data = await apiService.get(`${location.origin}/api/markedown/request/${this.item.id}`)
@@ -170,6 +231,21 @@
                        })
                    }
                    console.log("Rep requestList :",this.requestList)
+
+               }catch(error) {
+                    console.log("Error :", error)
+                    this.$emit('show-error-msg',error);
+                }
+            },            
+            async getContributors(){
+               try{
+                   let data = await apiService.get(`${location.origin}/api/markedown/contributeur/${this.item.id}`)                  
+                   if(data.data.length > 0){
+                       data.data.map(elem => {
+                           this.listContributeur.push(elem)
+                       })
+                   }
+                   console.log("Rep listContributeur :",this.listContributeur)
 
                }catch(error) {
                     console.log("Error :", error)

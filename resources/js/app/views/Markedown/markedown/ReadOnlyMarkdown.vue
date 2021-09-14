@@ -159,7 +159,7 @@ export default {
                 EventBus.$emit('snackbar', {
                     snackbar: true,
                     text: e,
-                    color: 'blue',
+                    color: 'red',
                     timeout: 3000
                 })
             }

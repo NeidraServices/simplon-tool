@@ -1,6 +1,8 @@
 <template>
     <v-col cols="12">
-        <v-card>
+        <v-card
+            @click="goTo(item)"
+        >
             <v-card-title 
                 class="layout justify-center"
             >
@@ -36,6 +38,10 @@
     export default {
         props:{
             item: {
+
+                id:{
+                    type: Number
+                },
                 title:{
                     type: String
                 },
@@ -49,6 +55,13 @@
                     type: String
                 },
             }            
+        },
+
+    methods: {
+        goTo(item){
+                this.$router.push({ name: 'ShowEditMd', params: {id: item.id.toString(), isArchive:"true"}})
+            },
+        
         }
     }
 </script>

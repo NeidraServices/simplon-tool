@@ -27,7 +27,8 @@ class Md_MarkdownController extends Controller
 
         $userId=Auth::id();
         $markdowns=Markdown_Markdown::whereHas('contributions', function (Builder $query) use ($userId) {
-            $query->where('user_id', $userId);
+            $query->where('user_id', $userId)
+                  ->where('active',true);
 
         })->orWhere('user_id',$userId)->get();
         return MarkdownResource::collection($markdowns);
@@ -60,6 +61,8 @@ class Md_MarkdownController extends Controller
             $request->all(),
             [
                 'text'      => 'required',
+                'category'      => 'required',
+                'title'      => 'required',
             ],
             [
                 'required' => 'Le champ :attribute est requis',
@@ -78,10 +81,12 @@ class Md_MarkdownController extends Controller
         $file          = time().rand().'.md';
         Storage::disk('public')->put('markdowns/'.$file, $validator->validated()['text']);
 
-
         $markdown = Markdown_Markdown::where('id',$id)->first();
-        Md_ArchiveController::create($markdown->id,$markdown->url);
+        Md_ArchiveController::create($markdown->id,$markdown->title, $markdown->md_category_id, $markdown->url,$markdown->description);
         $markdown->url = $file;
+        $markdown->md_category_id= $validator->validated()['category'];
+        $markdown->title= $validator->validated()['title'];
+        $markdown->description;
         $markdown->save();
         return response()->json([
             "success" => true,
@@ -128,9 +133,6 @@ class Md_MarkdownController extends Controller
                 $markdown->title=$validator->validated()['title'];
                 $markdown->description=$validator->validated()['description'];
                 $markdown->save();
-
-
-
 
             return response()->json([
                 "success" => true,
