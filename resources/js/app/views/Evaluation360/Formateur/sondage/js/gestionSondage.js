@@ -78,7 +78,6 @@ export default {
             generalDialog: false,
             deleteDialog: false,
             dialogAgree: false,
-            selectItem: null
         }
     },
 
@@ -253,8 +252,6 @@ export default {
             let ligneFormated = [];
 
             sondageLines.forEach(item => {
-                console.log(item);
-
                 if (item.type.id) {
                     switch (item.type.id) {
                         case "0":
@@ -317,8 +314,6 @@ export default {
 
                     if (this.edited) {
                         let ligneFormated = this.formatedData(this.sondageLines)
-                        console.log(ligneFormated);
-
                         dataSend = {
                             name: this.sondageName,
                             lines: ligneFormated,

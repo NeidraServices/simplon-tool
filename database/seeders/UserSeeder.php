@@ -23,8 +23,8 @@ class UserSeeder extends Seeder
                 'email' => 'admin@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 1
-
+                'role_id' => 1,
+                'promotion_id' => null,
             ],
             [
                 'id' => 2,
@@ -33,7 +33,8 @@ class UserSeeder extends Seeder
                 'email' => 'adrien@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 2
+                'role_id' => 2,
+                'promotion_id' => null,
 
             ],
             [
@@ -43,7 +44,8 @@ class UserSeeder extends Seeder
                 'email' => 'bruno@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 2
+                'role_id' => 2,
+                'promotion_id' => null,
             ],
             [
                 'id' => 4,
@@ -52,7 +54,8 @@ class UserSeeder extends Seeder
                 'email' => 'daryl@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 5,
@@ -61,7 +64,8 @@ class UserSeeder extends Seeder
                 'email' => 'matthias@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 6,
@@ -70,7 +74,8 @@ class UserSeeder extends Seeder
                 'email' => 'florent@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 7,
@@ -79,7 +84,8 @@ class UserSeeder extends Seeder
                 'email' => 'morgan@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 8,
@@ -88,7 +94,8 @@ class UserSeeder extends Seeder
                 'email' => 'cedrick@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 9,
@@ -97,7 +104,8 @@ class UserSeeder extends Seeder
                 'email' => 'alison@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 10,
@@ -106,7 +114,8 @@ class UserSeeder extends Seeder
                 'email' => 'anne-sophie@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
             ],
             [
                 'id' => 11,
@@ -115,7 +124,8 @@ class UserSeeder extends Seeder
                 'email' => 'lucas@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 2,
             ],
             [
                 'id' => 12,
@@ -124,7 +134,8 @@ class UserSeeder extends Seeder
                 'email' => 'benjamin@simplonapp.re',
                 'password' => Hash::make('password'),
                 'verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 3,
+                'promotion_id' => 1,
 
             ],
         ];

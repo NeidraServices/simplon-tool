@@ -6,6 +6,7 @@ export default {
                 { title: 'Accueil', route: '/evaluation360'},
                 { title: 'Tous les apprenants', route: '/evaluation360/apprenants' },
                 { title: 'Gestion des apprenants', route: '/evaluation360/cohorte'},
+                { title: 'Gestion des promotions', route: '/evaluation360/promotions'},
                 { title: 'Gestion des sondages', route: '/evaluation360/formateur/sondages'},
             ],
             learnerMenu: [
