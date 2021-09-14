@@ -1,8 +1,8 @@
 <template>
   <v-container style="height: 100%" v-if="sondage">
     <div class="font-weight-thin text-center mb-5">
-      <h1 class="font-weight-thin text-center">{{ sondage.name }}:</h1>
-      <span>{{ sondage.user.name }} {{ sondage.user.surname }}</span>
+      <h1 class="font-weight-thin text-center">{{ sondage[0].name }}:</h1>
+      <span>{{ sondage[0].user.name }} {{ sondage[0].user.surname }}</span>
     </div>
 
     <v-stepper
