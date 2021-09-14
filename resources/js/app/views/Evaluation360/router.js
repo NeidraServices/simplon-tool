@@ -7,6 +7,9 @@ import GestionSondage from "./Formateur/sondage/GestionSondage.vue";
 import SondagesList from './Sondages/SondagesList.vue';
 import GestionLearnerSondage from './Sondages/Gestion/GestionLearnerSondage.vue';
 import Promotion from './Promotion/Promotion.vue';
+import AdminLangages from './Admin/AdminLangages.vue';
+import AdminReferentiel from './Admin/AdminReferentiel.vue';
+import AdminSkills from './Admin/AdminSkills.vue';
 
 export const EvalRoutes = [
     {
@@ -20,6 +23,24 @@ export const EvalRoutes = [
         name: 'Apprenants',
         component: Apprenants,
         meta: { requiresAuth: true, requiresRole: false, roles: [] }
+    },
+    {
+        path: '/evaluation360/langages',
+        name: 'langages',
+        component: AdminLangages,
+        meta: { requiresAuth: true, requiresRole: false, roles: [1] }
+    },
+    {
+        path: '/evaluation360/competences',
+        name: 'skills',
+        component: AdminSkills,
+        meta: { requiresAuth: true, requiresRole: false, roles: [1] }
+    },
+    {
+        path: '/evaluation360/referentiels',
+        name: 'referentiels',
+        component: AdminReferentiel,
+        meta: { requiresAuth: true, requiresRole: false, roles: [1] }
     },
     {
         path: '/evaluation360/promotions',

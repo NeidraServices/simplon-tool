@@ -18,6 +18,7 @@ export default {
             { title: 'Accueil', route: '/evaluation360/accueil' },
             { title: 'Gestion des langages', route: '/evaluation360/langages' },
             { title: 'Gestion des compétences', route: '/evaluation360/competences' },
+            { title: 'Gestion des référentiels', route: '/evaluation360/referentiels' },
             { title: 'Gestion des utilisateurs', route: '/evaluation360/cohorte' },
             { title: 'Gestion des promotions', route: '/evaluation360/promotions' },
             { title: 'Gestion des sondages', route: '/evaluation360/formateur/sondages' },

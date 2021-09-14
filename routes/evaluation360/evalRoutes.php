@@ -94,7 +94,7 @@ Route::get("/langage/list", [EvalLangageController::class, "getData"])->middlewa
 
 Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function () {
     Route::post("/create", [EvalLangageController::class, "addData"])->name('api.langage.create');
-    Route::put("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
+    Route::post("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
     Route::delete("/{id}/delete", [EvalLangageController::class, "deleteData"])->name('api.langage.delete');
 });
 
