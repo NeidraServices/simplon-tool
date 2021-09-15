@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Deliver_ProjetResource;
 use App\Models\Deliver_CompetencesModel;
+use App\Models\Deliver_Rendu;
 use App\Models\Deliver_RendusModel;
 use App\Models\Deliver_TagModel;
 use App\Models\Deliver_UsersModel;
@@ -52,12 +53,10 @@ class Deliver_ProjetController extends Controller
         return response()->json(['projets' =>  $projets]);
     }
 
-public function getApprenants(){
-
-    $apprenants=Deliver_UsersModel::select(['name', 'surname', 'email', 'id'])->where("role_id",3)->get();
-
-    return response()->json(['data' =>  $apprenants]);
-}
+    public function getApprenants(){
+        $apprenants=Deliver_UsersModel::select(['name', 'surname', 'email', 'id'])->where("role_id",3)->get();
+        return response()->json(['data' =>  $apprenants]);
+    }
     /*
     |--------------------------------------------------------------------------
     | Liste de mes projets
@@ -78,10 +77,11 @@ public function getApprenants(){
             })->get();
             return response()->json(['projets' =>  $projets[0]["projets"]]);            
         }elseif($user){
-            $assignation_projet = DB::table('dp_affectations')->where('user_id', $user->id)->get();
+            $assigned_projet = DB::table('dp_affectations')->where('user_id', $user->id)->get();
+            // return response()->json(['response' => $assigned_projet]);
             $mes_projets        = [];
-            foreach($assignation_projet as $assign){
-                $projet = Deliver_ProjetModel::find($assign->projet_id)->first();
+            foreach($assigned_projet as $assign){
+                $projet = Deliver_ProjetModel::find($assign->projet_id);
                 array_push($mes_projets, $projet);
             }
             return response()->json(['response' => $mes_projets]);
@@ -223,15 +223,15 @@ public function getApprenants(){
         $projet=Deliver_ProjetModel::find($id);
         $rendus=Deliver_RendusModel::where("projet_id",$id)->get();
 
-    
-        $projet->users()->detach();
+        
+        DB::table('dp_affectations')->where('projet_id', $id)->delete();
 
         foreach($rendus as $rendu){
             $rendu->medias()->delete();
         }
-        $projet->rendus()->delete();
 
-        
+        Deliver_Rendu::where('projet_id', $id)->delete();
+
         if($projet) {
             $projet->delete();
             return response()->json([

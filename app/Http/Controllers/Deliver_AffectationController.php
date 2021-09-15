@@ -26,12 +26,12 @@ class Deliver_AffectationController extends Controller
         $fails   = [];
 
         foreach($data['users'] as $user => $id){
-            $affectation = DB::table('dp_affectations')->where('user_id', $id)->get();
+            $affectation = DB::table('dp_affectations')->where('user_id', $id)->where('projet_id',  $projet->id)->get();
             
-            $apprenant = Deliver_UsersModel::find($id)->first();
+            $apprenant      = Deliver_UsersModel::find($id);
             $apprenant_name = $apprenant->name . ' ' . $apprenant->surname;
             
-            if(sizeof($affectation) > 0) $fails += array_merge($fails, [" l'apprenant $apprenant_name à déjà une affectation sur ce projet"]);
+            if(sizeof($affectation) > 0 && $projet['id']) $fails += array_merge($fails, [" l'apprenant $apprenant_name à déjà une affectation sur ce projet"]);
             else{
                 DB::table('dp_affectations')->insert(['user_id' => $id, 'projet_id' => $projet->id]);
             }

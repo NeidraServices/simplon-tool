@@ -20,20 +20,25 @@ export default{
 
             editBtn: false,
 
+            rendu: null,
+
         }
     },
     
+
     methods: {
-        async initialize() {
+        initialize() {
             const renduId = this.$router.currentRoute.params.id;
-            const response = await axios.get("/api/deliver/view/rendus/" + renduId).then((result) => {
-                this.rendu  = result.data.rendu
-                this.medias = result.data.rendu.medias
-                this.user   = result.data.user
-                this.projet = result.data.projet
-                this.githubUrl = result.data.rendu.github_url
-                this.siteUrl = result.data.rendu.site_url
+            apiService.get("/api/deliver/view/rendus/" + renduId)
+            .then(({data}) => {
+                console.log("data: ", data);
+                this.projet = data.rendu.projet 
+                this.user   = data.rendu.user
+                this.rendu  = data.rendu
             });
+
+            console.log('user: ', this.user);
+            console.log('projet: ' + this.projet);
         },
 
         editRendu() {
@@ -49,11 +54,7 @@ export default{
                 }
             }
 
-            axios.post("/api/deliver/edit/rendus/" + this.rendu.id, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((response) => {
+            apiService.post("/api/deliver/edit/rendus/" + this.rendu.id, formData).then((response) => {
                 console.log(response)
             }).catch((er) => {
                 console.log(er)

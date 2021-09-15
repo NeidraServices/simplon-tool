@@ -23,6 +23,7 @@ export default{
         get_projets: function(){
             apiService.get("/api/deliver/projets/mesprojets/" + this.$store.state.userInfo.id)
             .then(({data}) => {
+                console.log('data: ', data);
                 this.projets = data.response
             })
         },

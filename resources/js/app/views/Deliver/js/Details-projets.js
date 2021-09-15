@@ -42,7 +42,6 @@ export default{
             try {
                 apiService.get(`/api/deliver/projets/${this.id}/voir`)
                 .then(({data}) => {
-                    console.log(data);
                     this.projet = data.projet[0]
                     this.apprenants = data.projet[0].users
                 })
@@ -55,8 +54,6 @@ export default{
         async getRenduData() {
             apiService.get(`/api/deliver/view/rendus/projects/${this.id}`)
             .then(({data}) => {
-                console.log('data');
-                console.log(data[0]);
                 this.rendu = data[0]
             })
         },
@@ -89,9 +86,12 @@ export default{
             let dataToSend = {};
             let users = [];
 
+            console.log('item: ', item);
             for(let i = 0; i < item.length; i++) {
                 users.push(item[i].id);
             }
+
+            console.log('user: ', users);
 
             dataToSend = { users : users, projet_id : parseInt(this.id) }
             apiService.post('/api/deliver/projet/affecter', dataToSend)

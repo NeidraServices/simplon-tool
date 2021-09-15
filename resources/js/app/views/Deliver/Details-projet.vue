@@ -263,17 +263,8 @@
                                 >
                                     Lien GitHub
                                 </v-btn>
-                                <router-link
-                                    to="/deliver/mesprojets/rendu/1"
-                                >
-                                    <v-btn
-                                        outlined
-                                        small
-                                        rounded
-                                        text
-                                    >
-                                        Détails
-                                    </v-btn>
+                                <router-link :to="`/deliver/mesprojets/rendu/${item.rendu.id}`" >
+                                    <v-btn outlined small rounded text> Détails </v-btn>
                                 </router-link>
                             </v-card-actions>
                         </v-card>

@@ -22,7 +22,7 @@ export default{
         },
 
         delete_projet: function(){
-            this.$emit('delete_projet')
+            this.$emit('delete_projet', this.projet.id)
         },
 
         append_projet: function(){

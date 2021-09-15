@@ -21,9 +21,9 @@ class Deliver_RenduController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function rendus($projet_id)
+    public function rendus($rendu_id)
     {
-        $rendus_data = Deliver_Rendu::where(['projet_id' => $projet_id])->get();
+        $rendus_data = Deliver_Rendu::where(['projet_id' => $rendu_id])->get();
 
         $rendus = [];
         foreach ($rendus_data as $key => $rendu) {
@@ -51,27 +51,16 @@ class Deliver_RenduController extends Controller
      */
     public function getRendu($id)
     {
-        $rendu = Deliver_Rendu::find($id);
-
-
-        // Si le rendu appartient à l'utilisateur
-        // Décommenter si la partie auth est totalement fonctionnel
-
-        /*
-        if($rendu && (Auth::user()->id === $rendu->user_id)) {
-            return  new Deliver_RenduResource($rendu);
-        }
-        */
-
-        // Supprimer si la partie auth est totalement fonctionnel
-        if($rendu) {
-            $user = User::find($rendu->user_id);
-            $projet = Deliver_ProjetModel::find($rendu->projet_id);
+        $user = Auth::user();
+        if(!$user) return response()->json( ['success' => false, 'erreur' => 'Vous n\'ête pas connecté !']);
+        $rendu = Deliver_Rendu::find($id);        
+        // return response()->json([$rendu]);
+        if($rendu){
+            $rendu->user   = User::find($rendu->user_id);
+            $rendu->projet = Deliver_ProjetModel::find($rendu->projet_id);
 
             return response()->json([
-                'rendu' => new Deliver_RenduResource($rendu),
-                'user' => new UserResource($user),
-                'projet' => new Deliver_ProjetResource($projet),
+                'rendu' => $rendu,
             ]);
         }
 
