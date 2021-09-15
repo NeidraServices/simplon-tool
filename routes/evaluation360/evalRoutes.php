@@ -94,7 +94,7 @@ Route::get("/langage/list", [EvalLangageController::class, "getData"])->middlewa
 
 Route::middleware(['auth:api', "role:1,2"])->prefix("/langage")->group(function () {
     Route::post("/create", [EvalLangageController::class, "addData"])->name('api.langage.create');
-    Route::put("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
+    Route::post("/{id}/update", [EvalLangageController::class, "updateData"])->name('api.langage.update');
     Route::delete("/{id}/delete", [EvalLangageController::class, "deleteData"])->name('api.langage.delete');
 });
 
@@ -134,6 +134,7 @@ Route::middleware(['auth:api'])->group(function () {
 Route::middleware(['auth:api'])->group(function () {
     Route::prefix("/apprenant/sondage")->group(function () {
         Route::get("/list", [EvalSondageController::class, "getDataAllForApprenant"])->name('api.sondage.apprenant.one');
+        Route::get("/all", [EvalSondageController::class, "getDataAll"])->name('api.sondage.apprenant.two');
         Route::get("/{id}", [EvalSondageController::class, "getDataSpecific"])->name('api.sondage.apprenant.two');
         Route::post("/{id}/answer", [EvalSondageController::class, "answerSondage"])->name('api.sondage.apprenant.three');
         Route::get("/notes/{userId}", [EvalSondageController::class, "getNotes"])->name('api.sondage.apprenant.four');

@@ -191,7 +191,7 @@ export default {
 
         async getSondages() {
             try {
-                const request = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/list`);
+                const request = await apiService.get(`${location.origin}/api/evaluation360/apprenant/sondage/all`);
                 const reqData = request.data.data;
 
                 if (reqData) {

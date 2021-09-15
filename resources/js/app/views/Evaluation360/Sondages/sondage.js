@@ -64,10 +64,6 @@ export default {
                         this.languages.push(line)
                     }
                 })
-
-                console.log(this.questions)
-                console.log(this.skills)
-                console.log(this.languages)
             }
         }
     }

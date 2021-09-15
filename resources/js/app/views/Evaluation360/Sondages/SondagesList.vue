@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1 class="text-center mb-5">Tout les sondages</h1>
-    <v-row>
+    <v-row v-if="isLoaded">
       <v-col cols="12" lg="4" v-for="sondage in sondages" :key="sondage.id">
         <v-hover v-slot="{ hover }">
           <v-card shaped :elevation="hover ? 5 : 3" class="font-weight-thin">
@@ -16,7 +16,7 @@
               <v-btn
                 text
                 rounded
-                color='#d14631'
+                color="#d14631"
                 :to="
                   '/evaluation360/sondage/' + sondage.id + '/' + sondage.user.id
                 "

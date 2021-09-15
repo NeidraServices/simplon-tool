@@ -36,8 +36,8 @@ class EvalSondageController extends Controller
         if ($userAuth->role_id == 3) {
             $sondages = EvalSondage::orderBy('eval_sondages.id', 'desc')
                 ->join('users', 'eval_sondages.user_id', '=', 'users.id')
-                ->where(['eval_sondages.published' => 1, 'eval_sondages.accepted' => 1])
-                ->where("eval_sondages.user_id", "!=", $userAuth->id)
+                ->where("eval_sondages.user_id", "=", $userAuth->id)
+                ->where("eval_sondages.isOwner", 1)
                 ->where("users.promotion_id", "=", $userAuth->promotion_id)
                 ->select('eval_sondages.*')
                 ->get();
@@ -193,7 +193,6 @@ class EvalSondageController extends Controller
                 $sondage->user_id   = $apprenant->id;
                 $sondage->published = $published;
                 $sondage->accepted  = 1;
-                $sondage->isOwner   = 1;
                 $sondage->save();
 
                 foreach ($lines as $lineInfo) {
